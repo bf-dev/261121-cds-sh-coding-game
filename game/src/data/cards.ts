@@ -25,7 +25,7 @@ export const CARDS: Record<string, CardInfo> = {
   "×": { id: "×", group: "operator", name: "× times", nameZh: "乘号", does: "Multiplies. It always goes before + and -, so the inner bubble is worked out first.", example: "ATTACK 8 + 2 × 3: first 2 × 3 = 6, then 8 + 6 = 14.", python: "damage = 8 + 2 * 3  # 14" },
   "÷": { id: "÷", group: "operator", name: "÷ divide", nameZh: "除号", does: "Divides. It also goes before + and -. You can never divide by zero, the game stops you.", example: "ATTACK 8 ÷ 2 + 5: first 8 ÷ 2 = 4, then 4 + 5 = 9.", python: "damage = 8 / 2 + 5  # 9" },
   brackets: { id: "brackets", group: "operator", name: "( ) brackets", nameZh: "括号", does: "The Group button wraps two neighbours in their own bubble. That pair is worked out first.", example: "(2 + 3) × 5 = 25, but 2 + 3 × 5 = 17.", python: "damage = (2 + 3) * 5  # 25" },
-  for1: { id: "for1", group: "function", name: "repeat (for loop)", nameZh: "重复 (for 循环)", does: "A shield. It repeats the block inside it a set number of times. Each time, 1 damage is taken off.", example: "repeat 3: damage - 1 turns a 7 hit into 4.", python: "for i in range(3):\n    damage -= 1" },
+  for1: { id: "for1", group: "function", name: "repeat (for loop)", nameZh: "重复 (for 循环)", does: "A shield. It repeats the block inside it. You tap in both numbers yourself: how many times, and how much damage comes off each time.", example: "repeat 3 times: change damage by -2 takes 3 × 2 = 6 off. A 14 hit becomes 8.", python: "for i in range(3):\n    damage -= 2" },
   for2: { id: "for2", group: "function", name: "repeat, 2 each time", nameZh: "重复 (每次减 2)", does: "A stronger loop shield. Each time round, 2 damage is taken off.", example: "repeat 3: damage - 2 turns a 14 hit into 8.", python: "for i in range(3):\n    damage -= 2" },
   for3: { id: "for3", group: "function", name: "repeat, 3 each time", nameZh: "重复 (每次减 3)", does: "The strongest plain loop. Each time round, 3 damage is taken off.", example: "repeat 4: damage - 3 blocks 12.", python: "for i in range(4):\n    damage -= 3" },
   halve: { id: "halve", group: "function", name: "repeat: halve", nameZh: "重复减半", does: "A loop that cuts the damage in half each time round. Great against huge hits.", example: "repeat 2: damage ÷ 2 turns 40 into 20, then 10.", python: "for i in range(2):\n    damage /= 2" },
@@ -39,7 +39,7 @@ export const CARDS: Record<string, CardInfo> = {
   food: { id: "food", group: "power-up", name: "Meituan meal", nameZh: "美团外卖", does: "Power-up from the food lockers and the cafe. Use it at the start of your turn: you get back a quarter of your maximum HP.", example: "With 60 max HP: 10 HP becomes 25 HP.", python: "hp += max_hp // 4" },
 };
 
-export const FN_ORDER: FnKind[] = ["for1", "ifgt", "for2", "iflt", "ifelse", "while", "halve", "ifge", "for3"];
+export const FN_ORDER: FnKind[] = ["for1", "ifgt", "iflt", "ifelse", "while", "ifge"];
 export const OP_ORDER: Op[] = ["+", "-", "×", "÷"];
 export const POWER_ORDER: Exclude<PowerUpKind, "study">[] = ["redbull", "gym", "food"];
 
@@ -49,6 +49,8 @@ export interface Reward {
   fn?: FnKind;
   op?: Op;
   brackets?: boolean;
+  /** one more shield block per battle */
+  shieldBlock?: boolean;
   key?: boolean;
   hallpass?: boolean;
   power?: Exclude<PowerUpKind, "study">;
@@ -60,33 +62,36 @@ export const REWARDS: Record<number, Reward> = {
   2: { op: "×", text: "New operator block: × times" },
   3: { key: true, text: "The key to Building 5. Power-ups are waiting there: gym, study stair, cafe." },
   4: { op: "÷", text: "New operator block: ÷ divide" },
-  5: { fn: "for2", text: "New shield block: repeat, 2 each time" },
+  5: { shieldBlock: true, text: "One more shield block in every battle (3 instead of 2)" },
   6: { brackets: true, text: "New: ( ) brackets, with the Group button" },
   7: { fn: "iflt", text: "New shield block: if ... < blocks small hits" },
   8: { fn: "ifelse", text: "New shield block: if ... else" },
   9: { power: "redbull", text: "A can of Red Bull (extra turn)" },
   10: { fn: "while", text: "New shield block: repeat while (while loop)" },
-  11: { fn: "halve", text: "New shield block: repeat: halve" },
+  11: { shieldBlock: true, text: "One more shield block in every battle (4 instead of 3)" },
   12: { power: "gym", text: "A gym session (extra HP)" },
   13: { power: "redbull", text: "A can of Red Bull (extra turn)" },
   14: { hallpass: true, text: "An invitation to the Grand Hall. Leo the HKU lion is waiting." },
 };
 
-/** functions the Building 5 study stair hands out, one per visit after a new floor is cleared */
-export const STUDY_FNS: FnKind[] = ["ifge", "for3"];
+/** the Building 5 study stair: first visit a new function, second visit two more shield numbers per battle */
+export const STUDY_FNS: FnKind[] = ["ifge"];
+export const STUDY_VISITS = 2;
 
 /** the functions each professor defends with (the one they teach, plus earlier ones) */
 export function enemyPool(floor: number, boss = false): FnKind[] {
-  if (boss) return ["for3", "ifgt", "ifelse", "while", "halve", "iflt"];
-  const pool: FnKind[] = ["for1"];
+  if (boss) return ["for1", "ifgt", "ifelse", "while", "iflt"];
+  const pool: FnKind[] = ["for1", "for1"];
   if (floor >= 2) pool.push("ifgt");
-  if (floor >= 5) pool.push("for2", "for2");
   if (floor >= 7) pool.push("iflt");
-  if (floor >= 8) pool.push("ifelse", "ifelse");
-  if (floor >= 9) pool.push("for3");
+  if (floor >= 8) pool.push("ifelse");
   if (floor >= 10) pool.push("while", "while");
-  if (floor >= 11) pool.push("halve");
   if (floor >= 12) pool.push("ifge");
-  if (floor >= 5) pool.shift();
   return pool;
+}
+
+/** how many shield blocks a professor may plant in one battle: few, so matches stay short */
+export function enemyShieldCount(floor: number, boss = false): number {
+  if (boss) return 4;
+  return floor <= 2 ? 1 : floor <= 6 ? 2 : 3;
 }

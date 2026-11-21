@@ -247,19 +247,43 @@ export function shieldText(s: Shield): string {
 export type Rnd = () => number;
 const ri = (r: Rnd, lo: number, hi: number) => lo + Math.floor(r() * (hi - lo + 1));
 
-/** Roll the digits for a function block. Every number is a digit 1 to 9. */
-export function rollShield(kind: FnKind, r: Rnd): Shield {
+/** which numbers a block needs, in the order the player taps them in */
+export const SHIELD_SLOTS: Record<FnKind, ("a" | "b" | "c")[]> = {
+  for1: ["a", "b"],
+  for2: ["a", "b"],
+  for3: ["a", "b"],
+  halve: ["a"],
+  ifgt: ["a", "b"],
+  ifge: ["a", "b"],
+  iflt: ["a"],
+  ifelse: ["a", "b", "c"],
+  while: ["a", "b"],
+};
+
+/** a block with every number still empty (NaN = an empty slot) */
+export function emptyShield(kind: FnKind): Shield {
+  return { kind, a: NaN, b: NaN, c: kind === "ifelse" ? NaN : undefined };
+}
+
+export function shieldReady(s: Shield): boolean {
+  return SHIELD_SLOTS[s.kind].every((k) => Number.isFinite(s[k] as number));
+}
+
+/**
+ * Roll the digits for a professor's function block. Every number is a digit 1 to 9.
+ * level 0..1 = how high up the tower: low floors roll small loops.
+ */
+export function rollShield(kind: FnKind, r: Rnd, level = 0.5): Shield {
+  const hi = (lo: number, top: number) => lo + Math.round((top - lo) * level);
   switch (kind) {
     case "for1":
-      return { kind, a: ri(r, 2, 5), b: 1 };
     case "for2":
-      return { kind, a: ri(r, 2, 6), b: 2 };
     case "for3":
-      return { kind, a: ri(r, 3, 7), b: 3 };
+      return { kind: "for1", a: ri(r, 2, hi(3, 6)), b: ri(r, 1, hi(1, 5)) };
     case "halve":
-      return { kind, a: ri(r, 1, 2), b: 2 };
+      return { kind, a: 1, b: 2 };
     case "ifgt": {
-      const a = ri(r, 3, 9);
+      const a = ri(r, 3, hi(5, 9));
       return { kind, a, b: Math.min(9, a + ri(r, 0, 1)) };
     }
     case "ifge": {

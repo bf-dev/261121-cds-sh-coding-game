@@ -36,7 +36,7 @@ export function moveBlock(m: Pick<Move, "verb" | "digits" | "ops" | "bracket">, 
 const varChip = () => h("span", { class: "varchip" }, "damage");
 
 function change(by: number, part: string): HTMLElement {
-  return h("div", { class: "blk stack var", "data-part": part }, "change ", varChip(), " by ", pill(`-${by}`));
+  return h("div", { class: "blk stack var", "data-part": part }, "change ", varChip(), " by ", Number.isFinite(by) ? pill(`-${by}`) : pill(null));
 }
 
 function bool(cmp: string, n: number): HTMLElement {
@@ -67,7 +67,7 @@ export function shieldBlock(s: Shield): HTMLElement {
       c.append(head("if ", bool("<", s.a), " then"), body(h("div", { class: "blk stack var", "data-part": "body" }, "set ", varChip(), " to ", pill(0))));
       break;
     case "ifelse":
-      c.append(head("if ", bool(">", s.a), " then"), body(change(s.b, "body")), h("div", { class: "cblk-mid" }, "else"), body(change(s.c ?? 0, "else")));
+      c.append(head("if ", bool(">", s.a), " then"), body(change(s.b, "body")), h("div", { class: "cblk-mid" }, "else"), body(change(s.c ?? NaN, "else")));
       break;
     case "while":
       c.append(head("repeat while ", bool(">", s.a)), body(change(s.b, "body")));
@@ -107,7 +107,7 @@ export function cardPicture(id: string): HTMLElement {
     "×": () => moveBlock({ verb: "ATTACK", digits: [8, 2, 3], ops: ["+", "×"] }, 14),
     "÷": () => moveBlock({ verb: "ATTACK", digits: [8, 2, 5], ops: ["÷", "+"] }, 9),
     brackets: () => moveBlock({ verb: "ATTACK", digits: [2, 3, 5], ops: ["+", "×"], bracket: [0, 1] }, 25),
-    for1: () => shieldBlock({ kind: "for1", a: 3, b: 1 }),
+    for1: () => shieldBlock({ kind: "for1", a: 3, b: 2 }),
     for2: () => shieldBlock({ kind: "for2", a: 3, b: 2 }),
     for3: () => shieldBlock({ kind: "for3", a: 4, b: 3 }),
     halve: () => shieldBlock({ kind: "halve", a: 2, b: 2 }),

@@ -51,7 +51,10 @@ export function loadProgress(): Progress | null {
   try {
     const raw = localStorage.getItem(KEY);
     if (!raw) return null;
-    return { ...freshProgress(), ...JSON.parse(raw) };
+    const p: Progress = { ...freshProgress(), ...JSON.parse(raw) };
+    // older saves had fixed loop blocks; the repeat block is now one block with free numbers
+    p.fns = p.fns.filter((f) => f !== "for2" && f !== "for3" && f !== "halve");
+    return p;
   } catch {
     return null;
   }
@@ -73,12 +76,16 @@ export function clearProgress(): void {
   }
 }
 
-// HP grows with the floors because moves grow: 2 operator slots hit for about 10, 6 slots for about 80.
-export const playerMaxHp = (p: Progress): number => 30 + 10 * p.cleared;
-const ENEMY_HP = [20, 30, 40, 60, 66, 72, 110, 120, 130, 140, 150, 160, 170, 180];
+// HP is kept low so a match is 2 to 4 rounds. The first floors are easy on purpose.
+export const playerMaxHp = (p: Progress): number => 30 + 5 * p.cleared;
+const ENEMY_HP = [14, 18, 24, 34, 40, 46, 58, 64, 70, 82, 88, 94, 102, 110];
 export const enemyHp = (floor: number): number => ENEMY_HP[Math.max(1, Math.min(14, floor)) - 1];
-export const BOSS_HP = 180;
-export const BOSS_BONUS_HP = 20;
+export const BOSS_HP = 130;
+export const BOSS_BONUS_HP = 10;
+
+/** shield blocks you may plant in one battle, and the numbers dealt for them at the start of the battle */
+export const shieldBlocksFor = (p: Progress): number => 2 + (p.cleared >= 5 ? 1 : 0) + (p.cleared >= 11 ? 1 : 0);
+export const shieldDigitsFor = (p: Progress): number => shieldBlocksFor(p) * 2 + 1 + (p.studied >= 2 ? 2 : 0);
 
 /** mark floor n as beaten and hand over its reward */
 export function applyReward(p: Progress, floor: number): void {
@@ -99,7 +106,6 @@ export function progressAtFloor(cleared: number): Progress {
   for (let f = 1; f <= cleared; f++) applyReward(p, f);
   if (cleared >= 3) p.power = { redbull: Math.max(1, p.power.redbull), gym: 1, food: 1 };
   if (cleared >= 6) p.fns.push("ifge");
-  if (cleared >= 10) p.fns.push("for3");
   p.studied = cleared >= 10 ? 2 : cleared >= 6 ? 1 : 0;
   p.seen = ["ATTACK", "HEAL", "number", ...p.ops, ...p.fns, "redbull", "gym", "food", ...(p.brackets ? ["brackets"] : [])];
   return p;

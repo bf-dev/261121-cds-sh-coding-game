@@ -12,6 +12,7 @@ import {
   bracketOptions,
   candidates,
   dealHand,
+  emptyShield,
   evaluate,
   explainMove,
   explainShield,
@@ -24,7 +25,9 @@ import {
   ruleMove,
   runShield,
   shieldPython,
+  shieldReady,
   shieldText,
+  SHIELD_SLOTS,
   type FnKind,
   type Hand,
   type Move,
@@ -50,6 +53,13 @@ export interface BattleConfig {
   ops: Op[];
   brackets: boolean;
   fns: FnKind[];
+  /** shield blocks you may plant in this battle, and how many shield numbers are dealt at the start */
+  shieldBlocks: number;
+  shieldDigits: number;
+  /** shield blocks the opponent may plant in this battle */
+  foeShields: number;
+  /** 0..1, how high up the tower: scales the numbers in the opponent's shields */
+  level: number;
   /** carried power-ups, consumed when used */
   power: Record<Power, number>;
   tutorial: boolean;
@@ -79,9 +89,15 @@ export async function runBattle(cfg: BattleConfig): Promise<BattleResult> {
   if (cfg.tutorial) {
     myHand.digits = [4, 3, 2];
     myHand.ops = ["+", "-"];
-    foeHand.digits = [6, 1, 2];
-    foeHand.ops = ["-", "+"];
+    foeHand.digits = [6, 2, 1];
+    foeHand.ops = ["+", "-"];
   }
+  // shields are limited: a few blocks per battle, and the numbers for them are dealt once, at the start
+  let myBlocks = cfg.shieldBlocks;
+  let foeBlocks = cfg.foeShields;
+  const myNums: number[] = Array.from({ length: cfg.shieldDigits }, () => 1 + Math.floor(rnd() * 9));
+  if (cfg.tutorial) myNums.splice(0, myNums.length, 3, 2, 4, 1, 5);
+  const numUsed: boolean[] = myNums.map(() => false);
   let quit: (() => void) | null = null;
   let quitFlag = false;
   let round = 0;
@@ -105,7 +121,17 @@ export async function runBattle(cfg: BattleConfig): Promise<BattleResult> {
   const roundTag = h("div", { class: "round-tag" });
   const timerEl = h("div", { class: "timer off" }, h("span", { class: "t-num" }, String(TURN_SECONDS)), h("span", { class: "t-label" }, "s"));
   const mid = h("div", { class: "b-mid" }, roundTag, timerEl, watcher, caption);
-  const band = h("div", { class: "b-band" }, h("div", { class: "band-title me" }, "Your blocks", h("small", {}, "你的积木")), mid, h("div", { class: "band-title foe" }, `${cfg.enemy.name}'s blocks`, h("small", {}, "对手的积木")));
+  const shieldCount = () => h("span", { class: "shield-count", title: "shield blocks left in this battle" }, h("span", { class: "ico shield" }), h("b", {}, "0"));
+  const myCount = shieldCount();
+  const foeCount = shieldCount();
+  const band = h("div", { class: "b-band" }, h("div", { class: "band-title me" }, "Your blocks", h("small", {}, "你的积木"), myCount), mid, h("div", { class: "band-title foe" }, foeCount, `${cfg.enemy.name}'s blocks`, h("small", {}, "对手的积木")));
+  const refreshCounts = () => {
+    myCount.querySelector("b")!.textContent = `× ${myBlocks}`;
+    foeCount.querySelector("b")!.textContent = `× ${foeBlocks}`;
+    myCount.classList.toggle("none", myBlocks <= 0);
+    foeCount.classList.toggle("none", foeBlocks <= 0);
+  };
+  refreshCounts();
   const myScript = h("div", { class: "script-body" });
   const foeScript = h("div", { class: "script-body" });
   const myPy = h("pre", { class: "py" });
@@ -398,71 +424,175 @@ export async function runBattle(cfg: BattleConfig): Promise<BattleResult> {
   }
 
   // ------------------------------------------------------------ your shield
-  function pickShield(offers: Shield[]): Promise<Shield | null> {
+  const freeNums = () => myNums.map((_, i) => i).filter((i) => !numUsed[i]);
+  const canShield = () => myBlocks > 0 && cfg.fns.some((k) => SHIELD_SLOTS[k].length <= freeNums().length);
+  const fill = (kind: FnKind, idx: number[]): Shield => {
+    const s = emptyShield(kind);
+    if (kind === "iflt") s.b = 0;
+    SHIELD_SLOTS[kind].forEach((k, j) => {
+      if (idx[j] !== undefined) s[k] = myNums[idx[j]];
+    });
+    return s;
+  };
+  const kindChip = (k: FnKind): (Node | string)[] => {
+    const slot = () => h("span", { class: "pill empty small" });
+    const dmg = () => h("span", { class: "varchip" }, "damage");
+    switch (k) {
+      case "ifgt":
+        return ["if ", dmg(), " > ", slot(), " : − ", slot()];
+      case "ifge":
+        return ["if ", dmg(), " ≥ ", slot(), " : − ", slot()];
+      case "iflt":
+        return ["if ", dmg(), " < ", slot(), " : set to 0"];
+      case "ifelse":
+        return ["if > ", slot(), " : − ", slot(), " else − ", slot()];
+      case "while":
+        return ["repeat while ", dmg(), " > ", slot(), " : − ", slot()];
+      default:
+        return ["repeat ", slot(), " times : − ", slot()];
+    }
+  };
+
+  /**
+   * Build a shield: pick a function block, then tap shield numbers into its empty slots.
+   * Blocks and numbers are both limited for the whole battle, so "No shield" is a real choice.
+   * Resolves to the shield, "none", or null when the player leaves.
+   */
+  function buildShield(): Promise<Shield | "none" | null> {
     return new Promise((resolve) => {
+      let kind: FnKind | null = null;
+      const picked: number[] = [];
+      let note = "";
       let done = false;
-      const stopTimer = startTimer(() => {
-        // time is up: a random shield is planted for you
+      const finish = (r: Shield | "none" | null) => {
         if (done) return;
         done = true;
         quit = null;
+        stopTimer();
+        resolve(r);
+      };
+      // time is up: no shield is planted, nothing is spent
+      const stopTimer = startTimer(() => {
         sfx("block");
-        resolve(offers[Math.floor(rnd() * offers.length)]);
+        finish("none");
       });
-      quit = () => {
-        stopTimer();
-        resolve(null);
-      };
-      const choose = (i: number) => {
-        if (done || !coachAllows(`shield:${i}`)) return;
-        done = true;
+      quit = () => finish(null);
+      const current = () => (kind ? fill(kind, picked) : null);
+
+      const act = (id: string) => {
+        if (done) return;
+        if (!coachAllows(id)) {
+          coachEl.classList.remove("nudge");
+          void coachEl.offsetWidth;
+          coachEl.classList.add("nudge");
+          return;
+        }
+        const [k, arg] = id.split(":");
+        note = "";
+        if (k === "skind") {
+          const need = SHIELD_SLOTS[arg as FnKind].length;
+          const left = freeNums().length;
+          if (need > left) note = `That block needs ${need} numbers. You have ${left} shield ${left === 1 ? "number" : "numbers"} left.`;
+          else {
+            kind = arg as FnKind;
+            picked.length = 0;
+          }
+        } else if (k === "snum") {
+          const i = Number(arg);
+          if (numUsed[i] || picked.includes(i)) return;
+          if (!kind) note = "Pick a shield block first.";
+          else if (picked.length >= SHIELD_SLOTS[kind].length) note = "Every slot is full. Press Plant, or Undo to change a number.";
+          else picked.push(i);
+        } else if (k === "sundo") {
+          if (picked.length) picked.pop();
+          else kind = null;
+        } else if (k === "noshield") {
+          sfx("click");
+          coachDid(id);
+          finish("none");
+          return;
+        } else if (k === "plant") {
+          const s = current();
+          if (!s || !shieldReady(s)) note = "Pick a block and fill every empty slot with a number first.";
+          else {
+            for (const i of picked) numUsed[i] = true;
+            myBlocks--;
+            refreshCounts();
+            sfx("click");
+            coachDid(id);
+            finish(s);
+            return;
+          }
+        }
         sfx("click");
-        coachDid(`shield:${i}`);
-        quit = null;
-        stopTimer();
-        resolve(offers[i]);
+        if (!note) coachDid(id);
+        draw();
       };
-      myScript.replaceChildren(hatBlock("when I am attacked"), h("div", { class: "blk stack ghost" }, "pick a shield below"));
-      myPy.textContent = "";
-      palette.replaceChildren(
-        h(
+
+      const draw = () => {
+        const s = current();
+        const ready = !!s && shieldReady(s);
+        myScript.replaceChildren(hatBlock("when I am attacked"), s ? shieldBlock(s) : h("div", { class: "blk stack ghost" }, "pick a shield block below"));
+        myPy.textContent = ready ? shieldPython(s!).join("\n") : "";
+        if (note) myScript.append(h("div", { class: "note" }, note));
+        else if (ready && s!.kind === "for1") myScript.append(h("div", { class: "note ok" }, `${s!.a} times ${s!.b} = ${s!.a * s!.b} damage blocked`));
+        const kinds = h(
           "div",
-          { class: "pal-group shields" },
-          h("div", { class: "pal-title" }, "Plant a shield. Guess how hard they will hit.", h("small", {}, "选择一个护盾积木")),
-          h("div", { class: "pal-row" }, ...offers.map((s, i) => h("button", { class: "shield-btn", type: "button", "data-act": `shield:${i}`, onclick: () => choose(i) }, shieldBlock(s)))),
-        ),
-      );
-      coachShow();
+          { class: "pal-group skinds" },
+          h("div", { class: "pal-title" }, `1. Shield block (${myBlocks} left in this battle)`, h("small", {}, "护盾积木")),
+          h("div", { class: "pal-row" }, ...cfg.fns.map((k) => h("button", { class: `kind-btn ${kind === k ? "on" : ""} ${SHIELD_SLOTS[k].length > freeNums().length ? "used" : ""}`, type: "button", "data-act": `skind:${k}`, onclick: () => act(`skind:${k}`) }, ...kindChip(k)))),
+        );
+        const nums = h(
+          "div",
+          { class: "pal-group snums" },
+          h("div", { class: "pal-title" }, "2. Shield numbers (dealt once per battle)", h("small", {}, "护盾数字")),
+          h("div", { class: "pal-row" }, ...myNums.map((d, i) => h("button", { class: `pill-btn pill ${numUsed[i] ? "spent" : picked.includes(i) ? "used" : ""}`, type: "button", "data-act": `snum:${i}`, disabled: numUsed[i], onclick: () => act(`snum:${i}`) }, String(d)))),
+        );
+        const controls = h(
+          "div",
+          { class: "pal-group controls" },
+          h("button", { class: "btn", type: "button", "data-act": "sundo", disabled: !kind, onclick: () => act("sundo") }, "Undo"),
+          h("button", { class: "btn", type: "button", "data-act": "noshield", onclick: () => act("noshield") }, "No shield (save it)"),
+          h("button", { class: `btn go ${ready ? "" : "dim"}`, type: "button", "data-act": "plant", onclick: () => act("plant") }, h("span", { class: "ico shield" }), "Plant"),
+        );
+        palette.replaceChildren(kinds, nums, controls);
+        coachShow();
+      };
+      draw();
+
       if (cfg.auto) {
         void (async () => {
-          await wait(1500);
-          if (quitFlag) return;
-          // guess: assume a mid-sized hit and take the shield that blocks most of it
-          const guess = 6 + cfg.slots * 6;
-          let best = 0;
-          offers.forEach((s, i) => {
-            if (runShield(s, guess).final < runShield(offers[best], guess).final) best = i;
-          });
-          choose(best);
+          await wait(1300);
+          if (quitFlag || done) return;
+          // guess a mid-sized hit and look for the block and numbers that stop most of it
+          const guess = 6 + cfg.slots * 5;
+          const free = freeNums();
+          let best: { kind: FnKind; idx: number[]; final: number } | null = null;
+          for (const k of cfg.fns) {
+            const need = SHIELD_SLOTS[k].length;
+            if (need > free.length) continue;
+            for (let t = 0; t < 30; t++) {
+              const idx = free.slice().sort(() => rnd() - 0.5).slice(0, need);
+              const final = runShield(fill(k, idx), guess).final;
+              if (!best || final < best.final) best = { kind: k, idx, final };
+            }
+          }
+          if (!best || (me.hp > me.max * 0.8 && rnd() < 0.3)) return act("noshield");
+          act(`skind:${best.kind}`);
+          await wait(650);
+          for (const i of best.idx) {
+            act(`snum:${i}`);
+            await wait(520);
+          }
+          await wait(600);
+          act("plant");
         })();
       }
     });
   }
 
-  function offerShields(): Shield[] {
-    const kinds = cfg.fns.slice().sort(() => rnd() - 0.5);
-    const n = Math.min(3, Math.max(2, kinds.length));
-    const out: Shield[] = [];
-    for (let i = 0; i < n; i++) {
-      let s = rollShield(kinds[i % kinds.length], rnd);
-      for (let tries = 0; tries < 6 && out.some((o) => shieldText(o) === shieldText(s)); tries++) s = rollShield(kinds[i % kinds.length], rnd);
-      out.push(s);
-    }
-    return out;
-  }
-
   // ------------------------------------------------------------ running the blocks
-  async function runTurn(attacker: "me" | "foe", move: Move, shield: Shield, hiddenUntilRun: boolean): Promise<void> {
+  async function runTurn(attacker: "me" | "foe", move: Move, shield: Shield | null, hiddenUntilRun: boolean): Promise<void> {
     const aScript = attacker === "me" ? myScript : foeScript;
     const dScript = attacker === "me" ? foeScript : myScript;
     const aPy = attacker === "me" ? myPy : foePy;
@@ -480,7 +610,7 @@ export async function runBattle(cfg: BattleConfig): Promise<BattleResult> {
     const varName = move.verb === "ATTACK" ? "damage" : "heal";
     aScript.replaceChildren(hatBlock(attacker === "me" ? "when it is my turn" : "when it is my turn"), moveBlock(move));
     aPy.textContent = movePython(move);
-    if (!hiddenUntilRun) {
+    if (!hiddenUntilRun && shield) {
       dScript.replaceChildren(hatBlock("when I am attacked"), shieldBlock(shield));
       dPy.textContent = shieldPython(shield).join("\n");
     }
@@ -515,29 +645,40 @@ export async function runBattle(cfg: BattleConfig): Promise<BattleResult> {
       refreshHp();
       await wait(1500);
     } else {
-      // reveal and run the shield
-      const block = shieldBlock(shield);
-      dScript.replaceChildren(hatBlock("when I am attacked"), block);
-      dPy.textContent = shieldPython(shield).join("\n");
-      block.classList.add("reveal");
-      led([`${move.verb} ${exprText(move)} = ${value}`, shieldText(shield)]);
-      cap(`${attacker === "me" ? cfg.enemy.name + "'s" : "Your"} shield runs on damage ${value}.`);
-      sfx("shield");
-      await wait(1100);
-      const { trace, final } = runShield(shield, value);
-      for (const st of trace) {
+      let final = value;
+      if (shield) {
+        // reveal and run the shield
+        const block = shieldBlock(shield);
+        dScript.replaceChildren(hatBlock("when I am attacked"), block);
+        dPy.textContent = shieldPython(shield).join("\n");
+        block.classList.add("reveal");
+        led([`${move.verb} ${exprText(move)} = ${value}`, shieldText(shield)]);
+        cap(`${attacker === "me" ? cfg.enemy.name + "'s" : "Your"} shield runs on damage ${value}.`);
+        sfx("shield");
+        await wait(1100);
+        const run = runShield(shield, value);
+        final = run.final;
+        // long loops speed up so a while block never stalls the match
+        const stepMs = run.trace.length > 8 ? Math.max(110, Math.round(3600 / run.trace.length)) : run.trace.length > 5 ? 560 : 800;
+        for (const st of run.trace) {
+          block.querySelectorAll(".running").forEach((e) => e.classList.remove("running"));
+          block.querySelector(`[data-part="${st.part}"]`)?.classList.add("running");
+          cap(st.text);
+          watch("damage", st.damage);
+          if (stepMs > 300) sfx("tick");
+          await wait(stepMs);
+        }
         block.querySelectorAll(".running").forEach((e) => e.classList.remove("running"));
-        block.querySelector(`[data-part="${st.part}"]`)?.classList.add("running");
-        cap(st.text);
-        watch("damage", st.damage);
-        sfx("tick");
-        await wait(trace.length > 6 ? 520 : 800);
+      } else {
+        dScript.replaceChildren(hatBlock("when I am attacked"), h("div", { class: "blk stack ghost" }, "no shield planted"));
+        dPy.textContent = "";
+        cap(`No shield this round. The ATTACK lands in full.`);
+        await wait(900);
       }
-      block.querySelectorAll(".running").forEach((e) => e.classList.remove("running"));
       watch("damage", final);
       dSide.hp = Math.max(0, dSide.hp - final);
       cap(final > 0 ? `${attacker === "me" ? cfg.enemy.name + " takes" : "You take"} ${final} damage${value !== final ? ` (${value} - ${value - final} blocked)` : ""}.` : `The shield blocked everything. ${dName === "you" ? "You take" : dName + " takes"} 0 damage.`);
-      led([`${move.verb} ${exprText(move)} = ${value}`, shieldText(shield), `damage = ${final}`]);
+      led([`${move.verb} ${exprText(move)} = ${value}`, shield ? shieldText(shield) : "no shield", `damage = ${final}`]);
       floatNum(dPanel, `-${final}`, "hurt");
       if (final > 0) {
         dPanel.classList.remove("shake");
@@ -548,11 +689,11 @@ export async function runBattle(cfg: BattleConfig): Promise<BattleResult> {
       refreshHp();
       await wait(1300);
       // the professor explains in one line
-      if (attacker === "me") say(explainShield(shield, value, final));
+      if (attacker === "me" && shield) say(explainShield(shield, value, final));
     }
     if (attacker === "foe") say(pendingSay || explainMove(move));
     await wait(cfg.auto ? 1900 : 1500);
-    if (!cfg.seen.has(shield.kind) && move.verb === "ATTACK") await seeCard(shield.kind, attacker === "me" ? `${cfg.enemy.name} used a new block · 新积木` : "Your shield block · 你的护盾积木");
+    if (shield && !cfg.seen.has(shield.kind) && move.verb === "ATTACK") await seeCard(shield.kind, attacker === "me" ? `${cfg.enemy.name} used a new block · 新积木` : "Your shield block · 你的护盾积木");
     watch(null);
   }
 
@@ -572,16 +713,19 @@ export async function runBattle(cfg: BattleConfig): Promise<BattleResult> {
       roundTag.textContent = `Round ${round}`;
       say("");
       // --- your move against their shield
-      const foeOffers = [0, 1].map(() => rollShield(cfg.pool[Math.floor(rnd() * cfg.pool.length)], rnd));
-      let foeShield = foeOffers[Math.floor(rnd() * foeOffers.length)];
+      const foeOffers = [0, 1].map(() => rollShield(cfg.pool[Math.floor(rnd() * cfg.pool.length)], rnd, cfg.level));
+      // the opponent has only a few shield blocks too, so some rounds it plants nothing
+      let foeShield: Shield | null = foeBlocks > 0 && rnd() < 0.62 ? foeOffers[Math.floor(rnd() * foeOffers.length)] : null;
       if (cfg.tutorial && round === 1) foeShield = { kind: "for1", a: 2, b: 1 };
+      if (foeShield) foeBlocks--;
+      refreshCounts();
       // the model is asked now, while you think; when its answer is needed it has 2 s left at most
       const planP: Promise<LlmPlan | null> = cfg.tutorial && round === 1 ? Promise.resolve(null) : llmPlan({ name: cfg.enemy.name, topic: cfg.enemy.topic, skill: cfg.skill, hand: foeHand, slots: cfg.slots, brackets: cfg.floor > 6 || cfg.boss, me: foe, student: me, shields: foeOffers });
       let plan: LlmPlan | null | undefined;
       void planP.then((p) => (plan = p));
 
       const showFoeShield = cfg.tutorial && round === 1;
-      foeScript.replaceChildren(hatBlock("when I am attacked"), showFoeShield ? shieldBlock(foeShield) : hiddenShield());
+      foeScript.replaceChildren(hatBlock("when I am attacked"), !foeShield ? h("div", { class: "blk stack ghost" }, "no shield planted") : showFoeShield ? shieldBlock(foeShield) : hiddenShield());
       foePy.textContent = "";
       cap(extra ? "Extra turn! Build another move." : "Your turn. Build a move with your blocks.");
       extra = false;
@@ -595,14 +739,14 @@ export async function runBattle(cfg: BattleConfig): Promise<BattleResult> {
         ];
       } else if (cfg.tutorial && round === 2) {
         coachSteps = [{ text: "Your turn again. HEAL gives HP back to you, and no shield can stop it. Build any move you like, then press Run.", want: null }];
-      } else if (cfg.tutorial && round === 3) coachNote("You know the rules now. Beat Dr. Hello to win a new block!");
+      } else if (cfg.tutorial && round === 3) coachNote(`You know the rules now. Beat ${cfg.enemy.name} to win a new block!`);
       else if (cfg.tutorial) coachNote("");
       const built = await buildMove();
       if (!built) return "quit";
       coachSteps = [];
       coachShow();
-      if (cfg.tutorial && round === 1) coachNote("Dr. Hello planted a shield: a repeat block. Watch it run its inside block 2 times.");
-      if (plan && !(cfg.tutorial && round === 1)) foeShield = foeOffers[plan.shield] ?? foeShield;
+      if (cfg.tutorial && round === 1) coachNote(`${cfg.enemy.name} planted a shield: a repeat block. Watch it run its inside block 2 times.`);
+      if (plan && foeShield && !(cfg.tutorial && round === 1)) foeShield = foeOffers[plan.shield] ?? foeShield;
       if (built.skipped) {
         cap(`Time is up! ${TURN_SECONDS} seconds passed with no number placed, so you lose this turn.`);
         await wait(2200);
@@ -627,21 +771,38 @@ export async function runBattle(cfg: BattleConfig): Promise<BattleResult> {
       foeScript.replaceChildren(hatBlock("when it is my turn"), h("div", { class: "blk stack ghost thinking" }, `${cfg.enemy.name} is building a move...`));
       foePy.textContent = "";
       cap(`${cfg.enemy.name}'s turn. You cannot see the move yet.`);
-      const offers = cfg.tutorial && round === 1 ? [{ kind: "for1" as FnKind, a: 3, b: 1 }] : offerShields();
-      if (cfg.tutorial && round === 1) coachSteps = [{ text: "Now Dr. Hello attacks. Shields must be function blocks. Click your repeat block to plant it.", want: "shield:0" }];
-      const myShield = await pickShield(offers);
-      if (!myShield) return "quit";
+      let myShield: Shield | null = null;
+      if (canShield()) {
+        if (cfg.tutorial && round === 1)
+          coachSteps = [
+            { text: `Now ${cfg.enemy.name} attacks, and you cannot see the move yet. You have ${myBlocks} shield blocks for the whole battle. Click the repeat block.`, want: "skind:for1" },
+            { text: "A repeat block runs the block inside it again and again. First number: how many times. Click the 3.", want: "snum:0" },
+            { text: "Second number: how much damage comes off each time. Click the 2.", want: "snum:1" },
+            { text: "repeat 3 times, 2 off each time: 3 times 2 = 6 damage blocked. Press Plant.", want: "plant" },
+          ];
+        else if (cfg.tutorial && round === 2) coachNote("You have 1 shield block and 3 shield numbers left. Plant one now, or press No shield to save it for a bigger hit.");
+        const picked = await buildShield();
+        if (picked === null) return "quit";
+        if (picked !== "none") myShield = picked;
+      } else {
+        cap(myBlocks > 0 ? "You are out of shield numbers. This attack lands in full." : "You are out of shield blocks. This attack lands in full.");
+        myScript.replaceChildren(hatBlock("when I am attacked"), h("div", { class: "blk stack ghost" }, "no shield left"));
+        myPy.textContent = "";
+        palette.replaceChildren(h("div", { class: "pal-group busy" }, h("span", { class: "ico shield" }), "No shield blocks left"));
+        await wait(1500);
+      }
       coachSteps = [];
       coachShow();
-      myScript.replaceChildren(hatBlock("when I am attacked"), shieldBlock(myShield));
-      myPy.textContent = shieldPython(myShield).join("\n");
+      if (cfg.tutorial) coachNote("");
+      myScript.replaceChildren(hatBlock("when I am attacked"), myShield ? shieldBlock(myShield) : h("div", { class: "blk stack ghost" }, "no shield planted"));
+      myPy.textContent = myShield ? shieldPython(myShield).join("\n") : "";
       // their move: the model's answer if it is ready within 2 s, else the rule-based one
       let foeMove: Move;
       let usedD: number[];
       let usedO: number[];
       pendingSay = "";
       if (cfg.tutorial && round === 1) {
-        foeMove = { verb: "ATTACK", digits: [6, 1], ops: ["-"] };
+        foeMove = { verb: "ATTACK", digits: [6, 2], ops: ["+"] };
         usedD = [0, 1];
         usedO = [0];
       } else {

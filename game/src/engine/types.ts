@@ -23,7 +23,7 @@ export type PowerUpKind = "gym" | "study" | "food" | "redbull";
 /** What happens when the player uses a trigger or talks to an NPC. */
 export type Action =
   | { type: "goto"; map: string; spawn: string; requires?: "b5key" | "hallpass" }
-  | { type: "lift" } // opens the CDS1 floor picker
+  | { type: "lift"; building?: "b5" } // opens the floor picker: CDS1 by default, Building 5 with building "b5"
   | { type: "battle"; floor: number } // the professor of CDS1 floor n (1..14)
   | { type: "boss" } // Leo, grand hall
   | { type: "powerup"; kind: PowerUpKind }

@@ -11,7 +11,10 @@ Rules that come straight from `docs/decisions.md` are not repeated here.
 | **Blocks, not cards or code text.** Moves and shields are Scratch-style blocks: a red ATTACK or teal HEAL block, white number pills, green operator bubbles, orange C-shaped `repeat` / `if` blocks with `change damage by` inside | Insung, 2026-11-21, during the build: "instead of making it actual cards or like code, make it something like block coding, so like scratch". Added to `docs/decisions.md` as #29 |
 | Python is still there, but off by default: a `Show Python` button in the battle, and one "the same thing in Python" box in each new-block pop-up | keeps decision #17 ("what it's equivalent to") and the build prompt's "show the move as real code" without putting code in front of a first-time visitor |
 | **30 seconds per turn** for each player: a clock next to the round counter, red for the last 10 seconds | Insung, 2026-11-21, during the build. Added to `docs/decisions.md` as #30 |
-| When the clock runs out on your move, the blocks already placed are run (cut back to the last complete move). With no number placed the turn is lost. When it runs out while you pick a shield, a random one of the offered shields is planted | builder's choice for what "time limit" does |
+| When the clock runs out on your move, the blocks already placed are run (cut back to the last complete move). With no number placed the turn is lost. When it runs out while you build a shield, no shield is planted and nothing is spent | builder's choice for what "time limit" does |
+| **Shields are built, and limited.** You pick a function block, then tap shield numbers into its empty slots (`repeat [3] times: change damage by -[2]`). You have 2 shield blocks per battle (3 after floor 5, 4 after floor 11) and a set of shield numbers dealt once at the start of the battle: 2 per block plus 1 (plus 2 after the second study visit). `No shield` saves a block for a bigger hit | Insung, 2026-11-21: "the repeat block should be customizable ... tapping the numbers", "a limited amount of repeat blocks", "the digits ... limited ... based on the digits that you have at the beginning of the battle". `docs/decisions.md` #31. The counts are the builder's |
+| The same build-it-yourself rule is used for every shield block (`if`, `if / else`, `while`), not only `repeat` | one way to build a shield is easier to learn than two |
+| **Less HP, fewer shields.** A professor may plant 1 shield per battle on floors 1 and 2, 2 on floors 3 to 6, 3 on floors 7 to 14, Leo 4. When they have blocks left they plant one about 6 rounds in 10 | Insung, 2026-11-21: "makes HP less than before", "less the shield because it is boring to have longer and repetitive". `docs/decisions.md` #32 |
 | The clock stops while a pop-up is open, and the tutorial battle on floor 1 has no clock | a first-time visitor should not be rushed while reading what a block does |
 | The opponent's turn is also inside the limit: the model gets 2 seconds, the rule-based AI is instant | |
 | Precedence is shown by nesting: `8 + 2 × 3` draws `2 × 3` as a bubble inside the `+` bubble. Brackets are a bubble with a white outline | answers open question 2 (how brackets are entered): a `( ) Group` button cycles which pair of neighbours is wrapped |
@@ -25,34 +28,33 @@ Rules that come straight from `docs/decisions.md` are not repeated here.
 | operators | `+` and `-` from the start, `×` won on floor 2, `÷` won on floor 4. `^`, `log`, `mod` are not in the game | open question 3. Part 4 only names `+ - × ÷` |
 | strong operators | a hand holds at most one `×` and one `÷` | without this, `9 × 9 × 9` ends any match in one move |
 | brackets | won on floor 6. One pair, around two neighbours only | open question 2. `(2 + 3) × 5` is the lesson; longer groups made moves of 400+ |
-| player HP | 30, +10 per floor cleared (170 after floor 14, +20 against Leo) | the build prompt says 30 each. With more slots a move grows from about 10 to about 80, so flat 30 HP made every upper floor a one-move match |
-| professor HP | 20 (tutorial), 30, 40, 60, 66, 72, 110, 120, 130, 140, 150, 160, 170, 180. Leo 180 | sized from a simulation so a match lasts about 3 to 5 rounds |
+| player HP | 30, +5 per floor cleared (100 after floor 14, +10 against Leo) | the build prompt says 30 each. Moves grow with the operator slots, so HP grows too, but slowly: the top floors are meant to be hard |
+| professor HP | 14 (tutorial), 18, 24, 34, 40, 46, 58, 64, 70, 82, 88, 94, 102, 110. Leo 130 | a match is 2 to 4 rounds. Floors 1 to 3 can be won by anyone |
 | rounding | a move is rounded down, damage is rounded down after the shield, never below 0 | build prompt default |
 | zero divisor | the Run button refuses the move and says why | decision #7 |
 | negative move | counts as 0 | not in the docs |
 | HEAL | cannot go above maximum HP (the gym power-up can) | not in the docs |
 | who goes first | the player, every round | not in the docs |
-| shield visibility | the opponent's shield is planted face down and revealed when your ATTACK runs. Your shield is picked before you see their move | "at the same time" (p4 01:52) and "guess how much damage" (p4 01:04). In the tutorial the first shield is shown openly |
-| shield choice | each time you defend you get 2 or 3 random function blocks from the ones you own, with random digits, and pick one | p4 12:17 "at the start of every round, random" |
-| shield digits | every number in a shield is a digit 1 to 9 | keeps to "digits 1 to 9" |
+| shield visibility | the opponent's shield is planted face down and revealed when your ATTACK runs. You can see whether they planted one, and how many blocks they have left. Your shield is built before you see their move | "at the same time" (p4 01:52) and "guess how much damage" (p4 01:04). In the tutorial the first shield is shown openly |
+| shield numbers | every number in a shield is a digit 1 to 9, dealt at random at the start of the battle and not refilled | replaces the earlier "2 or 3 random ready-made shields each round" (p4 12:17) after Insung's instruction |
+| professors' shields | ready-made, with numbers that grow with the floor (a floor-1 repeat block takes 2 to 3 off, a floor-14 one up to 30) | harder as you go up |
 | nested functions | not in the game | open question 5 |
 | `break` | not in the game | open question 4 |
 
 ## function blocks (all proposals except `for` and `if >`)
 
+Every number slot is filled by the player from the shield numbers.
+
 | block | shown as | Python | got from |
 | --- | --- | --- | --- |
-| for, 1 each | `repeat N times: change damage by -1` | `for i in range(N): damage -= 1` | start |
-| if > | `if damage > A then: change damage by -B` | `if damage > A: damage -= B` | floor 1 (build prompt default) |
-| for, 2 each | `repeat N times: change damage by -2` | | floor 5 |
-| if < | `if damage < A then: set damage to 0` | `if damage < A: damage = 0` | floor 7 |
-| if / else | `if damage > A then: -B, else: -C` | | floor 8 |
-| while | `repeat while damage > A: change damage by -B` | `while damage > A: damage -= B` | floor 10 |
-| for, halve | `repeat N times: set damage to damage ÷ 2` | `for i in range(N): damage /= 2` | floor 11 |
-| if ≥ | `if damage ≥ A then: change damage by -B` | | B5 study stair, first visit |
-| for, 3 each | `repeat N times: change damage by -3` | | B5 study stair, second visit |
+| for | `repeat [A] times: change damage by -[B]` | `for i in range(A): damage -= B` | start |
+| if > | `if damage > [A] then: change damage by -[B]` | `if damage > A: damage -= B` | floor 1 (build prompt default) |
+| if < | `if damage < [A] then: set damage to 0` (needs only 1 number) | `if damage < A: damage = 0` | floor 7 |
+| if / else | `if damage > [A] then: -[B], else: -[C]` | | floor 8 |
+| while | `repeat while damage > [A]: change damage by -[B]` | `while damage > A: damage -= B` | floor 10 |
+| if ≥ | `if damage ≥ [A] then: change damage by -[B]` | | B5 study stair, first visit |
 
-Other floor rewards: floor 3 the Building 5 key (build prompt default), floor 9 and 13 a Red Bull, floor 12 a gym session, floor 14 the Grand Hall invitation.
+Other floor rewards: floor 3 the Building 5 key (build prompt default), floors 5 and 11 one more shield block per battle, floor 9 and 13 a Red Bull, floor 12 a gym session, floor 14 the Grand Hall invitation. The second study-stair visit gives 2 more shield numbers per battle.
 
 ## power-ups
 

@@ -26,6 +26,13 @@ What the team agreed, or said without objection. Citations: `mm:ss` = part 1, `p
 | 18 | Teach for, maybe while, if / else. Nothing advanced | p2 06:41 to 07:00 |
 | 29 | **The battle pieces are shown as Scratch-style blocks, not cards or code text**, so non-CS visitors can follow. The Python equivalent is optional extra (button, pop-ups) | Insung, 2026-11-21, during the build |
 | 30 | **Each player has 30 seconds for a turn** | Insung, 2026-11-21, during the build |
+| 31 | **The repeat block is built by the player**: tap numbers into it (how many times, how much each time). Shield blocks are limited per battle, and the numbers for them are dealt once at the start of the battle | Insung, 2026-11-21, during the build |
+| 32 | **Less HP, fewer shields, shorter matches.** The first floors are easy, each floor up is harder | Insung, 2026-11-21, during the build |
+| 33 | The 14 CDS1 floors use the professor lineup in `professor-levels.md`, with characters drawn to resemble them. The game has one consistent story tied to HKU in Shanghai | Insung, 2026-11-21, during the build |
+| 34 | The HKU logo and crest are the official artwork from hku.hk, never redrawn | Insung, 2026-11-21, during the build |
+| 35 | The last stage is called **Grand Hall** | Insung, 2026-11-21, during the build |
+| 36 | Building 5: the lift serves 1/F to 5/F, the study stair connects 3/F and 4/F with sofas under it, 3/F to 5/F are study and meeting rooms, there is no cafe. Meituan lockers stand east of CDS1, upright, across the service road, with Fangchun Road behind them | Insung, 2026-11-21, during the build |
+| 37 | The look is cute | Insung, 2026-11-21, during the build |
 
 ## world and story
 

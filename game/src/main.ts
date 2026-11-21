@@ -5,8 +5,8 @@ import { getCharacter } from "./art/characters";
 import { floorInfo } from "./maps/cds1";
 import { setLedText } from "./maps/grandhall";
 import { LEO, professor, PROFESSORS } from "./data/professors";
-import { CARDS, enemyPool, FN_ORDER, OP_ORDER, POWER_ORDER, REWARDS, STUDY_FNS } from "./data/cards";
-import { applyReward, BOSS_BONUS_HP, BOSS_HP, clearProgress, enemyHp, freshProgress, loadProgress, playerMaxHp, progressAtFloor, saveProgress, type Progress } from "./state";
+import { CARDS, enemyPool, enemyShieldCount, FN_ORDER, OP_ORDER, POWER_ORDER, REWARDS, STUDY_FNS, STUDY_VISITS } from "./data/cards";
+import { applyReward, BOSS_BONUS_HP, BOSS_HP, clearProgress, enemyHp, freshProgress, loadProgress, playerMaxHp, progressAtFloor, saveProgress, shieldBlocksFor, shieldDigitsFor, type Progress } from "./state";
 import { runBattle, type BattleConfig } from "./battle/ui";
 import { slotsForFloor } from "./battle/rules";
 import { cardPicture, hatBlock, moveBlock, shieldBlock } from "./battle/blocks";
@@ -284,8 +284,8 @@ async function battle(cfg: BattleConfig, t: Target | null, screenY = 300): Promi
   return result;
 }
 
-function baseConfig(p: Progress): Pick<BattleConfig, "playerMax" | "ops" | "brackets" | "fns" | "power" | "seen" | "auto"> {
-  return { playerMax: playerMaxHp(p), ops: p.ops.slice(), brackets: p.brackets, fns: p.fns.slice(), power: p.power, seen: new Set(p.seen), auto: pace.auto };
+function baseConfig(p: Progress): Pick<BattleConfig, "playerMax" | "ops" | "brackets" | "fns" | "power" | "seen" | "auto" | "shieldBlocks" | "shieldDigits"> {
+  return { playerMax: playerMaxHp(p), ops: p.ops.slice(), brackets: p.brackets, fns: FN_ORDER.filter((f) => p.fns.includes(f)), power: p.power, seen: new Set(p.seen), auto: pace.auto, shieldBlocks: shieldBlocksFor(p), shieldDigits: shieldDigitsFor(p) };
 }
 
 async function fight(floor: number, t: Target | null): Promise<void> {
@@ -309,6 +309,8 @@ async function fight(floor: number, t: Target | null): Promise<void> {
       enemyHp: enemyHp(floor),
       skill: ((floor - 1) / 13) * 0.85,
       pool: enemyPool(floor),
+      foeShields: enemyShieldCount(floor),
+      level: (floor - 1) / 13,
       slots: slotsForFloor(floor),
       tutorial: floor === 1 && progress.cleared === 0 && !pace.auto,
     };
@@ -354,7 +356,7 @@ function winLine(floor: number): string {
 async function fightBoss(t: Target | null): Promise<void> {
   const sheet = getCharacter("leo");
   while (true) {
-    const cfg: BattleConfig = { ...baseConfig(progress), playerMax: playerMaxHp(progress) + BOSS_BONUS_HP, floor: 15, boss: true, place: "Grand Hall · 大礼堂", enemy: LEO, enemyHp: BOSS_HP, skill: 0.75, pool: enemyPool(15, true), slots: 6, tutorial: false, onLed: setLedText };
+    const cfg: BattleConfig = { ...baseConfig(progress), playerMax: playerMaxHp(progress) + BOSS_BONUS_HP, floor: 15, boss: true, place: "Grand Hall · 大礼堂", enemy: LEO, enemyHp: BOSS_HP, skill: 0.75, pool: enemyPool(15, true), foeShields: enemyShieldCount(15, true), level: 1, slots: 6, tutorial: false, onLed: setLedText };
     const result = await battle(cfg, t);
     setLedText([]);
     if (result === "quit") return;
@@ -390,22 +392,27 @@ async function ending(): Promise<void> {
 async function station(kind: PowerUpKind): Promise<void> {
   const p = progress;
   if (kind === "study") {
-    const next = STUDY_FNS[p.studied];
-    if (!next) {
-      await showDialog({ kicker: "Study stair · 阶梯自习区", title: "Nothing new to study", titleZh: "已经学完", body: ["You have learned every block the study stair can teach. The rest come from the professors."] });
+    if (p.studied >= STUDY_VISITS) {
+      await showDialog({ kicker: "Study stair · 阶梯自习区", title: "Nothing new to study", titleZh: "已经学完", body: ["You have learned everything the study stair can teach. The rest comes from the professors."] });
       return;
     }
     if (p.used.study === p.cleared) {
-      await showDialog({ kicker: "Study stair · 阶梯自习区", title: "Your head is full", titleZh: "先去闯关", body: ["Beat another professor in CDS1, then come back to study the next block."] });
+      await showDialog({ kicker: "Study stair · 阶梯自习区", title: "Your head is full", titleZh: "先去闯关", body: ["Beat another professor in CDS1, then come back and study some more."] });
       return;
     }
+    const next = STUDY_FNS[p.studied];
     p.used.study = p.cleared;
     p.studied++;
-    if (!p.fns.includes(next)) p.fns.push(next);
-    if (!p.seen.includes(next)) p.seen.push(next);
-    save();
     sfx("power");
-    await cardPopup(next, "You studied a new block · 学到新积木");
+    if (next) {
+      if (!p.fns.includes(next)) p.fns.push(next);
+      if (!p.seen.includes(next)) p.seen.push(next);
+      save();
+      await cardPopup(next, "You studied a new block · 学到新积木");
+    } else {
+      save();
+      await showDialog({ kicker: "Study stair · 阶梯自习区", title: "You studied hard", titleZh: "多两个护盾数字", body: ["An hour on the timber steps with your notes. From now on you are dealt 2 more shield numbers at the start of every battle."] });
+    }
     return;
   }
   const names: Record<string, [string, string, string]> = {
@@ -523,7 +530,7 @@ async function demo(): Promise<void> {
     world.snapCamera();
     target = { id: leo.id, en: "", zh: "", action: { type: "boss" }, npc: leo };
   }
-  const cfg: BattleConfig = { ...baseConfig(progress), playerMax: playerMaxHp(progress) + BOSS_BONUS_HP, floor: 15, boss: true, place: "Demo mode · Grand Hall · 大礼堂", enemy: LEO, enemyHp: BOSS_HP, skill: 0.75, pool: enemyPool(15, true), slots: 6, tutorial: false, onLed: setLedText, auto: true };
+  const cfg: BattleConfig = { ...baseConfig(progress), playerMax: playerMaxHp(progress) + BOSS_BONUS_HP, floor: 15, boss: true, place: "Demo mode · Grand Hall · 大礼堂", enemy: LEO, enemyHp: BOSS_HP, skill: 0.75, pool: enemyPool(15, true), foeShields: enemyShieldCount(15, true), level: 1, slots: 6, tutorial: false, onLed: setLedText, auto: true };
   const result = await battle(cfg, target);
   setLedText([]);
   pace.auto = false;
@@ -571,7 +578,7 @@ function showTitle(): void {
       { class: "logo" },
       h("h1", {}, "Code ", h("span", {}, "Climb")),
       h("div", { class: "zh" }, "编程闯关 · 港大 CDS 上海校园"),
-      h("div", { class: "logo-blocks" }, h("div", { class: "script-body" }, hatBlock("when it is my turn"), moveBlock({ verb: "ATTACK", digits: [8, 2, 3], ops: ["+", "×"] }, 14)), h("div", { class: "script-body" }, hatBlock("when I am attacked"), shieldBlock({ kind: "for2", a: 3, b: 2 }))),
+      h("div", { class: "logo-blocks" }, h("div", { class: "script-body" }, hatBlock("when it is my turn"), moveBlock({ verb: "ATTACK", digits: [8, 2, 3], ops: ["+", "×"] }, 14)), h("div", { class: "script-body" }, hatBlock("when I am attacked"), shieldBlock({ kind: "for1", a: 3, b: 2 }))),
       h("div", { class: "sub" }, "Explore the real HKU CDS Shanghai campus and win block-coding battles.", h("br", {}), "Climb 14 floors of CDS1, then face Leo the lion in the Grand Hall."),
     ),
     h(
