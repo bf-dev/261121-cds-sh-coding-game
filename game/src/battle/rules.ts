@@ -183,13 +183,15 @@ export function runShield(s: Shield, incoming: number): { trace: TraceStep[]; fi
       break;
     }
     case "while": {
+      // the limit is the number times ten: a while shield trims a big hit, it never erases it
+      const limit = whileLimit(s);
       let guard = 0;
-      while (d > s.a && guard++ < 200) {
+      while (d > limit && guard++ < 200) {
         const before = d;
         d = down(d, s.b);
-        push("body", `${fmt(before)} > ${s.a}, so damage ${fmt(before)} - ${s.b} = ${fmt(d)}`);
+        push("body", `${fmt(before)} > ${limit}, so damage ${fmt(before)} - ${s.b} = ${fmt(d)}`);
       }
-      push("head", `is ${fmt(d)} > ${s.a}? No, the loop stops`);
+      push("head", `is ${fmt(d)} > ${limit}? No, the loop stops`);
       break;
     }
   }
@@ -218,7 +220,7 @@ export function shieldPython(s: Shield): string[] {
     case "ifelse":
       return [`if damage > ${s.a}:`, `    damage -= ${s.b}`, `else:`, `    damage -= ${s.c ?? 0}`];
     case "while":
-      return [`while damage > ${s.a}:`, `    damage -= ${s.b}`];
+      return [`while damage > ${whileLimit(s)}:`, `    damage -= ${s.b}`];
   }
 }
 
@@ -240,12 +242,15 @@ export function shieldText(s: Shield): string {
     case "ifelse":
       return `if damage > ${s.a}: - ${s.b}, else: - ${s.c ?? 0}`;
     case "while":
-      return `while damage > ${s.a}: damage - ${s.b}`;
+      return `while damage > ${whileLimit(s)}: damage - ${s.b}`;
   }
 }
 
 export type Rnd = () => number;
 const ri = (r: Rnd, lo: number, hi: number) => lo + Math.floor(r() * (hi - lo + 1));
+
+/** the while block's limit is its first number times ten (3 means "while damage > 30") */
+export const whileLimit = (s: Shield): number => s.a * 10;
 
 /** which numbers a block needs, in the order the player taps them in */
 export const SHIELD_SLOTS: Record<FnKind, ("a" | "b" | "c")[]> = {
@@ -294,8 +299,10 @@ export function rollShield(kind: FnKind, r: Rnd, level = 0.5): Shield {
       return { kind, a: ri(r, 5, 9), b: 0 };
     case "ifelse":
       return { kind, a: ri(r, 5, 9), b: ri(r, 6, 9), c: ri(r, 1, 3) };
-    case "while":
-      return { kind, a: ri(r, 6, 9), b: ri(r, 2, 5) };
+    case "while": {
+      const lo = 6 - Math.round(3 * level);
+      return { kind, a: ri(r, lo, lo + 2), b: ri(r, 3, 6) };
+    }
   }
 }
 
@@ -441,6 +448,6 @@ export function explainShield(s: Shield, incoming: number, final: number): strin
     case "ifelse":
       return `if / else always runs one of its two parts. This time it blocked ${off}.`;
     case "while":
-      return off > 0 ? `My while loop kept going until damage was ${s.a} or less.` : `${incoming} was not more than ${s.a}, so my while loop never ran.`;
+      return off > 0 ? `My while loop kept going until damage was ${whileLimit(s)} or less.` : `${incoming} was not more than ${whileLimit(s)}, so my while loop never ran.`;
   }
 }

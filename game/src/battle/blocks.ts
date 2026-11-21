@@ -70,7 +70,7 @@ export function shieldBlock(s: Shield): HTMLElement {
       c.append(head("if ", bool(">", s.a), " then"), body(change(s.b, "body")), h("div", { class: "cblk-mid" }, "else"), body(change(s.c ?? NaN, "else")));
       break;
     case "while":
-      c.append(head("repeat while ", bool(">", s.a)), body(change(s.b, "body")));
+      c.append(head("repeat while ", bool(">", s.a * 10)), body(change(s.b, "body")));
       break;
   }
   c.append(h("div", { class: "cblk-foot" }));
@@ -115,7 +115,7 @@ export function cardPicture(id: string): HTMLElement {
     ifge: () => shieldBlock({ kind: "ifge", a: 6, b: 8 }),
     iflt: () => shieldBlock({ kind: "iflt", a: 7, b: 0 }),
     ifelse: () => shieldBlock({ kind: "ifelse", a: 6, b: 8, c: 2 }),
-    while: () => shieldBlock({ kind: "while", a: 8, b: 3 }),
+    while: () => shieldBlock({ kind: "while", a: 2, b: 3 }),
     redbull: () => powerBlock("redbull"),
     gym: () => powerBlock("gym"),
     food: () => powerBlock("food"),

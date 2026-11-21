@@ -7,6 +7,8 @@ export const T = TILE;
 /** the back wall is drawn this many tiles tall */
 export const WALL_H = 3;
 export const WALL_PX = WALL_H * T;
+/** interior walls are drawn lower than the back wall so the rooms behind them stay readable */
+export const FACE = 112;
 
 export class Floor {
   ground: HTMLCanvasElement;
@@ -40,6 +42,82 @@ export class Floor {
     const y = (ty + 1) * T - sprite.height + dy;
     this.props.push({ sprite, x: Math.round(tx * T + dx), y: Math.round(y), sortY: (ty + 1) * T + dy - 2, fade });
     if (sw > 0) this.block(Math.floor(tx), ty - sh + 1, sw, sh);
+  }
+
+  /**
+   * A solid interior block (lift and service core, a room seen from outside), w x h tiles, h >= 2:
+   * its roof seen from above and, on its southern FACE px, its south wall. Like the back wall, it is
+   * drawn inside its own tiles, so nothing walkable is hidden behind it. `paint` decorates the face,
+   * `round` rounds the corners like the timber-clad cores on the upper floors.
+   */
+  mass(tx: number, ty: number, w: number, h: number, finish: "timber" | "white" | "glass" = "timber", paint?: (g: Ctx, W: number, top: number) => void, round = false): void {
+    const W = w * T;
+    const capH = h * T - FACE;
+    const [c, g] = mk(W, h * T);
+    const base = finish === "timber" ? "#C9A879" : finish === "glass" ? "#aab4b8" : "#EFEDE6";
+    if (finish === "glass") {
+      // a glass wall: only its top rail from above, and a see-through pane
+      rect(g, 0, capH - 10, W, 10, "#3a3d42");
+      rect(g, 0, capH - 10, W, 3, "#8d9092");
+      rect(g, 0, capH, W, FACE, "rgba(170,188,196,0.5)");
+      rect(g, 0, capH, W, 30, "rgba(215,228,232,0.35)");
+      for (let i = 0; i < W; i += 64) rect(g, i, capH, 2, FACE, "#5a6064");
+      rect(g, W - 2, capH, 2, FACE, "#5a6064");
+      for (let j = 0; j < 3; j++) for (let i = 6; i < W - 6; i += 5) rect(g, i, capH + FACE - 26 + j * 6, 3, 2, "rgba(255,255,255,0.7)");
+      rect(g, 0, capH + FACE - 6, W, 6, "#5a6064");
+    } else {
+      rect(g, 0, 0, W, capH, "#3a3a3e");
+      rect(g, 3, 3, W - 6, capH - 3, "#d9d5cc");
+      rect(g, 3, 3, W - 6, 4, "#f3f1ec");
+      if (capH > 80) {
+        rect(g, 16, 18, W - 32, capH - 30, "#cdc9bf");
+        rect(g, 16, 18, W - 32, 2, "#b9b5ac");
+        for (let x = 16 + 96; x < W - 32; x += 96) rect(g, x, 18, 1, capH - 30, "#bdb9ae");
+      }
+      rect(g, 0, capH, W, FACE, base);
+      if (finish === "timber") {
+        for (let i = 0; i < W; i += 32) {
+          const t = shade(base, (hash(tx * 64 + i, ty, 51) - 0.5) * 0.12);
+          rect(g, i, capH, Math.min(32, W - i), FACE, t);
+          rect(g, i, capH, 1, FACE, shade(base, -0.2));
+        }
+      }
+      rect(g, 0, capH, W, 3, "#8d8a82");
+      rect(g, 0, capH + FACE - 6, W, 6, shade(base, -0.3));
+    }
+    if (round) {
+      // curved ends: the face darkens toward both edges, the roof corners are cut
+      for (let k = 0; k < 28; k += 4) {
+        const a = 0.22 * (1 - k / 28);
+        rect(g, k, capH, 4, FACE, `rgba(60,40,20,${a})`);
+        rect(g, W - k - 4, capH, 4, FACE, `rgba(60,40,20,${a})`);
+      }
+      const R = 26;
+      for (let j = 0; j < R; j++) {
+        const cut = Math.round(R - Math.sqrt(R * R - (R - j) * (R - j)));
+        g.clearRect(0, j, cut, 1);
+        g.clearRect(W - cut, j, cut, 1);
+        g.clearRect(0, h * T - 1 - j, Math.round(cut / 2), 1);
+        g.clearRect(W - Math.round(cut / 2), h * T - 1 - j, Math.round(cut / 2), 1);
+      }
+    }
+    paint?.(g, W, capH);
+    this.props.push({ sprite: c, x: tx * T, y: ty * T, sortY: (ty + h) * T - 2 });
+    this.block(tx, ty, w, h);
+    ao(this.g, tx * T, (ty + h) * T, W, 12);
+  }
+
+  /** a thin wall running north to south in tile column tx, rows ty0 to ty1, seen from above */
+  vwall(tx: number, ty0: number, ty1: number): void {
+    const g = this.g;
+    const x = tx * T;
+    const y = ty0 * T;
+    const h = (ty1 - ty0 + 1) * T;
+    rect(g, x, y, T, h, "#3a3a3e");
+    rect(g, x + 12, y, T - 24, h - 4, "#d9d5cc");
+    rect(g, x + 12, y, 4, h - 4, "#f3f1ec");
+    for (let j = y + 64; j < y + h; j += 128) rect(g, x + 12, j, T - 24, 2, "#b9b5ac");
+    this.block(tx, ty0, 1, ty1 - ty0 + 1);
   }
 
   info(id: string, tx: number, ty: number, w: number, h: number, title: string, titleZh: string, textStr: string): void {

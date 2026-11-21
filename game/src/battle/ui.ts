@@ -447,7 +447,7 @@ export async function runBattle(cfg: BattleConfig): Promise<BattleResult> {
       case "ifelse":
         return ["if > ", slot(), " take off ", slot(), " else ", slot()];
       case "while":
-        return ["while ", dmg(), " > ", slot(), " take off ", slot()];
+        return ["while ", dmg(), " > ", slot(), "0 take off ", slot()];
       default:
         return ["repeat ", slot(), " times: take off ", slot()];
     }

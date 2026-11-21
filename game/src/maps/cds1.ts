@@ -34,11 +34,11 @@ const R = (kind: Room["kind"], num: string, label: string): Room => ({ kind, num
 
 function classCfg(floor: number): ClassCfg {
   const n = (k: number): string => `${floor}${String(k).padStart(2, "0")}`;
-  const base = { floor, navy: "#3E4A63", pale: "#9FAFBE", view: "farm" as const, filmed: false, variant: "team" as const };
+  const base = { floor, navy: "#3E4A63", pale: "#9FAFBE", view: "farm" as const, filmed: false, variant: "team" as const, open: (floor === 4 || floor === 7 || floor === 9 ? "west" : "east") as "east" | "west" | "none", roomNum: n(13), roomLabel: floor >= 8 ? "RESEARCH LAB" : "CLASSROOM" };
   const dir = (rows: string[]): string[] => ["<- TOILET", ...rows];
   switch (floor) {
     case 2:
-      return { ...base, variant: "commons", rooms: [R("ltdoor", "", "LECTURE THEATRE 2A"), R("ltdoor", "", "LECTURE THEATRE 2B"), R("discussion", n(3), "DISCUSSION ROOM")], doorNum: n(1), doorLabel: "STUDENT LOUNGE", directory: dir(["LT 2A", "LT 2B", `${n(3)} DISCUSSION`, "!STUDENT LOUNGE", "!& ZONE"]), view: "green" };
+      return { ...base, variant: "commons", open: "none", rooms: [R("ltdoor", "", "LECTURE THEATRE 2A"), R("ltdoor", "", "LECTURE THEATRE 2B"), R("discussion", n(3), "DISCUSSION ROOM")], doorNum: n(1), doorLabel: "STUDENT LOUNGE", directory: dir(["LT 2A", "LT 2B", `${n(3)} DISCUSSION`, "!STUDENT LOUNGE", "!& ZONE"]), view: "green" };
     case 3:
       return { ...base, navy: "#3b5a5e", pale: "#a5c0bf", rooms: [R("ltdoor", "", "LECTURE THEATRE 3A"), R("ltdoor", "", "LECTURE THEATRE 3B"), R("lab", n(9), "T&L LAB")], doorNum: n(11), doorLabel: "CLASSROOM", directory: dir(["LT 3A", "LT 3B", `${n(9)} T&L LAB`, `${n(11)} CLASSROOM`, "!STUDENT ZONE"]), view: "green" };
     case 4:
@@ -46,7 +46,7 @@ function classCfg(floor: number): ClassCfg {
     case 5:
       return { ...base, navy: "#3e5a4c", pale: "#a9c2b0", rooms: [R("class", n(11), "CLASSROOM"), R("meeting", n(7), "MEETING ROOM"), R("lab", n(9), "T&L LAB")], doorNum: n(5), doorLabel: "TEACHING ASSISTANTS", directory: dir([`${n(5)} TEACHING ASSISTANTS`, `${n(7)} MEETING ROOM`, `${n(9)} T&L LAB`, `${n(11)} CLASSROOM`]) };
     case 6:
-      return { ...base, filmed: true, rooms: [R("gym", "604", "GYM 健身房"), R("meeting", "607", "MEETING ROOM"), R("discussion", "608", "DISCUSSION ROOM")], doorNum: "611", doorLabel: "CLASSROOM", directory: dir(["602 STORAGE", "603 DISCUSSION ROOM", "604 GYM", "605 TEACHING ASSISTANTS", "607 MEETING ROOM", "608 DISCUSSION ROOM", "609-610 T&L LAB", "-> 601 TUTORIAL ROOM", "!TEAMWORK SPACE", "611-613 CLASSROOM"]) };
+      return { ...base, filmed: true, rooms: [R("gym", "604", "GYM 健身房"), R("meeting", "607", "MEETING ROOM"), R("discussion", "608", "DISCUSSION ROOM")], doorNum: "609", doorLabel: "T&L LAB", roomNum: "611", directory: dir(["602 STORAGE", "603 DISCUSSION ROOM", "604 GYM", "605 TEACHING ASSISTANTS", "607 MEETING ROOM", "608 DISCUSSION ROOM", "609-610 T&L LAB", "-> 601 TUTORIAL ROOM", "!TEAMWORK SPACE", "611-613 CLASSROOM"]) };
     case 7:
       return { ...base, navy: "#5a4650", pale: "#c9b0b6", rooms: [R("lab", n(9), "T&L LAB"), R("class", n(11), "CLASSROOM"), R("discussion", n(3), "DISCUSSION ROOM")], doorNum: n(1), doorLabel: "TUTORIAL ROOM", directory: dir([`${n(1)} TUTORIAL ROOM`, `${n(3)} DISCUSSION`, `${n(9)} T&L LAB`, `${n(11)} CLASSROOM`]) };
     case 8:

@@ -1,7 +1,7 @@
 // Things drawn on the back wall of a CDS1 floor: wall finishes, lifts, doors, signs, glass rooms, screens.
 import { rect, frame, hash, shade, text, FONT, type Ctx } from "../art/px";
 import { drawCrestIn } from "../art/logo";
-import { WALL_PX, ao } from "./cds1-kit";
+import { WALL_PX, T, ao, type Floor } from "./cds1-kit";
 
 const H = WALL_PX; // 192
 const TOP = 14; // dark ceiling reveal
@@ -108,9 +108,37 @@ export function liftDoors(g: Ctx, x: number, n: number, numeral: string): void {
     rect(g, dx + 47, 49, 6, 4, "#ff9a3c");
   }
   // raised red numeral with a drop shadow
-  const nx = x + (n > 2 ? 128 + 64 : 64);
+  const nx = x + (n > 2 ? n * 64 : 64);
   text(g, numeral, nx + 2, 16, 30, "#5e1510", { align: "center" });
   text(g, numeral, nx, 14, 30, "#B02B22", { align: "center" });
+}
+
+/**
+ * The CDS1 lift lobby: eight lifts in two banks of four that face each other across a short hall
+ * (seen on 1/F, 13/F and 14/F; Insung, 2026-11-21: "there are 8 elevators on CDS1").
+ * The north bank is on the back wall from tile tx. The south bank is a block 3 tiles deep whose roof
+ * shows the four cars and door sills; `paint` decorates the wall on its far side.
+ * The hall is rows 3 and 4 and is open at both ends.
+ */
+export function liftLobby(f: Floor, tx: number, numeral: string, finish: "timber" | "white" = "white", paint?: (g: Ctx, W: number, top: number) => void): void {
+  wall(f.g, tx * T, 8 * T, "cream");
+  liftDoors(f.g, tx * T, 4, numeral);
+  f.mass(tx, 5, 8, 3, finish, (g, W, top) => {
+    for (let k = 0; k < 4; k++) {
+      const x = k * 128 + 14;
+      rect(g, x - 6, 0, 112, 14, "#8d9092"); // door frame and sill
+      rect(g, x, 2, 100, 8, "#B9BCBE");
+      rect(g, x + 49, 2, 2, 8, "#5d6062");
+      rect(g, x + 108, 3, 10, 8, "#e9c84a"); // call button plate
+      rect(g, x - 2, 18, 104, top - 26, "#b9b5ac"); // the car, seen from above
+      rect(g, x + 2, 22, 96, top - 34, "#c9c6bd");
+      rect(g, x + 44, 26, 12, 12, "#8d8a82");
+    }
+    text(g, numeral, W / 2, top - 30, 22, "#B02B22", { align: "center" });
+    paint?.(g, W, top);
+  });
+  f.triggers.push({ id: "lift", tx, ty: 2, w: 8, h: 3, en: "Lift", zh: "电梯", action: { type: "lift" } });
+  f.spawns.lift = { tx: tx + 4, ty: 4, dir: "down" };
 }
 
 /** a single door leaf (64 px slot). kind: tan timber, grey double, glass */
