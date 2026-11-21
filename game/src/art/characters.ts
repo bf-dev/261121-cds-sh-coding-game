@@ -1,5 +1,5 @@
-// Every character in the game, drawn in code: the student, 14 fictional teachers
-// (one per CDS1 floor), Leo the HKU lion, the guard and four visitors.
+// Every character in the game, drawn in code: the student, the 14 teachers of
+// docs/professor-levels.md (one per CDS1 floor), Leo the HKU lion, the guard and four visitors.
 
 import type { CharSheet } from "../engine/types";
 import { mk } from "./px";
@@ -17,34 +17,36 @@ const SPECS: Record<string, HumanSpec> = {
   // the player: dark hair, HKU-green hoodie, jeans, backpack, white sneakers
   student: { skin: SKIN.light, hair: HAIR.black, hairStyle: "spiky", top: "hoodie", topColor: HKU_GREEN, bottom: "jeans", bottomColor: "#3d5f96", shoes: "#f2f2ee", acc: ["backpack"], accColor: "#d9773a", height: 116 },
 
-  // 1 Dr. Hello: warm young tutor, cardigan and lanyard
-  prof1: { skin: SKIN.light, hair: HAIR.brown, hairStyle: "bob", top: "cardigan", topColor: "#e0a83c", shirt: "#f6f1e4", bottom: "trousers", bottomColor: "#6d6f7c", shoes: "#5a3d2b", acc: ["lanyard"], height: 114 },
-  // 2 Dr. Plus: light blue shirt, round glasses, coffee
-  prof2: { skin: SKIN.warm, hair: HAIR.black, hairStyle: "short", top: "shirt", topColor: "#9cc3e6", bottom: "trousers", bottomColor: "#b59a6a", shoes: "#4a3426", glasses: "round", acc: ["coffee"], height: 118 },
-  // 3 Dr. Times: red sweater, curly hair
-  prof3: { skin: SKIN.brown, hair: HAIR.dark, hairStyle: "curly", top: "sweater", topColor: "#c8473d", shirt: "#f6f1e4", bottom: "jeans", bottomColor: "#2f3e5e", shoes: "#e9e6dc", acc: ["book"], accColor: "#2f6fb0", height: 115 },
-  // 4 Dr. Slash: teal polo, crew cut, laptop
-  prof4: { skin: SKIN.tan, hair: HAIR.black, hairStyle: "crew", top: "polo", topColor: "#2b9a93", bottom: "trousers", bottomColor: "#2c3550", shoes: "#2a2530", acc: ["laptop"], height: 120, build: 2 },
-  // 5 Dr. Loop: purple sweater vest, long hair, square glasses, skirt
-  prof5: { skin: SKIN.pale, hair: HAIR.black, hairStyle: "long", top: "vest", topColor: "#7b4fa8", shirt: "#f6f1e4", bottom: "skirt", bottomColor: "#3b3550", shoes: "#2a2530", glasses: "square", glassesColor: "#b0303a", height: 113 },
-  // 6 Dr. Bracket: grey blazer over a blue shirt, no tie, stubble
-  prof6: { skin: SKIN.light, hair: HAIR.brown, hairStyle: "side", top: "blazer", topColor: "#9aa0ad", shirt: "#7fa6d6", bottom: "jeans", bottomColor: "#34486e", shoes: "#6a4630", beard: "stubble", acc: ["coffee"], height: 121 },
-  // 7 Dr. Bool: navy blazer, auburn bun, glasses
-  prof7: { skin: SKIN.light, hair: HAIR.auburn, hairStyle: "bun", top: "blazer", topColor: "#2d3c66", shirt: "#f6f1e4", bottom: "skirt", bottomColor: "#2d3c66", shoes: "#2a2530", glasses: "round", glassesColor: "#7a5a2a", acc: ["lanyard"], height: 114 },
-  // 8 Dr. Else: sage sweater, full beard
-  prof8: { skin: SKIN.deep, hair: HAIR.black, hairStyle: "crew", top: "sweater", topColor: "#7d9a74", shirt: "#f6f1e4", bottom: "trousers", bottomColor: "#5d4636", shoes: "#2a2530", beard: "full", acc: ["coffee"], height: 122, build: 2 },
-  // 9 Dr. Range: research lab coat, ponytail
-  prof9: { skin: SKIN.warm, hair: HAIR.black, hairStyle: "pony", top: "coat", topColor: "#eef0f2", shirt: "#6fb3c9", bottom: "trousers", bottomColor: "#39405a", shoes: "#e9e6dc", acc: ["laptop"], accColor: "#d9477a", height: 116 },
-  // 10 Dr. While: tweed blazer and tie, receding hair, moustache
-  prof10: { skin: SKIN.light, hair: HAIR.brown, hairStyle: "receding", top: "blazer", topColor: "#8a6a48", shirt: "#f1ead6", tie: "#2f6f66", bottom: "trousers", bottomColor: "#4b4038", shoes: "#3a2a22", glasses: "round", beard: "moustache", acc: ["book"], accColor: "#8e2f2f", height: 119, build: 2 },
-  // 11 Prof. Stack: charcoal suit, red tie, grey side part
-  prof11: { skin: SKIN.light, hair: HAIR.grey, hairStyle: "side", top: "suit", topColor: "#454a58", shirt: "#f3f3f0", tie: "#b3363c", bottom: "trousers", bottomColor: "#454a58", shoes: "#1f1c22", glasses: "square", senior: true, height: 121 },
-  // 12 Prof. Cache: navy suit, silver bob, burgundy scarf
-  prof12: { skin: SKIN.tan, hair: HAIR.silver, hairStyle: "bob", top: "suit", topColor: "#27375e", shirt: "#f3f3f0", bottom: "trousers", bottomColor: "#27375e", shoes: "#1f1c22", acc: ["scarf"], accColor: "#8e2f4a", senior: true, height: 116 },
-  // 13 Prof. Kernel: dark brown suit, bald, white beard
-  prof13: { skin: SKIN.brown, hair: HAIR.white, hairStyle: "bald", top: "suit", topColor: "#4a3528", shirt: "#f1ead6", tie: "#c99f2f", bottom: "trousers", bottomColor: "#4a3528", shoes: "#1f1c22", beard: "full", glasses: "round", glassesColor: "#c9a03a", senior: true, height: 118, build: 3 },
-  // 14 Director Root: dark suit, HKU-green tie, silver hair
-  prof14: { skin: SKIN.pale, hair: HAIR.silver, hairStyle: "side", top: "suit", topColor: "#1d2433", shirt: "#f6f6f2", tie: HKU_GREEN, bottom: "trousers", bottomColor: "#1d2433", shoes: "#121116", glasses: "square", glassesColor: "#8a8a96", senior: true, height: 124, build: 1 },
+  // The 14 challengers follow docs/professor-levels.md. Looks are taken from each person's
+  // official HKU staff photo (hair, glasses, what they wear), kept simple and friendly.
+  // 1 Dr. Alan Dougherty: blond side-swept hair, pale-framed glasses, black jacket over a blue shirt
+  prof1: { skin: SKIN.pale, hair: HAIR.blonde, hairStyle: "side", top: "cardigan", topColor: "#2b2b32", shirt: "#7f9bc8", bottom: "jeans", bottomColor: "#39445e", shoes: "#2a2530", glasses: "square", glassesColor: "#aeb3c0", height: 121 },
+  // 2 Dr. Shengzhi Qin (Brian): short upswept black hair, black glasses, white shirt
+  prof2: { skin: SKIN.light, hair: HAIR.black, hairStyle: "spiky", top: "shirt", topColor: "#f1f1ee", bottom: "trousers", bottomColor: "#2c3248", shoes: "#2a2530", glasses: "square", height: 118 },
+  // 3 Prof. Zhiyi Huang: black side-swept hair, no glasses, navy blazer, pale blue shirt
+  prof3: { skin: SKIN.warm, hair: HAIR.black, hairStyle: "side", top: "blazer", topColor: "#232b45", shirt: "#bcd3ee", bottom: "trousers", bottomColor: "#232b45", shoes: "#1f1c22", height: 119 },
+  // 4 Prof. Jia Pan: short black hair, dark glasses, navy blazer, light grey shirt
+  prof4: { skin: SKIN.light, hair: HAIR.black, hairStyle: "crew", top: "blazer", topColor: "#2a3350", shirt: "#e4e4e8", bottom: "trousers", bottomColor: "#2a3350", shoes: "#1f1c22", glasses: "square", glassesColor: "#2a2a44", height: 119 },
+  // 5 Prof. Taku Komura: short greying hair, no glasses, beige checked shirt
+  prof5: { skin: SKIN.warm, hair: "#4c4c56", hairStyle: "crew", top: "shirt", topColor: "#ddd3c0", check: "#a59880", bottom: "trousers", bottomColor: "#4b4640", shoes: "#3a2a22", height: 120, build: 2 },
+  // 6 Prof. Chenshu Wu: short black hair, high forehead, half-rim glasses, black polo with a red collar edge
+  prof6: { skin: SKIN.light, hair: HAIR.black, hairStyle: "crew", top: "polo", topColor: "#26262c", trim: "#d0343c", bottom: "trousers", bottomColor: "#34343c", shoes: "#1f1c22", glasses: "square", height: 119 },
+  // 7 Prof. Reynold Cheng: grey-black side part, charcoal suit, striped shirt, navy tie
+  prof7: { skin: SKIN.light, hair: "#4e4e58", hairStyle: "side", top: "suit", topColor: "#3d3d46", shirt: "#dfe4f0", tie: "#26335c", bottom: "trousers", bottomColor: "#3d3d46", shoes: "#1f1c22", height: 120, build: 1 },
+  // 8 Prof. Chuan Wu: long black hair with a fringe, thin glasses, navy blouse
+  prof8: { skin: SKIN.light, hair: HAIR.black, hairStyle: "long", fringe: true, top: "shirt", topColor: "#2f4a7c", bottom: "trousers", bottomColor: "#2a2c38", shoes: "#2a2530", glasses: "round", glassesColor: "#6b6470", height: 113 },
+  // 9 Prof. Heming Cui: short black hair brushed to the side, thin glasses, pale blue shirt
+  prof9: { skin: SKIN.light, hair: HAIR.black, hairStyle: "side", top: "shirt", topColor: "#bcd6f0", bottom: "trousers", bottomColor: "#39405a", shoes: "#2a2530", glasses: "round", glassesColor: "#8a8a96", height: 119 },
+  // 10 Prof. Lequan Yu: short black hair, dark glasses, white polo with a navy collar edge
+  prof10: { skin: SKIN.light, hair: HAIR.black, hairStyle: "short", top: "polo", topColor: "#f1f1ee", trim: "#26335c", bottom: "trousers", bottomColor: "#39405a", shoes: "#e9e6dc", glasses: "square", glassesColor: "#3a3a48", height: 120 },
+  // 11 Prof. Siu Ming Yiu: grey hair, thin glasses, dark navy polo
+  prof11: { skin: SKIN.warm, hair: "#6c6c76", hairStyle: "short", top: "polo", topColor: "#1f2538", bottom: "trousers", bottomColor: "#3a3a44", shoes: "#1f1c22", glasses: "square", glassesColor: "#7a7a86", height: 119, build: 1 },
+  // 12 Prof. Ruibang Luo: black side part, thin round glasses, grey cardigan over a white shirt
+  prof12: { skin: SKIN.light, hair: HAIR.black, hairStyle: "side", top: "cardigan", topColor: "#8b8d96", shirt: "#f3f3f0", bottom: "trousers", bottomColor: "#3a3f52", shoes: "#3a2a22", glasses: "round", glassesColor: "#7a7a86", height: 117 },
+  // 13 Prof. Tak-Wah Lam: short grey hair, no glasses, beige blazer, open white shirt
+  prof13: { skin: SKIN.warm, hair: HAIR.grey, hairStyle: "crew", top: "blazer", topColor: "#cdb894", shirt: "#f6f6f2", bottom: "trousers", bottomColor: "#4b4640", shoes: "#3a2a22", height: 118 },
+  // 14 Prof. Yi Ma: dark side-parted hair, light-framed glasses, navy blazer, pale blue shirt
+  prof14: { skin: SKIN.warm, hair: "#2e2624", hairStyle: "side", top: "blazer", topColor: "#1f2a4a", shirt: "#bcd3ee", bottom: "trousers", bottomColor: "#1f2a4a", shoes: "#121116", glasses: "square", glassesColor: "#a89c8e", height: 122, build: 2 },
 
   guard: { skin: SKIN.tan, hair: HAIR.black, hairStyle: "crew", top: "uniform", topColor: "#2a3652", bottom: "trousers", bottomColor: "#222b42", shoes: "#121116", acc: ["cap"], height: 120, build: 2 },
   // a parent

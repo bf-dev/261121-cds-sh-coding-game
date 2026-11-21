@@ -73,6 +73,16 @@ function shoulders(g: Ctx, s: HumanSpec, T: Tones, SH: Tones, S: Tones, A: Tones
       poly(g, [[CX + 20, top - 5], [CX + 2, top + 12], [CX + 12, top + 22], [CX + 24, top + 2]], T.l1);
       px(g, CX - 1, top + 14, 2, 30, T.d1);
       for (let i = 0; i < 2; i++) px(g, CX - 2, top + 20 + i * 10, 4, 3, T.l2);
+      if (s.check) {
+        // grid lines clipped to the shoulder shape
+        const half = (yy: number) => (yy >= top + 44 ? wide - 6 : Math.round((wide - 6) * Math.sqrt(Math.max(0, 1 - ((yy - top - 44) / 43) ** 2))));
+        for (let yy = top + 24; yy < 159; yy += 2) for (let xx = -64; xx <= 64; xx += 10) if (Math.abs(xx) > 3 && Math.abs(xx) < half(yy)) px(g, CX + xx, yy, 1, 2, s.check);
+        for (let yy = top + 26; yy < 159; yy += 9) px(g, CX - half(yy), yy, half(yy) * 2, 1, s.check);
+      }
+      if (s.trim) {
+        line(g, CX - 24, top + 2, CX - 12, top + 22, s.trim, 3);
+        line(g, CX + 24, top + 2, CX + 12, top + 22, s.trim, 3);
+      }
       if (s.tie) tie(g, s.tie, top);
       break;
     case "blazer":
@@ -182,7 +192,7 @@ function hairFront(g: Ctx, s: HumanSpec, H: Tones, S: Tones): void {
         b = HY - 14 + (a % 9 === 0 ? -2 : 0);
         break;
       case "long":
-        b = HY - 34 + Math.round(a * 0.75);
+        b = s.fringe ? HY - 21 + ((dx + 100) % 9 < 2 ? -5 : (dx + 100) % 9 < 5 ? 2 : 0) : HY - 34 + Math.round(a * 0.75);
         break;
       default: // side, bun, pony: swept from the right temple
         b = HY - 12 - Math.round((dx + rx) * 0.24);

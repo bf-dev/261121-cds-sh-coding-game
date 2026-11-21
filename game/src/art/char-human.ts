@@ -21,6 +21,12 @@ export interface HumanSpec {
   shoes: string;
   glasses?: "round" | "square";
   glassesColor?: string;
+  /** collar edge colour on a polo */
+  trim?: string;
+  /** a wispy fringe over the forehead (long hair) */
+  fringe?: boolean;
+  /** line colour of a checked shirt */
+  check?: string;
   beard?: "full" | "moustache" | "goatee" | "stubble";
   acc?: Acc[];
   accColor?: string;
@@ -208,6 +214,14 @@ function torsoFront(g: Ctx, s: HumanSpec, G: Geo, P: Pal, back: boolean): void {
           px(g, x + 5, y + 12, 6, 1, T.d1);
           px(g, x + 5, y + 12, 1, 6, T.d1);
           if (s.tie) px(g, cx - 1, y + 4, 3, 16, s.tie);
+        }
+        if (s.check) {
+          for (let xx = x + 4; xx < x + torsoW - 3; xx += 4) if (Math.abs(xx - cx) > 1) px(g, xx, y + 9, 1, h - 11, s.check);
+          for (let yy = y + 11; yy < y + h - 3; yy += 5) px(g, x + 3, yy, torsoW - 6, 1, s.check);
+        }
+        if (s.trim) {
+          line(g, cx - 8, y + 2, cx - 1, y + 7, s.trim, 1);
+          line(g, cx + 8, y + 2, cx + 1, y + 7, s.trim, 1);
         }
         px(g, x + 2, y + torsoH - 1, torsoW - 4, 2, "#2a2530");
         break;
@@ -432,7 +446,10 @@ function hairCapFront(g: Ctx, s: HumanSpec, G: Geo, P: Pal, back: boolean): void
       px(g, x + 2, y + 10, w - 4, 1, H.d1);
       break;
     case "long":
-      for (let i = 0; i < w - 2; i++) px(g, x + 1 + i, y + 6, 1, Math.round(Math.abs(i - (w - 2) / 2) * 0.55), H.b);
+      if (s.fringe) {
+        px(g, x + 2, y + 7, w - 4, 2, H.b);
+        for (let i = 0; i < 8; i++) px(g, x + 2 + i * 3, y + 9, 2, 1 + (i % 3 === 1 ? 1 : 0), H.b);
+      } else for (let i = 0; i < w - 2; i++) px(g, x + 1 + i, y + 6, 1, Math.round(Math.abs(i - (w - 2) / 2) * 0.55), H.b);
       break;
   }
   if (st === "bun") {
