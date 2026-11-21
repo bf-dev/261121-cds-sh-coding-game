@@ -342,7 +342,7 @@ async function fight(floor: number, t: Target | null): Promise<void> {
       place: `${floorInfo(floor).en}`,
       enemy: prof,
       enemyHp: enemyHp(floor),
-      skill: ((floor - 1) / 13) * 0.85,
+      skill: ((floor - 1) / 13) * 0.95,
       pool: enemyPool(floor),
       foeShields: enemyShieldCount(floor),
       level: (floor - 1) / 13,
@@ -382,7 +382,7 @@ async function winFloor(floor: number): Promise<void> {
 async function fightBoss(t: Target | null): Promise<void> {
   const sheet = getCharacter("leo");
   while (true) {
-    const cfg: BattleConfig = { ...baseConfig(progress), playerMax: playerMaxHp(progress) + BOSS_BONUS_HP, floor: 15, boss: true, place: "Grand Hall · 大礼堂", enemy: LEO, enemyHp: BOSS_HP, skill: 0.75, pool: enemyPool(15, true), foeShields: enemyShieldCount(15, true), level: 1, slots: 6, tutorial: false, onLed: setLedText };
+    const cfg: BattleConfig = { ...baseConfig(progress), playerMax: playerMaxHp(progress) + BOSS_BONUS_HP, floor: 15, boss: true, place: "Grand Hall · 大礼堂", enemy: LEO, enemyHp: BOSS_HP, skill: 0.85, pool: enemyPool(15, true), foeShields: enemyShieldCount(15, true), level: 1, slots: 6, tutorial: false, onLed: setLedText };
     const result = await battle(cfg, t);
     if (result !== "win") setLedText([]);
     if (result === "quit") return;
@@ -564,7 +564,7 @@ async function demo(): Promise<void> {
     world.snapCamera();
     target = { id: leo.id, en: "", zh: "", action: { type: "boss" }, npc: leo };
   }
-  const cfg: BattleConfig = { ...baseConfig(progress), playerMax: playerMaxHp(progress) + BOSS_BONUS_HP, floor: 15, boss: true, place: "Demo mode · Grand Hall · 大礼堂", enemy: LEO, enemyHp: BOSS_HP, skill: 0.75, pool: enemyPool(15, true), foeShields: enemyShieldCount(15, true), level: 1, slots: 6, tutorial: false, onLed: setLedText, auto: true };
+  const cfg: BattleConfig = { ...baseConfig(progress), playerMax: playerMaxHp(progress) + BOSS_BONUS_HP, floor: 15, boss: true, place: "Demo mode · Grand Hall · 大礼堂", enemy: LEO, enemyHp: BOSS_HP, skill: 0.85, pool: enemyPool(15, true), foeShields: enemyShieldCount(15, true), level: 1, slots: 6, tutorial: false, onLed: setLedText, auto: true };
   const result = await battle(cfg, target);
   setLedText([]);
   pace.auto = false;

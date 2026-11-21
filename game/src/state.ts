@@ -77,8 +77,8 @@ export function clearProgress(): void {
 }
 
 // HP is kept low so a match is 2 to 4 rounds. The first floors are easy on purpose.
-export const playerMaxHp = (p: Progress): number => 30 + 5 * p.cleared;
-const ENEMY_HP = [14, 18, 24, 34, 40, 46, 58, 64, 70, 78, 92, 100, 110, 120];
+export const playerMaxHp = (p: Progress): number => 30 + 8 * p.cleared;
+const ENEMY_HP = [14, 18, 24, 44, 50, 56, 80, 86, 92, 100, 106, 112, 122, 130];
 export const enemyHp = (floor: number): number => ENEMY_HP[Math.max(1, Math.min(14, floor)) - 1];
 export const BOSS_HP = 140;
 export const BOSS_BONUS_HP = 10;

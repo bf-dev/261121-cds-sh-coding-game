@@ -3,7 +3,8 @@
 
 import { mk, shade, type Ctx } from "./px";
 
-export const OUTLINE = "#231b2c";
+/** a warm dark brown instead of black, so the sprites read soft */
+export const OUTLINE = "#4a2c33";
 
 export function mix(a: string, b: string, t: number): string {
   const x = parseInt(a.slice(1), 16);

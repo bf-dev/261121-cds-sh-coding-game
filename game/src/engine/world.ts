@@ -225,7 +225,9 @@ export class World {
           const mk2 = this.hooks.mark(n);
           if (mk2) {
             const mc = this.markers[mk2];
-            ctx.drawImage(mc, Math.round(nx - mc.width / 2), Math.round(ny - sheet.h - mc.height + 2 - Math.round(Math.sin(timeMs / 250) * 4)));
+            // chibi people are about 90 px tall inside the 128 px frame, so the marker sits lower for them
+            const top = sheet.h === 128 ? 92 : sheet.h;
+            ctx.drawImage(mc, Math.round(nx - mc.width / 2), Math.round(ny - top - mc.height + 2 - Math.round(Math.sin(timeMs / 250) * 4)));
           }
         },
       });

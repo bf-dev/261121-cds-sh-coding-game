@@ -28,8 +28,8 @@ Rules that come straight from `docs/decisions.md` are not repeated here.
 | operators | `+` and `-` from the start, `×` won on floor 2, `÷` won on floor 4. `^`, `log`, `mod` are not in the game | open question 3. Part 4 only names `+ - × ÷` |
 | strong operators | a hand holds at most one `×` and one `÷` | without this, `9 × 9 × 9` ends any match in one move |
 | brackets | won on floor 6. One pair, around two neighbours only | open question 2. `(2 + 3) × 5` is the lesson; longer groups made moves of 400+ |
-| player HP | 30, +5 per floor cleared (100 after floor 14, +10 against Leo) | the build prompt says 30 each. Moves grow with the operator slots, so HP grows too, but slowly: the top floors are meant to be hard |
-| professor HP | 14 (tutorial), 18, 24, 34, 40, 46, 58, 64, 70, 78, 92, 100, 110, 120. Leo 140 | a match is 2 to 5 rounds. In a simulation a careless player wins floors 1 and 2 almost every time, about 8 in 10 on floors 3 to 6, and about 6 in 10 from floor 10 up, before power-ups |
+| player HP | 30, +8 per floor cleared (142 after floor 14, +10 against Leo) | the build prompt says 30 each. Moves grow with the operator slots, so HP grows with the floors |
+| professor HP | 14 (tutorial), 18, 24, 44, 50, 56, 80, 86, 92, 100, 106, 112, 122, 130. Leo 140 | lower than the first build (which went up to 180). In a simulation a match is 2 to 3 rounds on floors 1 to 9 and 3 to 5 at the top. A careless player wins floors 1 and 2 almost every time, about 3 in 4 on floor 4, and a bit over half from floor 10 up; a careful one wins about 8 in 10 at the top. Power-ups are not counted |
 | rounding | a move is rounded down, damage is rounded down after the shield, never below 0 | build prompt default |
 | zero divisor | the Run button refuses the move and says why | decision #7 |
 | negative move | counts as 0 | not in the docs |
@@ -77,7 +77,7 @@ Other floor rewards: floor 3 the Building 5 key (build prompt default), floors 5
 | The 14 challengers are the lineup in `docs/professor-levels.md` (Aretha): Dr. Alan Dougherty on 1/F up to Prof. Yi Ma on 14/F, with their research fields. The sprites are drawn to resemble them (hair, glasses, clothes) from their public HKU staff photos; the photos are not in the repo | Insung, 2026-11-21: "apply the professor list ... make a character similar to the professors". `docs/decisions.md` #33. **To do for the team: ask each person before the game is shown outside the hackathon** (`docs/avatars.md`, `docs/professor-levels.md`). Names are in `src/data/professors.ts`, looks in `src/art/characters.ts` |
 | What each professor says is written for the game, friendly, and built on their field. It is not a quote. No Chinese names are invented: the small label next to a name is the field in Chinese | |
 | Only the lineup from `docs/professor-levels.md` is used. Its proposed function per floor (`round`, `min`, `abs`, `any`, `sum` ...) is not built: the rewards per floor are the ones in the table above | 14 new functions did not fit the time left, and Insung asked for fewer shields, not more |
-| Rule-based AI: samples legal moves from its hand and picks by skill. Low floors pick a middling move, high floors the best. It heals under 38% HP when it cannot finish the match | skill = (floor - 1) / 13 × 0.85, Leo 0.75 |
+| Rule-based AI: samples legal moves from its hand and picks by skill. Low floors pick a middling move, high floors the best. It heals under 38% HP when it cannot finish the match | skill = (floor - 1) / 13 × 0.95, Leo 0.85 |
 | Model AI: one call per round for the move, the shield and a one-line explanation | spec and prompt text are in `src/battle/llm.ts` |
 | The one-line explanation without a model is generated from the move ("× and ÷ go before + and -, so 8 + 2 × 3 makes 14") | hackathon brief: professors explain their move |
 
@@ -103,5 +103,6 @@ Other floor rewards: floor 3 the Building 5 key (build prompt default), floors 5
 | B6 (Senior Common Room) is not a level | its building is unconfirmed (open question 10) |
 | Campus details: info spots on every map, counted in the Bag ("campus details found") | hackathon brief: hidden details, a reason to explore |
 | Game title "Code Climb · 编程闯关" | the team has not named the game |
+| **Cute look.** Chibi characters (the head is about half the figure, big eyes, blush), a round fluffy Leo, rounded pastel panels and pill buttons, HP bars with a heart, small bounces | Insung, 2026-11-21: "the overall design should look cute". `docs/decisions.md` #37 |
 | Demo mode plays the Leo match with a full kit | p2 07:43 |
 | The raw videos were not opened; everything comes from `buildings/` | |
