@@ -22,7 +22,7 @@ SCR = senior common room (01:37).
 
 ## photos and videos so far
 
-Aretha's iCloud album "MAP", shot 10:29 to 10:42 CST, is in `resources/photos/2026-11-21-map-album/` and `resources/videos/2026-11-21-map-album/`. It covers the Meituan lockers, a building entrance, the grand hall, a lobby with a spiral staircase, lounges (piano and mural, hammocks), a pool table room, a table tennis room, café seating, tiered stair seating (looks like the "stairs study area"), study booths, study rooms and a meeting room.
+Aretha's iCloud album "MAP", shot 10:29 to 10:42 CST, is in `resources/photos/2026-11-21-map-album/` and `resources/videos/2026-11-21-map-album/`. It covers the Meituan lockers, a building entrance, the arched hall on Building 5's first floor (confirmed by Insung; not the grand hall), a lobby with a spiral staircase, lounges (piano and mural, hammocks), a pool table room, a table tennis room, café seating, tiered stair seating (looks like the "stairs study area"), study booths, study rooms and a meeting room.
 
 **The album doesn't say which building each shot is in.** The lobby pillar reads "05 / B2", which hints at Building 5. Ask Aretha to confirm, then add the building to the file index in `resources/README.md`.
 

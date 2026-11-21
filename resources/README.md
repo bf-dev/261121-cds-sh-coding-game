@@ -24,7 +24,7 @@ File names start with the local time the shot was taken (HHMMSS). Photos are 273
 | `videos/2026-11-21-map-album/102908-meituan-lockers.mp4` (7 s) | outdoor Meituan food-delivery locker wall | MT |
 | `photos/2026-11-21-map-album/102910-meituan-lockers-1.jpg`, `102914-meituan-lockers-2.jpg` | same lockers | MT |
 | `videos/.../103019-building-entrance.mp4` (6 s) | walking up to a glass entrance, "Est. 1911" on the doors | ? |
-| `videos/.../103053-grand-hall.mp4` (7 s), `photos/.../103107-grand-hall.jpg` | long hall with arched ceiling, chandeliers, long wooden tables | grand hall (board: B6) |
+| `videos/.../103053-b5-1f-hall.mp4` (7 s), `photos/.../103107-b5-1f-hall.jpg` | long hall with arched ceiling, chandeliers, long wooden tables | **Building 5, 1/F** (confirmed by Insung). Not the grand hall |
 | `videos/.../103119-lobby-spiral-stairs-1.mp4` (11 s), `103135-lobby-spiral-stairs-2.mp4` (12 s) | lobby: pillar marked "05 / B2", lift "1", white spiral staircase | B5? ("05") |
 | `photos/.../103235-lounge-mural-piano.jpg` | lounge with a Shanghai skyline mural and a grand piano | ? |
 | `photos/.../103253-pool-table-room.jpg` | glass room with a pool table | ? |
