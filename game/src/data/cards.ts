@@ -34,12 +34,16 @@ export const CARDS: Record<string, CardInfo> = {
   iflt: { id: "iflt", group: "function", name: "if ... < (block small hits)", nameZh: "如果小于", does: "Blocks a small hit completely. A big hit goes straight through.", example: "if damage < 7: damage = 0. A hit of 6 does nothing. A hit of 7 does 7.", python: "if damage < 7:\n    damage = 0" },
   ifelse: { id: "ifelse", group: "function", name: "if ... else", nameZh: "如果…否则 (if / else)", does: "Two paths. If the answer is yes the first part runs, otherwise the else part runs. One of them always runs.", example: "if damage > 6: - 8, else: - 2.", python: "if damage > 6:\n    damage -= 8\nelse:\n    damage -= 2" },
   while: { id: "while", group: "function", name: "repeat while (while loop)", nameZh: "当…重复 (while 循环)", does: "Keeps repeating as long as the question is true. You do not know in advance how many times. The first number you tap is counted in tens: 2 means 20. It trims a big hit down, and leaves a small one alone.", example: "while damage > 20: damage - 3. A hit of 30 goes 27, 24, 21, 18, then stops.", python: "while damage > 20:\n    damage -= 3" },
+  round: { id: "round", group: "function", name: "round() · Round Off", nameZh: "四舍五入 round()", does: "A function is a ready-made block with a name. round() turns a number with a decimal point into a whole number. This shield halves the damage, then rounds it. It needs no shield numbers, so it is the one to use when your numbers have run out.", example: "A hit of 7: 7 ÷ 2 = 3.5, and round(3.5) = 4. You take 4.", python: "damage = round(damage / 2)" },
+  len: { id: "len", group: "function", name: "len() · Sequence Length", nameZh: "长度 len()", does: "len() counts how many things are in a list. This shield counts the number blocks in the attack and takes your number off once for each. A long attack meets a big shield.", example: "ATTACK 8 + 2 × 3 has 3 number blocks. With 4 in the slot: 3 × 4 = 12 blocked.", python: "damage -= len(numbers) * 4" },
+  sorted: { id: "sorted", group: "function", name: "sorted() · Order the Options", nameZh: "排序 sorted()", does: "sorted() puts a list in order, smallest first. This shield sorts your three numbers (counted in tens) and blocks the middle one.", example: "sorted([60, 20, 40]) = [20, 40, 60]. The middle one is 40, so 40 is blocked.", python: "damage -= sorted([60, 20, 40])[1]" },
+  filter: { id: "filter", group: "function", name: "filter() · Pattern Filter", nameZh: "筛选 filter()", does: "filter() keeps only the things that pass a test. This shield looks at the number blocks in the attack, keeps the ones bigger than your number, and takes them off the damage.", example: "ATTACK 8 + 2 × 3 against filter > 4: only 8 passes, so 8 is blocked.", python: "big = filter(lambda n: n > 4, numbers)\ndamage -= sum(big)" },
   redbull: { id: "redbull", group: "power-up", name: "Red Bull", nameZh: "红牛", does: "Power-up. Use it at the start of your turn, before your move. You get an extra turn straight after this one.", example: "Drink it, attack, then attack again before the professor moves.", python: "turns += 1" },
   gym: { id: "gym", group: "power-up", name: "Gym session", nameZh: "健身", does: "Power-up from the Building 5 gym. Use it at the start of your turn: you gain a third of your maximum HP, even above the maximum.", example: "With 60 max HP: 60 HP becomes 80 HP.", python: "hp += max_hp // 3" },
   food: { id: "food", group: "power-up", name: "Meituan meal", nameZh: "美团外卖", does: "Power-up from the food lockers and the cafe. Use it at the start of your turn: you get back a quarter of your maximum HP.", example: "With 60 max HP: 10 HP becomes 25 HP.", python: "hp += max_hp // 4" },
 };
 
-export const FN_ORDER: FnKind[] = ["for1", "ifgt", "iflt", "ifelse", "while", "ifge"];
+export const FN_ORDER: FnKind[] = ["for1", "round", "ifgt", "iflt", "ifelse", "while", "ifge", "len", "sorted", "filter"];
 export const OP_ORDER: Op[] = ["+", "-", "×", "÷"];
 export const POWER_ORDER: Exclude<PowerUpKind, "study">[] = ["redbull", "gym", "food"];
 
@@ -58,9 +62,9 @@ export interface Reward {
 
 /** what beating the professor on floor n gives you (decision #14: win functions from professors) */
 export const REWARDS: Record<number, Reward> = {
-  1: { fn: "ifgt", text: "New shield block: if ... then" },
-  2: { op: "×", text: "New operator block: × times" },
-  3: { key: true, text: "The key to Building 5. Power-ups are waiting there: gym, study stair, cafe." },
+  1: { fn: "round", text: "New shield block: round(), Dr. Dougherty's Round Off. It needs no numbers" },
+  2: { fn: "ifgt", op: "×", text: "New shield block: if ... then, Dr. Qin's Security Check. New operator block: × times" },
+  3: { key: true, text: "The key to Building 5: the gym is on 2/F, the study stair on 3/F" },
   4: { op: "÷", text: "New operator block: ÷ divide" },
   5: { shieldBlock: true, text: "One more shield block in every battle (3 instead of 2)" },
   6: { brackets: true, text: "New: ( ) brackets, with the Group button" },
@@ -69,9 +73,9 @@ export const REWARDS: Record<number, Reward> = {
   9: { power: "redbull", text: "A can of Red Bull (extra turn)" },
   10: { fn: "while", text: "New shield block: repeat while (while loop)" },
   11: { shieldBlock: true, text: "One more shield block in every battle (4 instead of 3)" },
-  12: { power: "gym", text: "A gym session (extra HP)" },
-  13: { power: "redbull", text: "A can of Red Bull (extra turn)" },
-  14: { hallpass: true, text: "An invitation to the Grand Hall. Leo the HKU lion is waiting." },
+  12: { fn: "len", power: "gym", text: "New shield block: len(), Prof. Luo's Sequence Length. And a gym session (extra HP)" },
+  13: { fn: "sorted", power: "redbull", text: "New shield block: sorted(), Prof. Lam's Order the Options. And a can of Red Bull (extra turn)" },
+  14: { fn: "filter", hallpass: true, text: "New shield block: filter(), Prof. Ma's Pattern Filter. And an invitation to the Grand Hall: Leo is waiting" },
 };
 
 /** the Building 5 study stair: first visit a new function, second visit two more shield numbers per battle */
@@ -80,13 +84,15 @@ export const STUDY_VISITS = 2;
 
 /** the functions each professor defends with (the one they teach, plus earlier ones) */
 export function enemyPool(floor: number, boss = false): FnKind[] {
-  if (boss) return ["for1", "ifgt", "ifelse", "while", "iflt"];
+  if (boss) return ["for1", "ifgt", "ifelse", "while", "iflt", "round", "len", "sorted", "filter"];
   const pool: FnKind[] = ["for1", "for1"];
   if (floor >= 2) pool.push("ifgt");
   if (floor >= 7) pool.push("iflt");
   if (floor >= 8) pool.push("ifelse");
   if (floor >= 10) pool.push("while", "while");
-  if (floor >= 12) pool.push("ifge");
+  if (floor >= 12) pool.push("ifge", "len");
+  if (floor >= 13) pool.push("sorted");
+  if (floor >= 14) pool.push("filter");
   return pool;
 }
 

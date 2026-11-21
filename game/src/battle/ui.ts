@@ -43,7 +43,8 @@ export interface BattleConfig {
   floor: number;
   boss: boolean;
   place: string;
-  enemy: { name: string; nameZh: string; char: string; topic: string; hello: string };
+  /** signature: the professor's own function, always the first shield they plant */
+  enemy: { name: string; nameZh: string; char: string; topic: string; hello: string; signature?: { title: string; shield: Shield } };
   enemyHp: number;
   /** 0..1 */
   skill: number;
@@ -172,6 +173,8 @@ export async function runBattle(cfg: BattleConfig): Promise<BattleResult> {
   const say = (text: string) => {
     bubble.textContent = text;
     bubble.classList.toggle("off", !text);
+    // a coach note and the speech bubble share the top of the screen: the bubble wins
+    if (text && !coachSteps.length) coachEl.classList.add("off");
   };
   const cap = (text: string) => {
     caption.textContent = text;
@@ -428,7 +431,6 @@ export async function runBattle(cfg: BattleConfig): Promise<BattleResult> {
   const canShield = () => myBlocks > 0 && cfg.fns.some((k) => SHIELD_SLOTS[k].length <= freeNums().length);
   const fill = (kind: FnKind, idx: number[]): Shield => {
     const s = emptyShield(kind);
-    if (kind === "iflt") s.b = 0;
     SHIELD_SLOTS[kind].forEach((k, j) => {
       if (idx[j] !== undefined) s[k] = myNums[idx[j]];
     });
@@ -448,6 +450,14 @@ export async function runBattle(cfg: BattleConfig): Promise<BattleResult> {
         return ["if > ", slot(), " take off ", slot(), " else ", slot()];
       case "while":
         return ["while ", dmg(), " > ", slot(), "0 take off ", slot()];
+      case "round":
+        return ["round( ", dmg(), " ÷ 2 )"];
+      case "len":
+        return ["len( numbers ) × ", slot()];
+      case "sorted":
+        return ["middle of sorted ", slot(), slot(), slot()];
+      case "filter":
+        return ["filter numbers > ", slot()];
       default:
         return ["repeat ", slot(), " times: take off ", slot()];
     }
@@ -573,7 +583,7 @@ export async function runBattle(cfg: BattleConfig): Promise<BattleResult> {
             if (need > free.length) continue;
             for (let t = 0; t < 30; t++) {
               const idx = free.slice().sort(() => rnd() - 0.5).slice(0, need);
-              const final = runShield(fill(k, idx), guess).final;
+              const final = runShield(fill(k, idx), guess, [7, 5, 3, 6].slice(0, cfg.slots + 1)).final;
               if (!best || final < best.final) best = { kind: k, idx, final };
             }
           }
@@ -656,13 +666,18 @@ export async function runBattle(cfg: BattleConfig): Promise<BattleResult> {
         cap(`${attacker === "me" ? cfg.enemy.name + "'s" : "Your"} shield runs on damage ${value}.`);
         sfx("shield");
         await wait(1100);
-        const run = runShield(shield, value);
+        const run = runShield(shield, value, move.digits);
         final = run.final;
         // long loops speed up so a while block never stalls the match
         const stepMs = run.trace.length > 8 ? Math.max(110, Math.round(3600 / run.trace.length)) : run.trace.length > 5 ? 560 : 800;
         for (const st of run.trace) {
           block.querySelectorAll(".running").forEach((e) => e.classList.remove("running"));
           block.querySelector(`[data-part="${st.part}"]`)?.classList.add("running");
+          if (st.truth !== undefined && st.part === "head") {
+            // show the answer of the test on the block itself: true or false
+            block.querySelector(".truth")?.remove();
+            block.querySelector('[data-part="head"]')?.append(h("span", { class: `truth ${st.truth ? "yes" : "no"}` }, st.truth ? "true" : "false"));
+          }
           cap(st.text);
           watch("damage", st.damage);
           if (stepMs > 300) sfx("tick");
@@ -689,7 +704,7 @@ export async function runBattle(cfg: BattleConfig): Promise<BattleResult> {
       refreshHp();
       await wait(1300);
       // the professor explains in one line
-      if (attacker === "me" && shield) say(explainShield(shield, value, final));
+      if (attacker === "me" && shield) say(`${shield === cfg.enemy.signature?.shield ? cfg.enemy.signature.title + "! " : ""}${value === 0 ? "Your ATTACK came to 0, so my shield had nothing to block. Try a bigger move." : explainShield(shield, value, final)}`);
     }
     if (attacker === "foe") say(pendingSay || explainMove(move));
     await wait(cfg.auto ? 1900 : 1500);
@@ -708,6 +723,7 @@ export async function runBattle(cfg: BattleConfig): Promise<BattleResult> {
       for (const id of ["ATTACK", "HEAL", "number", ...cfg.ops, ...(cfg.brackets ? ["brackets"] : [])]) await seeCard(id);
     }
     let extra = false;
+    let sigUsed = false;
     while (true) {
       round++;
       roundTag.textContent = `Round ${round}`;
@@ -716,7 +732,12 @@ export async function runBattle(cfg: BattleConfig): Promise<BattleResult> {
       const foeOffers = [0, 1].map(() => rollShield(cfg.pool[Math.floor(rnd() * cfg.pool.length)], rnd, cfg.level));
       // the opponent has only a few shield blocks too, so some rounds it plants nothing
       let foeShield: Shield | null = foeBlocks > 0 && rnd() < 0.62 ? foeOffers[Math.floor(rnd() * foeOffers.length)] : null;
-      if (cfg.tutorial && round === 1) foeShield = { kind: "for1", a: 2, b: 1 };
+      // the professor's own function is always the first shield they plant
+      const sig = cfg.enemy.signature && !sigUsed && foeBlocks > 0 ? cfg.enemy.signature.shield : null;
+      if (sig) {
+        foeShield = sig;
+        sigUsed = true;
+      }
       if (foeShield) foeBlocks--;
       refreshCounts();
       // the model is asked now, while you think; when its answer is needed it has 2 s left at most
@@ -745,8 +766,8 @@ export async function runBattle(cfg: BattleConfig): Promise<BattleResult> {
       if (!built) return "quit";
       coachSteps = [];
       coachShow();
-      if (cfg.tutorial && round === 1) coachNote(`${cfg.enemy.name} planted a shield: a repeat block. Watch it run its inside block 2 times.`);
-      if (plan && foeShield && !(cfg.tutorial && round === 1)) foeShield = foeOffers[plan.shield] ?? foeShield;
+      if (cfg.tutorial && round === 1) coachNote(`${cfg.enemy.name} planted a shield, the Round Off: it halves your damage, then rounds it to a whole number. Watch.`);
+      if (plan && foeShield && !sig) foeShield = foeOffers[plan.shield] ?? foeShield;
       if (built.skipped) {
         cap(`Time is up! ${TURN_SECONDS} seconds passed with no number placed, so you lose this turn.`);
         await wait(2200);

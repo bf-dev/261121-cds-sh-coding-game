@@ -4,7 +4,7 @@
 // plain glass doors into the lounge: reception desk, the CDS letters on the left wall, then the
 // exhibition drums and the event area with the LED wall, step seating and the planted terrace.
 import { mk, rect, text, shade } from "../art/px";
-import { Floor, T, WALL_PX, FACE, timberFloor, stoneFloor, sunPatch } from "./cds1-kit";
+import { Floor, T, WALL_PX, FACE, timberFloor, stoneFloor, vinyl, sunPatch } from "./cds1-kit";
 import { wall, liftLobby, door, exitLamp, crest, panel } from "./cds1-wall";
 import { drawCrestIn } from "../art/logo";
 import { windowBay } from "./cds1-rooms";
@@ -38,6 +38,10 @@ export function buildExpoFloor(): Floor {
   // lift hall, the way round its west end, and the office corridor: pale glossy stone
   stoneFloor(g, T, WALL_PX, 18 * T, 2 * T, "#DDD9D0");
   stoneFloor(g, T, WALL_PX + 2 * T, 2 * T, 3 * T, "#DDD9D0");
+  // the office corridor past the etched doors is white and matt (111812 0:15 to 0:36)
+  vinyl(g, 11 * T, WALL_PX, 8 * T, 2 * T, "#ECEAE4");
+  rect(g, 11 * T - 4, WALL_PX, 8, 2 * T, "#6f7376"); // door sill
+  rect(g, 11 * T - 2, WALL_PX, 4, 2 * T, "#c9cdd0");
   // event area
   stoneFloor(g, 20 * T, WALL_PX, 8 * T, 6 * T, "#DDD9D0");
   // timber terrace band along the windows
@@ -105,6 +109,15 @@ export function buildExpoFloor(): Floor {
     pg.drawImage(cdsLetters(), 130, top + 5, 282, 102);
   });
   f.vwall(19, 3, 4);
+  // the doorway itself: you walk east out of the lift hall through this frame into the office
+  // corridor, with both etched leaves folded back against the wall beside you
+  const [frame, fg] = mk(14, 2 * T + 150);
+  rect(fg, 0, 0, 14, 2 * T + 150, "#2a2c30");
+  rect(fg, 3, 12, 8, 2 * T - 12, "#565a5f"); // head of the frame, seen from below
+  rect(fg, 3, 2 * T, 8, 146, "#3d4045"); // the south jamb
+  rect(fg, 5, 2 * T + 4, 3, 138, "#8d9092");
+  f.props.push({ sprite: frame, x: 11 * T - 7, y: 3 * T - 150, sortY: 5 * T - 2 });
+  f.label(13, 4.9, "Director & general office", "院长与综合办公室");
 
   // reception desk in front of the timber wall, with the school name on its face
   f.put(desk(5, "#D2BE9E", "#efe9dc", "SCHOOL OF COMPUTING & DATA SCIENCE", "The University of Hong Kong"), 4, 10, 5);
@@ -138,7 +151,7 @@ export function buildExpoFloor(): Floor {
 
   f.prof(14, 9, 12);
   f.npc("visitor-14", "visitor3", 21, 15, "up", "Visitor", "访客");
-  f.info("glass", 11, 3, 4, 1, "Etched glass doors", "蚀刻玻璃门", "The glass doors between the lift hall and the director's office carry an acid-etched HKU crest with the motto SAPIENTIA ET VIRTUS and the school name, over a dotted frit band.");
+  f.info("glass", 11, 3, 4, 1, "Etched glass doors", "蚀刻玻璃门", "You walk out of the east end of the lift hall through these doors into the white office corridor. They carry an acid-etched HKU crest with the motto SAPIENTIA ET VIRTUS and the school name, over a dotted frit band.");
   f.info("office", 15, 3, 4, 1, "Director & general office", "院长与综合办公室", "A quiet white corridor of closed doors behind the etched glass. The office itself was not filmed.");
   f.info("letters", 12, 8, 6, 1, "CDS letters", "CDS 大字", "Enormous blue-grey CDS letters with a fine stripe texture are mounted flat on the white wall, on your left as you walk from the reception desk into the lounge.");
   f.info("drum", 19, 14, 3, 1, "History drum", "校史圆柱", "HKU HISTORY, THE MILESTONES: a cylinder wrapped in printed panels with a timeline of 1912, 1923, 1941-1945, 1961, 1967, 1999, 2012 and 2024.");

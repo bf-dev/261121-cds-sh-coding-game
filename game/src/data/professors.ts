@@ -7,7 +7,11 @@
 // it into 14 blocks and left one with each professor. A professor hands a block over to a
 // student who shows they can read it.
 
+import type { Shield } from "../battle/rules";
+
 export interface Professor {
+  /** their own function: always the first shield they plant, and the block you win from them */
+  signature?: { title: string; shield: Shield };
   floor: number;
   char: string;
   name: string;
@@ -30,7 +34,7 @@ export const PROFESSORS: Professor[] = [
     "计算机视觉",
     "computer vision",
     "Welcome to CDS! Leo left the first block of the welcome program with me. A computer sees a picture as numbers, and a battle here is just numbers too. Let me show you how it works.",
-    "That is all a program is: small blocks, run in order. Here is block 1 of the show, and an if block for your shields. You will need it upstairs.",
+    "That is all a program is: small blocks, run in order. Here is block 1 of the show, and my Round Off block. It needs no numbers, so keep it for when yours run out.",
   ),
   P(
     2,
@@ -38,7 +42,7 @@ export const PROFESSORS: Professor[] = [
     "网络安全",
     "cybersecurity",
     "Security check! Nobody gets past the second floor without showing they can count under pressure.",
-    "Access granted. Block 2 is yours, and so is the × block. Multiplying is how small numbers get big.",
+    "Access granted. Block 2 is yours, with my Security Check, an if block, and the × block. Multiplying is how small numbers get big.",
   ),
   P(
     3,
@@ -118,7 +122,7 @@ export const PROFESSORS: Professor[] = [
     "生物信息学",
     "bioinformatics",
     "DNA is a very long program written with four letters. Yours has nine digits. Show me what you can write.",
-    "Nicely sequenced. Block 12, and a gym session. Even coders need to move.",
+    "Nicely sequenced. Block 12, my len() block, and a gym session. Even coders need to move.",
   ),
   P(
     13,
@@ -126,7 +130,7 @@ export const PROFESSORS: Professor[] = [
     "算法与健康数据",
     "algorithms and health data",
     "Few students reach the 13th floor. A good algorithm does a lot with a little. Impress me.",
-    "Efficient. Block 13, and a Red Bull. One floor left.",
+    "Efficient. Block 13, my sorted() block, and a Red Bull. One floor left.",
   ),
   P(
     14,
@@ -134,7 +138,7 @@ export const PROFESSORS: Professor[] = [
     "计算机视觉与人工智能",
     "computer vision and AI",
     "The exhibition lounge, and the last block. Behind me HKU's milestones run from 1912 to 2024. Tonight you add a line of your own.",
-    "You hold all 14 blocks. Leo is waiting in the Grand Hall. Go and light the wall.",
+    "You hold all 14 blocks, and my filter() block too. Leo is waiting in the Grand Hall. Go and light the wall.",
   ),
 ];
 
@@ -146,6 +150,13 @@ export const LEO = {
   hello: "ROAR! You brought all 14 blocks. One last test before the wall lights up: run them against me, right here on the stage!",
   win: "ROAR! The wall is lit!",
 };
+
+// the five professors with a shield of their own (functions from docs/professor-levels.md)
+PROFESSORS[0].signature = { title: "Round Off", shield: { kind: "round", a: 0, b: 0 } };
+PROFESSORS[1].signature = { title: "Security Check", shield: { kind: "ifgt", a: 5, b: 4 } };
+PROFESSORS[11].signature = { title: "Sequence Length", shield: { kind: "len", a: 5, b: 0 } };
+PROFESSORS[12].signature = { title: "Order the Options", shield: { kind: "sorted", a: 6, b: 2, c: 4 } };
+PROFESSORS[13].signature = { title: "Pattern Filter", shield: { kind: "filter", a: 4, b: 0 } };
 
 export function professor(floor: number): Professor {
   return PROFESSORS[Math.max(1, Math.min(14, floor)) - 1];

@@ -199,7 +199,7 @@ async function doAction(a: Action, t: Target): Promise<void> {
         progress.found.push(t.id);
         save();
       }
-      await showDialog({ kicker: `Campus detail · 校园细节${isNew ? ` · ${progress.found.length} found` : ""}`, title: a.title, titleZh: a.titleZh, body: [a.text] });
+      await showDialog({ kicker: `Campus detail · 校园细节${isNew ? ` · ${progress.found.length} found` : ""}`, title: a.title, titleZh: a.titleZh, body: [a.text, ...(isNew && progress.found.length <= 20 ? [h("p", { class: "dim" }, `You know the campus a little better: +1 maximum HP in every battle (${progress.found.length} of 20).`)] : [])] });
       return;
     }
   }
@@ -386,10 +386,11 @@ async function winFloor(floor: number): Promise<void> {
   const items = [`Block ${floor} of 14 of the welcome program`, r.text, "+8 maximum HP", floor < 14 ? `The lift now goes up to ${floor + 1}/F` : "All 14 floors of CDS1 cleared"];
   if (after > before && floor < 14) items.push(`One more operator slot: your moves can use ${after} operators`);
   await showDialog({ kicker: `CDS1 ${floor}/F cleared · 通过第 ${floor} 层`, title: `You beat ${prof.name}!`, titleZh: "获胜", portrait: getCharacter(prof.char).portrait, body: [`"${prof.win}"`, h("ul", { class: "reward-list" }, ...items.map((i) => h("li", {}, i)))], buttons: [{ label: "Collect", value: true, primary: true }] });
-  const id = r.fn ?? r.op ?? (r.brackets ? "brackets" : r.power);
-  if (id && !progress.seen.includes(id)) {
-    progress.seen.push(id);
-    await cardPopup(id);
+  for (const id of [r.fn, r.op, r.brackets ? "brackets" : undefined, r.power]) {
+    if (id && !progress.seen.includes(id)) {
+      progress.seen.push(id);
+      await cardPopup(id);
+    }
   }
   save();
 }

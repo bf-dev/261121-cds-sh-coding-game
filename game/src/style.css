@@ -360,3 +360,15 @@ small { font-size: 0.72em; color: var(--ink-soft); margin-left: 10px; font-weigh
   .btn, .btn.go, .blk-btn, .pill-btn, .op-btn, .power-btn, .kind-btn, .prompt, .timer.low, .hp.low, .hp-text::before, .title::before, .title::after, .title .logo, .title .logo::before, .title .logo::after, .hud-quest::before, .coach::before, .dialog, .bubble, .pal-group.busy .flag, .script-body > .move, .script-body > .cblk, .glow { animation: none !important; }
   .glow { outline: 7px solid #ffe600; outline-offset: 4px; }
 }
+
+/* function-call shields (round, len, sorted, filter) and the true / false tag */
+.opnode.fn { background: #9a6bff; border-color: rgba(0, 0, 0, 0.28); gap: 8px; }
+.opnode.fn > .sym:first-child { font-style: italic; }
+.cblk.flat { display: inline-flex; }
+.truth { margin-left: 12px; padding: 2px 12px; border-radius: 999px; font-size: 20px; font-weight: 700; text-shadow: none; border: 3px solid rgba(0, 0, 0, 0.3); animation: pop 0.3s; }
+.truth.yes { background: #dff5e1; color: #1b6d2a; }
+.truth.no { background: #ffe1e4; color: #b3243a; }
+.pal-group.skinds .pal-row { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px 10px; }
+.pal-group.skinds .kind-btn { font-size: 18px; padding: 6px 10px; min-height: 46px; gap: 5px; }
+.pal-group.skinds .kind-btn .varchip { font-size: 15px; padding: 1px 6px; }
+.pal-group.skinds .kind-btn .pill.small { min-width: 26px; height: 24px; }

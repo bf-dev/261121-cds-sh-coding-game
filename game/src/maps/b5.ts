@@ -2,6 +2,7 @@ import { TILE, type GameMap, type NpcDef, type Prop, type Trigger } from "../eng
 import { mk, rect, frame, hash, dither, ellipse, text, block, type Ctx } from "../art/px";
 import { drawCrest } from "./grandhall-crest";
 import * as K from "./b5-kit";
+import { drawCrestIn } from "../art/logo";
 import { buildB5Study, buildB5CoCreation, buildB5Commons, liftDoors } from "./b5-upper";
 
 // Building 5, from buildings/b5/: the reward building north of CDS1.
@@ -879,7 +880,22 @@ function buildAmenity(): GameMap {
   rect(g, CX, CY, CW, 4, "#55575e");
   rect(g, CX, CY + 74, CW, 6, "#17181a");
   K.wall(g, CX, CFACE, CW, CFH, "#e6e2d8", "#f4f1e9", "#b3aea2");
-  K.muralSkyline(g, CX + 16, CFACE + 12, 7 * T - 24, CFH - 30, false);
+  K.muralSkyline(g, CX + 16, CFACE + 12, 5 * T - 28, CFH - 30, false);
+  // strand-board panel with the crest pressed into it, straight left of the auditorium doors
+  // (video 103514, 0:20 to 0:26: crest panel, then the glass doors, then the wayfinding pier)
+  const ox = CX + 5 * T;
+  const ow = 2 * T + 12;
+  rect(g, ox, CFACE + 4, ow, CFH - 8, "#c79a5c");
+  for (let j = 0; j < CFH - 8; j += 3)
+    for (let i = 0; i < ow; i += 4) {
+      const hv = hash(i, j, 311);
+      if (hv < 0.55) rect(g, ox + i, CFACE + 4 + j, 3 + Math.floor(hash(i, j, 312) * 5), 2, hv < 0.2 ? "#a97c44" : hv < 0.4 ? "#d8b072" : "#b98a4e");
+    }
+  rect(g, ox, CFACE + 4, 3, CFH - 8, "#8f6a3a");
+  rect(g, ox + ow - 3, CFACE + 4, 3, CFH - 8, "#8f6a3a");
+  drawCrestIn(g, ox + 14, CFACE + 22, ow - 28, CFH - 60, "#7a5528");
+  rect(g, ox + 10, CFACE + CFH - 30, 26, 12, "#1d7a3a");
+  rect(g, ox + 14, CFACE + CFH - 27, 8, 6, "#d9f5e0");
   // the small performance hall behind glass: white chairs with olive seats facing a dark wall
   // with one huge black circle, under a red-orange slatted ceiling
   const kx = CX + 7 * T + 16;
@@ -932,11 +948,11 @@ function buildAmenity(): GameMap {
   block(solid, COLS, 17, 20, 1, 1);
   const hm = hammock();
   K.place(st, hm, 15 * T + 20, 17 * T - 12, true);
-  K.place(st, hm, 18 * T + 40, 17 * T - 12, true);
+  K.place(st, hm, 17 * T + 52, 17 * T - 12, true);
   block(solid, COLS, 14, 16, 1, 1);
   block(solid, COLS, 16, 16, 2, 1);
   block(solid, COLS, 19, 16, 1, 1);
-  const net = ropeNet(6 * T + 40, 84);
+  const net = ropeNet(5 * T - 8, 84);
   props.push({ sprite: net, x: CX - 4, y: CFACE - 40, sortY: 99999 });
   K.place(st, K.plant(120), 20 * T + 34, 16 * T - 4, true);
   block(solid, COLS, 20, 15, 1, 1);
@@ -1071,6 +1087,7 @@ function buildAmenity(): GameMap {
   triggers.push({ id: "gym", tx: 28, ty: 5, w: 5, h: 1, en: "Gym: train", zh: "健身房：锻炼", action: { type: "powerup", kind: "gym" } });
   triggers.push({ id: "lift", tx: 3, ty: 14, w: 2, h: 1, en: "Lift", zh: "电梯", action: { type: "lift", building: "b5" } });
   info("auditorium", 22, 15, 5, 1, "Auditorium", "小剧场", "The small performance hall: a long narrow room behind glass, rows of white chairs with olive-green seats facing a dark wall with one huge black circle cut into it.");
+  info("crest-panel", 19, 15, 2, 1, "Crest panel", "校徽木板", "A wall of pressed strand board with the HKU crest stamped into it, shield, lion and open book, and Sapientia et Virtus on the ribbon. The glass doors of the auditorium are straight beside it.");
   info("music", 6, 14, 5, 1, "Music wing", "音乐区", "The directory lists the piano room, music room 2 and the multipurpose room. One oak door carries a Closed note.");
   info("piano", 7, 6, 3, 1, "Grand piano and mural", "三角钢琴与壁画", "A glossy black concert grand stands at the top of the stair, in front of a pop-art mural of the Shanghai skyline. Look for the little HKU gate with 1911 painted into it.");
   info("wayfinding", 4, 3, 1, 1, "Wayfinding", "指示牌", "Stencilled on the wall: Men's Showers 男淋浴间, Music Room 1 音乐室1, Dance Room 舞蹈室, and Toilet 洗手间 to the right.");

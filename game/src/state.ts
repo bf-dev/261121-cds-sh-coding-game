@@ -54,6 +54,9 @@ export function loadProgress(): Progress | null {
     const p: Progress = { ...freshProgress(), ...JSON.parse(raw) };
     // older saves had fixed loop blocks; the repeat block is now one block with free numbers
     p.fns = p.fns.filter((f) => f !== "for2" && f !== "for3" && f !== "halve");
+    // the function blocks moved: round() comes from 1/F and if from 2/F
+    if (p.cleared >= 1 && !p.fns.includes("round")) p.fns.push("round");
+    if (p.cleared < 2) p.fns = p.fns.filter((f) => f !== "ifgt");
     return p;
   } catch {
     return null;
@@ -77,7 +80,9 @@ export function clearProgress(): void {
 }
 
 // HP is kept low so a match is 2 to 4 rounds. The first floors are easy on purpose.
-export const playerMaxHp = (p: Progress): number => 30 + 8 * p.cleared;
+/** every campus detail you find is worth 1 HP, up to 20: knowing the campus helps in the battles */
+export const campusBonus = (p: Progress): number => Math.min(20, p.found.length);
+export const playerMaxHp = (p: Progress): number => 30 + 8 * p.cleared + campusBonus(p);
 const ENEMY_HP = [14, 18, 24, 44, 50, 56, 80, 86, 92, 100, 106, 112, 122, 130];
 export const enemyHp = (floor: number): number => ENEMY_HP[Math.max(1, Math.min(14, floor)) - 1];
 export const BOSS_HP = 140;
@@ -105,7 +110,7 @@ export function progressAtFloor(cleared: number): Progress {
   const p = freshProgress();
   for (let f = 1; f <= cleared; f++) applyReward(p, f);
   if (cleared >= 3) p.power = { redbull: Math.max(1, p.power.redbull), gym: 1, food: 1 };
-  if (cleared >= 6) p.fns.push("ifge");
+  if (cleared >= 6 && !p.fns.includes("ifge")) p.fns.push("ifge");
   p.studied = cleared >= 10 ? 2 : cleared >= 6 ? 1 : 0;
   p.seen = ["ATTACK", "HEAL", "number", ...p.ops, ...p.fns, "redbull", "gym", "food", ...(p.brackets ? ["brackets"] : [])];
   return p;

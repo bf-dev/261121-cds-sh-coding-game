@@ -2,7 +2,7 @@
 // Plan from the 6/F walk (105838 and 110022 videos): lift lobby and lounge at one end, a corridor that
 // runs past the glass rooms on the window side with the timber-clad core on the other side, then the
 // big teamwork space at the far end, with classroom 611 behind a timber wall off that space.
-import { rect, text, rng } from "../art/px";
+import { mk, rect, text, rng } from "../art/px";
 import { Floor, T, WALL_PX, FACE, carpet, vinyl, timberFloor, sunPatch, rug } from "./cds1-kit";
 import { wall, liftLobby, door, panel, exitLamp, bigLetters, roomSign } from "./cds1-wall";
 import { drawCrestIn } from "../art/logo";
@@ -133,6 +133,16 @@ export function buildClassFloor(c: ClassCfg): Floor {
     f.put(beanbag(), 4, 13, 1, 1, 10, 0);
     f.put(beanbag("#e4e9f1"), 2, 15, 1);
     f.put(tableSet("#d9dcdf", ["#3f6fb8", "#8a9096"]), 6, 16, 2);
+    // the dark red curtain with giant HKU letters, at the windows on the far side from the lift hall (105742 0:09 to 0:14)
+    const [cur, cg] = mk(3 * T, 150);
+    for (let i = 0; i < 3 * T; i += 8) {
+      rect(cg, i, 0, 8, 146, i % 16 ? "#7e2620" : "#8f2d26");
+      rect(cg, i, 0, 1, 146, "#5d1915");
+    }
+    rect(cg, 0, 0, 3 * T, 6, "#3a3d42");
+    rect(cg, 0, 146, 3 * T, 4, "rgba(20,24,40,0.25)");
+    bigLetters(cg, 10, 30, "HKU", 78, "#1c1012");
+    f.put(cur, 3, 20, 3);
   } else {
     rug(g, 1.5 * T, 12 * T + 20, 4.5 * T, 2.6 * T, "#8f8a80");
     f.put(sofa(), 2, 13, 3);
@@ -148,10 +158,11 @@ export function buildClassFloor(c: ClassCfg): Floor {
   // the walk-in room
   if (!room) {
     // 2/F: the kitchen commons runs straight through under the core, long pale wood tables and beanbags
-    for (let k = 0; k < 3; k++) f.put(counter(4, "#e3cfa8", "#cdb58a", "#3f6fb8"), 12 + (k % 2) * 5, 13 + k * 3, 4);
-    f.put(beanbag(), 18, 19, 1);
-    f.put(beanbag("#e4e9f1"), 20, 17, 1);
-    f.put(fridge(), 11, 11, 1);
+    // small white tables with teal and white shell chairs, as filmed (105742 0:11 to 0:17)
+    const teal = [["#2f8f8a", "#f4f3ef", "#2f8f8a"], ["#f4f3ef", "#2f8f8a", "#f4f3ef"]];
+    for (const [k, tx, ty] of [[0, 12, 13], [1, 16, 14], [1, 13, 17], [0, 17, 18], [0, 19, 12]] as [number, number, number][]) f.put(tableSet("#f4f3ef", teal[k]), tx, ty, 2);
+    f.put(beanbag(), 15, 20, 1);
+    f.put(beanbag("#e4e9f1"), 20, 16, 1);
   } else if (lab) {
     for (let row = 0; row < 3; row++) for (let k = 0; k < 3; k++) f.put(labBench(row * 3 + k + c.floor), 12 + k * 3, 13 + row * 3, 2);
     f.put(serverRack(), 20, 19, 1);
@@ -166,7 +177,12 @@ export function buildClassFloor(c: ClassCfg): Floor {
 
   // the big space at the end of the corridor
   f.put(column(), 23, 17, 1);
-  f.put(bleachers(7, 3), 26, 20, 7, 3);
+  if (c.variant === "commons") {
+    // 2/F study commons: grey sofas by the windows instead of bleachers (105742 0:41 to 0:44)
+    f.put(sofa("#8a8f96"), 26, 19, 3);
+    f.put(sofa("#6f757d"), 30, 19, 3);
+    f.put(pouf("#d9a23c"), 29, 20, 0, 1, 8, -6);
+  } else f.put(bleachers(7, 3), 26, 20, 7, 3);
   if (lab) {
     for (let row = 0; row < 2; row++) for (let k = 0; k < 2; k++) f.put(labBench(row * 2 + k + 20), 25 + k * 4, 10 + row * 4, 2);
     for (let k = 0; k < 3; k++) f.put(serverRack(), 30 + k, 7, 1);
@@ -202,7 +218,12 @@ export function buildClassFloor(c: ClassCfg): Floor {
     f.info("class611", 13, 11, 6, 1, "Classroom 611", "教室 611", "Long continuous white tables in rows, shell chairs in red and green, and white louvre blinds that are always closed, so the room reads as a white box.");
   } else {
     const what = lab ? "research labs" : c.floor === 2 ? "lecture theatres 2A and 2B and a student lounge" : "teaching labs, classrooms and a student zone";
-    f.info("directory", 4, 8, 4, 1, `${name} directory`, `${c.floor} 层索引`, `The lift guide lists ${what} on this floor. The team did not film ${name}, so this layout follows the 6/F classroom floor.`);
+    const seen: Record<number, string> = {
+      2: " Filmed: the lift hall, lifts on both sides, opens onto a kitchen commons with a Coca-Cola fridge, white beanbag pods and a dark red curtain with giant HKU letters. A white corridor leads past a curved core to a study commons on blue carpet, long tables and grey sofas by the windows.",
+      5: " Filmed in passing: the lift hall ends at a bright window lounge, and past a curved white wall there is a teaching lab on blue carpet with pale green screens, high tables and a row of computers along the windows.",
+    };
+    f.info("directory", 4, 8, 4, 1, `${name} directory`, `${c.floor} 层索引`, `The lift guide lists ${what} on this floor.${seen[c.floor] ?? ` The team did not film ${name}, so this layout follows the 6/F classroom floor.`}`);
+    if (c.variant === "commons") f.info("curtain", 3, 19, 3, 1, "HKU curtain", "HKU 红幕", "A dark red curtain with giant HKU letters hangs by the windows of the kitchen commons, behind the white beanbag pods.");
   }
   return f;
 }

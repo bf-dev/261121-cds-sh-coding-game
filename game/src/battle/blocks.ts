@@ -43,10 +43,33 @@ function bool(cmp: string, n: number): HTMLElement {
   return h("span", { class: "bool" }, varChip(), h("span", { class: "sym" }, cmp), pill(n));
 }
 
-/** a function shield as a C-shaped control block */
+/** a built-in function call, drawn as a purple bubble: len( numbers ) */
+function fnCall(name: string, ...args: (Node | string)[]): HTMLElement {
+  return h("span", { class: "opnode fn", "data-part": "head" }, h("span", { class: "sym" }, name), ...args);
+}
+
+const numsChip = () => h("span", { class: "varchip" }, "numbers");
+const tens = (n: number) => pill(Number.isFinite(n) ? n * 10 : NaN);
+
+/** a function shield as a C-shaped control block (or one stack block for a function call) */
 export function shieldBlock(s: Shield): HTMLElement {
   const body = (el: HTMLElement) => h("div", { class: "cblk-body" }, el);
   const c = h("div", { class: "cblk", "data-kind": s.kind });
+  const line = (...kids: (Node | string)[]) => {
+    c.classList.add("flat");
+    c.append(h("div", { class: "blk stack var", "data-part": "body" }, ...kids));
+    return c;
+  };
+  switch (s.kind) {
+    case "round":
+      return line("set ", varChip(), " to ", fnCall("round", varChip(), h("span", { class: "sym" }, "÷"), pill(2)));
+    case "len":
+      return line("change ", varChip(), " by −", fnCall("len", numsChip()), h("span", { class: "sym" }, "×"), pill(s.a));
+    case "sorted":
+      return line("change ", varChip(), " by − middle of ", fnCall("sorted", tens(s.a), tens(s.b), tens(s.c ?? NaN)));
+    case "filter":
+      return line("change ", varChip(), " by − sum of ", fnCall("filter", numsChip(), h("span", { class: "sym" }, ">"), pill(s.a)));
+  }
   const head = (...kids: (Node | string)[]) => h("div", { class: "cblk-head", "data-part": "head" }, ...kids);
   switch (s.kind) {
     case "for1":
@@ -71,6 +94,8 @@ export function shieldBlock(s: Shield): HTMLElement {
       break;
     case "while":
       c.append(head("repeat while ", bool(">", s.a * 10)), body(change(s.b, "body")));
+      break;
+    default:
       break;
   }
   c.append(h("div", { class: "cblk-foot" }));
@@ -116,6 +141,10 @@ export function cardPicture(id: string): HTMLElement {
     iflt: () => shieldBlock({ kind: "iflt", a: 7, b: 0 }),
     ifelse: () => shieldBlock({ kind: "ifelse", a: 6, b: 8, c: 2 }),
     while: () => shieldBlock({ kind: "while", a: 2, b: 3 }),
+    round: () => shieldBlock({ kind: "round", a: 0, b: 0 }),
+    len: () => shieldBlock({ kind: "len", a: 4, b: 0 }),
+    sorted: () => shieldBlock({ kind: "sorted", a: 6, b: 2, c: 4 }),
+    filter: () => shieldBlock({ kind: "filter", a: 4, b: 0 }),
     redbull: () => powerBlock("redbull"),
     gym: () => powerBlock("gym"),
     food: () => powerBlock("food"),

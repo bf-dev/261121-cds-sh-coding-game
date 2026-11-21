@@ -114,7 +114,7 @@ export function bracketOptions(n: number): ([number, number] | undefined)[] {
 
 // ---------------------------------------------------------------- shields (functions, defence only)
 
-export type FnKind = "for1" | "for2" | "for3" | "ifgt" | "ifge" | "iflt" | "ifelse" | "while" | "halve";
+export type FnKind = "for1" | "for2" | "for3" | "ifgt" | "ifge" | "iflt" | "ifelse" | "while" | "halve" | "round" | "len" | "sorted" | "filter";
 
 export interface Shield {
   kind: FnKind;
@@ -128,15 +128,24 @@ export interface TraceStep {
   part: "head" | "body" | "else" | "done";
   text: string;
   damage: number;
+  /** the answer of a test, shown as a true / false tag on the block */
+  truth?: boolean;
+}
+
+/** Python's round(): a value exactly in the middle goes to the even neighbour (2.5 -> 2, 3.5 -> 4) */
+export function pyRound(v: number): number {
+  const f = Math.floor(v);
+  if (Math.abs(v - f - 0.5) < 1e-9) return f % 2 === 0 ? f : f + 1;
+  return Math.round(v);
 }
 
 const down = (d: number, k: number) => Math.max(0, d - k);
 
 /** Run a shield on incoming damage. The trace drives the step-by-step animation. */
-export function runShield(s: Shield, incoming: number): { trace: TraceStep[]; final: number } {
+export function runShield(s: Shield, incoming: number, numbers: number[] = []): { trace: TraceStep[]; final: number } {
   let d = incoming;
   const trace: TraceStep[] = [];
-  const push = (part: TraceStep["part"], text: string) => trace.push({ part, text, damage: d });
+  const push = (part: TraceStep["part"], text: string, truth?: boolean) => trace.push({ part, text, damage: d, truth });
   switch (s.kind) {
     case "for1":
     case "for2":
@@ -157,7 +166,7 @@ export function runShield(s: Shield, incoming: number): { trace: TraceStep[]; fi
     case "ifgt":
     case "ifge": {
       const yes = s.kind === "ifgt" ? d > s.a : d >= s.a;
-      push("head", `is ${fmt(d)} ${s.kind === "ifgt" ? ">" : "≥"} ${s.a}? ${yes ? "Yes" : "No, skip the inside"}`);
+      push("head", `is ${fmt(d)} ${s.kind === "ifgt" ? ">" : "≥"} ${s.a}? ${yes ? "True: run the inside" : "False: skip the inside"}`, yes);
       if (yes) {
         const before = d;
         d = down(d, s.b);
@@ -167,7 +176,7 @@ export function runShield(s: Shield, incoming: number): { trace: TraceStep[]; fi
     }
     case "iflt": {
       const yes = d < s.a;
-      push("head", `is ${fmt(d)} < ${s.a}? ${yes ? "Yes" : "No, skip the inside"}`);
+      push("head", `is ${fmt(d)} < ${s.a}? ${yes ? "True: run the inside" : "False: skip the inside"}`, yes);
       if (yes) {
         d = 0;
         push("body", `damage is set to 0`);
@@ -176,7 +185,7 @@ export function runShield(s: Shield, incoming: number): { trace: TraceStep[]; fi
     }
     case "ifelse": {
       const yes = d > s.a;
-      push("head", `is ${fmt(d)} > ${s.a}? ${yes ? "Yes: run the first part" : "No: run the else part"}`);
+      push("head", `is ${fmt(d)} > ${s.a}? ${yes ? "True: run the first part" : "False: run the else part"}`, yes);
       const before = d;
       d = down(d, yes ? s.b : s.c ?? 0);
       push(yes ? "body" : "else", `damage ${fmt(before)} - ${yes ? s.b : s.c ?? 0} = ${fmt(d)}`);
@@ -189,9 +198,48 @@ export function runShield(s: Shield, incoming: number): { trace: TraceStep[]; fi
       while (d > limit && guard++ < 200) {
         const before = d;
         d = down(d, s.b);
-        push("body", `${fmt(before)} > ${limit}, so damage ${fmt(before)} - ${s.b} = ${fmt(d)}`);
+        push("body", `${fmt(before)} > ${limit} is true, so damage ${fmt(before)} - ${s.b} = ${fmt(d)}`, true);
       }
-      push("head", `is ${fmt(d)} > ${limit}? No, the loop stops`);
+      push("head", `is ${fmt(d)} > ${limit}? False: the loop stops`, false);
+      break;
+    }
+    case "round": {
+      const before = d;
+      const half = d / 2;
+      d = half;
+      push("body", `damage ${fmt(before)} ÷ 2 = ${fmt(half)}`);
+      const r = pyRound(half);
+      if (r !== half) {
+        d = r;
+        push("body", `round(${fmt(half)}) = ${r}${Math.abs(half - Math.floor(half) - 0.5) < 1e-9 ? ": exactly in the middle, so Python picks the even number" : ""}`);
+      }
+      break;
+    }
+    case "len": {
+      const n = Math.max(1, numbers.length);
+      push("head", `len(numbers): the attack is made of ${n} number block${n > 1 ? "s" : ""}`);
+      const before = d;
+      d = down(d, n * s.a);
+      push("body", `damage ${fmt(before)} - ${n} × ${s.a} = ${fmt(d)}`);
+      break;
+    }
+    case "sorted": {
+      const list = [s.a, s.b, s.c ?? 0].map((v) => v * 10);
+      const inOrder = list.slice().sort((x, y) => x - y);
+      push("head", `sorted([${list.join(", ")}]) = [${inOrder.join(", ")}]`);
+      const before = d;
+      d = down(d, inOrder[1]);
+      push("body", `the middle one is ${inOrder[1]}: damage ${fmt(before)} - ${inOrder[1]} = ${fmt(d)}`);
+      break;
+    }
+    case "filter": {
+      const picks = numbers.filter((n) => n > s.a);
+      push("head", picks.length ? `filter: the number blocks bigger than ${s.a} in the attack are ${picks.join(", ")}` : `filter: no number block in the attack is bigger than ${s.a}`, picks.length > 0);
+      if (picks.length) {
+        const before = d;
+        d = down(d, picks.reduce((x, y) => x + y, 0));
+        push("body", `damage ${fmt(before)} - ${picks.join(" - ")} = ${fmt(d)}`);
+      }
       break;
     }
   }
@@ -221,6 +269,14 @@ export function shieldPython(s: Shield): string[] {
       return [`if damage > ${s.a}:`, `    damage -= ${s.b}`, `else:`, `    damage -= ${s.c ?? 0}`];
     case "while":
       return [`while damage > ${whileLimit(s)}:`, `    damage -= ${s.b}`];
+    case "round":
+      return [`damage = round(damage / 2)`];
+    case "len":
+      return [`damage -= len(numbers) * ${s.a}`];
+    case "sorted":
+      return [`damage -= sorted([${s.a * 10}, ${s.b * 10}, ${(s.c ?? 0) * 10}])[1]`];
+    case "filter":
+      return [`big = filter(lambda n: n > ${s.a}, numbers)`, `damage -= sum(big)`];
   }
 }
 
@@ -243,6 +299,14 @@ export function shieldText(s: Shield): string {
       return `if damage > ${s.a}: - ${s.b}, else: - ${s.c ?? 0}`;
     case "while":
       return `while damage > ${whileLimit(s)}: damage - ${s.b}`;
+    case "round":
+      return `damage = round(damage / 2)`;
+    case "len":
+      return `damage - len(numbers) × ${s.a}`;
+    case "sorted":
+      return `damage - middle of sorted([${s.a * 10}, ${s.b * 10}, ${(s.c ?? 0) * 10}])`;
+    case "filter":
+      return `damage - sum(numbers > ${s.a})`;
   }
 }
 
@@ -263,11 +327,16 @@ export const SHIELD_SLOTS: Record<FnKind, ("a" | "b" | "c")[]> = {
   iflt: ["a"],
   ifelse: ["a", "b", "c"],
   while: ["a", "b"],
+  round: [],
+  len: ["a"],
+  sorted: ["a", "b", "c"],
+  filter: ["a"],
 };
 
 /** a block with every number still empty (NaN = an empty slot) */
 export function emptyShield(kind: FnKind): Shield {
-  return { kind, a: NaN, b: NaN, c: kind === "ifelse" ? NaN : undefined };
+  const slots = SHIELD_SLOTS[kind];
+  return { kind, a: slots.includes("a") ? NaN : 0, b: slots.includes("b") ? NaN : 0, c: slots.includes("c") ? NaN : undefined };
 }
 
 export function shieldReady(s: Shield): boolean {
@@ -303,6 +372,14 @@ export function rollShield(kind: FnKind, r: Rnd, level = 0.5): Shield {
       const lo = 6 - Math.round(3 * level);
       return { kind, a: ri(r, lo, lo + 2), b: ri(r, 3, 6) };
     }
+    case "round":
+      return { kind, a: 0, b: 0 };
+    case "len":
+      return { kind, a: ri(r, 2, hi(3, 6)), b: 0 };
+    case "sorted":
+      return { kind, a: ri(r, 1, hi(4, 7)), b: ri(r, 1, hi(4, 7)), c: ri(r, 1, hi(4, 7)) };
+    case "filter":
+      return { kind, a: ri(r, 2, 5), b: 0 };
   }
 }
 
@@ -449,5 +526,13 @@ export function explainShield(s: Shield, incoming: number, final: number): strin
       return `if / else always runs one of its two parts. This time it blocked ${off}.`;
     case "while":
       return off > 0 ? `My while loop kept going until damage was ${whileLimit(s)} or less.` : `${incoming} was not more than ${whileLimit(s)}, so my while loop never ran.`;
+    case "round":
+      return `round() halved your ${incoming} and rounded it to a whole number: ${final}.`;
+    case "len":
+      return `len() counted the number blocks in your attack. More blocks, bigger shield: ${off} blocked.`;
+    case "sorted":
+      return `sorted() put my three numbers in order, and the middle one was blocked: ${off}.`;
+    case "filter":
+      return off > 0 ? `filter() picked your number blocks bigger than ${s.a} and took them off: ${off} blocked.` : `None of your number blocks was bigger than ${s.a}, so my filter found nothing. Well aimed!`;
   }
 }
