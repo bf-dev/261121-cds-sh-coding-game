@@ -28,9 +28,9 @@ Raw material. Files here are kept as they were captured. Interpretations go in `
 | `videos/2026-11-21-koki/110022-cds1-6f-teamwork-space-611.mp4` (42 s) | CDS1 6/F teamwork space, circular banquette, bleacher steps, classroom 611 |
 | `videos/2026-11-21-koki/110510-outside-cds1-entrance-b5-lockers-gate.mp4` (206 s) | Exterior: CDS1 entrance, monument sign, sunken circular court, twin towers, B5 pylon, lockers, gate. Narrated with orientation |
 | `videos/2026-11-21-koki/111133-cds1-13f.mp4` (158 s) | CDS1 13/F: lift lobby, lounge, pantry, booth pods, gym 1354, curved corridors. Narrated |
-| `videos/2026-11-21-koki/111812-IMG_5283.mp4` (124 s) | not catalogued yet, see `buildings/` |
+| `videos/2026-11-21-koki/111812-cds1-14f.mp4` (124 s) | CDS1 14/F: lift lobby, crest doors, corridors, wall directory, lounge with timber reception and giant CDS letters, HKU history drums, LED event area with step seating, timber terrace |
 | `photos/2026-11-21-koki/110222-cds1-14f-lift-crest.jpg` | lift glass with etched HKU crest, "14 / B3" |
-| `photos/2026-11-21-koki/110803-taobao-lockers.jpg`, `110809-meituan-lockers.jpg` | the two locker walls; road sign 银冬路 Yindong Rd / 集电路 |
+| `photos/2026-11-21-koki/110803-meituan-lockers.jpg` (yellow, 美团外卖柜), `110809-taobao-lockers.jpg` (orange, with the blue road sign 银冬路 Yindong Rd / 集电路) | the two locker walls |
 
 ## Insung's walkthrough
 

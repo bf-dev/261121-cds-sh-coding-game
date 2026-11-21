@@ -6,9 +6,9 @@ Footage: Aretha, 2026-11-21, three clips.
 
 | clip | time | length | gap after |
 | --- | --- | --- | --- |
-| `104650-aretha-8DB5.mp4` | 10:46:50 | 45.7 s | 3 min 52 s unfilmed |
-| `105128-aretha-C7EB.mp4` | 10:51:28 | 16.2 s | 3 min 07 s unfilmed |
-| `105451-aretha-FF14.mp4` | 10:54:51 | 11.5 s | 36 s to the CDS1 lobby |
+| `104650-dining-cluster-stair-fine-dining.mp4` | 10:46:50 | 45.7 s | 3 min 52 s unfilmed |
+| `105128-dining-cluster-crest-foyer-canteen.mp4` | 10:51:28 | 16.2 s | 3 min 07 s unfilmed |
+| `105451-labs-reception.mp4` | 10:54:51 | 11.5 s | 36 s to the CDS1 lobby |
 
 Only 73 seconds of the 8 minutes is on film. The gaps are where the building identity would have been visible, so the cluster is one continuous *impression*, not one continuous *shot*.
 
@@ -216,11 +216,11 @@ CLUSTER, as walked (not to scale)
 
 ## Image index
 
-All frames are 1280x720 stills from the 720p source. Zooms are crops of those stills, upscaled, and are the best available read of the lettering. Offsets are seconds after the clip's start time: `8DB5` is `104650-aretha-8DB5.mp4`, `C7EB` is `105128-aretha-C7EB.mp4`, `FF14` is `105451-aretha-FF14.mp4`.
+All frames are 1280x720 stills from the 720p source. Zooms are crops of those stills, upscaled, and are the best available read of the lettering. Offsets are seconds after the clip's start time: `8DB5` is `104650-dining-cluster-stair-fine-dining.mp4`, `C7EB` is `105128-dining-cluster-crest-foyer-canteen.mp4`, `FF14` is `105451-labs-reception.mp4`.
 
 | file | what it shows | source |
 | --- | --- | --- |
-| scr-stair-foot-bulletin-rack-01.jpg | stair foot, walnut wall, two HKU BULLETIN racks, first steps and glass balustrade | 104650-aretha-8DB5.mp4, 10:46:50 + 0 s |
+| scr-stair-foot-bulletin-rack-01.jpg | stair foot, walnut wall, two HKU BULLETIN racks, first steps and glass balustrade | 104650-dining-cluster-stair-fine-dining.mp4, 10:46:50 + 0 s |
 | scr-switchback-stair-up-01.jpg | first flight from the foot, walnut treads, oak handrail, glass | 8DB5 + 2 s |
 | scr-switchback-stair-up-02.jpg | looking up the flight to the half-landing, black disc wall lights | 8DB5 + 7 s |
 | scr-stair-void-half-landing-01.jpg | half-landing, tall window over the stairwell void, return flight | 8DB5 + 14 s |
@@ -236,7 +236,7 @@ All frames are 1280x720 stills from the 720p source. Zooms are crops of those st
 | scr-private-dining-room-02.jpg | private room window: terrace rail, trees, red triangle sign | 8DB5 + 45 s |
 | sign-sr-plaque-zoom-01.jpg | SR monogram over three lines, pillar plate, 600 percent upscale | 8DB5 + 21.5 s, crop |
 | sign-private-dining-hung-hing-ying-zoom-01.jpg | room plaque: Chinese characters over HUNG HING YING | 8DB5 + 42.5 s, crop |
-| foyer-crest-shingle-wall-01.jpg | oak shingle wall with the metal HKU crest, green carpet band, ottomans | 105128-aretha-C7EB.mp4, 10:51:28 + 1 s |
+| foyer-crest-shingle-wall-01.jpg | oak shingle wall with the metal HKU crest, green carpet band, ottomans | 105128-dining-cluster-crest-foyer-canteen.mp4, 10:51:28 + 1 s |
 | foyer-crest-shingle-wall-02.jpg | wider crest wall, two stanchion posts, banner, event room to the right | C7EB + 4 s |
 | foyer-opening-banner-01.jpg | roll-up banner, corridor junction, event room with white chairs | C7EB + 7 s |
 | foyer-to-dining-area-01.jpg | opening into the Dining Area: dark oak floor, glazing, hedge, bin | C7EB + 10 s |
@@ -245,7 +245,7 @@ All frames are 1280x720 stills from the 720p source. Zooms are crops of those st
 | dining-area-high-tables-01.jpg | high tables and stools, dark oak floor, hedge and tree outside | C7EB + 12 s |
 | dining-area-canteen-01.jpg | canteen: rows of oak tables, rattan chairs, white folding tables | C7EB + 14 s |
 | dining-area-canteen-02.jpg | canteen from the far end, glazing to lawn, hedge and towers | C7EB + 15 s |
-| labs-reception-desk-01.jpg | curved AI LABS desk close, green letter discs, LED wall edge | 105451-aretha-FF14.mp4, 10:54:51 + 0.5 s |
+| labs-reception-desk-01.jpg | curved AI LABS desk close, green letter discs, LED wall edge | 105451-labs-reception.mp4, 10:54:51 + 0.5 s |
 | labs-reception-desk-02.jpg | desk face with discs, LED wall showing David Srolovitz | FF14 + 2 s |
 | labs-ai-labs-letters-zoom-01.jpg | A I, two blank discs, L A B, lettering detail | FF14 + 2 s, crop |
 | labs-reception-wide-01.jpg | lobby wide: LED wall, desk, fluted wall, gloss floor, plant | FF14 + 5 s |

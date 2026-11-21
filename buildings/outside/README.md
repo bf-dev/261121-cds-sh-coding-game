@@ -236,7 +236,7 @@ Sizes are estimates from the frames, given as a drawing guide, not measured. Hex
 - Signage verbatim: **美团外卖柜**, **美团**, **扫码 存取**, **淘宝闪购**.
 - Colours: Meituan yellow `#f2c230`, Meituan pelmet text `#b3261e`, locker white `#f2f1ec`, locker amber `#b0894f`, Taobao red `#c8102e`, Taobao banner white `#f6f2ee`, plinth concrete `#b9b7ad`.
 - Sources: `lockers-meituan-front-01.jpg`, `lockers-both-walls-01.jpg`, `lockers-taobao-side-01.jpg`, `lockers-meituan-bays-01.jpg`, `lockers-taobao-bays-01.jpg` (with the **银冬路** sign), `lockers-meituan-wide-01.jpg`, `lockers-meituan-pan-01.jpg`.
-- Note on the label swap: the brief called `IMG_5279.jpg` the Taobao wall and `IMG_5280.jpg` the Meituan wall. The files are the other way round. `lockers-meituan-bays-01.jpg` comes from IMG_5279 and shows Meituan; `lockers-taobao-bays-01.jpg` comes from IMG_5280 and shows Taobao plus the road sign.
+- The two locker photos were mislabelled at first and have been renamed: `110803-meituan-lockers.jpg` is the yellow Meituan wall, `110809-taobao-lockers.jpg` is the orange Taobao wall with the road sign.
 - Game: **MT = Meituan, food = health power-up** (p2 05:01 to 05:07, 24:46 to 25:07). Narration: "My Locker is on the east side of the CDS1 building". Two competing brands make a good choice point: yellow for food and health, white-red for a package or item drop.
 
 ---
@@ -271,7 +271,7 @@ Sampled and rounded from the stills. Use as a starting ramp, then push contrast 
 Video sources:
 
 - **W** = `resources/videos/2026-11-21-insung/IMG_3756-campus-walkthrough.mp4`, 4:36, portrait 1080x1920, timestamp in file time.
-- **K** = `/home/bfdev/workspace/tmp/fc8/mac/IMG_5281.mp4`, 3:26, 1920x1080, Koki's exterior walk, timestamp in file time. This file is not in the repo yet.
+- **K** = `resources/videos/2026-11-21-koki/110510-outside-cds1-entrance-b5-lockers-gate.mp4`, 3:26, 1920x1080, Koki's exterior walk, timestamp in file time.
 - **A** = `resources/videos/2026-11-21-map-album/102908-meituan-lockers.mp4`, 7.5 s, 1280x720.
 - Photos and web files as listed.
 
@@ -319,8 +319,8 @@ Video sources:
 | lockers-both-walls-01.jpg | Meituan and Taobao walls side by side from the road | K @ 2:54 |
 | lockers-taobao-side-01.jpg | Taobao wall from an angle, gate and road beyond | K @ 3:02 |
 | plaza-pergola-yellow-lines-01.jpg | plaza with double yellow lines, long colonnade and grey towers | K @ 3:25 |
-| lockers-meituan-bays-01.jpg | Meituan wall, 4 bays, crisp brand band, doors numbered to 125 | photo `IMG_5279.jpg` (Koki) |
-| lockers-taobao-bays-01.jpg | Taobao wall with the blue 银冬路 / 集电路 sign, bikes, planters | photo `IMG_5280.jpg` (Koki) |
+| lockers-meituan-bays-01.jpg | Meituan wall, 4 bays, crisp brand band, doors numbered to 125 | photo `110803-meituan-lockers.jpg` (Koki) |
+| lockers-taobao-bays-01.jpg | Taobao wall with the blue 银冬路 / 集电路 sign, bikes, planters | photo `110809-taobao-lockers.jpg` (Koki) |
 | lockers-meituan-wide-01.jpg | Meituan wall, 6 bays, frontal, trees behind, Taobao edge at right | photo `resources/photos/2026-11-21-map-album/102910-meituan-lockers-1.jpg` |
 | lockers-meituan-pan-01.jpg | both locker walls across the asphalt apron, wide pan | A @ 0:03 |
 | web-aerial-night-01.jpg | night aerial of the block, towers and podium courts, road corner | https://www.sohu.com/a/945826602_121124027 |
