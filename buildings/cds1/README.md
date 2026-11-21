@@ -115,6 +115,7 @@ The University of Hong Kong
 - Furniture: a big round light-timber table with chairs, white round cafe tables, cafe chairs in red, white and blue, tall tables with red bar stools, a long white bench along the wall.
 - A bank of glass-front drink fridges (Coca-Cola and vending), a water dispenser, a white counter with a sink.
 - Windows onto greenery. Seen.
+- The cafe is before the security line: you walk into it from the entrance lobby without passing the turnstiles (Insung, 2026-11-21, in person).
 
 ### lecture theatre
 

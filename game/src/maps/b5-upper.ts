@@ -631,7 +631,7 @@ export function buildB5Study(): GameMap {
 
   const npcs: NpcDef[] = [
     { id: "b5-3-reader", char: "visitor2", tx: 8, ty: 13, dir: "down", name: "Student", nameZh: "同学" },
-    { id: "b5-3-student", char: "visitor4", tx: 26, ty: 8, dir: "up", name: "Student", nameZh: "同学" },
+    { id: "b5-3-student", char: "visitor3", tx: 26, ty: 8, dir: "up", name: "Student", nameZh: "同学" },
   ];
   return {
     id: "b5-3",

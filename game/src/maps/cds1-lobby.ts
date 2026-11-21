@@ -7,6 +7,9 @@
 // core to the round cafe (ring of screens overhead, windows ahead, fridges and a coffee machine on
 // the lift-core side, a counter, orange high stools) and the door of lecture theatre 1A is in the
 // cafe's timber wall, twin bins beside it.
+// The cafe is before the security line (Insung, 2026-11-21, in person): it opens straight onto the
+// entrance lobby, six tiles wide, and the wall on its east side closes it off from the lift hall.
+// Every lane of the security line is open and walkable.
 import { mk, rect, ellipse, shade, text, hash } from "../art/px";
 import { Floor, T, WALL_PX, stoneFloor, cafeFloor, ao, sunPatch } from "./cds1-kit";
 import { wall, liftDoors, door, screen, panel, exitLamp, crest } from "./cds1-wall";
@@ -140,16 +143,17 @@ export function buildLobby(): Floor {
   f.put(tableSet("#f4f3ef", ["#c8443a", "#c8443a", "#c8443a", "#c8443a"]), 1, 5, 2);
   f.put(tableSet("#f4f3ef", ["#e2672e", "#e2672e", "#f4f3ef", "#3f6fb8"]), 4, 8, 2);
 
-  // ---- the wall across the lobby, west to east: timetable screen on timber, the gap to the cafe,
-  // fluted white, the stone portal with the gates, stone, then the disc wall over the timber steps
-  const screenWall = partition(4, (pg, W) => {
-    for (let i = 0; i < W; i += 32) {
+  // ---- the wall across the lobby, west to east: the cafe is open to the lobby (no wall in front of
+  // it), then the timetable screen on timber, fluted white, the stone portal with the gates, stone,
+  // then the disc wall over the timber steps
+  const left = partition(13, (pg, W) => {
+    for (let i = 0; i < 4 * T; i += 32) {
       rect(pg, i, 24, 32, 152, shade("#C9A879", (hash(i, 3, 51) - 0.5) * 0.12));
       rect(pg, i, 24, 1, 152, shade("#C9A879", -0.2));
     }
-    timetable(pg, 12, 40, W - 24, 112);
+    timetable(pg, 12, 40, 4 * T - 24, 112);
+    stone(pg, W - 3 * T, 24, 3 * T, 152);
   });
-  const left = partition(13, (pg, W) => stone(pg, W - 3 * T, 24, 3 * T, 152));
   const right = partition(8, (pg) => {
     stone(pg, 0, 24, 2 * T, 152);
     rect(pg, 2 * T + 8, 36, 6 * T - 16, 112, "#f4efe2");
@@ -160,7 +164,6 @@ export function buildLobby(): Floor {
         ellipse(pg, 2 * T + 24 + i * 28, 59 + r * 32, 10, 10, col);
       }
   });
-  f.put(screenWall, 1, 11, 4, 1, 0, 0, true);
   f.put(left, 7, 11, 13, 1, 0, 0, true);
   f.put(right, 25, 11, 8, 1, 0, 0, true);
   const [lintel, lg] = mk(5 * T, 84);
@@ -172,11 +175,11 @@ export function buildLobby(): Floor {
   text(lg, "The University of Hong Kong", 62, 52, 11, "#1f1f1f", { bold: false });
   rect(lg, 0, 80, 5 * T, 4, "#8d9092");
   f.props.push({ sprite: lintel, x: 20 * T, y: 12 * T - 184, sortY: 12 * T + 4 });
-  for (let i = 0; i < 5; i++) f.put(turnstile(i === 2), 20 + i, 11, i === 2 ? 0 : 1);
-  ao(g, T, 12 * T, 4 * T, 12);
+  // every lane is open: flaps drawn open, all five tiles walkable
+  for (let i = 0; i < 5; i++) f.put(turnstile(true), 20 + i, 11, 0);
   ao(g, 7 * T, 12 * T, 13 * T, 12);
   ao(g, 25 * T, 12 * T, 8 * T, 12);
-  // the sign stand at the mouth of the cafe corridor
+  // the sign stand at the mouth of the cafe
   const [stand, sg] = mk(40, 96);
   rect(sg, 18, 40, 4, 48, "#2a2c30");
   ellipse(sg, 20, 90, 14, 4, "#2a2c30");
@@ -184,7 +187,7 @@ export function buildLobby(): Floor {
   rect(sg, 5, 11, 30, 28, "#3f8fd0");
   rect(sg, 8, 16, 20, 2, "#ffffff");
   rect(sg, 8, 22, 24, 2, "#d6e8f8");
-  f.put(stand, 7, 12, 0, 1, 12, 0);
+  f.put(stand, 6, 12, 0, 1, 12, 0);
 
   // ---- lift hall: long white benches, plants
   for (const bx of [11, 27]) {
@@ -227,17 +230,19 @@ export function buildLobby(): Floor {
   f.triggers.push({ id: "fridge", tx: 5, ty: 3, w: 3, h: 2, en: "Drink fridge", zh: "饮料柜", action: { type: "powerup", kind: "redbull" } });
   f.spawns.door = { tx: 22, ty: 19, dir: "up" };
   f.triggers.push({ id: "exit", tx: 21, ty: 21, w: 3, h: 1, en: "Exit to campus", zh: "出口", auto: true, action: { type: "goto", map: "outside", spawn: "cds1-door" } });
-  f.prof(1, 24, 14);
+  // Dr. Dougherty waits beyond the gates at the far end of the lift hall; the lab is lecture theatre 1A, off the cafe
+  f.prof(1, 30, 9);
+  f.lab(2, 2, 3, 2, 3.7);
   f.npc("guard", "guard", 18, 13, "down", "Security guard", "保安");
   f.npc("visitor-a", "visitor1", 24, 18, "right", "Visitor", "访客");
   f.npc("visitor-b", "visitor2", 4, 6, "down", "Student", "学生");
   f.info("guide", 17, 3, 3, 1, "Floor guide", "楼层指南", "The panel just inside the gates lists the tower: lecture theatres on 1 to 3, classrooms and teaching labs up to 7, research labs on 9 and 10, professors on 11 and 13, the director and the exhibition lounge on 14. The screen inside each lift car shows the floor and a poster: BUILDING 5 & SPORTS COURT ARE NOW OPEN, 7 days a week, 08:00 to 22:00.");
   f.info("ledwall", 20, 3, 5, 1, "LED wall", "电梯厅大屏", "The lift hall runs straight from the gates to a floor-to-ceiling LED wall that plays HKU films, with four lifts on each side of the hall.");
-  f.info("timetable", 1, 12, 4, 1, "LED timetable", "电子课表", "A wall-sized screen on the timber wall left of the gates shows the Semester 1, 2026 exam timetable: course, venue, date and time.");
+  f.info("timetable", 7, 12, 4, 1, "LED timetable", "电子课表", "A wall-sized screen on the timber wall left of the gates shows the Semester 1, 2026 exam timetable: course, venue, date and time.");
   f.info("turnstiles", 19, 12, 7, 1, "Security line", "闸机", "Five stainless turnstiles sit in a doorway cut into the tan stone wall, under the school name. Each one has a face-recognition terminal at chest height.");
-  f.info("cafe", 3, 7, 3, 1, "Cafe commons", "咖啡共享区", "A round room under a ring of screens, reached by the corridor beside the lift core. The white floor is scattered with red diamond tiles like confetti. Lecture theatre 1A opens off it.");
+  f.info("cafe", 3, 7, 3, 1, "Cafe commons", "咖啡共享区", "A round room under a ring of screens, open to the entrance lobby: you reach it before the security line. The white floor is scattered with red diamond tiles like confetti. Lecture theatre 1A opens off it.");
   f.info("steps", 27, 13, 6, 1, "Timber steps", "木阶梯", "Timber sitting steps under a wall of blue and cream discs, with the round banquette in front. The first thing you see to the right of the revolving door.");
   f.label(AX, 9.2, "Security line", "闸机");
-  f.label(5.5, 12.6, "To the cafe", "咖啡区");
+  f.label(3.5, 12.4, "Cafe (before security)", "咖啡区 · 闸机外");
   return f;
 }
