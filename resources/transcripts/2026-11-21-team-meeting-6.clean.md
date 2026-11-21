@@ -7,7 +7,7 @@ The team plays the current build on a laptop, then dictates a long list of chang
 ## what was decided here
 
 - 16:32 Power-ups come from **a CS student's daily life**: skip a turn, skip the enemy's turn, **Red Bull** for an extra turn, **food** for extra HP or a heal.
-- 20:07 There is a **demo mode** that plays by itself; the final chase in it is **Leo** (20:15 "chase Leo").
+- 20:07 There is a **demo mode** that plays by itself; the final chase in it is **Leo** (20:16 "chase Leo").
 - 22:23 The game needs a **time limit** per move.
 - 23:18 to 24:04 The **more realistic art looks worse**; the team prefers the less detailed, more pixel-art look.
 - 24:34 "We need a **better storyline**", consistent with HKU Shanghai.
@@ -43,7 +43,7 @@ The team plays the current build on a laptop, then dictates a long list of chang
 
 ## demo mode and the lion (20:07 to 20:37)
 
-- 20:07 "Do you want a **demo mode**?" 20:15 "**Chase Leo**." 20:21 "You can't choose because it's **demo mode**." 20:37 "**Leon the lion.**"
+- 20:07 "Do you want a **demo mode**?" 20:16 "**Chase Leo**." 20:21 "You can't choose because it's **demo mode**." 20:37 "**Leon the lion.**"
 
 ## playing it: what is wrong (20:53 to 24:34)
 
@@ -55,13 +55,13 @@ The team plays the current build on a laptop, then dictates a long list of chang
 
 ## story, the key, and what the visitor should learn (24:14 to 25:00)
 
-- 24:14 to 24:32 (about getting into a locked area) "**We need the key. We need the key from [CDS1] third floor.**" "So we have to play first."
+- 24:26 to 24:32 (about getting into a locked area) "**We need the key. We need the key from [CDS1] third floor.**" "So we have to play first."
 - 24:34 "**Two things. We need a better storyline.** For example, the CDS1 ..." 24:47 "You have a **security guard**!"
 - 25:11 "You guys see their **defence blocks**, right?"
 
 ## customising the defence function (26:13 to 27:23)
 
-- 26:13 "The function right now is that these **function blocks are set up for us**. **You cannot customise yourself.**"
+- 26:13 to 26:21 "The function right now is that these **function blocks are set up for us**. **You cannot customise yourself.**"
 - 26:21 "How would you customise the function blocks yourself? **Drag and drop** kind of thing."
 - 26:31 "How about we have an inventory and we **customise it beforehand, before the game starts**, so they don't need to drag the block during this."
 - 26:41 "Either way, **we don't know what they are trying to do** anyway."
@@ -77,7 +77,7 @@ The team plays the current build on a laptop, then dictates a long list of chang
 - 32:17 "**The first few levels should be easy enough that the user can complete them easily. It should become harder as you go up the floor.**"
 - 32:24 "**Less the shield**, because it is boring to have longer and repetitive [battles]."
 - 32:38 "**The repeat block should be customisable**: instead of having one full block, the user can **customise the number of repeats by tapping the numbers**."
-- 32:48 "The **rules and the chips that you can put inside the repeat block**, you should be able to customise them, but it's **also limited**, based on the **blocks you have at the beginning of the battle**."
+- 32:48 "The **rules and the chips that you can put inside the repeat block**, you should be able to customise them, but it's **also limited**, based on the **glitches**[?] you have at the beginning of the battle."
 - 33:06 "**Pull and check the art that came in, and the professor list will be there in the documents.**"
 
 ## the map (33:24 to 34:42)

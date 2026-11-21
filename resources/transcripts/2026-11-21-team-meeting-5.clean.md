@@ -6,11 +6,11 @@ The team sits with the builder (the AI agent) and works through **professors as 
 
 ## what was decided here
 
-- 17:43 There are **practice trainers between the professor bosses**, like Pokemon trainers before a gym leader.
+- 17:40 There are **practice trainers between the professor bosses**, like Pokemon trainers before a gym leader.
 - 19:14 **RB Law, Allen, "Yima" and Brian** must appear in the lineup; real professor names are allowed for now (19:00).
 - 20:00 Each professor gets a **unique function or power-up, awarded to the player after beating them**.
-- 20:22 **No pop quiz.** Ask the professors about CDS instead (20:29).
-- 26:09 **A professor's attack must use the game's own mechanics**, not a special move outside them. Same for their unique function (28:30 to 29:06).
+- 20:23 **No pop quiz.** Ask the professors about CDS instead (20:29).
+- 26:09 **A professor's attack must use the game's own mechanics**, not a special move outside them. Same for their unique function (28:43 to 29:06).
 - 27:12 The battle pieces are **block coding like Scratch**, not cards, so non-CS players can read them.
 - 33:00 Each professor introduces a **new function from Python or C++** (e.g. `break` skips a turn) that the player keeps after the win.
 - 13:16 "Random grading" becomes a **random function used as a defensive card**: a random number less than or equal to the damage coming in.
@@ -46,7 +46,7 @@ The team reads a draft the builder wrote.
 ## cards need levels, and trainers before bosses (16:06 to 18:31)
 
 - 16:06 "The power-ups we have, the ones they provided, are all at the same level. **We need different levels of cards**: some cards are **higher risk** to use, some are **more difficult or complicated concepts**."
-- 17:24 "Between every single professor boss, should we have almost like **Pokemon**? **You need trainers leading up to the gym leader. So we need some trainers you can practice on.**"
+- 17:24 to 17:43 "Between every single professor boss, should we have almost like **Pokemon**? **You need trainers leading up to the gym leader. So we need some trainers you can practice on.**"
 - 17:47 "Help me make the **game flow**." 18:13 "We need to first decide **which professor is on which floor**." 18:31 "Does it know already that the professors are the **bosses of each level**? We were thinking to get the prof as the boss of each level."
 - 18:46 "Level 1-4 in CDS1."
 
@@ -55,7 +55,7 @@ The team reads a draft the builder wrote.
 - 19:00 "**Don't use real names, though, right?**" 19:07 "**Let's let them use real names for now.**"
 - 19:14 "For each level, must have **RB Law, Allen, and Yima, and Brian**."
 - 19:36 "Design possible functions. **Power-ups and functions that are unique to each professor, awarded to the player once they beat them.**"
-- 20:17 "So they can pop quiz too?" 20:22 "**No, let's not have that. Maybe not pop quiz. I don't think we should have pop quiz.**"
+- 20:17 "So they can pop quiz too?" 20:23 "**No, let's not have that. Maybe not pop quiz. I don't think we should have pop quiz.**"
 - 20:29 "How about **you could ask the professors about CDS at HKU Shanghai**?" 20:36 "You could ask Lam[?] about the history of ...[?]"
 
 ## professor moves must obey the battle rules (25:59 to 29:28)
@@ -63,7 +63,7 @@ The team reads a draft the builder wrote.
 - 25:59 "I like these ideas, but the issue is, **will the player be confused: hey, why can't I do that?**"
 - 26:09 "**The professor's attacks also need to be within the game's mechanism.** They cannot just be like **Kamehameha**, super ultimate attack power-up, and do something that's **outside the game's logic and core mechanism**."
 - 26:39 "The starter pack is **attack, heal, plus, minus**."
-- 28:30 "The special unique functions that each of the professors use **need to be also within the basic scope of the game**. There can be special effects, but the **player needs to understand how the professor comes up with that function**. It has to **align with the core mechanics**."
+- 28:43 "The special unique functions that each of the professors use **need to be also within the basic scope of the game**. There can be special effects, but the **player needs to understand how the professor comes up with that function**. It has to **align with the core mechanics**."
 - 29:06 "Can you update the draft of the different unique functions each of the professors have now?" 29:23 "**The GitHub doesn't have professor lists.**" 29:28 "**We'll just make a map first.**"
 
 ## change the request: scratch blocks (26:54 to 27:24)
