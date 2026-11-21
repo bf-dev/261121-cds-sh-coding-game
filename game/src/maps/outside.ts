@@ -1,5 +1,5 @@
 import { TILE, type GameMap, type Prop, type Trigger, type NpcDef, type MapLabel } from "../engine/types";
-import { block, rect } from "../art/px";
+import { block, rect, mk } from "../art/px";
 import { COLS, ROWS, L } from "./outside-layout";
 import { drawGround } from "./outside-ground";
 import { towerSprite, b5Sprite, auditoriumSprite, bridgeSprite, BRIDGE_H, BRIDGE_COLS } from "./outside-buildings";
@@ -77,17 +77,25 @@ export function buildOutside(): GameMap {
   put(P.civilBoard(), 52.5, 26, 2, 1);
   put(P.civilBoard(), 42, 8, 2, 1);
   put(P.arrowPlate(), 59, 26, 1, 1);
-  put(P.pylon5(), 49, 7, 1, 1);
+  // the 5 pylon stands in the planted bed to the right of the doors (koki walk-through 110510, 2:04 to 2:06)
+  put(P.pylon5(), 54, 7, 1, 1);
   // the two delivery locker walls stand north to south on the east side of the service road,
   // doors facing west toward CDS1; the tree strip and Fangchun Road are behind them
   const LK = L.lockers;
   for (const [kind, row] of [["mt", LK.mt], ["tb", LK.tb]] as const) {
     props.push({ sprite: P.lockersV(kind, LK.len), x: LK.x * T - 4, y: row * T - P.LOCKER_V.lift, sortY: (row + LK.len) * T - 6 });
   }
-  put(P.booth(), 57.6, 40, 2, 2);
-  props.push({ sprite: P.boom(), x: (L.road.x - 1) * T + 10, y: 40 * T - 30, sortY: 41 * T - 8 });
+  // the guard booth stands on the locker side of the service road, south of the Taobao wall
+  // (koki walk-through 110510, 3:00 to 3:12: booth on the left, towers on the right), so the arm swings from the east
+  put(P.booth(), 64.1, 40, 2, 2);
+  const boomW = P.boom();
+  const [boomE, bg] = mk(boomW.width, boomW.height);
+  bg.translate(boomW.width, 0);
+  bg.scale(-1, 1);
+  bg.drawImage(boomW, 0, 0);
+  props.push({ sprite: boomE, x: L.road.x * T - 6, y: 40 * T - 30, sortY: 41 * T - 8 });
   S(L.road.x, 40, L.road.w, 1);
-  put(P.roadSign(), 65, 39, 1, 1);
+  put(P.roadSign(), 65, 37, 1, 1);
   put(P.car(), 61.6, 6, 2, 3);
 
   // trees: cherry avenue beside the lawn, ginkgo on the street, staked saplings in the canyon
@@ -133,7 +141,7 @@ export function buildOutside(): GameMap {
     info("taobao", LK.x - 1, LK.tb, 1, LK.len, "Taobao lockers", "淘宝闪购柜", "The white and red wall is the Taobao parcel locker, numbered up to 125 like its yellow Meituan neighbour. Both walls face CDS1 across the service road, with Fangchun Road behind them."),
     info("gate", L.road.x, 38, L.road.w, 2, "East gate", "东门", "The guard booth and the red and white barrier arm on the service road. Beyond it the blue sign points to Yindong Road and Jidian Road."),
     info("auditorium", 26, 7, 8, 3, "Step theatre and auditorium", "阶梯剧场与礼堂", "The white glass box carries 香港大學 THE UNIVERSITY OF HONG KONG and the crest. Its wide shallow steps double as an outdoor theatre."),
-    info("b5-pylon", 48, 8, 2, 1, "Building 5 pylon", "五号楼指示牌", "A slim black and white pylon with a big 5. Building 5 has the gym, the study stair and the learning commons."),
+    info("b5-pylon", 54, 8, 2, 1, "Building 5 pylon", "五号楼指示牌", "A slim black and white pylon with a big 5. Building 5 has the gym, the study stair and the learning commons."),
   ];
 
   const say = (id: string, char: string, tx: number, ty: number, dir: NpcDef["dir"], name: string, nameZh: string, textEn: string): NpcDef => {

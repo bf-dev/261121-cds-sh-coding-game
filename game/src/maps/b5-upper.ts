@@ -296,6 +296,41 @@ function counter(): HTMLCanvasElement {
   return c;
 }
 
+/** the high long timber table with black stools by the windows (video 103514, 1:08 to 1:14) */
+function highTable(): HTMLCanvasElement {
+  const [c, g] = mk(190, 112);
+  ellipse(g, 95, 104, 88, 7, "rgba(20,24,40,0.25)");
+  rect(g, 4, 22, 182, 12, "#d1b88b");
+  rect(g, 4, 22, 182, 3, "#e6d3ac");
+  rect(g, 4, 32, 182, 3, "#9c855b");
+  for (const lx of [10, 172]) rect(g, lx, 35, 8, 64, "#aa9165");
+  rect(g, 18, 60, 154, 4, "#8f7850");
+  rect(g, 30, 14, 18, 8, "#3a3d41");
+  rect(g, 120, 12, 14, 10, "#f6f4ee");
+  for (const sx of [34, 74, 116, 156]) {
+    rect(g, sx - 11, 72, 22, 7, "#2a2b30");
+    rect(g, sx - 11, 72, 22, 2, "#55575e");
+    rect(g, sx - 2, 79, 4, 22, "#8a8d93");
+    rect(g, sx - 9, 100, 18, 3, "#55575e");
+  }
+  return c;
+}
+
+/** a screen of upright timber fins, as around the round-table bay (video 103514, 0:35 to 0:42) */
+function finScreen(): HTMLCanvasElement {
+  const [c, g] = mk(64, 176);
+  ellipse(g, 32, 170, 28, 5, "rgba(20,24,40,0.28)");
+  rect(g, 4, 0, 56, 5, "#8f7850");
+  for (let i = 0; i < 6; i++) {
+    const x = 5 + i * 9;
+    rect(g, x, 5, 6, 162, "#c5aa7c");
+    rect(g, x, 5, 2, 162, "#dcc69b");
+    rect(g, x + 5, 5, 1, 162, "#9c855b");
+  }
+  rect(g, 4, 164, 56, 6, "#8f7850");
+  return c;
+}
+
 /** a small grey sofa with scatter cushions, drawn straight onto a stair tier */
 function tierSofa(g: Ctx, x: number, y: number, w: number, cushions: string[]): void {
   rect(g, x + 3, y + 40, w, 5, "rgba(40,28,14,0.3)");
@@ -570,6 +605,17 @@ export function buildB5Study(): GameMap {
   put(f, pl, 1, 18, 1, 1);
   put(f, pl, 32, 18, 1, 1);
   put(f, K.floorStand("Mind Your Step", "请小心台阶"), 18, 10, 1, 1, 26, 0);
+  // window side past the lounge: the high long table with stools (video 103514, 1:08 to 1:14)
+  put(f, highTable(), 4, 16, 3, 1);
+  // the bay of round tables and timber chairs between timber fin screens (video 103514, 0:35 to 0:42)
+  const fin = finScreen();
+  put(f, fin, 21, 16);
+  put(f, fin, 30, 16);
+  for (const tx of [24, 27]) {
+    put(f, K.roundTable("#e8cba9", 52), tx, 16, 1, 1, 0, -4);
+    put(f, K.chair("#c5aa7c", "#9c855b"), tx - 1, 16, 1, 1, 10, -2);
+    put(f, K.chair("#c5aa7c", "#9c855b"), tx + 1, 16, 1, 1, -10, -2);
+  }
 
   finish(f);
 
@@ -580,6 +626,8 @@ export function buildB5Study(): GameMap {
   info(f, "meeting", 24, 3, 8, 1, "Meeting rooms", "会议室", "Levels 3, 4 and 5 of Building 5 are study and meeting rooms. This one has an oval table, a screen and a whiteboard behind the glass.");
   info(f, "study-rooms", 14, 18, 6, 1, "Study rooms", "自习室", "Tan doors in teal frames. The glass beside each door is etched Sapientia et Virtus on one pane and 明德格物 on the other: the HKU motto.");
   info(f, "wayfinding", 7, 3, 3, 1, "Wayfinding", "指示牌", "The stair in front of you goes up to 4/F, the co-creation level. The lift serves 1/F to 5/F.");
+  info(f, "high-table", 4, 17, 3, 1, "High table", "高桌", "A long high timber table with black stools on the window side, past the sofas. Good for a laptop and a quick group check before class.");
+  info(f, "round-tables", 23, 17, 6, 1, "Round tables", "圆桌区", "Round timber tables and chairs in a bay behind screens of upright timber fins, next to the windows. Groups meet here between classes.");
 
   const npcs: NpcDef[] = [
     { id: "b5-3-reader", char: "visitor2", tx: 8, ty: 13, dir: "down", name: "Student", nameZh: "同学" },
@@ -683,7 +731,7 @@ export function buildB5CoCreation(): GameMap {
   block(solid, COLS, 15, 11, 3, 2, 0);
 
   // plywood wayfinding pillar, concrete column, the prohibition board
-  put(f, plyPillar(["← TOILET 洗手间", "PROJECT ROOM", "项目会议室 411-414", "", "→ CO-CREATION SPACE", "共创空间", "MEETING ROOM", "会议室 418-420", "CONFERENCE ROOM", "大会议室 417"]), 9, 6, 2, 1);
+  put(f, plyPillar(["← TOILET 洗手间", "PROJECT ROOM", "项目会议室 411-414", "", "→ CO-CREATION SPACE", "共创空间", "MEETING ROOM", "会议室 418-420", "CONFERENCE ROOM", "大会议室 417"]), 24, 6, 2, 1);
   put(f, concreteColumn("4F"), 22, 8);
   put(f, K.floorStand("Notice", "告示"), 19, 9, 1, 1, 20, 0);
 
@@ -719,7 +767,7 @@ export function buildB5CoCreation(): GameMap {
   info(f, "project-rooms", 7, 3, 5, 1, "Project rooms 411-414", "项目会议室 411-414", "Glass rooms with dark-red gloss doors. Each door carries HKU and Est. 1911 in white.");
   info(f, "sapientia", 22, 3, 5, 1, "Sapientia et Virtus", "明德格物", "A full-height glass room etched with the HKU motto, Sapientia et Virtus: wisdom and virtue. In Chinese it is 明德格物.");
   info(f, "meeting-rooms", 27, 3, 6, 1, "Rooms 417 to 420", "会议室 417-420", "Conference room 417 and meeting rooms 418 to 420, next to the co-creation space.");
-  info(f, "pillar", 9, 7, 2, 1, "Wayfinding pillar", "指示柱", "A plywood pillar with stencilled text. Left: toilet, project rooms 411-414. Right: co-creation space, meeting rooms 418-420, conference room 417.");
+  info(f, "pillar", 24, 7, 2, 1, "Wayfinding pillar", "指示柱", "A plywood pillar with stencilled text. Left: toilet, project rooms 411-414. Right: co-creation space, meeting rooms 418-420, conference room 417.");
   info(f, "booths", 26, 13, 6, 1, "Booths", "卡座", "Beige fabric high-back booths line the window side, each with a low dark seat and a side table, under a row of gold ring lights.");
   info(f, "lounge", 3, 13, 5, 1, "Lounge", "休息区", "Grey and mint-green armchairs and a self-service counter with stools. The real windows look out on white and grey high-rise towers.");
 

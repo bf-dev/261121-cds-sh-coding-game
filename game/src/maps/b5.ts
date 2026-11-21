@@ -76,16 +76,18 @@ function featureStair(): HTMLCanvasElement {
     rect(g, x0 - 12, y + pitch, 4, 3, "#ffd9a0");
     rect(g, x0 + w + 8, y + pitch, 4, 3, "#ffd9a0");
   }
-  // glass balustrade on slim white posts with a walnut handrail
+  // solid white plaster balustrade, both sides, following the curve (videos 103135 and 103514, 0:00 to 0:14)
   for (const side of [-1, 1]) {
     let px = 0;
     let py = 0;
     for (let i = 0; i < N; i++) {
       const x = cx(i) + side * (half(i) + 6);
       const y = H - 44 - i * pitch;
-      rect(g, x - 1, y - 40, 2, 44, "#f4f2ec");
-      rect(g, side < 0 ? x : x - 12, y - 36, 12, 34, "rgba(190,220,232,0.28)");
-      if (i > 0) K.pline(g, px, py - 42, x, y - 42, "#7a5a49", 4);
+      const bx = side < 0 ? x - 10 : x - 2;
+      rect(g, bx, y - 38, 12, pitch + 40, side < 0 ? "#f6f4ee" : "#e4e0d6");
+      rect(g, bx, y - 38, 3, pitch + 40, side < 0 ? "#ffffff" : "#f1eee6");
+      rect(g, bx + 10, y - 38, 2, pitch + 40, side < 0 ? "#d6d1c5" : "#bdb8ab");
+      if (i > 0) K.pline(g, px, py - 40, x, y - 40, "#ffffff", 5);
       px = x;
       py = y;
     }
@@ -520,7 +522,7 @@ function buildLobby(): GameMap {
   info("reception", 25, 19, 4, 1, "Reception", "前台", "Building 5 is the student amenity centre, north of CDS1. It opened on 30 August 2026 with a fitness room, music and dance rooms, a game hub and study spaces.");
   info("pictures", 19, 13, 3, 1, "Picture wall", "画廊墙", "Backlit beige marble with a row of dark framed artworks at eye level, under a warm cove of light.");
   info("oval-table", 19, 16, 3, 2, "Oval table", "椭圆高桌", "One tall oval pedestal table, maroon base and white top, standing alone on the inlaid lattice floor.");
-  info("mind-your-head", 6, 19, 3, 1, "Feature stair", "旋转楼梯", "A wide ribbon of white plaster with a glass balustrade and a walnut handrail sweeps up to 2/F. The signs say Mind Your Step and Mind Your Head.");
+  info("mind-your-head", 6, 19, 3, 1, "Feature stair", "旋转楼梯", "A white feature stair with a solid white plaster balustrade curves up to 2/F, turning over a small landing on the way. The signs say Mind Your Step and Mind Your Head.");
   info("courtyard", 27, 13, 4, 1, "Courtyard", "庭院", "Full-height glass looks onto a paved courtyard with clipped hedges and trees.");
   info("high-table", 11, 4, 2, 1, "University Galleria", "大学长廊", "Three vaulted naves, crystal chandeliers and very long walnut tables. This hall is home to HKU's High Table Dinner tradition.");
 
