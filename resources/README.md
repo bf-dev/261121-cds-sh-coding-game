@@ -17,6 +17,7 @@ Raw material. Files here are kept as they were captured. Interpretations go in `
 | `recordings/2026-11-21-team-meeting-4.qta` | Part 4, 19:31, ends about 11:14 CST. Revised battle rules: HEAL/ATTACK base cards, move format, functions as shields, zero removed, 14 floor levels. **Overrides parts 1 and 2.** Git LFS |
 | `transcripts/2026-11-21-team-meeting-4.raw.txt`, `.segments.json`, `.clean.md` | Part 4 transcripts. Cite as `p4 mm:ss` |
 | `transcripts/2026-11-21-video-narration.raw.md` | Speech recorded in the campus videos (Koki's narration, Insung's walkthrough) |
+| `audio/2026-11-21-hku-anthem.m4a` | The University Anthem (first performed 1912), audio of the HKU Alumni channel's upload "The University Anthem 港大禮讚 @The University of Hong Kong", https://www.youtube.com/watch?v=tgh-6UGI4Io (channel @hkudaao, uploaded 2020-05-26), 4:57. The game's background music is 0:35 to 3:38 of it, mono 64 kbps, in `game/src/assets/hku-anthem.mp3`. Git LFS |
 | `photos/2026-11-21-whiteboard.heic` | Original iPhone photo of the whiteboard |
 | `photos/2026-11-21-whiteboard.jpg` | JPG copy of the same photo (1600x2133) |
 | `photos/2026-11-21-whatsapp-satellite-cds1.jpg` | Satellite view of the campus block, north up, posted by Insung in the team WhatsApp group on 2026-11-20. Source for the outdoor layout: four towers, the central axis, the service road and Fangchun Road on the east edge |
@@ -105,3 +106,5 @@ Notes on the reading:
 ## related, not added
 
 Other phone voice memos titled "Fangchun Road ..." are named after the place they were recorded. The ones already transcribed are lectures, phone calls or personal, not this game. None were added.
+
+`transcripts/2026-11-21-team-direction-afternoon.md`: excerpts of the voice notes and messages sent to the builder in the afternoon (AI takeover story, postcards, labs, professors in rooms, small map corrections). The recordings behind them are not in the repo yet.

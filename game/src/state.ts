@@ -6,6 +6,8 @@ import { REWARDS } from "./data/cards";
 export interface Progress {
   /** highest CDS1 floor beaten, 0 = none */
   cleared: number;
+  /** highest floor whose lab was cleared: the floor's block comes from its lab, after the professor */
+  labs: number;
   bossBeaten: boolean;
   fns: FnKind[];
   ops: Op[];
@@ -31,6 +33,7 @@ const KEY = "cds-sh-coding-game-v1";
 export function freshProgress(): Progress {
   return {
     cleared: 0,
+    labs: 0,
     bossBeaten: false,
     fns: ["for1"],
     ops: ["+", "-"],
@@ -51,7 +54,10 @@ export function loadProgress(): Progress | null {
   try {
     const raw = localStorage.getItem(KEY);
     if (!raw) return null;
-    const p: Progress = { ...freshProgress(), ...JSON.parse(raw) };
+    const old = JSON.parse(raw);
+    const p: Progress = { ...freshProgress(), ...old };
+    // saves from before the labs already hold every block up to their floor
+    if (typeof old.labs !== "number") p.labs = p.cleared;
     // older saves had fixed loop blocks; the repeat block is now one block with free numbers
     p.fns = p.fns.filter((f) => f !== "for2" && f !== "for3" && f !== "halve");
     // the function blocks moved: round() comes from 1/F and if from 2/F
@@ -89,12 +95,13 @@ export const BOSS_HP = 140;
 export const BOSS_BONUS_HP = 10;
 
 /** shield blocks you may plant in one battle, and the numbers dealt for them at the start of the battle */
-export const shieldBlocksFor = (p: Progress): number => 2 + (p.cleared >= 5 ? 1 : 0) + (p.cleared >= 11 ? 1 : 0);
+export const shieldBlocksFor = (p: Progress): number => 2 + (p.labs >= 5 ? 1 : 0) + (p.labs >= 11 ? 1 : 0);
 export const shieldDigitsFor = (p: Progress): number => shieldBlocksFor(p) * 2 + 1 + (p.studied >= 2 ? 2 : 0);
 
-/** mark floor n as beaten and hand over its reward */
+/** mark floor n as beaten and its lab as cleared, and hand over the reward */
 export function applyReward(p: Progress, floor: number): void {
   p.cleared = Math.max(p.cleared, floor);
+  p.labs = Math.max(p.labs, floor);
   const r = REWARDS[floor];
   if (!r) return;
   if (r.fn && !p.fns.includes(r.fn)) p.fns.push(r.fn);

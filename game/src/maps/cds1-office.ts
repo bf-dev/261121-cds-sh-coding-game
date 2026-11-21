@@ -116,7 +116,9 @@ export function buildOfficeFloor(floor: 11 | 12 | 13): Floor {
   f.put(clutter("boxes"), 31, 9, 1);
   f.put(clutter("boxes"), floor === 12 ? 19 : 30, 14, 1);
 
-  f.prof(floor, 19, 5);
+  // the professor stands at an office door on the far side of the loop; the lab is the last door of the back row
+  f.prof(floor, 27, 12);
+  f.lab(22, 3, 2, 1);
   if (filmed) {
     f.info("notice", 3, 8, 5, 1, "Lift lobby wall", "电梯厅", "A raised red 13 sits over the brushed steel lift doors. Round the corner a drawn directory lists the room numbers, and a printed sheet of room details in Chinese is taped to the wall.");
     f.info("pantry", 10, 3, 6, 1, "Pantry", "茶水间", "A timber box with a herringbone wood-tile splashback, a wavy tile band, a coffee machine, microwave, kettle and a white fridge.");

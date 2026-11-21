@@ -136,6 +136,12 @@ export class Floor {
     this.block(tx, ty, 1, 1, 0);
   }
 
+  /** the floor's lab: where the new block is collected once the professor is beaten */
+  lab(tx: number, ty: number, w: number, h: number, labelY = ty + 0.7): void {
+    this.triggers.push({ id: "lab", tx, ty, w, h, en: "Lab: collect your new block", zh: "实验室：领取新积木", action: { type: "lab" } });
+    this.label(tx + w / 2, labelY, "Lab", "实验室");
+  }
+
   npc(id: string, char: string, tx: number, ty: number, dir: Dir, name: string, nameZh: string): void {
     this.npcs.push({ id, char, tx, ty, dir, name, nameZh });
   }

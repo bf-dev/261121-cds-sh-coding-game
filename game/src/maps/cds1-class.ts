@@ -203,7 +203,19 @@ export function buildClassFloor(c: ClassCfg): Floor {
   }
   f.put(plant(c.floor + 7), 32, 5, 1);
 
-  f.prof(c.floor, 23, 8);
+  // the professor waits inside a room, so the floor has to be walked to find them; the lab is somewhere else
+  const labRoom = c.rooms.map((rm, i) => (rm.kind === "lab" ? i : -1)).reduce((a, b) => Math.max(a, b), -1);
+  if (c.roomLabel === "T&L LAB") {
+    // 5/F: the walk-in room is the teaching lab, so the professor is in the student zone
+    f.prof(c.floor, 28, 15);
+    f.lab(13, 11, 6, 1, 14.6);
+  } else {
+    if (!room) f.prof(c.floor, 29, 17); // 2/F: the study commons at the far end
+    else f.prof(c.floor, c.open === "west" ? 19 : 12, 12); // at the front of the walk-in room
+    // the lab is the tan door at the corridor end, or a glass room on the back wall when that is further from the lift
+    if (/LAB/.test(c.doorLabel) || (room && labRoom < 1)) f.lab(22, 3, 2, 1);
+    else f.lab(10 + (labRoom >= 1 ? labRoom : c.rooms.length - 1) * 4, 3, 4, 1);
+  }
   if (c.floor % 2 === 0) f.npc(`student-${c.floor}`, `visitor${(c.floor % 4) + 1}`, 7, 11, "up", "Student", "学生");
   if (room) f.label(15.5, 12.3, `${c.roomNum} ${c.roomLabel[0]}${c.roomLabel.slice(1).toLowerCase()}`, lab ? "科研实验室" : "教室");
 

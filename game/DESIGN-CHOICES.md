@@ -92,14 +92,18 @@ Other floor rewards: floor 2 also the `×` block, floor 3 the Building 5 key (bu
 | Model AI: one call per round for the move, the shield and a one-line explanation | spec and prompt text are in `src/battle/llm.ts` |
 | The one-line explanation without a model is generated from the move ("× and ÷ go before + and -, so 8 + 2 × 3 makes 14") | hackathon brief: professors explain their move |
 
-## story (proposal, build 2026-11-21, asked for by Insung)
+## story (decision #39 to #41, team voice note; the details below are the builder's proposals)
 
-"Light the Wall". One story from the title screen to the ending, built only on facts in `buildings/`:
+"The AI took CDS". Source: `resources/transcripts/2026-11-21-team-direction-afternoon.md`. The first story, "Light the Wall", is replaced.
 
-- Place: HKU Zhangjiang Base, No. 500 Fangchun Road, Shanghai. HKU, founded 1911 (the `Est. 1911` door band), teaches computing here. The evening is a "Magic Hour" (the name of the event at which Building 5 opened, 30 Aug 2026).
-- Problem: the welcome show on the Grand Hall LED wall is a program, and the wall is dark. Leo the lion split the program into 14 blocks and left one with each professor in CDS1. His seat on the lawn is empty, with a note.
-- Climb: each professor hands over their block to a student who shows they can read it. The HUD counts `Program blocks n/14`. The key to Building 5 comes from 3/F.
-- End: Leo runs the final test on the Grand Hall stage. When he is beaten the wall lights up with `print('Welcome to HKU CDS Shanghai!')` and the motto on the crest, `Sapientia et Virtus`. On 14/F the professor points at the real HKU milestones exhibition (1912 to 2024).
+- Opening: Magic Hour in the Grand Hall (the name of the event at which Building 5 opened, 30 Aug 2026). Leo the lion gives the coached tutorial battle on the stage. Then the LED wall prints `AI> this campus is mine now`, Leo's eyes turn blue, and Dr. Dougherty calls the student over to CDS1.
+- Each floor has three steps: find the professor in a room, pass the block battle (the professor certifies the student for that floor), then find the lab and answer its bot.
+- The bot in the lab asks one multiple-choice question about the block it holds (`game/src/data/labs.ts`). A wrong answer gives a hint and another try. The right answer shuts the bot down and gives the floor's reward: the block, the Building 5 key card on 3/F, the extra shield block on 5/F and 11/F, the way into the Grand Hall on 14/F.
+- A student who walks past a lab is not stuck: the next professor patches the bot through before the battle. A floor drawn without a lab door runs the bot right after the win.
+- A win also gives a postcard of the floor: a picture of the floor as it looks in the game, a stamp with the official crest, and one fact from `buildings/` (`POSTCARDS` in `labs.ts`). The Bag keeps them.
+- The HUD counts `Floors freed n/14`.
+- End: the AI hides in the Grand Hall and controls Leo. Beating it frees Leo and the wall plays `print('Welcome to HKU CDS Shanghai!')` with the motto `Sapientia et Virtus`.
+- Not built: bots walking around the floors. The bots are met in the labs only.
 
 ## world
 

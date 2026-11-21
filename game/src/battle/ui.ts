@@ -760,7 +760,7 @@ export async function runBattle(cfg: BattleConfig): Promise<BattleResult> {
         ];
       } else if (cfg.tutorial && round === 2) {
         coachSteps = [{ text: "Your turn again. HEAL gives HP back to you, and no shield can stop it. Build any move you like, then press Run.", want: null }];
-      } else if (cfg.tutorial && round === 3) coachNote(`You know the rules now. Beat ${cfg.enemy.name} to win a new block!`);
+      } else if (cfg.tutorial && round === 3) coachNote("You know the rules now. Finish the battle!");
       else if (cfg.tutorial) coachNote("");
       const built = await buildMove();
       if (!built) return "quit";

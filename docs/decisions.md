@@ -34,6 +34,12 @@ What the team agreed, or said without objection. Citations: `mm:ss` = part 1, `p
 | 36 | Building 5: the lift serves 1/F to 5/F, the study stair connects 3/F and 4/F with sofas under it, 3/F to 5/F are study and meeting rooms, there is no cafe. Meituan lockers stand east of CDS1, upright, across the service road, with Fangchun Road behind them | Insung, 2026-11-21, during the build |
 | 37 | The look is cute | Insung, 2026-11-21, during the build |
 | 38 | The game is playable online at insu.ng/cds | Insung, 2026-11-21, during the build |
+| 39 | **Story: an AI has taken over CDS.** Its bots hold the floors of CDS1. The professors check that the student is qualified to face the bots, floor by floor. The game opens in the Grand Hall with the tutorial, then CDS1, Building 5 unlocks around 3/F, and after the top floor the student enters the Grand Hall and fights the lion. Replaces the "Light the Wall" proposal | team voice note, `resources/transcripts/2026-11-21-team-direction-afternoon.md` |
+| 40 | **Every floor gives a postcard** with a fact about CDS Shanghai, **and access to that floor's lab**. The new function block comes from the lab, after a puzzle, not from beating the professor | team voice note, `resources/transcripts/2026-11-21-team-direction-afternoon.md` |
+| 41 | The professors stand inside rooms and lecture theatres, so each floor is explored before its battle | team voice note, `resources/transcripts/2026-11-21-team-direction-afternoon.md` |
+| 42 | Level select and the Menu have a Building 5 shortcut for the presentation | Insung, 2026-11-21, during the build |
+| 43 | CDS1 1/F: the cafe is before the security line, and every gate of the security line is open. Outside: the footbridge deck runs between the two towers | Insung, 2026-11-21, in person |
+| 44 | The background music is the HKU anthem | Insung, 2026-11-21, during the build |
 
 ## world and story
 

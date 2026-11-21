@@ -149,7 +149,9 @@ export function buildExpoFloor(): Floor {
   f.put(plant(16), 20, 9, 1);
   f.put(plant(17), 13, 17, 1);
 
-  f.prof(14, 9, 12);
+  // Prof. Ma stands by the HKU milestones drums; the lab is the event area at the far end
+  f.prof(14, 18, 14);
+  f.lab(28, 3, 3, 2, 4.7);
   f.npc("visitor-14", "visitor3", 21, 15, "up", "Visitor", "访客");
   f.info("glass", 11, 3, 4, 1, "Etched glass doors", "蚀刻玻璃门", "You walk out of the east end of the lift hall through these doors into the white office corridor. They carry an acid-etched HKU crest with the motto SAPIENTIA ET VIRTUS and the school name, over a dotted frit band.");
   f.info("office", 15, 3, 4, 1, "Director & general office", "院长与综合办公室", "A quiet white corridor of closed doors behind the etched glass. The office itself was not filmed.");

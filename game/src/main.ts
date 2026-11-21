@@ -6,6 +6,7 @@ import { floorInfo } from "./maps/cds1";
 import { setLedText } from "./maps/grandhall";
 import { B5_FLOORS } from "./maps/b5";
 import { LEO, professor, PROFESSORS } from "./data/professors";
+import { LABS, POSTCARDS } from "./data/labs";
 import { CARDS, enemyPool, enemyShieldCount, FN_ORDER, OP_ORDER, POWER_ORDER, REWARDS, STUDY_FNS, STUDY_VISITS } from "./data/cards";
 import { applyReward, BOSS_BONUS_HP, BOSS_HP, clearProgress, enemyHp, freshProgress, loadProgress, playerMaxHp, progressAtFloor, saveProgress, shieldBlocksFor, shieldDigitsFor, type Progress } from "./state";
 import { runBattle, type BattleConfig } from "./battle/ui";
@@ -14,8 +15,9 @@ import { cardPicture, hatBlock, moveBlock, shieldBlock } from "./battle/blocks";
 import { cardPopup, dialogOpen, showDialog, toast } from "./ui/dialogs";
 import { h, pace, sleep, ui } from "./ui/dom";
 import { sfx } from "./ui/sfx";
+import { musicOn, setMusic } from "./ui/music";
 import { llmEnabled } from "./battle/llm";
-import { loadLogo } from "./art/logo";
+import { crest, loadLogo } from "./art/logo";
 
 const params = new URLSearchParams(location.search);
 const canvas = document.getElementById("game") as HTMLCanvasElement;
@@ -99,17 +101,23 @@ function refreshPrompt(): void {
 
 function questText(): (string | Node)[] {
   const p = progress;
-  const blocks = h("span", { class: "quest-blocks" }, "Program blocks ", h("b", {}, `${p.cleared}/14`), " · ");
-  if (p.bossBeaten) return ["The Grand Hall wall is lit. Explore the campus, there are details left to find."];
+  const blocks = h("span", { class: "quest-blocks" }, "Floors freed ", h("b", {}, `${p.labs}/14`), " · ");
+  if (p.bossBeaten) return ["CDS is free and the Grand Hall wall is lit. Explore the campus, there are details left to find."];
+  if (!p.seen.includes("tutorial") && world.map?.id === "hall") return ["Magic Hour in the Grand Hall. Leo is on the stage."];
+  if (p.labs < p.cleared) {
+    const f = p.labs + 1;
+    const where = world.map?.id === `cds1-${f}` ? "on this floor" : `on CDS1 ${f}/F`;
+    return [blocks, "Next: ", h("b", {}, "the lab"), ` ${where}. Answer its bot to shut it down and take what it holds.`];
+  }
   if (p.cleared >= 14) {
-    if (world.map?.id === "hall") return [blocks, "Climb the steps and talk to ", h("b", {}, "Leo"), " on the stage."];
-    return [blocks, "Next: ", h("b", {}, "the Grand Hall"), ". Take the CDS1 lift and choose Grand Hall. Leo is waiting."];
+    if (world.map?.id === "hall") return [blocks, "Climb the steps and face ", h("b", {}, "Leo"), " on the stage. The AI still has him."];
+    return [blocks, "Next: ", h("b", {}, "the Grand Hall"), ". Take the CDS1 lift and choose Grand Hall. The AI is hiding there."];
   }
   const next = professor(p.cleared + 1);
-  if (p.cleared === 0 && world.map?.id === "outside") return [blocks, "Walk up to the ", h("b", {}, "CDS1 entrance"), " and go in. ", `${next.name} is in the lobby.`];
-  const where = world.map?.id === `cds1-${next.floor}` ? "on this floor" : `on CDS1 ${next.floor}/F (take the lift)`;
-  const extra = p.b5key && p.cleared === 3 ? " Building 5 is open now: gym on 2/F, study stair on 3/F." : "";
-  return [blocks, "Next: ", h("b", {}, next.name), ` ${where}.${extra}`];
+  if (p.cleared === 0 && world.map?.id === "outside") return [blocks, "Walk up to the ", h("b", {}, "CDS1 entrance"), " and go in. ", `${next.name} is waiting in one of the rooms on 1/F.`];
+  const where = world.map?.id === `cds1-${next.floor}` ? "in one of the rooms on this floor" : `on CDS1 ${next.floor}/F (take the lift)`;
+  const extra = p.b5key && p.labs === 3 ? " Building 5 is open now: gym on 2/F, study stair on 3/F." : "";
+  return [blocks, "Next: find ", h("b", {}, next.name), ` ${where}.${extra}`];
 }
 
 function refreshHud(): void {
@@ -171,11 +179,11 @@ async function doAction(a: Action, t: Target): Promise<void> {
   switch (a.type) {
     case "goto":
       if (a.requires === "b5key" && !progress.b5key) {
-        await showDialog({ kicker: "Locked · 未解锁", title: "Building 5 is locked", titleZh: "五号楼", body: [`The student spaces are inside: the gym and the study stair. ${professor(3).name} on CDS1 3/F holds the key. Win the first three floors to get it.`] });
+        await showDialog({ kicker: "Locked · 未解锁", title: "Building 5 is locked", titleZh: "五号楼", body: [`The student spaces are inside: the gym and the study stair. The key card is in the lab on CDS1 3/F. Get certified on the first three floors and clear that lab.`] });
         return;
       }
       if (a.requires === "hallpass" && !progress.hallpass) {
-        await showDialog({ kicker: "Locked · 未解锁", title: "The Grand Hall is closed", titleZh: "大礼堂", body: ["The hall is dark and the LED wall is off. Leo only opens the doors for a student who carries all 14 blocks of the welcome program."] });
+        await showDialog({ kicker: "Locked · 未解锁", title: "The Grand Hall is closed", titleZh: "大礼堂", body: ["The AI has sealed the Grand Hall. Free all 14 floors of CDS1 and the doors will open."] });
         return;
       }
       await travel(a.map, a.spawn);
@@ -186,6 +194,9 @@ async function doAction(a: Action, t: Target): Promise<void> {
       return;
     case "battle":
       await fight(a.floor, t);
+      return;
+    case "lab":
+      await labDoor(Number(/^cds1-(\d+)$/.exec(world.map.id)?.[1] ?? 0));
       return;
     case "boss":
       await fightBoss(t);
@@ -285,7 +296,7 @@ async function b5LiftPicker(): Promise<void> {
 
 async function toHall(close: () => void, resolve: () => void): Promise<void> {
   close();
-  await showDialog({ kicker: "After floor 14 · 十四层之后", title: "To the Grand Hall", titleZh: "前往大礼堂", body: ["With all 14 blocks in your bag you ride the lift down and cross the plaza. Leo's seat on the lawn is still empty. The doors of the Grand Hall are open, and the big wall inside is dark, waiting."] });
+  await showDialog({ kicker: "After floor 14 · 十四层之后", title: "To the Grand Hall", titleZh: "前往大礼堂", body: ["All 14 floors are free, and the AI has one place left to hide. You ride the lift down and cross the plaza. The doors of the Grand Hall are open again. Inside, the big wall glows a cold blue."] });
   await travel("hall", "entry");
   resolve();
 }
@@ -317,8 +328,8 @@ function battlePose(t: Target, boss: boolean): () => void {
   };
 }
 
-async function battle(cfg: BattleConfig, t: Target | null): Promise<"win" | "lose" | "quit"> {
-  const restore = t ? battlePose(t, cfg.boss) : () => {};
+async function battle(cfg: BattleConfig, t: Target | null, bossPose = cfg.boss): Promise<"win" | "lose" | "quit"> {
+  const restore = t ? battlePose(t, bossPose) : () => {};
   inBattle = true;
   showHud(false);
   const speed = pace.speed;
@@ -346,8 +357,14 @@ async function fight(floor: number, t: Target | null): Promise<void> {
     return;
   }
   if (floor <= progress.cleared) {
-    const again = await showDialog<boolean>({ title: prof.name, titleZh: prof.nameZh, portrait: sheet.portrait, body: ["You already have my block of the program. Well done! Want a practice rematch?"], buttons: [{ label: "Go on", value: false, primary: true }, { label: "Rematch", value: true }] });
+    const again = await showDialog<boolean>({ title: prof.name, titleZh: prof.nameZh, portrait: sheet.portrait, body: ["You are already certified for this floor. Well done! Want a practice rematch?"], buttons: [{ label: "Go on", value: false, primary: true }, { label: "Rematch", value: true }] });
     if (!again) return;
+  }
+  // a lab left behind: its bot is dealt with before the next test
+  while (floor === progress.cleared + 1 && progress.labs < progress.cleared) {
+    const f = progress.labs + 1;
+    await showDialog({ title: prof.name, titleZh: prof.nameZh, portrait: sheet.portrait, body: [`One thing first. The bot in the lab on ${f}/F is still running, and it holds something you will need against me. I have patched it through to this floor. Answer it now.`], buttons: [{ label: "Face the bot", value: true, primary: true }] });
+    await runLab(f);
   }
   while (true) {
     const cfg: BattleConfig = {
@@ -362,7 +379,7 @@ async function fight(floor: number, t: Target | null): Promise<void> {
       foeShields: enemyShieldCount(floor),
       level: (floor - 1) / 13,
       slots: slotsForFloor(floor),
-      tutorial: floor === 1 && progress.cleared === 0 && !pace.auto,
+      tutorial: floor === 1 && progress.cleared === 0 && !pace.auto && !progress.seen.includes("tutorial"),
     };
     const result = await battle(cfg, t);
     if (result === "quit") return;
@@ -378,14 +395,98 @@ async function fight(floor: number, t: Target | null): Promise<void> {
 
 async function winFloor(floor: number): Promise<void> {
   const prof = professor(floor);
-  const r = REWARDS[floor];
   const before = slotsForFloor(floor);
-  applyReward(progress, floor);
+  progress.cleared = Math.max(progress.cleared, floor);
   const after = slotsForFloor(floor + 1);
   save();
-  const items = [`Block ${floor} of 14 of the welcome program`, r.text, "+8 maximum HP", floor < 14 ? `The lift now goes up to ${floor + 1}/F` : "All 14 floors of CDS1 cleared"];
+  const snap = snapshot();
+  const items = [`Certified for ${floor}/F by ${prof.name}`, `A postcard of ${floor}/F`, "+8 maximum HP", floor < 14 ? `The lift now goes up to ${floor + 1}/F` : "You hold all 14 certificates", `The lab on ${floor}/F opens for you. Inside: ${labPrize(floor)}`];
   if (after > before && floor < 14) items.push(`One more operator slot: your moves can use ${after} operators`);
-  await showDialog({ kicker: `CDS1 ${floor}/F cleared · 通过第 ${floor} 层`, title: `You beat ${prof.name}!`, titleZh: "获胜", portrait: getCharacter(prof.char).portrait, body: [`"${prof.win}"`, h("ul", { class: "reward-list" }, ...items.map((i) => h("li", {}, i)))], buttons: [{ label: "Collect", value: true, primary: true }] });
+  await showDialog({ kicker: `CDS1 ${floor}/F · certified · 通过第 ${floor} 层考核`, title: `You beat ${prof.name}!`, titleZh: "获胜", portrait: getCharacter(prof.char).portrait, body: [`"${prof.win}"`, h("ul", { class: "reward-list" }, ...items.map((i) => h("li", {}, i)))], buttons: [{ label: "Collect", value: true, primary: true }] });
+  await showDialog({ kicker: `Postcard ${floor} of 14 · 明信片`, title: "A postcard for your bag", titleZh: "收到明信片", body: [postcardEl(floor, snap)], buttons: [{ label: floor === progress.labs ? "Keep it" : "Keep it, and find the lab", value: true, primary: true }] });
+  // a floor drawn without a lab door: the bot comes to you
+  if (progress.labs < floor && !world.map.triggers.some((t) => t.action.type === "lab")) await runLab(floor);
+}
+
+/** what waits in the lab of a floor, in a few words */
+function labPrize(floor: number): string {
+  const r = REWARDS[floor];
+  const parts: string[] = [];
+  if (r.fn) parts.push(`the ${CARDS[r.fn].name} block`);
+  if (r.op) parts.push(`the ${r.op} block`);
+  if (r.brackets) parts.push("the brackets");
+  if (r.key) parts.push("the key card to Building 5");
+  if (r.shieldBlock) parts.push("one more shield block");
+  if (r.power) parts.push(r.power === "gym" ? "a gym pass" : "a can of Red Bull");
+  if (r.hallpass) parts.push("the way into the Grand Hall");
+  return parts.join(", ");
+}
+
+/** the view of the floor right now, for the picture side of a postcard */
+function snapshot(): HTMLCanvasElement {
+  const c = document.createElement("canvas");
+  c.width = 480;
+  c.height = 270;
+  const g = c.getContext("2d")!;
+  g.imageSmoothingEnabled = false;
+  g.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, c.width, c.height);
+  return c;
+}
+
+function postcardEl(floor: number, picture?: HTMLCanvasElement): HTMLElement {
+  const c = POSTCARDS[floor];
+  return h(
+    "div",
+    { class: `postcard ${picture ? "" : "mini"}` },
+    picture ? h("div", { class: "pc-pic" }, picture, h("span", { class: "pc-floor" }, `CDS1 ${floor}/F`)) : null,
+    h("div", { class: "pc-text" }, h("div", { class: "pc-stamp" }, crest(picture ? 54 : 34), h("span", {}, `${floor}/F`)), h("b", {}, c.title), h("small", {}, c.zh), h("p", {}, c.fact), picture ? h("div", { class: "pc-from" }, "Greetings from HKU CDS Shanghai · 来自港大 CDS 上海") : null),
+  );
+}
+
+// ------------------------------------------------------------------ labs
+async function labDoor(floor: number): Promise<void> {
+  const p = progress;
+  const kicker = `Lab · CDS1 ${floor}/F · 实验室`;
+  if (!floor || !LABS[floor]) return;
+  if (floor > p.cleared) {
+    await showDialog({ kicker, title: "The lab is locked", titleZh: "实验室未开放", body: [`${LABS[floor].bot} is running inside. Nobody goes in without a certificate for this floor: find ${professor(floor).name} and pass the test first.`] });
+    return;
+  }
+  if (floor <= p.labs) {
+    await showDialog({ kicker, title: "This lab is free", titleZh: "实验室已解放", body: [`${LABS[floor].bot} is switched off and the students are back at work. ${LABS[floor].why}`] });
+    return;
+  }
+  if (floor > p.labs + 1) {
+    await showDialog({ kicker, title: "One lab at a time", titleZh: "先去楼下的实验室", body: [`The bot on ${p.labs + 1}/F is still running. Clear that lab first.`] });
+    return;
+  }
+  await runLab(floor);
+}
+
+async function runLab(floor: number): Promise<void> {
+  const L = LABS[floor];
+  const r = REWARDS[floor];
+  const kicker = `Lab · CDS1 ${floor}/F · 实验室`;
+  let tries = 0;
+  // the self-playing demo does not answer questions
+  while (!pace.auto) {
+    const pick = await showDialog<number>({
+      kicker,
+      title: `${L.bot} blocks the lab`,
+      titleZh: "回答机器人的问题",
+      wide: true,
+      body: [h("p", { class: "dim" }, tries ? `Hint: ${L.hint}` : "The AI left this bot in charge. It gives the lab back to anyone who can read its block."), ...(L.picture ? [h("div", { class: "lab-pic" }, L.picture())] : []), h("p", { class: "lab-q" }, L.q)],
+      buttons: L.options.map((label, value) => ({ label, value })),
+    });
+    if (pick === L.answer) break;
+    tries++;
+    sfx("hit");
+    await showDialog({ kicker, title: `${L.bot}: WRONG`, titleZh: "再想一想", body: [`"${L.options[pick]}" is not it. ${L.hint}`], buttons: [{ label: "Try again", value: true, primary: true }] });
+  }
+  applyReward(progress, floor);
+  save();
+  sfx("win");
+  await showDialog({ kicker: `Lab ${floor} of 14 freed · 实验室已解放`, title: `${L.bot} shuts down`, titleZh: "机器人关机", body: [L.why, h("ul", { class: "reward-list" }, h("li", {}, r.text))], buttons: [{ label: "Collect", value: true, primary: true }] });
   for (const id of [r.fn, r.op, r.brackets ? "brackets" : undefined, r.power]) {
     if (id && !progress.seen.includes(id)) {
       progress.seen.push(id);
@@ -393,6 +494,7 @@ async function winFloor(floor: number): Promise<void> {
     }
   }
   save();
+  refreshHud();
 }
 
 async function fightBoss(t: Target | null): Promise<void> {
@@ -406,7 +508,7 @@ async function fightBoss(t: Target | null): Promise<void> {
       progress.bossBeaten = true;
       save();
       // the welcome program runs: the wall lights up before anyone speaks
-      setLedText(["print('Welcome to HKU CDS Shanghai!')", "# all 14 blocks, run in order", "# Sapientia et Virtus"]);
+      setLedText(["print('Welcome to HKU CDS Shanghai!')", "# the campus is yours again", "# Sapientia et Virtus"]);
       showHud(false);
       world.focus = { x: world.px, y: 0, screenY: 0 };
       refreshHud();
@@ -417,14 +519,14 @@ async function fightBoss(t: Target | null): Promise<void> {
       await ending();
       return;
     }
-    const retry = await showDialog<boolean>({ kicker: "Out of HP · 生命值归零", title: "Leo: Almost!", titleZh: "差一点", portrait: sheet.portrait, body: ["Leo pats you on the shoulder with a big paw. Lions do not give up, and neither do CDS students."], buttons: [{ label: "Try again", value: true, primary: true }, { label: "Later", value: false }] });
+    const retry = await showDialog<boolean>({ kicker: "Out of HP · 生命值归零", title: "Almost!", titleZh: "差一点", portrait: sheet.portrait, body: ["For a second the cold blue leaves Leo's eyes and he winks at you. Lions do not give up, and neither do CDS students."], buttons: [{ label: "Try again", value: true, primary: true }, { label: "Later", value: false }] });
     if (!retry) return;
   }
 }
 
 async function ending(): Promise<void> {
   const sheet = getCharacter("leo");
-  await showDialog({ kicker: "Final exam passed · 通过期末考验", title: "Leo: ROAR! The wall is lit!", titleZh: "点亮大屏", portrait: sheet.portrait, body: ["All 14 blocks run in order, and the Grand Hall wall plays the welcome show for Magic Hour.", "You climbed CDS1, met 14 professors and read every block of the program yourself. Welcome to the HKU School of Computing and Data Science, Shanghai."], buttons: [{ label: "What did I learn?", value: true, primary: true }] });
+  await showDialog({ kicker: "Final exam passed · 通过期末考验", title: "Leo: ROAR! I am back!", titleZh: "Leo 回来了", portrait: sheet.portrait, body: ["The AI lets go. Leo shakes his mane, the lights come back on, and the Grand Hall wall plays the welcome show for Magic Hour at last.", "You climbed CDS1, earned 14 certificates, shut down 14 bots and read every block yourself. Welcome to the HKU School of Computing and Data Science, Shanghai."], buttons: [{ label: "What did I learn?", value: true, primary: true }] });
   await showDialog({
     kicker: "You can read code now · 你已经会读代码了",
     title: "What you learned",
@@ -500,7 +602,7 @@ async function openBag(): Promise<void> {
   const p = progress;
   const group = (title: string, ids: string[]) => (ids.length ? [h("div", { class: "bag-h" }, title), h("div", { class: "bag-grid" }, ...ids.map((id) => cardPicture(id)))] : []);
   await showDialog({
-    kicker: `Max HP ${playerMaxHp(p)} · floors cleared ${p.cleared} / 14 · campus details found ${p.found.length}`,
+    kicker: `Max HP ${playerMaxHp(p)} · certificates ${p.cleared} / 14 · labs freed ${p.labs} / 14 · campus details found ${p.found.length}`,
     title: "Your blocks",
     titleZh: "背包 · 我的积木",
     wide: true,
@@ -509,6 +611,7 @@ async function openBag(): Promise<void> {
       ...group("Operators (random each turn) · 运算符", [...OP_ORDER.filter((o) => p.ops.includes(o)), ...(p.brackets ? ["brackets"] : [])]),
       ...group("Shield functions · 护盾函数", FN_ORDER.filter((f) => p.fns.includes(f))),
       ...group("Power-ups · 道具", POWER_ORDER.filter((k) => p.power[k] > 0)),
+      ...(p.cleared ? [h("div", { class: "bag-h" }, `Postcards · 明信片 ${p.cleared}/14`), h("div", { class: "postcard-grid" }, ...Array.from({ length: p.cleared }, (_, i) => postcardEl(i + 1)))] : []),
     ],
     buttons: [{ label: "Close", value: true, primary: true }],
   });
@@ -529,12 +632,14 @@ async function openMenu(): Promise<void> {
       { label: "Demo mode", value: "demo" },
       { label: "Level select", value: "levels" },
       { label: "Building 5", value: "b5" },
+      { label: musicOn() ? "Music: on" : "Music: off", value: "music" },
       { label: "Title screen", value: "title" },
     ],
   });
   busy = false;
   world.paused = false;
-  if (pick === "demo") await demo();
+  if (pick === "music") setMusic(!musicOn());
+  else if (pick === "demo") await demo();
   else if (pick === "levels") await levelSelect();
   else if (pick === "b5") {
     // shortcut for the presentation: hands over the key and walks you to the Building 5 door
@@ -552,18 +657,21 @@ async function openMenu(): Promise<void> {
 async function levelSelect(): Promise<void> {
   busy = true;
   world.paused = true;
-  const buttons = [...PROFESSORS.map((p) => ({ label: `${p.floor}/F`, value: p.floor })), { label: "Grand Hall", value: 15 }, { label: "Cancel", value: 0, primary: true }];
+  const buttons = [...PROFESSORS.map((p) => ({ label: `${p.floor}/F`, value: p.floor })), { label: "Grand Hall", value: 15 }, { label: "Building 5", value: 16 }, { label: "Cancel", value: 0, primary: true }];
   const f = await showDialog<number>({ kicker: "For the presentation · 演示用", title: "Level select", titleZh: "选关", wide: true, body: ["Jump to any floor with the blocks you would have by then. This replaces your current progress."], buttons });
   busy = false;
   world.paused = false;
   if (!f) return;
-  progress = progressAtFloor(Math.min(14, f - 1));
+  // Building 5: the kit of a student who just got the key on 3/F
+  progress = progressAtFloor(f === 16 ? 3 : Math.min(14, f - 1));
   if (f === 15) progress.hallpass = true;
+  progress.seen.push("tutorial");
   save();
   title?.remove();
   title = null;
   showHud(true);
-  await travel(f === 15 ? "hall" : `cds1-${f}`, f === 15 ? "entry" : "lift");
+  if (f === 16) await travel("b5-1", "door");
+  else await travel(f === 15 ? "hall" : `cds1-${f}`, f === 15 ? "entry" : "lift");
 }
 
 // ------------------------------------------------------------------ demo mode
@@ -605,6 +713,45 @@ async function demo(): Promise<void> {
   showTitle();
 }
 
+// ------------------------------------------------------------------ opening: Magic Hour in the Grand Hall
+async function opening(): Promise<void> {
+  const leoSheet = getCharacter("leo");
+  const me = getCharacter("student").portrait;
+  await showDialog({ kicker: "HKU Zhangjiang Base · No. 500 Fangchun Road, Shanghai · 香港大学张江基地", title: "Magic Hour in the Grand Hall", titleZh: "大礼堂的迎新夜", portrait: me, body: ["It is your first evening at HKU's home in Shanghai, where a university founded in 1911 teaches computing in Zhangjiang. Tonight is Magic Hour, and the new students meet in the Grand Hall under the giant LED wall.", "On the stage Leo, the HKU lion, waves you up."], buttons: [{ label: "Go up", value: true, primary: true }] });
+  const lesson = await showDialog<boolean>({ kicker: "Grand Hall · 大礼堂", title: "Leo the HKU lion", titleZh: "港大狮子 Leo", portrait: leoSheet.portrait, body: ['"ROAR! Welcome to CDS! Nobody here starts with code. We start with blocks: you snap them together and they run, like a tiny program."', '"Come on, a friendly round against me. I will show you every step."'], buttons: [{ label: "Show me", value: true, primary: true }, { label: "Skip the lesson", value: false }] });
+  const leo = world.map.npcs.find((n) => n.action?.type === "boss");
+  if (lesson && leo) {
+    world.px = (leo.tx - 3) * TILE + TILE / 2;
+    world.py = leo.ty * TILE + TILE - 10;
+    world.dir = "right";
+    world.snapCamera();
+    const target: Target = { id: leo.id, en: "", zh: "", action: { type: "boss" }, npc: leo };
+    const tutor = { ...LEO, name: "Leo", topic: "your first block battle", hello: "Blocks ready? I go easy on new students. Mostly. ROAR!", signature: { title: "Round Off", shield: { kind: "round" as const, a: 0, b: 0 } } };
+    while (true) {
+      const cfg: BattleConfig = { ...baseConfig(progress), floor: 1, boss: false, place: "Grand Hall · 大礼堂 · the welcome lesson", enemy: tutor, enemyHp: enemyHp(1), skill: 0, pool: enemyPool(1), foeShields: enemyShieldCount(1), level: 0, slots: slotsForFloor(1), tutorial: true };
+      const result = await battle(cfg, target, true);
+      if (result !== "lose") break;
+      await showDialog({ title: "Leo: Again!", titleZh: "再来一次", portrait: leoSheet.portrait, body: ['"That is what a lesson is for. Once more, from the top!"'], buttons: [{ label: "Try again", value: true, primary: true }] });
+    }
+  }
+  if (!progress.seen.includes("tutorial")) progress.seen.push("tutorial");
+  save();
+  // the takeover: the wall speaks before anyone else does
+  setLedText(["AI> hello, students", "AI> this campus is mine now", "AI> bots deployed: CDS1, floors 1 to 14"]);
+  showHud(false);
+  world.focus = { x: world.px, y: 0, screenY: 0 };
+  sfx("hit");
+  await sleep(2800);
+  world.focus = null;
+  world.snapCamera();
+  showHud(true);
+  await showDialog({ kicker: "The LED wall · 大屏", title: "The AI takes over CDS", titleZh: "AI 接管了学院", portrait: leoSheet.portrait, body: ["The lights flicker. The text on the wall is not the welcome show. The campus AI that runs the lifts, the doors and the labs has decided to run the school by itself.", "Leo stops in the middle of a roar. His eyes turn the same cold blue as the wall."], buttons: [{ label: "What now?", value: true, primary: true }] });
+  await showDialog({ kicker: "A call from CDS1 · 来自一号楼的电话", title: professor(1).name, titleZh: professor(1).nameZh, portrait: getCharacter(professor(1).char).portrait, body: ['"Listen. The AI has put a bot in the lab on every floor of the CDS1 tower, and each bot is sitting on one of our function blocks."', '"We will not send a student in unprepared. On every floor a professor tests you in a block battle. Pass, and you are certified to enter that floor\'s lab and shut its bot down. Fourteen floors, then the Grand Hall. Start with me on 1/F."'], buttons: [{ label: "I am on my way", value: true, primary: true }] });
+  await showDialog({ kicker: "How to play · 玩法", title: "No coding experience needed", titleZh: "不会编程也能玩", portrait: me, body: ["On each floor: find the professor in one of the rooms, pass the block battle, then find the lab and answer its bot. That gives you the floor's new block and a postcard.", h("p", { class: "dim" }, "Walk: arrow keys or WASD. Talk, open doors, call the lift: Space. Campus details you find on the way are worth HP.")], buttons: [{ label: "Run to CDS1", value: true, primary: true }] });
+  setLedText([]);
+  await travel("outside", "start");
+}
+
 // ------------------------------------------------------------------ title
 let title: HTMLElement | null = null;
 
@@ -622,14 +769,14 @@ function showTitle(): void {
       clearProgress();
       progress = freshProgress();
     } else progress = saved ?? freshProgress();
+    if (fresh) {
+      progress.map = "hall";
+      progress.spawn = "entry";
+    }
     showHud(true);
     world.enter(progress.map, progress.spawn);
     refreshHud();
-    if (fresh) {
-      await showDialog({ kicker: "HKU Zhangjiang Base · No. 500 Fangchun Road, Shanghai · 香港大学张江基地", title: "Magic Hour, and the wall is dark", titleZh: "大屏没有亮", portrait: getCharacter("student").portrait, body: ["It is your first evening at HKU's home in Shanghai, where a university founded in 1911 teaches computing in Zhangjiang. Tonight is Magic Hour, and the giant LED wall in the Grand Hall should be playing the welcome show.", "It is not. The wall is dark."], buttons: [{ label: "What happened?", value: true, primary: true }] });
-      await showDialog({ kicker: "A note on the lawn · 草坪上的字条", title: "Leo's seat is empty", titleZh: "Leo 不见了", portrait: getCharacter("leo").portrait, body: ['"The welcome show is a program. I split it into 14 blocks and left one with each professor in the CDS1 tower, floor 1 to floor 14. Each of them will hand it to a student who shows they can read it."', '"Climb up, collect all 14, and bring them to me in the Grand Hall. Then we light the wall together. ROAR! Leo"'], buttons: [{ label: "I will do it", value: true, primary: true }] });
-      await showDialog({ kicker: "How to play · 玩法", title: "No coding experience needed", titleZh: "不会编程也能玩", portrait: getCharacter("student").portrait, body: ["Each professor checks you in a friendly block battle: snap number and operator blocks into an ATTACK, and build a shield from a repeat block. Win, and the professor's block of the program is yours.", h("p", { class: "dim" }, "Walk: arrow keys or WASD. Talk, open doors, call the lift: Space.")], buttons: [{ label: "Let's go", value: true, primary: true }] });
-    }
+    if (fresh) await opening();
     busy = false;
     world.paused = false;
     refreshPrompt();
@@ -643,7 +790,7 @@ function showTitle(): void {
       h("h1", {}, "Code ", h("span", {}, "Climb")),
       h("div", { class: "zh" }, "编程闯关 · 港大 CDS 上海校园"),
       h("div", { class: "logo-blocks" }, h("div", { class: "script-body" }, hatBlock("when it is my turn"), moveBlock({ verb: "ATTACK", digits: [8, 2, 3], ops: ["+", "×"] }, 14)), h("div", { class: "script-body" }, hatBlock("when I am attacked"), shieldBlock({ kind: "for1", a: 3, b: 2 }))),
-      h("div", { class: "sub" }, "The welcome show on the Grand Hall wall is a program, and its 14 blocks are missing.", h("br", {}), "Explore the real HKU CDS Shanghai campus, win them back in block-coding battles, light the wall."),
+      h("div", { class: "sub" }, "An AI has taken over HKU CDS Shanghai, and its bots hold the labs on all 14 floors.", h("br", {}), "Explore the real campus, get certified by the professors in block-coding battles, free the labs and Leo."),
     ),
     h(
       "div",
@@ -740,6 +887,8 @@ async function boot(): Promise<void> {
     sandbox = true;
     const floor = battleParam === "boss" ? 15 : Number(battleParam ?? params.get("floor") ?? 15);
     progress = progressAtFloor(Math.max(0, Math.min(14, floor - 1)));
+    // ?pending=1: the last floor is certified but its lab is still held by the bot
+    if (params.get("pending")) progress.labs = Math.max(0, progress.cleared - 1);
     if (!battleParam) {
       progress.b5key = true;
       progress.hallpass = true;
@@ -751,6 +900,9 @@ async function boot(): Promise<void> {
     if (params.get("nohud")) showHud(false);
     refreshHud();
     requestAnimationFrame(frame);
+    // ?postcard=6: look at one postcard
+    const pc = Number(params.get("postcard"));
+    if (pc) setTimeout(() => void showDialog({ kicker: `Postcard ${pc} of 14 · 明信片`, title: "A postcard for your bag", titleZh: "收到明信片", body: [postcardEl(pc, snapshot())] }), 600);
     if (battleParam) {
       const npc = world.map.npcs.find((n) => n.action?.type === "battle" || n.action?.type === "boss");
       if (npc) {
