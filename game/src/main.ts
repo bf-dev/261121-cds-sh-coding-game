@@ -14,6 +14,7 @@ import { cardPopup, dialogOpen, showDialog, toast } from "./ui/dialogs";
 import { h, pace, sleep, ui } from "./ui/dom";
 import { sfx } from "./ui/sfx";
 import { llmEnabled } from "./battle/llm";
+import { loadLogo } from "./art/logo";
 
 const params = new URLSearchParams(location.search);
 const canvas = document.getElementById("game") as HTMLCanvasElement;
@@ -482,7 +483,7 @@ async function openMenu(): Promise<void> {
 async function levelSelect(): Promise<void> {
   busy = true;
   world.paused = true;
-  const buttons = [...PROFESSORS.map((p) => ({ label: `${p.floor}/F`, value: p.floor })), { label: "Leo", value: 15 }, { label: "Cancel", value: 0, primary: true }];
+  const buttons = [...PROFESSORS.map((p) => ({ label: `${p.floor}/F`, value: p.floor })), { label: "Grand Hall", value: 15 }, { label: "Cancel", value: 0, primary: true }];
   const f = await showDialog<number>({ kicker: "For the presentation · 演示用", title: "Level select", titleZh: "选关", wide: true, body: ["Jump to any floor with the blocks you would have by then. This replaces your current progress."], buttons });
   busy = false;
   world.paused = false;
@@ -641,6 +642,7 @@ async function boot(): Promise<void> {
   } catch {
     /* fonts are a nicety */
   }
+  await loadLogo();
   const sheet = params.get("sheet");
   if (sheet) {
     showHud(false);
