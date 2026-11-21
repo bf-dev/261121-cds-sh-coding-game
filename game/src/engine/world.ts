@@ -65,6 +65,11 @@ export class World {
     this.snapCamera();
   }
 
+  /** true when a character can stand with its feet at this pixel */
+  canStand(x: number, y: number): boolean {
+    return !this.solidAt(x, y - 6);
+  }
+
   private solidAt(x: number, y: number): boolean {
     const m = this.map;
     const tx = Math.floor(x / TILE);

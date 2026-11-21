@@ -291,21 +291,34 @@ async function toHall(close: () => void, resolve: () => void): Promise<void> {
 }
 
 // ------------------------------------------------------------------ battles
-function focusOn(t: Target, screenY: number): void {
+/**
+ * Battle pose: the student steps to the professor's side so both stand on one line, above the
+ * HP panels, facing each other. Returns a function that puts the student back afterwards.
+ */
+function battlePose(t: Target, boss: boolean): () => void {
   const n = t.npc;
-  if (!n) return;
+  if (!n) return () => {};
+  const back = { x: world.px, y: world.py, dir: world.dir };
   const nx = n.tx * TILE + TILE / 2;
   const ny = n.ty * TILE + TILE - 10;
-  world.focus = { x: (nx + world.px) / 2, y: Math.max(ny, world.py), screenY };
-  const dx = nx - world.px;
-  const dy = ny - world.py;
-  world.dir = (Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? "right" : "left") : dy > 0 ? "down" : "up") as Dir;
+  const gap = (boss ? 3 : 2) * TILE;
+  // stand on the side the student came from, unless that spot is inside a wall
+  const fromLeft = world.px <= nx;
+  const side = world.canStand(nx + (fromLeft ? -gap : gap), ny) ? (fromLeft ? -1 : 1) : world.canStand(nx + (fromLeft ? gap : -gap), ny) ? (fromLeft ? 1 : -1) : fromLeft ? -1 : 1;
+  world.px = nx + side * gap;
+  world.py = ny;
+  world.dir = side < 0 ? "right" : "left";
+  // against Leo the camera sits at the top of the hall, so the whole LED wall is in view
+  world.focus = boss ? { x: (nx + world.px) / 2, y: 0, screenY: 0 } : { x: (nx + world.px) / 2, y: ny, screenY: 196 };
+  return () => {
+    world.px = back.x;
+    world.py = back.y;
+    world.dir = back.dir;
+  };
 }
 
-async function battle(cfg: BattleConfig, t: Target | null, screenY = 300): Promise<"win" | "lose" | "quit"> {
-  if (t) focusOn(t, screenY);
-  // against Leo the camera sits at the top of the hall, so the whole LED wall is in view
-  if (cfg.boss && world.focus) world.focus = { x: world.focus.x, y: 0, screenY: 0 };
+async function battle(cfg: BattleConfig, t: Target | null): Promise<"win" | "lose" | "quit"> {
+  const restore = t ? battlePose(t, cfg.boss) : () => {};
   inBattle = true;
   showHud(false);
   const speed = pace.speed;
@@ -313,6 +326,8 @@ async function battle(cfg: BattleConfig, t: Target | null, screenY = 300): Promi
   if (!pace.auto) pace.speed = speed;
   inBattle = false;
   world.focus = null;
+  restore();
+  world.snapCamera();
   showHud(true);
   for (const id of cfg.seen) if (!progress.seen.includes(id)) progress.seen.push(id);
   save();
@@ -368,7 +383,7 @@ async function winFloor(floor: number): Promise<void> {
   applyReward(progress, floor);
   const after = slotsForFloor(floor + 1);
   save();
-  const items = [`Block ${floor} of 14 of the welcome program`, r.text, "+5 maximum HP", floor < 14 ? `The lift now goes up to ${floor + 1}/F` : "All 14 floors of CDS1 cleared"];
+  const items = [`Block ${floor} of 14 of the welcome program`, r.text, "+8 maximum HP", floor < 14 ? `The lift now goes up to ${floor + 1}/F` : "All 14 floors of CDS1 cleared"];
   if (after > before && floor < 14) items.push(`One more operator slot: your moves can use ${after} operators`);
   await showDialog({ kicker: `CDS1 ${floor}/F cleared · 通过第 ${floor} 层`, title: `You beat ${prof.name}!`, titleZh: "获胜", portrait: getCharacter(prof.char).portrait, body: [`"${prof.win}"`, h("ul", { class: "reward-list" }, ...items.map((i) => h("li", {}, i)))], buttons: [{ label: "Collect", value: true, primary: true }] });
   const id = r.fn ?? r.op ?? (r.brackets ? "brackets" : r.power);
@@ -393,6 +408,7 @@ async function fightBoss(t: Target | null): Promise<void> {
       setLedText(["print('Welcome to HKU CDS Shanghai!')", "# all 14 blocks, run in order", "# Sapientia et Virtus"]);
       showHud(false);
       world.focus = { x: world.px, y: 0, screenY: 0 };
+      refreshHud();
       sfx("win");
       await sleep(3200);
       world.focus = null;
