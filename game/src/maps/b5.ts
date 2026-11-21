@@ -5,7 +5,7 @@ import * as K from "./b5-kit";
 import { drawCrestIn } from "../art/logo";
 import { buildB5Study, buildB5CoCreation, buildB5Commons, liftDoors } from "./b5-upper";
 
-// Building 5, from buildings/b5/: the reward building north of CDS1.
+// Building 5, from buildings/b5/: the reward building north of CDS-1.
 // b5-1 = 1/F marble lift lobby with the University Galleria behind the walnut arch.
 // b5-2 = the amenity floor at the top of the white feature stair (gym, games, lounge). No cafe.
 // b5-3 .. b5-5 = study and meeting floors, in b5-upper.ts. The study stair joins 3/F and 4/F.
@@ -519,7 +519,7 @@ function buildLobby(): GameMap {
   info("pillar", 17, 13, 1, 1, "Pier 05 / B2", "05 / B2 石柱", "The white marble pier by lift 1 is engraved 05 over B2. 05 is Building 5. Nobody on the team knows yet what B2 stands for.");
   info("directory", 13, 13, 2, 1, "Directory panel", "楼层索引", "A tall dark glass panel beside lift 1, covered in small white lines of text: the building directory.");
   info("hours", 13, 19, 3, 1, "Opening hours", "开放时间", "Building 5 and the sports court are now open: your new space for sports, study and co-creation. 08:00 to 22:00, seven days a week, except public holidays.");
-  info("reception", 25, 19, 4, 1, "Reception", "前台", "Building 5 is the student amenity centre, north of CDS1. It opened on 30 August 2026 with a fitness room, music and dance rooms, a game hub and study spaces.");
+  info("reception", 25, 19, 4, 1, "Reception", "前台", "Building 5 is the student amenity centre, north of CDS-1. It opened on 30 August 2026 with a fitness room, music and dance rooms, a game hub and study spaces.");
   info("pictures", 19, 13, 3, 1, "Picture wall", "画廊墙", "Backlit beige marble with a row of dark framed artworks at eye level, under a warm cove of light.");
   info("oval-table", 19, 16, 3, 2, "Oval table", "椭圆高桌", "One tall oval pedestal table, maroon base and white top, standing alone on the inlaid lattice floor.");
   info("mind-your-head", 6, 19, 3, 1, "Feature stair", "旋转楼梯", "A white feature stair with a solid white plaster balustrade curves up to 2/F, turning over a small landing on the way. The signs say Mind Your Step and Mind Your Head.");

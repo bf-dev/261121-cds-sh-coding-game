@@ -1,5 +1,5 @@
 // Every character in the game, drawn in code: the student, the 14 teachers of
-// docs/professor-levels.md (one per CDS1 floor), Leo the HKU lion, the guard and four visitors.
+// docs/professor-levels.md (one per CDS-1 floor), Leo the HKU lion, the guard and four visitors.
 
 import type { CharSheet } from "../engine/types";
 import { mk } from "./px";

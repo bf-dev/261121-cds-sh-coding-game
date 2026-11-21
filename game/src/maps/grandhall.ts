@@ -1,6 +1,7 @@
 import { TILE, type GameMap, type Prop, type Trigger } from "../engine/types";
 import { mk, rect, frame, hash, dither, speckle, ellipse, text, block, FONT, type Ctx } from "../art/px";
 import { drawCrest } from "./grandhall-crest";
+import { logoFull } from "../art/logo";
 
 // The grand hall, from buildings/grand-hall/: a raked auditorium facing one end stage,
 // walnut panel walls, light oak stage, one huge LED wall. The camera looks toward the stage.
@@ -54,17 +55,26 @@ function buildIdle(w: number, h: number): HTMLCanvasElement {
     g.fillStyle = `rgba(4,26,34,${0.1 + s * 0.07})`;
     for (let y = h - 96 + s * 16; y < h - 96 + (s + 1) * 16; y += 4) for (let x = (y / 4) % 2 ? 0 : 4; x < w; x += 8) g.fillRect(x, y, 4, 4);
   }
-  // crest and hall name on the left, so whoever stands centre stage hides nothing
-  const ch = Math.round(h * 0.66);
-  const cw = Math.round(ch / 1.18);
-  const x0 = 70;
-  const cy = Math.round((h - ch) / 2) - 12;
-  rect(g, x0 - 10, cy - 10, cw + 20, ch + 20, "rgba(4,26,34,0.35)");
-  drawCrest(g, x0, cy, cw);
-  text(g, "Grand Hall", x0 + cw + 34, cy + 6, 68, "#06323c");
-  text(g, "Grand Hall", x0 + cw + 32, cy + 2, 68, "#f4fffb");
-  text(g, "大礼堂", x0 + cw + 34, cy + 82, 50, "#06323c");
-  text(g, "大礼堂", x0 + cw + 32, cy + 79, 50, "#d8fff3");
+  // the official HKU logo, in colour and unaltered, on a white plate at the left (Koki, BUGS.md #7),
+  // with the hall name under it, so whoever stands centre stage hides nothing
+  const logo = logoFull(84);
+  const px0 = 40;
+  const py0 = 22;
+  const pw = logo.width + 48;
+  const ph = logo.height + 32;
+  rect(g, px0 + 5, py0 + 6, pw, ph, "rgba(4,26,34,0.4)");
+  g.fillStyle = "#ffffff";
+  g.beginPath();
+  g.roundRect(px0, py0, pw, ph, 12);
+  g.fill();
+  g.imageSmoothingEnabled = true;
+  g.drawImage(logo, px0 + 24, py0 + 16);
+  g.imageSmoothingEnabled = false;
+  const ty = py0 + ph + 14;
+  text(g, "Grand Hall", px0 + 4, ty + 3, 50, "#06323c");
+  text(g, "Grand Hall", px0 + 2, ty, 50, "#f4fffb");
+  text(g, "大礼堂", px0 + 290, ty + 7, 40, "#06323c");
+  text(g, "大礼堂", px0 + 288, ty + 4, 40, "#d8fff3");
   text(g, "HKU School of Computing and Data Science", 28, h - 32, 19, "#c6f3ea");
   // right: the final exam card
   text(g, "FINAL EXAM · 期末大考", w - 36, 26, 30, "#06323c", { align: "right" });
@@ -647,7 +657,7 @@ export function buildGrandHall(): GameMap {
     ty: ROWS - 2,
     w: 3,
     h: 1,
-    en: "Back to CDS1 14/F",
+    en: "Back to CDS-1 14/F",
     zh: "回一号楼 14 层",
     action: { type: "goto", map: "cds1-14", spawn: "lift" },
   });

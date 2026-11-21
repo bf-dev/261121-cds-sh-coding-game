@@ -1,4 +1,4 @@
-// CDS1 classroom-type floor, filmed on 6/F and reused for 2 to 10 (buildings/cds1 §4, §7).
+// CDS-1 classroom-type floor, filmed on 6/F and reused for 2 to 10 (buildings/cds1 §4, §7).
 // Plan from the 6/F walk (105838 and 110022 videos): lift lobby and lounge at one end, a corridor that
 // runs past the glass rooms on the window side with the timber-clad core on the other side, then the
 // big teamwork space at the far end, with classroom 611 behind a timber wall off that space.

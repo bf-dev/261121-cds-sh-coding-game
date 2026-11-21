@@ -1,4 +1,4 @@
-// Floor-specific CDS1 props: turnstiles, booths, exhibition drums, bleachers, lab kit, fridges.
+// Floor-specific CDS-1 props: turnstiles, booths, exhibition drums, bleachers, lab kit, fridges.
 import { mk, rect, frame, ellipse, shade, hash, shadow, text } from "../art/px";
 import { box, cyl } from "./cds1-props";
 

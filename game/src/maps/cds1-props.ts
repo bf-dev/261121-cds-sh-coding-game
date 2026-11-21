@@ -1,4 +1,4 @@
-// Furniture sprites for the CDS1 floors, drawn in the same 3/4 view as the maps.
+// Furniture sprites for the CDS-1 floors, drawn in the same 3/4 view as the maps.
 import { mk, rect, ellipse, shade, hash, shadow, type Ctx } from "../art/px";
 
 const cache = new Map<string, HTMLCanvasElement>();

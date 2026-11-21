@@ -1,4 +1,4 @@
-// The lab on each CDS1 floor and the postcard of that floor.
+// The lab on each CDS-1 floor and the postcard of that floor.
 // Team direction (voice note, 2026-11-21 afternoon): beating the professor gives a postcard and
 // access to the floor's lab; the new block comes from the lab, after a puzzle.
 // In the story the AI left one bot in every lab. The bot asks one question about the block it
@@ -169,7 +169,7 @@ export const POSTCARDS: Record<number, Postcard> = {
   5: { title: "Classrooms and student zone", zh: "教室与学生活动区", fact: "Building 5, north of this tower, is the student amenity centre: sports, study and co-creation space, open 7 days a week." },
   6: { title: "Classrooms and teamwork space", zh: "教室与团队协作区", fact: "Room numbers here are etched in hollow outline digits with a small door-handle doodle. Room 604 is a gym with treadmills behind a glass wall." },
   7: { title: "Teaching lab and classrooms", zh: "教学实验室与教室", fact: "Four roads frame the campus: Zuchongzhi Road to the north, Jidian Road to the south, Jichuang Road to the west and Fangchun Road to the east." },
-  8: { title: "Research lab", zh: "科研实验室", fact: "From here up the floors belong to research. Across the plaza stands CDS2, a tower that looks almost the same as this one." },
+  8: { title: "Research lab", zh: "科研实验室", fact: "From here up the floors belong to research. Across the plaza stands CDS-2, a tower that looks almost the same as this one." },
   9: { title: "Research lab", zh: "科研实验室", fact: "On the lawn below, big white HKU letters stand next to Leo, the lion mascot. Most visitors take their first photo there." },
   10: { title: "Research lab", zh: "科研实验室", fact: "Students pick up food at the yellow Meituan lockers east of the tower, across the service road. Fangchun Road runs behind them." },
   11: { title: "Professor offices", zh: "教授办公室", fact: "The school's full name is the HKU School of Computing and Data Science. In Chinese: 香港大学计算与数据科学学院." },

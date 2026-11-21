@@ -1,4 +1,4 @@
-// CDS1 14/F: director and general office, exhibition lounge (buildings/cds1 §6).
+// CDS-1 14/F: director and general office, exhibition lounge (buildings/cds1 §6).
 // Plan from the 14/F walk (111812 video): the lift hall has two ends. One end goes through the etched
 // glass doors into the white corridor of the director and general office. The other end goes through
 // plain glass doors into the lounge: reception desk, the CDS letters on the left wall, then the

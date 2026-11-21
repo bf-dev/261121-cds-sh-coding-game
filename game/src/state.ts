@@ -4,7 +4,7 @@ import type { FnKind, Op } from "./battle/rules";
 import { REWARDS } from "./data/cards";
 
 export interface Progress {
-  /** highest CDS1 floor beaten, 0 = none */
+  /** highest CDS-1 floor beaten, 0 = none */
   cleared: number;
   /** highest floor whose lab was cleared: the floor's block comes from its lab, after the professor */
   labs: number;
@@ -58,6 +58,8 @@ export function loadProgress(): Progress | null {
     const p: Progress = { ...freshProgress(), ...old };
     // saves from before the labs already hold every block up to their floor
     if (typeof old.labs !== "number") p.labs = p.cleared;
+    // rewards come straight from the mentor again: hand over anything that was still waiting in a lab
+    for (let f = p.labs + 1; f <= p.cleared; f++) applyReward(p, f);
     // older saves had fixed loop blocks; the repeat block is now one block with free numbers
     p.fns = p.fns.filter((f) => f !== "for2" && f !== "for3" && f !== "halve");
     // the function blocks moved: round() comes from 1/F and if from 2/F

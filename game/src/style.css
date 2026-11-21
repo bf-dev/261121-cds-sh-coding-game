@@ -394,3 +394,13 @@ small { font-size: 0.72em; color: var(--ink-soft); margin-left: 10px; font-weigh
 .postcard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 8px 0 4px; }
 .lab-pic { display: flex; justify-content: center; margin: 14px 0 6px; }
 .lab-q { font-size: 26px; font-weight: 700; margin: 12px 0 4px; }
+
+/* the opening film: plays by itself, Skip is the only button */
+.intro { position: absolute; inset: 0; z-index: 400; display: flex; flex-direction: column; justify-content: space-between; pointer-events: none; }
+.intro-bar { background: #2a2030; color: #fff6e6; padding: 22px 48px; pointer-events: auto; }
+.intro-bar.top { display: flex; align-items: center; gap: 18px; font-size: 22px; font-weight: 700; letter-spacing: 0.04em; }
+.intro-bar.top .intro-count { opacity: 0.6; margin-right: auto; }
+.intro-bar.bottom { min-height: 210px; padding: 28px 120px 36px; text-align: center; }
+.intro-title { font-size: 46px; font-weight: 700; color: #ffd98a; }
+.intro-title small { font-size: 26px; margin-left: 18px; color: #f4c7d3; font-weight: 700; }
+.intro-text { font-size: 28px; line-height: 1.45; margin-top: 12px; }

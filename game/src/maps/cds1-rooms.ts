@@ -1,4 +1,4 @@
-// Window bays and glass-walled rooms seen through the back wall of a CDS1 floor.
+// Window bays and glass-walled rooms seen through the back wall of a CDS-1 floor.
 import { rect, hash, shade, text, type Ctx } from "../art/px";
 import { WALL_PX, ao } from "./cds1-kit";
 import { roomSign } from "./cds1-wall";

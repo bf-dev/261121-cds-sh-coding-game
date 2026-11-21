@@ -1,4 +1,4 @@
-// CDS1 professor-office floor, filmed on 13/F and reused for 11 and 12 (buildings/cds1 §5).
+// CDS-1 professor-office floor, filmed on 13/F and reused for 11 and 12 (buildings/cds1 §5).
 // Plan from the 13/F walk (111133 video): lift lobby opening onto the lounge with the bar counter and the
 // pantry box, grey corridors that bend around round timber-clad cores past the office doors to the gym in
 // the corner, the row of green booths in the wide passage, and the second lounge by the windows.

@@ -92,18 +92,22 @@ Other floor rewards: floor 2 also the `×` block, floor 3 the Building 5 key (bu
 | Model AI: one call per round for the move, the shield and a one-line explanation | spec and prompt text are in `src/battle/llm.ts` |
 | The one-line explanation without a model is generated from the move ("× and ÷ go before + and -, so 8 + 2 × 3 makes 14") | hackathon brief: professors explain their move |
 
-## story (decision #39 to #41, team voice note; the details below are the builder's proposals)
+## story (decision #45, `docs/visitor-journey-story.md`; what is built so far)
 
-"The AI took CDS". Source: `resources/transcripts/2026-11-21-team-direction-afternoon.md`. The first story, "Light the Wall", is replaced.
+"The invited visitor". The AI takeover story (#39) and the compulsory labs (#40) were built for about an hour and then replaced.
 
-- Opening: Magic Hour in the Grand Hall (the name of the event at which Building 5 opened, 30 Aug 2026). Leo the lion gives the coached tutorial battle on the stage. Then the LED wall prints `AI> this campus is mine now`, Leo's eyes turn blue, and Dr. Dougherty calls the student over to CDS1.
-- Each floor has three steps: find the professor in a room, pass the block battle (the professor certifies the student for that floor), then find the lab and answer its bot.
-- The bot in the lab asks one multiple-choice question about the block it holds (`game/src/data/labs.ts`). A wrong answer gives a hint and another try. The right answer shuts the bot down and gives the floor's reward: the block, the Building 5 key card on 3/F, the extra shield block on 5/F and 11/F, the way into the Grand Hall on 14/F.
-- A student who walks past a lab is not stuck: the next professor patches the bot through before the battle. A floor drawn without a lab door runs the bot right after the win.
-- A win also gives a postcard of the floor: a picture of the floor as it looks in the game, a stamp with the official crest, and one fact from `buildings/` (`POSTCARDS` in `labs.ts`). The Bag keeps them.
-- The HUD counts `Floors freed n/14`.
-- End: the AI hides in the Grand Hall and controls Leo. Beating it frees Leo and the wall plays `print('Welcome to HKU CDS Shanghai!')` with the motto `Sapientia et Virtus`.
-- Not built: bots walking around the floors. The bots are met in the labs only.
+Built:
+
+- Opening film: five scenes that play by themselves (invitation, welcome dinner in the University Galleria, the 14 mentors, Leo, how to walk), about 20 seconds, Skip is the only button. The game then starts in the Galleria on Building 5 1/F.
+- Building 5 1/F is open from the start. Its lift and stair to the upper floors open with the key card from CDS-1 3/F.
+- The coached, untimed first lesson is the 1/F challenge with Dr. Dougherty, who stands in the entrance lobby before the gates.
+- Mentor tone: every professor gives a stamp, the floor's block and a postcard. The HUD counts `Stamps n/14`.
+- Postcards: a picture of the floor as drawn in the game, a crest stamp and one fact from `buildings/` (`POSTCARDS` in `src/data/labs.ts`). The Bag keeps them and the ending shows four.
+- Lab doors: an optional question from the guide about the floor's idea (`LABS` in `src/data/labs.ts`), hint after a wrong answer, +1 maximum HP the first time.
+- Leo is the friendly final examiner. The ending gives the CDS Explorer certificate in text.
+- Explore mode (title screen): every door open, no battles, nothing saved.
+
+Not built from the proposal: the guide as a character you can ask, the mini-games (Hangman, Tower of Hanoi, Snake, history exhibition, Shanghai board), milestone keys with Visit now / Later, portals, the Shanghai postcard set, item explanations in the Bag, a drawn certificate, replay of the opening from the Menu.
 
 ## world
 

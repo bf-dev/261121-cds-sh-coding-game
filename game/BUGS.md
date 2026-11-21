@@ -18,4 +18,13 @@ Running list of bugs and fixes for the game. Newest at the bottom of each sectio
 
 ## fixed
 
-(nothing yet)
+Builder, 2026-11-21 15:30. The numbers are the ones under "open".
+
+1. Done. Both civil defence boards and the small arrow sign are gone from the outdoor map.
+2. Done. The outdoor label and the info text say Grand Hall.
+3. Done. The tower is labelled CDS-2.
+4. Done in every text the player sees: CDS-1, CDS-2. Map ids in code stay `cds1-N`.
+6. Done. Behind the gates there is only a lift hall, four lifts in a row on each side. The floor guide moved to the wall before the gates, the LED wall is gone, Dr. Dougherty stands in the entrance lobby.
+7. The hall already used the official colour crest. The LED wall now carries the full official colour logo (crest plus name) from the hku.hk file.
+
+Still open: 5 (Chinese names of the non-Chinese professors). The game shows the field in Chinese under every name and no invented names. Send the names you want and they go into `src/data/professors.ts` (`nameZh`).

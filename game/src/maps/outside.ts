@@ -80,9 +80,6 @@ export function buildOutside(): GameMap {
   put(P.lion(), 24, 31, 3, 2);
   put(P.hkuLetters(), 30, 33, 5, 1);
   put(P.monument(), 43, 28, 4, 2);
-  put(P.civilBoard(), 52.5, 26, 2, 1);
-  put(P.civilBoard(), 42, 8, 2, 1);
-  put(P.arrowPlate(), 59, 26, 1, 1);
   // the 5 pylon stands in the planted bed to the right of the doors (koki walk-through 110510, 2:04 to 2:06)
   put(P.pylon5(), 54, 7, 1, 1);
   // the two delivery locker walls stand north to south on the east side of the service road,
@@ -135,18 +132,17 @@ export function buildOutside(): GameMap {
 
   const info = (id: string, tx: number, ty: number, w: number, h: number, en: string, zh: string, textEn: string): Trigger => ({ id, tx, ty, w, h, en, zh, action: { type: "info", title: en, titleZh: zh, text: textEn } });
   const triggers: Trigger[] = [
-    { id: "cds1-door", tx: cds1.door, ty: 24, w: 2, h: 1, en: "Enter CDS1", zh: "进入一号楼", auto: true, action: { type: "goto", map: "cds1-1", spawn: "door" } },
+    { id: "cds1-door", tx: cds1.door, ty: 24, w: 2, h: 1, en: "Enter CDS-1", zh: "进入一号楼", auto: true, action: { type: "goto", map: "cds1-1", spawn: "door" } },
     { id: "b5-door", tx: b5.door, ty: 6, w: 2, h: 1, en: "Enter Building 5", zh: "进入五号楼", auto: true, action: { type: "goto", map: "b5-1", spawn: "door", requires: "b5key" } },
     { id: "meituan", tx: LK.x - 1, ty: LK.mt, w: 1, h: LK.len, en: "Meituan food locker", zh: "美团外卖柜", action: { type: "powerup", kind: "food" } },
     info("lion", 23, 32, 5, 1, "The HKU lion", "港大狮子", "A seated cartoon lion about 2.5 m tall, with a yellow mane, a pale green jacket and brown shorts, held down by guy ropes. Students say he waits in the grand hall as the final boss."),
     info("hku-letters", 29, 34, 7, 1, "HKU letters", "HKU 立体字", "Three white block letters, each about 2 m tall, standing straight on the grass. This lawn is the favourite photo spot on campus."),
     info("monument", 42, 29, 6, 1, "Monument sign", "学院标志墙", "A white slab with the HKU crest and the words SCHOOL OF COMPUTING & DATA SCIENCE, The University of Hong Kong. The yellow lane line sweeps around it."),
-    info("footbridge", bridge.x, bridge.y + 2, bridge.w, 2, "Footbridge", "空中连廊", "A deck on three round white columns links CDS1 to the tower facing it, at second-floor height. Look up: a big oval hole is cut through it, like an eye in the ceiling."),
+    info("footbridge", bridge.x, bridge.y + 2, bridge.w, 2, "Footbridge", "空中连廊", "A deck on three round white columns links CDS-1 to CDS-2, the tower facing it, at second-floor height. Look up: a big oval hole is cut through it, like an eye in the ceiling."),
     info("sunken-plaza", 26, 21, 9, 3, "Sunken round plaza", "下沉广场", "A round court a few metres below the plaza, with a sweeping stair and dark granite rings in the floor. The site plan calls it 下沉广场."),
-    info("civil-board", 52, 27, 3, 1, "Civil defence board", "民防工程引导图", "The red board is a real map of this block: Zuchongzhi Road north, Jidian Road south, Jichuang Road west, Fangchun Road east. The basement is a civil defence shelter."),
-    info("taobao", LK.x - 1, LK.tb, 1, LK.len, "Taobao lockers", "淘宝闪购柜", "The white and red wall is the Taobao parcel locker, numbered up to 125 like its yellow Meituan neighbour. Both walls face CDS1 across the service road, with Fangchun Road behind them."),
+    info("taobao", LK.x - 1, LK.tb, 1, LK.len, "Taobao lockers", "淘宝闪购柜", "The white and red wall is the Taobao parcel locker, numbered up to 125 like its yellow Meituan neighbour. Both walls face CDS-1 across the service road, with Fangchun Road behind them."),
     info("gate", L.road.x, 38, L.road.w, 2, "East gate", "东门", "The guard booth and the red and white barrier arm on the service road. Beyond it the blue sign points to Yindong Road and Jidian Road."),
-    info("auditorium", 26, 7, 8, 3, "Step theatre and auditorium", "阶梯剧场与礼堂", "The white glass box carries 香港大學 THE UNIVERSITY OF HONG KONG and the crest. Its wide shallow steps double as an outdoor theatre."),
+    info("auditorium", 26, 7, 8, 3, "Step theatre and Grand Hall", "阶梯剧场与大礼堂", "The white glass box carries 香港大學 THE UNIVERSITY OF HONG KONG and the crest. Its wide shallow steps double as an outdoor theatre."),
     info("b5-pylon", 54, 8, 2, 1, "Building 5 pylon", "五号楼指示牌", "A slim black and white pylon with a big 5. Building 5 has the gym, the study stair and the learning commons."),
   ];
 
@@ -155,17 +151,17 @@ export function buildOutside(): GameMap {
     return { id, char, tx, ty, dir, name, nameZh, action: { type: "info", title: name, titleZh: nameZh, text: textEn } };
   };
   const npcs: NpcDef[] = [
-    say("guard", "guard", 59, 38, "right", "Gate guard", "门卫", "Welcome to the HKU Zhangjiang Base, 500 Fangchun Road. CDS1 is the tower with the revolving door. The food lockers are up the service road, on the Fangchun Road side."),
+    say("guard", "guard", 59, 38, "right", "Gate guard", "门卫", "Welcome to the HKU Zhangjiang Base, 500 Fangchun Road. CDS-1 is the tower with the revolving door. The food lockers are up the service road, on the Fangchun Road side."),
     say("visitor1", "visitor1", 28, 33, "left", "Visitor", "访客", "We came for the lion photo. My daughter got her offer last week!"),
     say("visitor2", "visitor2", 65, 27, "up", "Parent", "家长", "I have never written code. They say a for loop just repeats something. Is that all?"),
     say("visitor3", "visitor3", 33, 22, "down", "Student", "学生", "Stand on the dark rings and clap your hands. Best echo on campus."),
-    say("visitor4", "visitor3", 54, 9, "down", "Student", "学生", "Building 5 needs a key card. I heard a bot locked it in the lab on the third floor of CDS1."),
+    say("visitor4", "visitor3", 54, 9, "down", "Student", "学生", "Building 5 needs a key card. I heard a bot locked it in the lab on the third floor of CDS-1."),
   ];
 
   const labels: MapLabel[] = [
-    { x: (cds1.door + 1) * T, y: 20.6 * T, en: "CDS1 Main Building", zh: "计算与数据科学学院 一号楼" },
+    { x: (cds1.door + 1) * T, y: 20.6 * T, en: "CDS-1 Main Building", zh: "计算与数据科学学院 一号楼" },
     { x: (b5.door + 1) * T, y: 4.6 * T, en: "Building 5", zh: "五号楼 学生活动与学习共享空间" },
-    { x: (aud.x + aud.w / 2) * T, y: 5.2 * T, en: "Auditorium", zh: "礼堂" },
+    { x: (aud.x + aud.w / 2) * T, y: 5.2 * T, en: "Grand Hall", zh: "大礼堂" },
     { x: 35.5 * T, y: 30.2 * T, en: "The Lawn", zh: "中央草坪" },
     { x: c.cx * T, y: 17.2 * T, en: "Sunken Plaza", zh: "下沉广场" },
     { x: (LK.x + 1) * T, y: LK.mt * T - P.LOCKER_V.lift - 6, en: "Meituan lockers", zh: "美团外卖柜" },
@@ -173,7 +169,7 @@ export function buildOutside(): GameMap {
     { x: (L.road.x + 2) * T, y: 39 * T, en: "East Gate", zh: "东门" },
     { x: (L.road.x + 2) * T, y: 3 * T, en: "Service road", zh: "内部车道" },
     { x: (L.fangchun.x + 4) * T, y: 12 * T, en: "Fangchun Road", zh: "芳春路" },
-    { x: (se.door + 1) * T, y: 36.6 * T, en: "Tower D, CDS Tech Landmark", zh: "D 座 科技地标楼" },
+    { x: (se.door + 1) * T, y: 36.6 * T, en: "CDS-2", zh: "计算与数据科学学院 二号楼" },
   ];
 
   const map: GameMap = {

@@ -24,8 +24,8 @@ export type PowerUpKind = "gym" | "study" | "food" | "redbull";
 export type Action =
   | { type: "goto"; map: string; spawn: string; requires?: "b5key" | "hallpass" }
   | { type: "lab" } // the floor's lab: a puzzle that hands out the floor's new block once the professor is beaten
-  | { type: "lift"; building?: "b5" } // opens the floor picker: CDS1 by default, Building 5 with building "b5"
-  | { type: "battle"; floor: number } // the professor of CDS1 floor n (1..14)
+  | { type: "lift"; building?: "b5" } // opens the floor picker: CDS-1 by default, Building 5 with building "b5"
+  | { type: "battle"; floor: number } // the professor of CDS-1 floor n (1..14)
   | { type: "boss" } // Leo, grand hall
   | { type: "powerup"; kind: PowerUpKind }
   | { type: "info"; title: string; titleZh: string; text: string }; // a real campus detail to discover
@@ -37,7 +37,7 @@ export interface Trigger {
   ty: number;
   w: number;
   h: number;
-  /** short bilingual prompt shown on the action button, e.g. "Enter CDS1" / "进入一号楼" */
+  /** short bilingual prompt shown on the action button, e.g. "Enter CDS-1" / "进入一号楼" */
   en: string;
   zh: string;
   /** fire as soon as the player steps in (doors). Otherwise needs the action key. */

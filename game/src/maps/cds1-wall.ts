@@ -1,4 +1,4 @@
-// Things drawn on the back wall of a CDS1 floor: wall finishes, lifts, doors, signs, glass rooms, screens.
+// Things drawn on the back wall of a CDS-1 floor: wall finishes, lifts, doors, signs, glass rooms, screens.
 import { rect, frame, hash, shade, text, FONT, type Ctx } from "../art/px";
 import { drawCrestIn } from "../art/logo";
 import { WALL_PX, T, ao, type Floor } from "./cds1-kit";
@@ -114,8 +114,8 @@ export function liftDoors(g: Ctx, x: number, n: number, numeral: string): void {
 }
 
 /**
- * The CDS1 lift lobby: eight lifts in two banks of four that face each other across a short hall
- * (seen on 1/F, 13/F and 14/F; Insung, 2026-11-21: "there are 8 elevators on CDS1").
+ * The CDS-1 lift lobby: eight lifts in two banks of four that face each other across a short hall
+ * (seen on 1/F, 13/F and 14/F; Insung, 2026-11-21: "there are 8 elevators on CDS-1").
  * The north bank is on the back wall from tile tx. The south bank is a block 3 tiles deep whose roof
  * shows the four cars and door sills; `paint` decorates the wall on its far side.
  * The hall is rows 3 and 4 and is open at both ends.

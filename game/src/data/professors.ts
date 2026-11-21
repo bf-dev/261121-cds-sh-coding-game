@@ -1,11 +1,11 @@
-// The 14 challengers, one per CDS1 floor, plus Leo in the Grand Hall.
+// The 14 challengers, one per CDS-1 floor, plus Leo in the Grand Hall.
 // Lineup: docs/professor-levels.md (Aretha, 2026-11-21). Names, titles and research fields are
 // from that file; the lines they say are written for the game and are not quotes.
 // Chinese names are not invented: the small label under the name is the field in Chinese.
 //
-// Story (team voice note, 2026-11-21 afternoon): an AI has taken over CDS and left a bot in the
-// lab on every floor. A professor tests the student in a block battle and certifies them for
-// that floor; the certified student clears the lab and takes the block the bot was holding.
+// Story (docs/visitor-journey-story.md, Aretha, 2026-11-21): the player is an invited visitor. The
+// professors are mentors: each one sets a short block challenge and gives a stamp, a postcard and
+// the floor's new block. Leo is the friendly final examiner.
 
 import type { Shield } from "../battle/rules";
 
@@ -21,7 +21,7 @@ export interface Professor {
   topic: string;
   /** greeting before the battle */
   hello: string;
-  /** said when the player wins and is certified for the floor */
+  /** said when the player completes the challenge */
   win: string;
 }
 
@@ -33,16 +33,16 @@ export const PROFESSORS: Professor[] = [
     "Dr. Alan Dougherty",
     "计算机视觉",
     "computer vision",
-    "There you are! The bots are in every lab, and I will not send a student in unprepared. A computer sees a picture as numbers, and a battle here is just numbers too. Show me what Leo taught you.",
-    "That is all a program is: small blocks, run in order. You are certified for 1/F. The lab is through the cafe, and its bot is sitting on my Round Off block.",
+    "Welcome to CDS-1! I am your first mentor. A computer sees a picture as numbers, and a challenge here is just numbers too. Let me show you how it works, one step at a time.",
+    "That is all a program is: small blocks, run in order. Challenge completed! Here is stamp 1, and my Round Off block. It needs no numbers, so keep it for when yours run out.",
   ),
   P(
     2,
     "Dr. Shengzhi Qin (Brian)",
     "网络安全",
     "cybersecurity",
-    "Security check! Nobody gets past the second floor without showing they can count under pressure. Today least of all.",
-    "Access granted. Certified for 2/F. The bot in this floor's lab took my Security Check, an if block, and the × block. Go and get them back.",
+    "Security check! Nobody gets past the second floor without showing they can count under pressure.",
+    "Access granted. Stamp 2 is yours, with my Security Check, an if block, and the × block. Multiplying is how small numbers get big.",
   ),
   P(
     3,
@@ -50,7 +50,7 @@ export const PROFESSORS: Professor[] = [
     "算法",
     "algorithms",
     "An algorithm is a recipe: the same steps, in the right order. So remember, times goes before plus.",
-    "Right steps, right order. Certified for 3/F. The bot in the lab here has the key card to Building 5: gym on 2/F, study stair on 3/F.",
+    "Right steps, right order. Stamp 3, and the key card to Building 5. Take its lift: the gym is on 2/F, the study stair on 3/F.",
   ),
   P(
     4,
@@ -58,7 +58,7 @@ export const PROFESSORS: Professor[] = [
     "机器人",
     "robotics",
     "A robot does exactly what its program says, nothing more. Divide carefully, and never by zero.",
-    "Precise, like a good robot arm. Unlike the one loose in my lab. Certified for 4/F. The ÷ block is in there.",
+    "Precise, like a good robot arm. Stamp 4 and the ÷ block are yours.",
   ),
   P(
     5,
@@ -66,7 +66,7 @@ export const PROFESSORS: Professor[] = [
     "计算机动画",
     "animation",
     "Animation is one small move, repeated many times. My shield works the same way. Watch.",
-    "Smooth! Certified for 5/F. Clear the lab and you carry one more shield block into every battle.",
+    "Smooth! Stamp 5. From now on you carry one more shield block into every challenge.",
   ),
   P(
     6,
@@ -74,7 +74,7 @@ export const PROFESSORS: Professor[] = [
     "智能感知",
     "sensing",
     "Sensors turn the world into numbers. Group them the right way: (2 + 3) × 5 is not 2 + 3 × 5.",
-    "You sensed that one coming. Certified for 6/F. The brackets are in the lab.",
+    "You sensed that one coming. Stamp 6 and the brackets are yours.",
   ),
   P(
     7,
@@ -82,7 +82,7 @@ export const PROFESSORS: Professor[] = [
     "不确定数据",
     "uncertain data",
     "Data is never certain, so we keep asking: true or false? Let us see how sure you are.",
-    "Probably the best answer I have seen today. Certified for 7/F. The if-smaller-than block is in the lab.",
+    "Probably the best answer I have seen today. Stamp 7, and the if-smaller-than block.",
   ),
   P(
     8,
@@ -90,7 +90,7 @@ export const PROFESSORS: Professor[] = [
     "计算机网络",
     "networks",
     "In a network every packet takes one path or the other. If you win, go up. Else, try again.",
-    "Delivered, no packets lost. Certified for 8/F. The lab has the if / else block.",
+    "Delivered, no packets lost. Stamp 8 and the if / else block.",
   ),
   P(
     9,
@@ -98,7 +98,7 @@ export const PROFESSORS: Professor[] = [
     "并行系统",
     "parallel systems",
     "My machines do many jobs at the same time. Can you keep up with one?",
-    "Fast enough. Certified for 9/F. The bot in the lab has been hoarding our Red Bull.",
+    "Fast enough. Stamp 9, and a Red Bull for the long nights.",
   ),
   P(
     10,
@@ -106,7 +106,7 @@ export const PROFESSORS: Professor[] = [
     "医学影像分析",
     "medical image analysis",
     "Reading a scan means looking again and again until you are sure. While you are still standing, I keep going.",
-    "A clean result. Certified for 10/F. The lab holds the while block: it repeats as long as its test is true.",
+    "A clean result. Stamp 10 and the while block: it repeats as long as its test is true.",
   ),
   P(
     11,
@@ -114,7 +114,7 @@ export const PROFESSORS: Professor[] = [
     "信息安全",
     "security",
     "A good lock is a puzzle with one key. Plan two moves ahead.",
-    "You found the key. Certified for 11/F. One more shield block is waiting in the lab.",
+    "You found the key. Stamp 11, and one more shield block for every challenge.",
   ),
   P(
     12,
@@ -122,7 +122,7 @@ export const PROFESSORS: Professor[] = [
     "生物信息学",
     "bioinformatics",
     "DNA is a very long program written with four letters. Yours has nine digits. Show me what you can write.",
-    "Nicely sequenced. Certified for 12/F. My len() block and a gym pass are in the lab. Even coders need to move.",
+    "Nicely sequenced. Stamp 12, my len() block, and a gym session. Even coders need to move.",
   ),
   P(
     13,
@@ -130,7 +130,7 @@ export const PROFESSORS: Professor[] = [
     "算法与健康数据",
     "algorithms and health data",
     "Few students reach the 13th floor. A good algorithm does a lot with a little. Impress me.",
-    "Efficient. Certified for 13/F. My sorted() block and a Red Bull are in the lab. One floor left.",
+    "Efficient. Stamp 13, my sorted() block, and a Red Bull. One floor left.",
   ),
   P(
     14,
@@ -138,7 +138,7 @@ export const PROFESSORS: Professor[] = [
     "计算机视觉与人工智能",
     "computer vision and AI",
     "The exhibition lounge, and the last floor. Behind me HKU's milestones run from 1912 to 2024. Tonight you add a line of your own.",
-    "All 14 floors certified. Take my filter() block from the lab, then go down to the Grand Hall. The AI is hiding there, and it still has Leo.",
+    "All 14 stamps, and my filter() block too. Leo is waiting in the Grand Hall with your final challenge. Go and show him what you learned.",
   ),
 ];
 
@@ -147,8 +147,8 @@ export const LEO = {
   name: "Leo the HKU lion",
   nameZh: "港大狮子 Leo",
   topic: "the final test",
-  hello: "AI> You cleared my bots from 14 floors. Not bad, for a student. The lion and the wall stay with me. Run your blocks, if you still have any.",
-  win: "ROAR! I am back!",
+  hello: "ROAR! You collected all 14 stamps. One friendly final challenge before you graduate as a CDS Explorer: run your blocks against me, right here on the stage!",
+  win: "ROAR! Congratulations, CDS Explorer!",
 };
 
 // the five professors with a shield of their own (functions from docs/professor-levels.md)

@@ -1,4 +1,4 @@
-// Builder and floor textures shared by every CDS1 floor (see buildings/cds1/README.md).
+// Builder and floor textures shared by every CDS-1 floor (see buildings/cds1/README.md).
 import { TILE, type Dir, type GameMap, type MapLabel, type NpcDef, type Prop, type Trigger } from "../engine/types";
 import { mk, rect, hash, shade, type Ctx } from "../art/px";
 import { professor } from "../data/professors";
@@ -138,7 +138,7 @@ export class Floor {
 
   /** the floor's lab: where the new block is collected once the professor is beaten */
   lab(tx: number, ty: number, w: number, h: number, labelY = ty + 0.7): void {
-    this.triggers.push({ id: "lab", tx, ty, w, h, en: "Lab: collect your new block", zh: "实验室：领取新积木", action: { type: "lab" } });
+    this.triggers.push({ id: "lab", tx, ty, w, h, en: "Lab: the guide's question", zh: "实验室：向导的小问题", action: { type: "lab" } });
     this.label(tx + w / 2, labelY, "Lab", "实验室");
   }
 

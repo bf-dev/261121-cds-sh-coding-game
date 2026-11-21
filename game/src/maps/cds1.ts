@@ -1,4 +1,4 @@
-// CDS1 tower interiors, floors 1 to 14. Filmed floors (1, 6, 13, 14) follow buildings/cds1/README.md;
+// CDS-1 tower interiors, floors 1 to 14. Filmed floors (1, 6, 13, 14) follow buildings/cds1/README.md;
 // the others reuse the 6/F or 13/F layout with the functions from the lift floor guide (§3).
 import type { GameMap } from "../engine/types";
 import { buildLobby } from "./cds1-lobby";
@@ -27,7 +27,7 @@ const INFO: Record<number, [string, string]> = {
 export function floorInfo(floor: number): { en: string; zh: string } {
   const f = Math.max(1, Math.min(14, Math.round(floor)));
   const [en, zh] = INFO[f];
-  return { en: `CDS1 ${f}/F · ${en}`, zh: `一号楼 ${f} 层 · ${zh}` };
+  return { en: `CDS-1 ${f}/F · ${en}`, zh: `一号楼 ${f} 层 · ${zh}` };
 }
 
 const R = (kind: Room["kind"], num: string, label: string): Room => ({ kind, num, label });

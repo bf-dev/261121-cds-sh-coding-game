@@ -87,10 +87,11 @@ Design defaults picked during the build are in [DESIGN-CHOICES.md](DESIGN-CHOICE
 
 Fonts: SungSans (Latin) and Noto Sans CJK SC (Chinese), subset to the characters the game uses. After changing any Chinese text run `npm run fonts` (needs `fonttools` and `brotli`, and the two source fonts on the machine).
 
-## story, labs, postcards, music (2026-11-21 afternoon)
+## story, postcards, music, modes (2026-11-21, last update)
 
-- New game opens in the Grand Hall: Leo gives the coached first battle, then the AI takes over CDS and the student is sent to CDS1.
-- Each CDS1 floor: find the professor in a room, win the block battle (certified), then walk to the door marked `Lab 实验室` and answer the bot's question. The floor's new block comes from the lab. A postcard of the floor goes into the Bag.
+- New game plays a short opening film by itself (Skip is the only button), then starts at the welcome dinner in the University Galleria, Building 5 1/F. Walk south to CDS-1.
+- Each CDS-1 floor: find the mentor, complete the block challenge, get a stamp, the floor's block and a postcard. The door marked `Lab 实验室` has an optional question from the guide (+1 maximum HP).
 - Lab questions and postcard facts are data in `src/data/labs.ts`.
-- Background music is the HKU anthem (`src/assets/hku-anthem.mp3`, source in `resources/README.md`). Menu > Music turns it on and off.
-- Level select has a `Building 5` button. Debug links: `?map=cds1-6&floor=7&postcard=6` shows a postcard, `?map=cds1-1&floor=2&pending=1&tp=3,4` stands at a lab whose bot is still running.
+- Background music is the HKU anthem as a chiptune rendered from the written score (`src/assets/hku-anthem.mp3`, renderer and source in `resources/audio/`). Menu > Music turns it on and off.
+- Title screen: `Explore` walks the whole campus with every door open and no battles. `Level select` has a `Building 5` button.
+- Debug links: `?map=cds1-6&floor=7&postcard=6` shows a postcard, `?battle=1` starts the coached first lesson.

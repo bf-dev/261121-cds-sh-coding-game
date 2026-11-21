@@ -1,7 +1,9 @@
 // CDS1 1/F, laid out from two walks read at 1 frame per second.
 // IMG_3756 (3:21 to 3:45): revolving door, the stone portal with the gates straight ahead, the round
-// banquette and timber steps to the right; past the gates the lift hall runs straight to a tall LED
-// wall, lift doors on both sides, floor guide on the left wall just inside.
+// banquette and timber steps to the right; past the gates is the lift hall.
+// Lift hall (Koki, game/BUGS.md item 6, 2026-11-21): behind the security line there is only the
+// lift hall, with four lifts in a straight row on each side, facing each other. Nothing else.
+// The side walls are drawn folded out, so both rows of doors can be seen from above.
 // 105538 (0:00 to 0:55), panning left from the banquette: stone portal, fluted white wall, a gap, a
 // timber wall with the Semester timetable screen. The gap is a corridor that runs beside the lift
 // core to the round cafe (ring of screens overhead, windows ahead, fridges and a coffee machine on
@@ -13,7 +15,6 @@
 import { mk, rect, ellipse, shade, text, hash } from "../art/px";
 import { Floor, T, WALL_PX, stoneFloor, cafeFloor, ao, sunPatch } from "./cds1-kit";
 import { wall, liftDoors, door, screen, panel, exitLamp, crest } from "./cds1-wall";
-// The eight lifts are two banks of four on either side of the hall that ends at the LED wall.
 import { windowBay } from "./cds1-rooms";
 import { banquette, tableSet, pouf, plant, counter, clutter } from "./cds1-props";
 import { turnstile, fridge, desk, bleachers } from "./cds1-props2";
@@ -77,10 +78,10 @@ function timetable(g: CanvasRenderingContext2D, x: number, y: number, w: number,
 export function buildLobby(): Floor {
   const f = new Floor(34, 22);
   const g = f.g;
-  const AX = 22.5; // the axis: revolving door, gates, lift hall, LED wall
+  const AX = 22.5; // the axis: revolving door, gates, lift hall
   // floors: round cafe in the north-west, lift hall behind the gates, lobby in front
   cafeFloor(g, T, WALL_PX, 7 * T, 8 * T, 4.5 * T, 7 * T);
-  stoneFloor(g, 9 * T, WALL_PX, 24 * T, 8 * T, "#DAD7CF");
+  stoneFloor(g, 19 * T, WALL_PX, 7 * T, 8 * T, "#DAD7CF");
   stoneFloor(g, T, 11 * T, 32 * T, 10 * T);
   // the ring of screens over the cafe, as the pool of light it throws on the floor
   for (let a = 0; a < 720; a++) {
@@ -107,28 +108,45 @@ export function buildLobby(): Floor {
   text(g, "演讲厅 1A", 4 * T, 32, 9, "#6a6a6a", { align: "center" });
   rect(g, 4 * T + 22, 96, 12, 18, "#2b6fd0"); // room booking panel
   wall(g, 5 * T, 4 * T, "stone");
-  // lift hall: four lifts, floor guide, the tall LED wall at the end of the hall, four more lifts
-  wall(g, 9 * T, 8 * T, "white");
-  liftDoors(g, 9 * T, 4, "1");
-  wall(g, 17 * T, 3 * T, "white");
-  panel(g, 17 * T + 8, 30, 176, 104, "SCHOOL OF COMPUTING & DATA SCIENCE", FLOOR_GUIDE, 7);
-  rect(g, 17 * T + 60, 144, 26, 34, "#fbfbf8"); // lift safety certificate and info card taped to the wall
-  rect(g, 17 * T + 92, 148, 22, 28, "#f3f0e2");
-  for (let j = 0; j < 5; j++) rect(g, 17 * T + 63, 150 + j * 5, 20, 1, "#8a8a8a");
-  wall(g, 20 * T, 5 * T, "dark");
-  const lx = 20 * T + 12;
-  rect(g, lx - 4, 14, 304, 164, "#101216");
-  for (let j = 0; j < 156; j += 4) rect(g, lx, 18 + j, 296, 4, shade("#2a49c8", 0.25 - (j / 156) * 0.5));
-  for (let k = 0; k < 40; k++) rect(g, lx + Math.floor(hash(k, 1, 9) * 290), 20 + Math.floor(hash(k, 2, 9) * 150), 3, 3, "rgba(255,255,255,0.35)");
-  ellipse(g, lx + 226, 96, 34, 34, "#f1d2b4");
-  rect(g, lx + 180, 126, 92, 48, "#ffffff");
-  ellipse(g, lx + 226, 78, 36, 20, "#23201f");
-  text(g, "EMPOWER", lx + 14, 44, 30, "#ffffff");
-  text(g, "School of Computing", lx + 16, 92, 13, "#dfe8ff");
-  text(g, "& Data Science", lx + 16, 110, 13, "#dfe8ff");
-  text(g, "HKU · Shanghai", lx + 16, 140, 12, "#ffd75e");
-  wall(g, 25 * T, 8 * T, "white");
-  liftDoors(g, 25 * T, 4, "1");
+  // lift hall: a plain end wall, and the two lift cores either side of it
+  wall(g, 19 * T, 7 * T, "white");
+  text(g, "1", AX * T + 2, 16, 30, "#5e1510", { align: "center" });
+  text(g, "1", AX * T, 14, 30, "#B02B22", { align: "center" });
+  for (const [cx, cw] of [[9, 10], [26, 7]] as const) {
+    rect(g, cx * T, 0, cw * T, 11 * T, "#d9d5cc");
+    for (let j = 0; j < 11 * T; j += 2 * T) rect(g, cx * T, j, cw * T, 2, "#c4c0b6");
+    for (let i = 2 * T; i < cw * T; i += 2 * T) rect(g, cx * T + i, 0, 2, 11 * T, "#c4c0b6");
+    rect(g, cx * T, 0, cw * T, 4, "#f3f1ec");
+  }
+  // four lifts on each side: the side walls folded out towards the cores. The row is drawn at
+  // three quarters size so all four doors stay clear of the wall across the lobby (rows 3 to 8).
+  const CROP = 44;
+  const LEN = 6 * T;
+  const D = Math.round((WALL_PX - CROP) * 0.75);
+  const [face, fg] = mk(8 * T, WALL_PX);
+  wall(fg, 0, 8 * T, "white");
+  liftDoors(fg, 0, 4, "");
+  const smooth = g.imageSmoothingEnabled;
+  g.imageSmoothingEnabled = true;
+  g.save();
+  g.translate(19 * T - D, 3 * T + LEN);
+  g.rotate(-Math.PI / 2);
+  g.drawImage(face, 0, CROP, 8 * T, WALL_PX - CROP, 0, 0, LEN, D);
+  g.restore();
+  g.save();
+  g.translate(26 * T + D, 3 * T);
+  g.rotate(Math.PI / 2);
+  g.drawImage(face, 0, CROP, 8 * T, WALL_PX - CROP, 0, 0, LEN, D);
+  g.restore();
+  g.imageSmoothingEnabled = smooth;
+  rect(g, 19 * T - D - 3, 3 * T, 3, LEN, "#8d8a82");
+  rect(g, 26 * T + D, 3 * T, 3, LEN, "#8d8a82");
+  rect(g, 19 * T - D - 3, 3 * T + LEN, D + 3, 3, "#8d8a82");
+  rect(g, 26 * T, 3 * T + LEN, D + 3, 3, "#8d8a82");
+  rect(g, 19 * T - 2, 3 * T, 2, 8 * T, "#a9a59a");
+  rect(g, 26 * T, 3 * T, 2, 8 * T, "#a9a59a");
+  f.block(9, 3, 10, 8);
+  f.block(26, 3, 7, 8);
 
   // the wall between the cafe and the lift core
   f.vwall(8, 3, 10);
@@ -152,6 +170,7 @@ export function buildLobby(): Floor {
       rect(pg, i, 24, 1, 152, shade("#C9A879", -0.2));
     }
     timetable(pg, 12, 40, 4 * T - 24, 112);
+    panel(pg, 6 * T + 8, 48, 176, 104, "SCHOOL OF COMPUTING & DATA SCIENCE", FLOOR_GUIDE, 7);
     stone(pg, W - 3 * T, 24, 3 * T, 152);
   });
   const right = partition(8, (pg) => {
@@ -189,20 +208,6 @@ export function buildLobby(): Floor {
   rect(sg, 8, 22, 24, 2, "#d6e8f8");
   f.put(stand, 6, 12, 0, 1, 12, 0);
 
-  // ---- lift hall: long white benches, plants
-  for (const bx of [11, 27]) {
-    const [bench, bg] = mk(4 * T, 60);
-    rect(bg, 6, 50, 4 * T - 12, 6, "rgba(20,24,40,0.2)");
-    rect(bg, 4, 10, 4 * T - 8, 22, "#fbfaf6");
-    rect(bg, 4, 10, 4 * T - 8, 3, "#ffffff");
-    rect(bg, 4, 32, 4 * T - 8, 18, "#dcd8cd");
-    rect(bg, 4, 48, 4 * T - 8, 3, "#a9a59a");
-    f.put(bench, bx, 7, 4);
-  }
-  f.put(plant(5), 9, 9, 1);
-  f.put(plant(6), 32, 9, 1);
-  f.npc("visitor-c", "visitor3", 19, 7, "up", "Offer holder", "新生");
-
   // ---- lobby: timber steps under the disc wall, the round banquette in front of them, reception block
   f.put(bleachers(6, 1), 27, 12, 6);
   f.put(banquette("#c9a879", "#ece5d3"), 26, 16, 5, 2);
@@ -225,24 +230,28 @@ export function buildLobby(): Floor {
   text(g, "HKU", 21 * T + 8, 21 * T + 44, 12, "#ffffff");
   text(g, "Est. 1911", 23 * T + 4, 21 * T + 44, 11, "#ffffff");
 
-  f.lift(9, 8);
-  f.triggers.push({ id: "lift-b", tx: 25, ty: 2, w: 8, h: 2, en: "Lift", zh: "电梯", action: { type: "lift" } });
+  // lifts 1 to 4 on the west side of the hall, 5 to 8 on the east side
+  f.triggers.push({ id: "lift", tx: 18, ty: 3, w: 2, h: 6, en: "Lift", zh: "电梯", action: { type: "lift" } });
+  f.triggers.push({ id: "lift-b", tx: 25, ty: 3, w: 2, h: 6, en: "Lift", zh: "电梯", action: { type: "lift" } });
+  f.spawns.lift = { tx: 19, ty: 6, dir: "right" };
   f.triggers.push({ id: "fridge", tx: 5, ty: 3, w: 3, h: 2, en: "Drink fridge", zh: "饮料柜", action: { type: "powerup", kind: "redbull" } });
   f.spawns.door = { tx: 22, ty: 19, dir: "up" };
   f.triggers.push({ id: "exit", tx: 21, ty: 21, w: 3, h: 1, en: "Exit to campus", zh: "出口", auto: true, action: { type: "goto", map: "outside", spawn: "cds1-door" } });
-  // Dr. Dougherty waits beyond the gates at the far end of the lift hall; the lab is lecture theatre 1A, off the cafe
-  f.prof(1, 30, 9);
+  // Dr. Dougherty waits before the security line, at the west end of the lobby by the timetable
+  // screen; the lab is lecture theatre 1A, off the cafe
+  f.prof(1, 10, 15);
+  f.npc("visitor-c", "visitor3", 15, 18, "up", "Offer holder", "新生");
   f.lab(2, 2, 3, 2, 3.7);
   f.npc("guard", "guard", 18, 13, "down", "Security guard", "保安");
   f.npc("visitor-a", "visitor1", 24, 18, "right", "Visitor", "访客");
   f.npc("visitor-b", "visitor2", 4, 6, "down", "Student", "学生");
-  f.info("guide", 17, 3, 3, 1, "Floor guide", "楼层指南", "The panel just inside the gates lists the tower: lecture theatres on 1 to 3, classrooms and teaching labs up to 7, research labs on 9 and 10, professors on 11 and 13, the director and the exhibition lounge on 14. The screen inside each lift car shows the floor and a poster: BUILDING 5 & SPORTS COURT ARE NOW OPEN, 7 days a week, 08:00 to 22:00.");
-  f.info("ledwall", 20, 3, 5, 1, "LED wall", "电梯厅大屏", "The lift hall runs straight from the gates to a floor-to-ceiling LED wall that plays HKU films, with four lifts on each side of the hall.");
+  f.info("guide", 13, 12, 3, 1, "Floor guide", "楼层指南", "The panel on the wall left of the gates lists the tower: lecture theatres on 1 to 3, classrooms and teaching labs up to 7, research labs on 9 and 10, professors on 11 and 13, the director and the exhibition lounge on 14. The screen inside each lift car shows the floor and a poster: BUILDING 5 & SPORTS COURT ARE NOW OPEN, 7 days a week, 08:00 to 22:00.");
   f.info("timetable", 7, 12, 4, 1, "LED timetable", "电子课表", "A wall-sized screen on the timber wall left of the gates shows the Semester 1, 2026 exam timetable: course, venue, date and time.");
   f.info("turnstiles", 19, 12, 7, 1, "Security line", "闸机", "Five stainless turnstiles sit in a doorway cut into the tan stone wall, under the school name. Each one has a face-recognition terminal at chest height.");
   f.info("cafe", 3, 7, 3, 1, "Cafe commons", "咖啡共享区", "A round room under a ring of screens, open to the entrance lobby: you reach it before the security line. The white floor is scattered with red diamond tiles like confetti. Lecture theatre 1A opens off it.");
   f.info("steps", 27, 13, 6, 1, "Timber steps", "木阶梯", "Timber sitting steps under a wall of blue and cream discs, with the round banquette in front. The first thing you see to the right of the revolving door.");
   f.label(AX, 9.2, "Security line", "闸机");
+  f.label(AX, 4.3, "Lift hall", "电梯厅");
   f.label(3.5, 12.4, "Cafe (before security)", "咖啡区 · 闸机外");
   return f;
 }
