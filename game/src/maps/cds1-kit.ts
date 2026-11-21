@@ -1,0 +1,230 @@
+// Builder and floor textures shared by every CDS1 floor (see buildings/cds1/README.md).
+import { TILE, type Dir, type GameMap, type MapLabel, type NpcDef, type Prop, type Trigger } from "../engine/types";
+import { mk, rect, hash, shade, type Ctx } from "../art/px";
+import { professor } from "../data/professors";
+
+export const T = TILE;
+/** the back wall is drawn this many tiles tall */
+export const WALL_H = 3;
+export const WALL_PX = WALL_H * T;
+
+export class Floor {
+  ground: HTMLCanvasElement;
+  g: Ctx;
+  solid: Uint8Array;
+  props: Prop[] = [];
+  npcs: NpcDef[] = [];
+  triggers: Trigger[] = [];
+  spawns: Record<string, { tx: number; ty: number; dir: Dir }> = {};
+  labels: MapLabel[] = [];
+
+  constructor(public cols: number, public rows: number) {
+    [this.ground, this.g] = mk(cols * T, rows * T);
+    this.solid = new Uint8Array(cols * rows);
+    this.block(0, 0, cols, WALL_H);
+    this.block(0, 0, 1, rows);
+    this.block(cols - 1, 0, 1, rows);
+    this.block(0, rows - 1, cols, 1);
+  }
+
+  block(tx: number, ty: number, w = 1, h = 1, v = 1): void {
+    for (let j = ty; j < ty + h; j++)
+      for (let i = tx; i < tx + w; i++) if (i >= 0 && j >= 0 && i < this.cols && j < this.rows) this.solid[j * this.cols + i] = v;
+  }
+
+  /**
+   * Stand a sprite on the floor: its bottom edge sits on the bottom of tile row `ty`, its left edge at tile `tx`.
+   * `sw` x `sh` tiles (counted up from row ty) become solid. dx / dy nudge the sprite in px.
+   */
+  put(sprite: HTMLCanvasElement, tx: number, ty: number, sw = 0, sh = 1, dx = 0, dy = 0, fade = false): void {
+    const y = (ty + 1) * T - sprite.height + dy;
+    this.props.push({ sprite, x: Math.round(tx * T + dx), y: Math.round(y), sortY: (ty + 1) * T + dy - 2, fade });
+    if (sw > 0) this.block(Math.floor(tx), ty - sh + 1, sw, sh);
+  }
+
+  info(id: string, tx: number, ty: number, w: number, h: number, title: string, titleZh: string, textStr: string): void {
+    this.triggers.push({ id, tx, ty, w, h, en: title, zh: titleZh, action: { type: "info", title, titleZh, text: textStr } });
+  }
+
+  /** lift doors start at tile tx on the back wall and are w tiles wide in total */
+  lift(tx: number, w: number): void {
+    this.triggers.push({ id: "lift", tx, ty: WALL_H - 1, w, h: 2, en: "Lift", zh: "电梯", action: { type: "lift" } });
+    this.spawns.lift = { tx: tx + Math.floor(w / 2), ty: WALL_H + 1, dir: "down" };
+  }
+
+  prof(floor: number, tx: number, ty: number): void {
+    const p = professor(floor);
+    this.npcs.push({ id: `prof${floor}`, char: `prof${floor}`, tx, ty, dir: "down", name: p.name, nameZh: p.nameZh, action: { type: "battle", floor } });
+    this.block(tx, ty, 1, 1, 0);
+  }
+
+  npc(id: string, char: string, tx: number, ty: number, dir: Dir, name: string, nameZh: string): void {
+    this.npcs.push({ id, char, tx, ty, dir, name, nameZh });
+  }
+
+  label(tx: number, ty: number, en: string, zh: string): void {
+    this.labels.push({ x: tx * T, y: ty * T, en, zh });
+  }
+
+  finish(id: string, name: string, nameZh: string): GameMap {
+    drawEdges(this);
+    return { id, name, nameZh, cols: this.cols, rows: this.rows, ground: this.ground, solid: this.solid, props: this.props, npcs: this.npcs, triggers: this.triggers, spawns: this.spawns, labels: this.labels };
+  }
+}
+
+/** side walls and the south wall, seen from above as a pale cap with a dark inner line */
+function drawEdges(f: Floor): void {
+  const g = f.g;
+  const W = f.cols * T;
+  const H = f.rows * T;
+  const cap = "#d9d5cc";
+  const side = (x: number, inner: number): void => {
+    rect(g, x, WALL_PX, T, H - WALL_PX, "#3a3a3e");
+    rect(g, x + (inner > 0 ? 0 : 20), WALL_PX, T - 20, H - WALL_PX, cap);
+    rect(g, x + (inner > 0 ? T - 24 : 20), WALL_PX, 4, H - WALL_PX, "#f3f1ec");
+    for (let y = WALL_PX; y < H; y += 128) rect(g, x + (inner > 0 ? 0 : 20), y, T - 20, 2, "#b9b5ac");
+  };
+  side(0, 1);
+  side(W - T, -1);
+  // south wall cap; door tiles (non-solid tiles in the last row) stay open
+  for (let tx = 0; tx < f.cols; tx++) {
+    if (!f.solid[(f.rows - 1) * f.cols + tx]) continue;
+    const x = tx * T;
+    rect(g, x, H - T, T, T, "#3a3a3e");
+    rect(g, x, H - T + 20, T, T - 20, cap);
+    rect(g, x, H - T + 20, T, 4, "#f3f1ec");
+    if (tx % 2 === 0) rect(g, x, H - T + 24, 2, T - 24, "#b9b5ac");
+  }
+}
+
+// ---------- floor textures (px rectangles) ----------
+
+/** polished cream stone: big slabs, grey veining, soft reflections */
+export function stoneFloor(g: Ctx, x: number, y: number, w: number, h: number, base = "#E8E1CE"): void {
+  rect(g, x, y, w, h, base);
+  const hi = shade(base, 0.35);
+  const lo = shade(base, -0.07);
+  const vein = shade(base, -0.16);
+  for (let j = 0; j < h; j += 2)
+    for (let i = 0; i < w; i += 2) {
+      const r = hash(x + i, y + j, 3);
+      if (r < 0.05) rect(g, x + i, y + j, 2, 2, lo);
+      else if (r > 0.97) rect(g, x + i, y + j, 2, 2, hi);
+    }
+  for (let sy = Math.floor(y / 128) * 128; sy < y + h; sy += 128)
+    for (let sx = Math.floor(x / 128) * 128; sx < x + w; sx += 128) {
+      // one wandering vein per slab
+      let vx = sx + hash(sx, sy, 5) * 100;
+      let vy = sy + 8;
+      for (let k = 0; k < 26; k++) {
+        if (vx >= x && vx < x + w - 2 && vy >= y && vy < y + h - 2) rect(g, vx, vy, 2, 2, vein);
+        vx += hash(sx + k, sy, 6) < 0.5 ? 4 : -2;
+        vy += 4;
+      }
+      // reflection streak
+      const rx = sx + 30 + hash(sx, sy, 8) * 50;
+      for (let k = 0; k < 5; k++) {
+        const yy = sy + 30 + k * 12;
+        if (rx >= x && rx + 24 <= x + w && yy >= y && yy < y + h) rect(g, rx - k * 4, yy, 24, 2, hi);
+      }
+    }
+  const joint = shade(base, -0.2);
+  for (let sx = Math.ceil(x / 128) * 128; sx < x + w; sx += 128) rect(g, sx, y, 2, h, joint);
+  for (let sy = Math.ceil(y / 128) * 128; sy < y + h; sy += 128) rect(g, x, sy, w, 2, joint);
+}
+
+/** timber planks running left to right, staggered joints, grain */
+export function timberFloor(g: Ctx, x: number, y: number, w: number, h: number, base = "#B08A62"): void {
+  const tones = [shade(base, -0.1), shade(base, -0.04), base, shade(base, 0.06), shade(base, 0.12)];
+  const dark = shade(base, -0.28);
+  for (let j = 0; j < h; j += 16) {
+    const row = Math.floor((y + j) / 16);
+    let i = -Math.floor(hash(row, 1, 2) * 120);
+    while (i < w) {
+      const len = 96 + Math.floor(hash(row, i, 4) * 5) * 32;
+      const x0 = Math.max(0, i);
+      const x1 = Math.min(w, i + len);
+      const tone = tones[Math.floor(hash(row, i, 9) * tones.length)];
+      const hh = Math.min(16, h - j);
+      rect(g, x + x0, y + j, x1 - x0, hh, tone);
+      for (let k = x0; k < x1 - 12; k += 6) {
+        const r = hash(row, k, 11);
+        if (r < 0.3) rect(g, x + k, y + j + 3 + Math.floor(r * 30), 10 + Math.floor(r * 40) > x1 - k ? x1 - k : 10 + Math.floor(r * 40), 1, shade(tone, -0.1));
+      }
+      rect(g, x + x0, y + j + hh - 1, x1 - x0, 1, dark);
+      if (i + len < w) rect(g, x + x1 - 1, y + j, 1, hh, dark);
+      i += len;
+    }
+  }
+}
+
+/** the blue geometric carpet of every student space: interlocking pale shapes on navy */
+export function carpet(g: Ctx, x: number, y: number, w: number, h: number, navy = "#3E4A63", pale = "#9FAFBE"): void {
+  rect(g, x, y, w, h, navy);
+  const mid = shade(navy, 0.22);
+  const deep = shade(navy, -0.18);
+  for (let j = 0; j < h; j += 16)
+    for (let i = 0; i < w; i += 16) {
+      const cx = Math.floor((x + i) / 16);
+      const cy = Math.floor((y + j) / 16);
+      const big = hash(cx >> 1, cy >> 1, 21);
+      const small = hash(cx, cy, 22);
+      const dir = hash(cx >> 2, cy >> 2, 23);
+      const ww = Math.min(16, w - i);
+      const hh = Math.min(16, h - j);
+      let c: string | null = null;
+      if (big < 0.3 && small < 0.82) c = pale;
+      else if (big > 0.86 && small < 0.7) c = mid;
+      else if (big > 0.6 && big < 0.68) c = deep;
+      else if (small < 0.07) c = pale;
+      if (!c) continue;
+      if (small > 0.6 && ww === 16 && hh === 16) {
+        // stepped half cell, gives the zigzag edges
+        if (dir < 0.5) rect(g, x + i, y + j, 8, 16, c);
+        else rect(g, x + i, y + j + 8, 16, 8, c);
+      } else rect(g, x + i, y + j, ww, hh, c);
+    }
+  for (let j = 0; j < h; j += 2) for (let i = 0; i < w; i += 2) if (hash(x + i, y + j, 24) < 0.06) rect(g, x + i, y + j, 2, 2, "rgba(20,24,40,0.18)");
+}
+
+/** grey vinyl / stone of the service corridors */
+export function vinyl(g: Ctx, x: number, y: number, w: number, h: number, base = "#8E8D88"): void {
+  rect(g, x, y, w, h, base);
+  const a = shade(base, 0.08);
+  const b = shade(base, -0.08);
+  for (let j = 0; j < h; j += 2)
+    for (let i = 0; i < w; i += 2) {
+      const r = hash(x + i, y + j, 31);
+      if (r < 0.1) rect(g, x + i, y + j, 2, 2, a);
+      else if (r > 0.9) rect(g, x + i, y + j, 2, 2, b);
+    }
+  for (let sx = Math.ceil(x / 128) * 128; sx < x + w; sx += 128) rect(g, sx, y, 1, h, shade(base, -0.16));
+  for (let sy = Math.ceil(y / 128) * 128; sy < y + h; sy += 128) rect(g, x, sy, w, 1, shade(base, -0.16));
+}
+
+/** the cafe floor: white tiles with red diamond tiles scattered in arcs around (cx, cy) */
+export function cafeFloor(g: Ctx, x: number, y: number, w: number, h: number, cx: number, cy: number): void {
+  stoneFloor(g, x, y, w, h, "#F0EEE8");
+  for (let ring = 1; ring < 9; ring++) {
+    const r = ring * 56;
+    const n = Math.floor((2 * Math.PI * r) / 60);
+    for (let k = 0; k < n; k++) {
+      if (hash(ring, k, 41) < 0.35) continue;
+      const a = (k / n) * Math.PI * 2 + ring * 0.3;
+      const px = Math.round(cx + Math.cos(a) * r);
+      const py = Math.round(cy + Math.sin(a) * r * 0.62);
+      if (px < x + 10 || py < y + 10 || px > x + w - 10 || py > y + h - 10) continue;
+      for (let d = 0; d < 7; d++) {
+        const half = d < 4 ? d * 3 + 2 : (6 - d) * 3 + 2;
+        rect(g, px - half, py - 7 + d * 2, half * 2, 2, d < 3 ? "#B8433A" : "#A8332B");
+      }
+    }
+  }
+}
+
+/** soft dithered shadow strip on the floor under a wall or a big object */
+export function ao(g: Ctx, x: number, y: number, w: number, h = 12): void {
+  rect(g, x, y, w, Math.ceil(h / 3), "rgba(20,22,34,0.22)");
+  for (let j = Math.ceil(h / 3); j < h; j += 2)
+    for (let i = (j >> 1) & 1 ? 0 : 2; i < w; i += 4) rect(g, x + i, y + j, 2, 2, "rgba(20,22,34,0.2)");
+}
