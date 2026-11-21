@@ -439,17 +439,17 @@ export async function runBattle(cfg: BattleConfig): Promise<BattleResult> {
     const dmg = () => h("span", { class: "varchip" }, "damage");
     switch (k) {
       case "ifgt":
-        return ["if ", dmg(), " > ", slot(), " : − ", slot()];
+        return ["if ", dmg(), " > ", slot(), " take off ", slot()];
       case "ifge":
-        return ["if ", dmg(), " ≥ ", slot(), " : − ", slot()];
+        return ["if ", dmg(), " ≥ ", slot(), " take off ", slot()];
       case "iflt":
-        return ["if ", dmg(), " < ", slot(), " : set to 0"];
+        return ["if ", dmg(), " < ", slot(), " block it all"];
       case "ifelse":
-        return ["if > ", slot(), " : − ", slot(), " else − ", slot()];
+        return ["if > ", slot(), " take off ", slot(), " else ", slot()];
       case "while":
-        return ["repeat while ", dmg(), " > ", slot(), " : − ", slot()];
+        return ["while ", dmg(), " > ", slot(), " take off ", slot()];
       default:
-        return ["repeat ", slot(), " times : − ", slot()];
+        return ["repeat ", slot(), " times: take off ", slot()];
     }
   };
 
@@ -701,7 +701,7 @@ export async function runBattle(cfg: BattleConfig): Promise<BattleResult> {
 
   // ------------------------------------------------------------ the match
   const result = await (async (): Promise<BattleResult> => {
-    await showDialog({ kicker: cfg.place, title: cfg.enemy.name, titleZh: cfg.enemy.nameZh, portrait: enemyChar.portrait, body: [cfg.enemy.hello, h("p", { class: "dim" }, `Teaches: ${cfg.enemy.topic}. First to 0 HP loses.`)], buttons: [{ label: cfg.boss ? "Face Leo" : "Start the battle", value: true, primary: true }], autoMs: 2400 });
+    await showDialog({ kicker: cfg.place, title: cfg.enemy.name, titleZh: cfg.enemy.nameZh, portrait: enemyChar.portrait, body: [cfg.enemy.hello, h("p", { class: "dim" }, cfg.boss ? "The final test. First to 0 HP loses." : `Field: ${cfg.enemy.topic}. A friendly check: first to 0 HP loses.`)], buttons: [{ label: cfg.boss ? "Face Leo" : "Start the battle", value: true, primary: true }], autoMs: 2400 });
     if (cfg.tutorial) {
       for (const id of ["ATTACK", "HEAL", "number", "+", "-"]) cfg.seen.add(id);
     } else {

@@ -98,13 +98,17 @@ function refreshPrompt(): void {
 
 function questText(): (string | Node)[] {
   const p = progress;
-  if (p.bossBeaten) return ["You beat Leo and finished the climb. Explore the campus, there are details left to find."];
-  if (p.cleared >= 14) return ["Next: ", h("b", {}, "the Grand Hall"), ". Take the CDS1 lift and choose Grand Hall. Leo is waiting."];
+  const blocks = h("span", { class: "quest-blocks" }, "Program blocks ", h("b", {}, `${p.cleared}/14`), " · ");
+  if (p.bossBeaten) return ["The Grand Hall wall is lit. Explore the campus, there are details left to find."];
+  if (p.cleared >= 14) {
+    if (world.map?.id === "hall") return [blocks, "Climb the steps and talk to ", h("b", {}, "Leo"), " on the stage."];
+    return [blocks, "Next: ", h("b", {}, "the Grand Hall"), ". Take the CDS1 lift and choose Grand Hall. Leo is waiting."];
+  }
   const next = professor(p.cleared + 1);
-  if (p.cleared === 0 && world.map?.id === "outside") return ["Walk up to the ", h("b", {}, "CDS1 entrance"), " and go in. ", `${next.name} is in the lobby.`];
+  if (p.cleared === 0 && world.map?.id === "outside") return [blocks, "Walk up to the ", h("b", {}, "CDS1 entrance"), " and go in. ", `${next.name} is in the lobby.`];
   const where = world.map?.id === `cds1-${next.floor}` ? "on this floor" : `on CDS1 ${next.floor}/F (take the lift)`;
   const extra = p.b5key && p.cleared === 3 ? " Building 5 is open now: power-ups inside." : "";
-  return ["Next: ", h("b", {}, next.name), ` ${where}.${extra}`];
+  return [blocks, "Next: ", h("b", {}, next.name), ` ${where}.${extra}`];
 }
 
 function refreshHud(): void {
@@ -166,11 +170,11 @@ async function doAction(a: Action, t: Target): Promise<void> {
   switch (a.type) {
     case "goto":
       if (a.requires === "b5key" && !progress.b5key) {
-        await showDialog({ kicker: "Locked · 未解锁", title: "Building 5 is locked", titleZh: "五号楼", body: ["The student amenities are inside: gym, study stair, cafe. Dr. Times on CDS1 3/F holds the key. Beat the first three floors to get it."] });
+        await showDialog({ kicker: "Locked · 未解锁", title: "Building 5 is locked", titleZh: "五号楼", body: [`The student spaces are inside: the gym and the study stair. ${professor(3).name} on CDS1 3/F holds the key. Win the first three floors to get it.`] });
         return;
       }
       if (a.requires === "hallpass" && !progress.hallpass) {
-        await showDialog({ kicker: "Locked · 未解锁", title: "The Grand Hall is closed", titleZh: "大礼堂", body: ["Leo the HKU lion only meets students who have climbed all 14 floors of CDS1."] });
+        await showDialog({ kicker: "Locked · 未解锁", title: "The Grand Hall is closed", titleZh: "大礼堂", body: ["The hall is dark and the LED wall is off. Leo only opens the doors for a student who carries all 14 blocks of the welcome program."] });
         return;
       }
       await travel(a.map, a.spawn);
@@ -250,7 +254,7 @@ function liftPicker(): Promise<void> {
 
 async function toHall(close: () => void, resolve: () => void): Promise<void> {
   close();
-  await showDialog({ kicker: "After floor 14 · 十四层之后", title: "To the Grand Hall", titleZh: "前往大礼堂", body: ["You ride the lift down, cross the plaza past the lawn where Leo usually sits, and find his seat empty. The doors of the Grand Hall are open."] });
+  await showDialog({ kicker: "After floor 14 · 十四层之后", title: "To the Grand Hall", titleZh: "前往大礼堂", body: ["With all 14 blocks in your bag you ride the lift down and cross the plaza. Leo's seat on the lawn is still empty. The doors of the Grand Hall are open, and the big wall inside is dark, waiting."] });
   await travel("hall", "entry");
   resolve();
 }
@@ -296,7 +300,7 @@ async function fight(floor: number, t: Target | null): Promise<void> {
     return;
   }
   if (floor <= progress.cleared) {
-    const again = await showDialog<boolean>({ title: prof.name, titleZh: prof.nameZh, portrait: sheet.portrait, body: ["You already passed my check. Well done! Want a practice rematch?"], buttons: [{ label: "Go on", value: false, primary: true }, { label: "Rematch", value: true }] });
+    const again = await showDialog<boolean>({ title: prof.name, titleZh: prof.nameZh, portrait: sheet.portrait, body: ["You already have my block of the program. Well done! Want a practice rematch?"], buttons: [{ label: "Go on", value: false, primary: true }, { label: "Rematch", value: true }] });
     if (!again) return;
   }
   while (true) {
@@ -333,9 +337,9 @@ async function winFloor(floor: number): Promise<void> {
   applyReward(progress, floor);
   const after = slotsForFloor(floor + 1);
   save();
-  const items = [r.text, "+10 maximum HP", floor < 14 ? `The lift now goes up to ${floor + 1}/F` : "All 14 floors of CDS1 cleared"];
+  const items = [`Block ${floor} of 14 of the welcome program`, r.text, "+5 maximum HP", floor < 14 ? `The lift now goes up to ${floor + 1}/F` : "All 14 floors of CDS1 cleared"];
   if (after > before && floor < 14) items.push(`One more operator slot: your moves can use ${after} operators`);
-  await showDialog({ kicker: `CDS1 ${floor}/F cleared · 通过第 ${floor} 层`, title: `You beat ${prof.name}!`, titleZh: "获胜", portrait: getCharacter(prof.char).portrait, body: [`"${winLine(floor)}"`, h("ul", { class: "reward-list" }, ...items.map((i) => h("li", {}, i)))], buttons: [{ label: "Collect", value: true, primary: true }] });
+  await showDialog({ kicker: `CDS1 ${floor}/F cleared · 通过第 ${floor} 层`, title: `You beat ${prof.name}!`, titleZh: "获胜", portrait: getCharacter(prof.char).portrait, body: [`"${prof.win}"`, h("ul", { class: "reward-list" }, ...items.map((i) => h("li", {}, i)))], buttons: [{ label: "Collect", value: true, primary: true }] });
   const id = r.fn ?? r.op ?? (r.brackets ? "brackets" : r.power);
   if (id && !progress.seen.includes(id)) {
     progress.seen.push(id);
@@ -344,25 +348,24 @@ async function winFloor(floor: number): Promise<void> {
   save();
 }
 
-function winLine(floor: number): string {
-  const lines: Record<number, string> = {
-    1: "That is all a program is: small blocks, run in order. Take this if block, you will need it upstairs.",
-    3: "You earned the key to Building 5. Go and look after yourself: gym, study stair, a snack.",
-    14: "You are ready. Leo is waiting for you in the Grand Hall.",
-  };
-  return lines[floor] ?? "You are good enough to go on. Take this with you.";
-}
-
 async function fightBoss(t: Target | null): Promise<void> {
   const sheet = getCharacter("leo");
   while (true) {
     const cfg: BattleConfig = { ...baseConfig(progress), playerMax: playerMaxHp(progress) + BOSS_BONUS_HP, floor: 15, boss: true, place: "Grand Hall · 大礼堂", enemy: LEO, enemyHp: BOSS_HP, skill: 0.75, pool: enemyPool(15, true), foeShields: enemyShieldCount(15, true), level: 1, slots: 6, tutorial: false, onLed: setLedText };
     const result = await battle(cfg, t);
-    setLedText([]);
+    if (result !== "win") setLedText([]);
     if (result === "quit") return;
     if (result === "win") {
       progress.bossBeaten = true;
       save();
+      // the welcome program runs: the wall lights up before anyone speaks
+      setLedText(["print('Welcome to HKU CDS Shanghai!')", "# all 14 blocks, run in order", "# Sapientia et Virtus"]);
+      showHud(false);
+      world.focus = { x: world.px, y: 0, screenY: 0 };
+      sfx("win");
+      await sleep(3200);
+      world.focus = null;
+      showHud(true);
       await ending();
       return;
     }
@@ -373,7 +376,7 @@ async function fightBoss(t: Target | null): Promise<void> {
 
 async function ending(): Promise<void> {
   const sheet = getCharacter("leo");
-  await showDialog({ kicker: "Final exam passed · 通过期末考验", title: "Leo: ROAR! You did it!", titleZh: "恭喜", portrait: sheet.portrait, body: ["You climbed all 14 floors of CDS1 and beat the HKU lion in the Grand Hall. Welcome to the School of Computing and Data Science."], buttons: [{ label: "What did I learn?", value: true, primary: true }] });
+  await showDialog({ kicker: "Final exam passed · 通过期末考验", title: "Leo: ROAR! The wall is lit!", titleZh: "点亮大屏", portrait: sheet.portrait, body: ["All 14 blocks run in order, and the Grand Hall wall plays the welcome show for Magic Hour.", "You climbed CDS1, met 14 professors and read every block of the program yourself. Welcome to the HKU School of Computing and Data Science, Shanghai."], buttons: [{ label: "What did I learn?", value: true, primary: true }] });
   await showDialog({
     kicker: "You can read code now · 你已经会读代码了",
     title: "What you learned",
@@ -381,7 +384,7 @@ async function ending(): Promise<void> {
     wide: true,
     autoMs: 5000,
     body: [
-      h("ul", { class: "reward-list" }, h("li", {}, "A variable holds a number that changes: damage."), h("li", {}, "Operators have an order: × and ÷ before + and -, brackets first."), h("li", {}, "A for loop repeats a block a set number of times."), h("li", {}, "An if runs a block only when a test is true. else is the other path."), h("li", {}, "A while loop repeats as long as a test stays true.")),
+      h("ul", { class: "reward-list" }, h("li", {}, "A variable holds a number that changes: damage."), h("li", {}, "Operators have an order: × and ÷ before + and -, brackets first."), h("li", {}, "A for loop repeats a block a set number of times: you chose how many."), h("li", {}, "An if runs a block only when a test is true. else is the other path."), h("li", {}, "A while loop repeats as long as a test stays true.")),
       h("div", { class: "pybox" }, h("span", { class: "pylabel" }, "Your last battle, as a Python program"), h("pre", {}, "damage = 8 + 2 * 3      # 14\nfor i in range(3):\n    damage -= 2         # 8\nif damage > 5:\n    damage -= 5         # 3")),
     ],
     buttons: [{ label: "Keep exploring the campus", value: true, primary: true }],
@@ -535,7 +538,7 @@ async function demo(): Promise<void> {
   setLedText([]);
   pace.auto = false;
   pace.speed = 1;
-  if (result !== "quit") await showDialog({ kicker: "Demo mode · 演示模式", title: result === "win" ? "The student beat Leo" : "Leo won this one", titleZh: "演示结束", portrait: getCharacter("leo").portrait, body: ["That was a full match played by the game itself: moves built from number and operator blocks, shields made of for, if and while blocks."], buttons: [{ label: "Back to the title", value: true, primary: true }] });
+  if (result !== "quit") await showDialog({ kicker: "Demo mode · 演示模式", title: result === "win" ? "The student beat Leo" : "Leo won this one", titleZh: "演示结束", portrait: getCharacter("leo").portrait, body: ["That was a full match played by the game itself: moves built from number and operator blocks, shields built from repeat, if and while blocks with a limited set of numbers."], buttons: [{ label: "Back to the title", value: true, primary: true }] });
   progress = keep;
   sandbox = keepSandbox;
   busy = false;
@@ -564,7 +567,9 @@ function showTitle(): void {
     world.enter(progress.map, progress.spawn);
     refreshHud();
     if (fresh) {
-      await showDialog({ kicker: "HKU CDS Shanghai · 港大计算与数据科学学院 上海", title: "Welcome, new student!", titleZh: "欢迎", portrait: getCharacter("student").portrait, body: ["Climb the 14 floors of CDS1. On each floor a friendly professor checks your skills in a block-coding battle. At the top, Leo the HKU lion waits in the Grand Hall.", h("p", { class: "dim" }, "Walk: arrow keys or WASD. Talk and open doors: Space. No coding experience needed.")], buttons: [{ label: "Let's go", value: true, primary: true }] });
+      await showDialog({ kicker: "HKU Zhangjiang Base · No. 500 Fangchun Road, Shanghai · 香港大学张江基地", title: "Magic Hour, and the wall is dark", titleZh: "大屏没有亮", portrait: getCharacter("student").portrait, body: ["It is your first evening at HKU's home in Shanghai, where a university founded in 1911 teaches computing in Zhangjiang. Tonight is Magic Hour, and the giant LED wall in the Grand Hall should be playing the welcome show.", "It is not. The wall is dark."], buttons: [{ label: "What happened?", value: true, primary: true }] });
+      await showDialog({ kicker: "A note on the lawn · 草坪上的字条", title: "Leo's seat is empty", titleZh: "Leo 不见了", portrait: getCharacter("leo").portrait, body: ['"The welcome show is a program. I split it into 14 blocks and left one with each professor in the CDS1 tower, floor 1 to floor 14. Each of them will hand it to a student who shows they can read it."', '"Climb up, collect all 14, and bring them to me in the Grand Hall. Then we light the wall together. ROAR! Leo"'], buttons: [{ label: "I will do it", value: true, primary: true }] });
+      await showDialog({ kicker: "How to play · 玩法", title: "No coding experience needed", titleZh: "不会编程也能玩", portrait: getCharacter("student").portrait, body: ["Each professor checks you in a friendly block battle: snap number and operator blocks into an ATTACK, and build a shield from a repeat block. Win, and the professor's block of the program is yours.", h("p", { class: "dim" }, "Walk: arrow keys or WASD. Talk, open doors, call the lift: Space.")], buttons: [{ label: "Let's go", value: true, primary: true }] });
     }
     busy = false;
     world.paused = false;
@@ -579,7 +584,7 @@ function showTitle(): void {
       h("h1", {}, "Code ", h("span", {}, "Climb")),
       h("div", { class: "zh" }, "编程闯关 · 港大 CDS 上海校园"),
       h("div", { class: "logo-blocks" }, h("div", { class: "script-body" }, hatBlock("when it is my turn"), moveBlock({ verb: "ATTACK", digits: [8, 2, 3], ops: ["+", "×"] }, 14)), h("div", { class: "script-body" }, hatBlock("when I am attacked"), shieldBlock({ kind: "for1", a: 3, b: 2 }))),
-      h("div", { class: "sub" }, "Explore the real HKU CDS Shanghai campus and win block-coding battles.", h("br", {}), "Climb 14 floors of CDS1, then face Leo the lion in the Grand Hall."),
+      h("div", { class: "sub" }, "The welcome show on the Grand Hall wall is a program, and its 14 blocks are missing.", h("br", {}), "Explore the real HKU CDS Shanghai campus, win them back in block-coding battles, light the wall."),
     ),
     h(
       "div",

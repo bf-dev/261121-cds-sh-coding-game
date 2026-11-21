@@ -73,10 +73,21 @@ Other floor rewards: floor 3 the Building 5 key (build prompt default), floors 5
 
 | choice | note |
 | --- | --- |
-| All 14 professors and their names are fictional (Dr. Hello, Dr. Plus ... Director Root) | open question 13: no teacher has agreed to appear yet. Swap names and sprites in `src/data/professors.ts` and `src/art/characters.ts` |
+| The 14 challengers are the lineup in `docs/professor-levels.md` (Aretha): Dr. Alan Dougherty on 1/F up to Prof. Yi Ma on 14/F, with their research fields. The sprites are drawn to resemble them (hair, glasses, clothes) from their public HKU staff photos; the photos are not in the repo | Insung, 2026-11-21: "apply the professor list ... make a character similar to the professors". `docs/decisions.md` #33. **To do for the team: ask each person before the game is shown outside the hackathon** (`docs/avatars.md`, `docs/professor-levels.md`). Names are in `src/data/professors.ts`, looks in `src/art/characters.ts` |
+| What each professor says is written for the game, friendly, and built on their field. It is not a quote. No Chinese names are invented: the small label next to a name is the field in Chinese | |
+| Only the lineup from `docs/professor-levels.md` is used. Its proposed function per floor (`round`, `min`, `abs`, `any`, `sum` ...) is not built: the rewards per floor are the ones in the table above | 14 new functions did not fit the time left, and Insung asked for fewer shields, not more |
 | Rule-based AI: samples legal moves from its hand and picks by skill. Low floors pick a middling move, high floors the best. It heals under 38% HP when it cannot finish the match | skill = (floor - 1) / 13 × 0.85, Leo 0.75 |
 | Model AI: one call per round for the move, the shield and a one-line explanation | spec and prompt text are in `src/battle/llm.ts` |
 | The one-line explanation without a model is generated from the move ("× and ÷ go before + and -, so 8 + 2 × 3 makes 14") | hackathon brief: professors explain their move |
+
+## story (proposal, build 2026-11-21, asked for by Insung)
+
+"Light the Wall". One story from the title screen to the ending, built only on facts in `buildings/`:
+
+- Place: HKU Zhangjiang Base, No. 500 Fangchun Road, Shanghai. HKU, founded 1911 (the `Est. 1911` door band), teaches computing here. The evening is a "Magic Hour" (the name of the event at which Building 5 opened, 30 Aug 2026).
+- Problem: the welcome show on the Grand Hall LED wall is a program, and the wall is dark. Leo the lion split the program into 14 blocks and left one with each professor in CDS1. His seat on the lawn is empty, with a note.
+- Climb: each professor hands over their block to a student who shows they can read it. The HUD counts `Program blocks n/14`. The key to Building 5 comes from 3/F.
+- End: Leo runs the final test on the Grand Hall stage. When he is beaten the wall lights up with `print('Welcome to HKU CDS Shanghai!')` and the motto on the crest, `Sapientia et Virtus`. On 14/F the professor points at the real HKU milestones exhibition (1912 to 2024).
 
 ## world
 
