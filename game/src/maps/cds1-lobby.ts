@@ -131,7 +131,7 @@ export function buildLobby(): Floor {
   rect(lg, 0, 0, 5 * T, 24, "#d9d5cc");
   rect(lg, 0, 0, 5 * T, 3, "#f3f1ec");
   stone(lg, 0, 24, 5 * T, 56);
-  crest(lg, 22, 32, 3);
+  crest(lg, 20, 28, 3.6, "#1f1f1f");
   text(lg, "SCHOOL OF COMPUTING & DATA SCIENCE", 62, 34, 12, "#1f1f1f");
   text(lg, "The University of Hong Kong", 62, 52, 11, "#1f1f1f", { bold: false });
   rect(lg, 0, 80, 5 * T, 4, "#8d9092");

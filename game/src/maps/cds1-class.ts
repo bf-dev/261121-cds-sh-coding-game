@@ -1,7 +1,8 @@
 // CDS1 classroom-type floor, filmed on 6/F and reused for 2 to 10 (buildings/cds1 §4, §7).
 import { rect, text, rng } from "../art/px";
 import { Floor, T, WALL_PX, carpet, vinyl, timberFloor, sunPatch, rug } from "./cds1-kit";
-import { wall, liftDoors, door, screen, panel, exitLamp, crest, bigLetters } from "./cds1-wall";
+import { wall, liftDoors, door, screen, panel, exitLamp, bigLetters } from "./cds1-wall";
+import { drawCrestIn } from "../art/logo";
 import { glassRoom, windowBay, type RoomKind, type View } from "./cds1-rooms";
 import { banquette, tableSet, pouf, plant, counter, clutter, column, sofa } from "./cds1-props";
 import { bleachers, labBench, serverRack, fridge, beanbag } from "./cds1-props2";
@@ -47,7 +48,7 @@ export function buildClassFloor(c: ClassCfg): Floor {
   wall(g, 6 * T, 2 * T, "timber");
   rect(g, 6 * T + 30, 44, 68, 84, "#a98b5f"); // niche with the sculpted crest
   rect(g, 6 * T + 34, 48, 60, 76, "#8d7350");
-  crest(g, 6 * T + 44, 58, 4, "#d9d2c2", "#8d7350");
+  drawCrestIn(g, 6 * T + 36, 50, 56, 72, "#e6dfcf");
   screen(g, 6 * T + 44, 140, 40, 26, String(c.floor), [], "#dfeaf8");
   exitLamp(g, 6 * T + 4);
   wall(g, 8 * T, 2 * T, "white");

@@ -2,6 +2,7 @@
 import { mk, rect, text, shade } from "../art/px";
 import { Floor, T, WALL_PX, timberFloor, stoneFloor, sunPatch } from "./cds1-kit";
 import { wall, liftDoors, exitLamp, crest, panel } from "./cds1-wall";
+import { drawCrestIn } from "../art/logo";
 import { windowBay } from "./cds1-rooms";
 import { tableSet, plant, counter } from "./cds1-props";
 import { drum, stepSeat, planter, desk } from "./cds1-props2";
@@ -40,7 +41,7 @@ export function buildExpoFloor(): Floor {
   liftDoors(g, 2 * T, 2, "14");
   wall(g, 6 * T, T, "white");
   rect(g, 6 * T + 10, 60, 44, 70, "#B9BCBE"); // brushed panel with the crest, 14 and B3
-  crest(g, 6 * T + 22, 66, 2, "#6d7073", "#B9BCBE");
+  crest(g, 6 * T + 21, 63, 2.2, "#3a3d40");
   text(g, "14", 6 * T + 32, 94, 14, "#4a4d50", { align: "center" });
   text(g, "B3", 6 * T + 32, 110, 12, "#4a4d50", { align: "center" });
   // etched glass doors
@@ -51,8 +52,7 @@ export function buildExpoFloor(): Floor {
   rect(g, dx + 6, 18, 4 * T - 12, 60, "#bcc6ca");
   rect(g, dx + 4 * T / 2 - 2, 18, 4, WALL_PX - 18, "#2a2c30");
   for (let j = 0; j < 5; j++) rect(g, dx + 8, 30 + j * 6, 4 * T - 16, 2, "rgba(255,255,255,0.45)");
-  crest(g, dx + 40, 72, 5, "#f3f6f7", "#aab4b8");
-  text(g, "SAPIENTIA ET VIRTUS", dx + 65, 130, 7, "#f3f6f7", { align: "center", bold: false });
+  drawCrestIn(g, dx + 28, 62, 76, 80, "#f3f6f7"); // etched crest; the motto scroll is part of the official artwork
   text(g, "SCHOOL OF", dx + 138, 76, 12, "#f3f6f7", { bold: false });
   text(g, "COMPUTING &", dx + 138, 90, 13, "#f3f6f7");
   text(g, "DATA SCIENCE", dx + 138, 105, 13, "#f3f6f7");

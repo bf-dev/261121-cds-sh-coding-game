@@ -46,7 +46,7 @@ small { font-size: 0.72em; color: var(--ink-soft); margin-left: 10px; font-weigh
 .hud-loc { position: absolute; left: 16px; top: 16px; padding: 8px 16px 10px; min-width: 260px; }
 .hud-loc .en { font-size: 22px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
 .hud-loc .zh { font-size: 16px; color: var(--ink-soft); font-weight: 700; margin-top: 1px; }
-.hud-loc .crest { width: 18px; height: 22px; flex: none; background: linear-gradient(#c8102e, #c8102e) 0 0 / 18px 8px no-repeat, var(--hku); border: 2px solid var(--ink); border-radius: 0 0 8px 8px; }
+.hud-loc .crest { width: 24px; height: 27px; flex: none; background: url("./assets/hku-crest.svg") center / contain no-repeat; }
 .hud-quest { position: absolute; left: 16px; top: 92px; padding: 6px 14px 8px; font-size: 17px; font-weight: 700; max-width: 520px; background: rgba(251, 243, 223, 0.94); }
 .hud-quest b { color: var(--hku); }
 .hud-btns { position: absolute; right: 16px; top: 16px; display: flex; gap: 12px; }

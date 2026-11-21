@@ -1,5 +1,6 @@
 // Things drawn on the back wall of a CDS1 floor: wall finishes, lifts, doors, signs, glass rooms, screens.
 import { rect, frame, hash, shade, text, FONT, type Ctx } from "../art/px";
+import { drawCrestIn } from "../art/logo";
 import { WALL_PX, ao } from "./cds1-kit";
 
 const H = WALL_PX; // 192
@@ -57,13 +58,14 @@ export function exitLamp(g: Ctx, x: number, y = 18): void {
   text(g, "EXIT", x + 13, y + 2, 9, "#eafff2");
 }
 
-/** tiny HKU crest: shield with a book, used on signs (s = px scale) */
-export function crest(g: Ctx, x: number, y: number, s = 2, c = "#1f1f1f", paper = "#f1efea"): void {
-  const rows = [10, 10, 10, 10, 10, 10, 8, 8, 6, 4, 2];
-  rows.forEach((w, j) => rect(g, x + ((10 - w) / 2) * s, y + j * s, w * s, s, c));
-  rect(g, x + 2 * s, y + 2 * s, 6 * s, 3 * s, paper);
-  rect(g, x + 5 * s - 1, y + 2 * s, 2, 3 * s, c);
-  rect(g, x + 2 * s, y + 6 * s, 6 * s, s, paper);
+/**
+ * The official HKU crest (art/logo.ts) on a sign, in a box 10s x 11s px.
+ * With a colour c it is the one-colour version in that colour (engraved, etched, printed);
+ * without one it is the full-colour crest. The paper argument is kept for old callers and unused.
+ */
+export function crest(g: Ctx, x: number, y: number, s = 2, c?: string, _paper?: string): void {
+  if (s <= 1) drawCrestIn(g, x - 2, y - 2, 14, 15); // too small for line art: colour crest, slightly larger
+  else drawCrestIn(g, x, y, 10 * s, 11 * s, c);
 }
 
 /** hollow stencil-outline room number over a long rule that turns down to a small oval door handle */
