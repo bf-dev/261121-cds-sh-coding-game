@@ -63,48 +63,74 @@ export function tree(kind: "cherry" | "ginkgo" | "green" | "bare", seed: number)
 export function lion(): HTMLCanvasElement {
   const [c, g] = mk(260, 270);
   const X = 130;
-  gshadow(g, X - 8, 250, 104, 16, 0.26);
-  for (const [x1, x2] of [[X - 40, 6], [X + 40, 254], [X - 30, 40], [X + 30, 220]]) seg(g, x1, 96, x2, 262, "#d9dad5", 1);
-  ball(g, X - 52, 232, 36, 22, "#f0d06a");
-  ball(g, X + 52, 232, 36, 22, "#f0d06a");
-  ball(g, X, 214, 64, 30, "#8a6a4f");
-  ellipse(g, X - 6, 208, 54, 20, "#9c7a5e");
-  rect(g, X - 1, 200, 3, 40, "#6b5039");
-  ball(g, X, 172, 66, 56, "#cfe0c3");
-  ellipse(g, X + 18, 186, 44, 40, "#b9cdb0");
-  ellipse(g, X - 10, 160, 40, 38, "#dbe8d2");
-  ellipse(g, X, 176, 24, 50, "#f7f6ee");
-  rect(g, X - 3, 138, 6, 54, "#7a5a37");
-  ball(g, X - 66, 178, 20, 38, "#cfe0c3");
-  ball(g, X + 66, 178, 20, 38, "#b9cdb0");
-  ball(g, X - 62, 212, 18, 15, "#f3dfae");
-  ball(g, X + 62, 212, 18, 15, "#f3dfae");
+  // warm outlines instead of the dark ink: the statue reads as soft and plush
+  const LM = "#b9822c"; // mane
+  const LF = "#c99a4c"; // fur
+  const LJ = "#86a886"; // jacket
+  const LS = "#6b5039"; // shorts
+  gshadow(g, X - 6, 252, 100, 15, 0.24);
+  for (const [x1, x2] of [[X - 44, 6], [X + 44, 254], [X - 34, 40], [X + 34, 220]]) seg(g, x1, 110, x2, 262, "#d9dad5", 1);
+  // a small round body under a big head: feet, shorts, jacket
   for (const s of [-1, 1]) {
-    ellipse(g, X + s * 52, 240, 14, 9, "#f3dfae");
-    for (const d of [-14, 0, 14]) ellipse(g, X + s * 52 + d, 224, 5, 4, "#f7ead0");
+    ball(g, X + s * 44, 238, 30, 19, "#f6d680", LF);
+    ellipse(g, X + s * 44 - 4, 233, 20, 10, "#fbe7a6");
+    ellipse(g, X + s * 44, 242, 12, 8, "#fff3d6");
+    for (const d of [-11, 0, 11]) ellipse(g, X + s * 44 + d, 228, 4, 3, "#fff3d6");
   }
-  // mane: a scalloped halo
-  for (let i = 0; i < 16; i++) {
-    const a = (i / 16) * 6.283;
-    ball(g, X + Math.cos(a) * 62, 84 + Math.sin(a) * 58, 17, 17, i % 2 ? "#e8c34a" : "#dcb23c");
-  }
-  ball(g, X, 84, 62, 58, "#e8c34a");
-  ellipse(g, X + 10, 96, 52, 46, "#c99f2f");
-  ellipse(g, X - 6, 78, 52, 46, "#f0d06a");
-  ball(g, X - 44, 36, 14, 14, "#e8c34a");
-  ball(g, X + 44, 36, 14, 14, "#e8c34a");
-  ellipse(g, X - 44, 38, 7, 8, "#e8a08a");
-  ellipse(g, X + 44, 38, 7, 8, "#e8a08a");
-  ball(g, X, 88, 44, 40, "#f6dc8c");
-  ellipse(g, X - 8, 80, 32, 28, "#fbe7a6");
-  ball(g, X, 106, 25, 17, "#f7ead0", "#b98f4a");
-  ellipse(g, X, 97, 10, 7, "#8a5a4a");
-  rect(g, X - 1, 104, 2, 8, "#8a5a4a");
-  rect(g, X - 9, 112, 18, 2, "#8a5a4a");
+  ball(g, X, 222, 52, 24, "#9c7a5e", LS);
+  ellipse(g, X - 6, 217, 42, 15, "#ad8a6c");
+  rect(g, X - 1, 212, 3, 30, "#7a5c44");
+  ball(g, X, 190, 54, 42, "#cfe6c8", LJ);
+  ellipse(g, X + 14, 200, 36, 30, "#bcd8b6");
+  ellipse(g, X - 10, 180, 32, 26, "#def0d8");
+  ellipse(g, X, 194, 19, 38, "#fffaf0");
+  for (const d of [0, 14]) ellipse(g, X, 190 + d, 3, 3, "#d8c9a8");
   for (const s of [-1, 1]) {
-    ellipse(g, X + s * 19, 80, 5, 6, "#2a2433");
-    rect(g, X + s * 19 - 3, 76, 3, 3, "#ffffff");
-    ellipse(g, X + s * 30, 98, 6, 4, "#f2b0a0");
+    ball(g, X + s * 54, 192, 17, 28, s < 0 ? "#cfe6c8" : "#bcd8b6", LJ);
+    ball(g, X + s * 50, 218, 16, 13, "#fbe7a6", LF);
+    ellipse(g, X + s * 50 - 3, 214, 9, 6, "#fff3d6");
+  }
+  // mane: two rings of round tufts, like the Leo on the Grand Hall stage
+  const HY = 96;
+  for (let i = 0; i < 14; i++) {
+    const a = -1.571 + (i / 14) * 6.283;
+    ball(g, X + Math.cos(a) * 76, HY + Math.sin(a) * 70, 21, 21, i % 2 ? "#eeb63a" : "#e3a62c", LM);
+  }
+  ball(g, X, HY, 82, 76, "#eeb63a", LM);
+  for (let i = 0; i < 14; i++) {
+    const a = -1.347 + (i / 14) * 6.283;
+    ellipse(g, X + Math.cos(a) * 64, HY + Math.sin(a) * 58, 17, 17, i % 2 ? "#f6cf62" : "#f0c04a");
+  }
+  // small round ears
+  for (const s of [-1, 1]) {
+    ball(g, X + s * 52, HY - 54, 17, 17, "#f8dc98", LF);
+    ellipse(g, X + s * 52, HY - 52, 10, 10, "#f4b9a6");
+  }
+  // face
+  ball(g, X, HY + 8, 64, 58, "#f8dc98", LF);
+  ellipse(g, X - 6, HY + 2, 54, 46, "#fbe7a6");
+  ellipse(g, X - 24, HY - 26, 20, 8, "#fff0c2");
+  for (const [dx, dy, r] of [[-14, -48, 14], [0, -54, 16], [14, -48, 14]]) ellipse(g, X + dx, HY + dy, r, r, dx === 0 ? "#f6cf62" : "#eeb63a");
+  // muzzle, pink nose, small "w" smile
+  ellipse(g, X, HY + 36, 28, 20, "#fff6e2");
+  ellipse(g, X - 6, HY + 32, 16, 10, "#ffffff");
+  ellipse(g, X, HY + 24, 8, 5, "#e08a86");
+  rect(g, X - 4, HY + 21, 5, 2, "#f5b8b0");
+  rect(g, X - 1, HY + 29, 2, 6, "#3a2530");
+  for (const s of [-1, 1]) {
+    seg(g, X, HY + 35, X + s * 6, HY + 39, "#3a2530", 2);
+    seg(g, X + s * 6, HY + 39, X + s * 12, HY + 35, "#3a2530", 2);
+  }
+  // big glossy eyes, soft brows, round cheeks
+  for (const s of [-1, 1]) {
+    const ex = X + s * 28;
+    ellipse(g, ex, HY + 4, 12, 16, "#3a2530");
+    ellipse(g, ex, HY + 10, 8, 8, "#7a4a34");
+    ellipse(g, ex, HY + 6, 6, 8, "#1c1118");
+    rect(g, ex - 8, HY - 8, 8, 8, "#ffffff");
+    rect(g, ex + 2, HY + 10, 4, 4, "#ffffff");
+    seg(g, ex - s * 8, HY - 26, ex + s * 8, HY - 24, "#b9801f", 3);
+    ellipse(g, X + s * 46, HY + 26, 12, 8, "#ff9f9f");
   }
   return c;
 }

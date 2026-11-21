@@ -12,7 +12,7 @@ export const L = {
   cds2: { x: 2, y: 10, w: 16, roof: 5, face: 10, door: 9 }, // the north-west tower
   se: { x: 42, y: 30, w: 16, roof: 4, face: 6, door: 49 }, // south-east tower (D, CDS Tech Landmark)
   sw: { x: 2, y: 30, w: 16, roof: 4, face: 6, door: 9 }, // south-west tower
-  bridge: { x: 18, w: 24, row: 15 }, // footbridge footprint rows 15..16
+  bridge: { x: 55, w: 3, y: 25, len: 5 }, // footbridge: runs north to south over the gap between CDS1 and the tower south of it, rows 25..29
   court: { cx: 30, cy: 21.4, rx: 6, ry: 3.7, wall: 72 }, // sunken round plaza
   lawn: { x: 21, y: 28, w: 19, h: 10 },
   sign: { x: 43, y: 27, w: 4, h: 2 }, // lawn strip with the monument sign

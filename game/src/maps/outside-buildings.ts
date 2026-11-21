@@ -248,7 +248,7 @@ export function auditoriumSprite(o: { w: number; roof: number; face: number }): 
   rect(g, gx, RH + 18, gw, 46, "#2a2c2b");
   rect(g, gx, RH + 18, gw, 2, "#4b4d4c");
   const lg = logoMono(38, "#e4e6e2"); // the official one-colour logo: crest, 香港大學, THE UNIVERSITY OF HONG KONG
-  g.drawImage(lg, Math.round(W / 2 - lg.width / 2), RH + 22);
+  g.drawImage(lg, gx + 16, RH + 22); // left end of the band, as on the real facade
   for (const dx of [-66, 2]) {
     frame(g, W / 2 + dx, RH + FH - 130, 64, 106, "#eeefec", 4);
     rect(g, W / 2 + dx + 4, RH + FH - 126, 56, 100, "#9db4bf");
@@ -260,47 +260,62 @@ export function auditoriumSprite(o: { w: number; roof: number; face: number }): 
   return c;
 }
 
-export const BRIDGE_H = 264;
-export const BRIDGE_COLS = [0.14, 0.64, 0.87]; // column positions along the deck (the oval void sits between the first two)
+/** how far above the ground the deck is drawn (about 2nd storey) */
+export const BRIDGE_LIFT = 96;
 
-/** The footbridge: deck with glass balustrades and the oval void, on three round white columns */
-export function bridgeSprite(wTiles: number): HTMLCanvasElement {
-  const W = wTiles * T, D = 128;
-  const [c, g] = mk(W, BRIDGE_H);
-  rect(g, 0, 0, W, D, "#dcddd5");
-  for (let y = 0; y < D; y += 32) for (let x = -((y * 3) % 96); x < W; x += 96) {
-    rect(g, x + 1, y + 1, 94, 30, hash(x, y, 81) < 0.5 ? "#dfe0d8" : "#d4d5cd");
-    rect(g, x, y, 1, 32, "#b4b6ae");
+/**
+ * The footbridge deck, seen from above, running north to south: paving, glass balustrades down
+ * both long sides and the oval void. The top edge meets the CDS1 face, the bottom edge tucks
+ * under the roof line of the tower to the south.
+ */
+export function bridgeSprite(wTiles: number, lenTiles: number): HTMLCanvasElement {
+  const W = wTiles * T, H = BRIDGE_LIFT + lenTiles * T + 12;
+  const [c, g] = mk(W, H);
+  rect(g, 0, 0, W, H, "#dcddd5");
+  for (let x = 0; x < W; x += 32) for (let y = -((x * 3) % 96); y < H; y += 96) {
+    rect(g, x + 1, y + 1, 30, 94, hash(x, y, 81) < 0.5 ? "#dfe0d8" : "#d4d5cd");
+    rect(g, x, y, 32, 1, "#b4b6ae");
   }
-  for (let y = 0; y < D; y += 32) rect(g, 0, y, W, 1, "#b4b6ae");
-  speckle(g, 0, 0, W, D, ["#eeeee8", "#c4c5bd"], 0.06, 82, 2);
-  // the oval void: see-through, with a dark reveal on the far edge
-  const vx = W * 0.39, vy = 62, vrx = 210, vry = 40;
-  for (let j = -vry - 8; j <= vry; j++) {
-    const o = Math.max(0, 1 - ((j + 8) * (j + 8)) / ((vry + 0) * (vry + 0)));
-    const h1 = j + 8 <= vry ? Math.round((vrx + 4) * Math.sqrt(o)) : 0;
-    if (h1 > 0) rect(g, vx - h1, vy + j, h1 * 2, 1, j < -vry + 14 ? "#8d8f88" : "#7d7f78");
+  for (let x = 0; x < W; x += 32) rect(g, x, 0, 1, H, "#b4b6ae");
+  speckle(g, 0, 0, W, H, ["#eeeee8", "#c4c5bd"], 0.06, 82, 2);
+  // the oval void: see-through, with a dark reveal on the far (north) edge
+  const vx = W / 2, vy = Math.round(H * 0.47), vrx = 50, vry = 112;
+  for (let j = -vry - 10; j <= vry; j++) {
+    const o = Math.max(0, 1 - ((j + 10) * (j + 10)) / (vry * vry));
+    const h1 = Math.round((vrx + 5) * Math.sqrt(o));
+    if (h1 > 0) rect(g, vx - h1, vy + j, h1 * 2, 1, j < -vry + 16 ? "#8d8f88" : "#7d7f78");
   }
-  for (let j = -vry + 12; j <= vry; j++) {
+  for (let j = -vry; j <= vry; j++) {
     const h2 = Math.round(vrx * Math.sqrt(Math.max(0, 1 - (j * j) / (vry * vry))));
-    g.clearRect(Math.round(vx - h2 + 6), vy + j, Math.max(0, h2 * 2 - 12), 1);
+    if (h2 > 0) g.clearRect(Math.round(vx - h2), vy + j, h2 * 2, 1);
   }
-  // balustrades: far edge and near edge
-  for (const y of [0, D - 18]) {
-    rect(g, 0, y + 2, W, 14, "rgba(185,205,208,0.65)");
-    rect(g, 0, y, W, 3, "#3a3d40");
-    for (let x = 0; x < W; x += 56) rect(g, x, y + 2, 2, 15, "#b6bcc0");
-    rect(g, 0, y + 16, W, 2, "#a8aaa2");
+  // rim of the void
+  for (let j = -vry; j <= vry; j += 1) {
+    const h2 = Math.round(vrx * Math.sqrt(Math.max(0, 1 - (j * j) / (vry * vry))));
+    rect(g, vx - h2 - 2, vy + j, 2, 1, "#f1f2ee");
+    rect(g, vx + h2, vy + j, 2, 1, "#a8aaa2");
   }
-  rect(g, 0, D, W, 18, "#e6e7e0");
-  rect(g, 0, D, W, 2, "#f6f6f2");
-  rect(g, 0, D + 18, W, 6, "#a8aaa2");
-  rect(g, 0, D + 24, W, 8, "#7d7f78");
+  // balustrades down both long sides
+  for (const x of [0, W - 16]) {
+    rect(g, x + 2, 0, 12, H, "rgba(185,205,208,0.7)");
+    rect(g, x, 0, 3, H, "#3a3d40");
+    rect(g, x + 13, 0, 3, H, "#3a3d40");
+    for (let y = 0; y < H; y += 56) rect(g, x + 2, y, 12, 2, "#b6bcc0");
+  }
+  // where the deck meets CDS1: a metal threshold strip
+  rect(g, 0, 0, W, 6, "#8d8f88");
+  rect(g, 0, 6, W, 2, "#f1f2ee");
+  return c;
+}
+
+/** one round white column of the footbridge, with the bracket arm that carries the deck edge */
+export function bridgeColumn(): HTMLCanvasElement {
+  const H = BRIDGE_LIFT + 40;
+  const [c, g] = mk(54, H);
   const colRamp = ["#9a9c95", "#b9bab3", "#d9dad2", "#eeeee8", "#f6f6f2", "#e2e3dc", "#c9cac3", "#aeb0a8", "#8f918a"];
-  for (const f of BRIDGE_COLS) {
-    const x = Math.round(W * f) - 27;
-    for (let i = 0; i < 9; i++) rect(g, x + i * 6, D + 24, 6, BRIDGE_H - D - 28 + (i > 1 && i < 7 ? 4 : i === 0 || i === 8 ? 0 : 2), colRamp[i]);
-    rect(g, x, D + 24, 54, 10, "rgba(40,44,50,0.35)");
-  }
+  for (let i = 0; i < 9; i++) rect(g, i * 6, 8, 6, H - 12 + (i > 1 && i < 7 ? 4 : i === 0 || i === 8 ? 0 : 2), colRamp[i]);
+  rect(g, 0, 0, 54, 10, "#e6e7e0");
+  rect(g, 0, 0, 54, 2, "#f6f6f2");
+  rect(g, 0, 10, 54, 5, "rgba(40,44,50,0.3)");
   return c;
 }

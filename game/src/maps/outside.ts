@@ -2,7 +2,7 @@ import { TILE, type GameMap, type Prop, type Trigger, type NpcDef, type MapLabel
 import { block, rect, mk } from "../art/px";
 import { COLS, ROWS, L } from "./outside-layout";
 import { drawGround } from "./outside-ground";
-import { towerSprite, b5Sprite, auditoriumSprite, bridgeSprite, BRIDGE_H, BRIDGE_COLS } from "./outside-buildings";
+import { towerSprite, b5Sprite, auditoriumSprite, bridgeSprite, bridgeColumn, BRIDGE_LIFT } from "./outside-buildings";
 import * as P from "./outside-props";
 
 const T = TILE;
@@ -39,8 +39,14 @@ export function buildOutside(): GameMap {
   for (const b of [se, sw]) props.push({ sprite: towerSprite({ w: b.w, roof: b.roof, face: b.face, door: b.door - b.x, main: false }), x: b.x * T, y: b.y * T, sortY: (b.y + b.roof + b.face - 1) * T, fade: true });
   props.push({ sprite: b5Sprite({ w: b5.w, roof: b5.roof, face: b5.face, door: b5.door - b5.x }), x: b5.x * T, y: 0, sortY: 6 * T, fade: true });
   props.push({ sprite: auditoriumSprite(aud), x: aud.x * T, y: 0, sortY: 7 * T - 2 });
-  props.push({ sprite: bridgeSprite(bridge.w), x: bridge.x * T, y: (bridge.row + 2) * T - BRIDGE_H, sortY: (bridge.row + 2) * T - 2, fade: true });
-  for (const f of BRIDGE_COLS) S(bridge.x + Math.floor(bridge.w * f - 0.01), bridge.row + 1);
+  // the footbridge runs north to south over the gap between CDS1 and the tower south of it.
+  // The deck is overhead, so only its three columns are solid.
+  props.push({ sprite: bridgeSprite(bridge.w, bridge.len), x: bridge.x * T, y: bridge.y * T - BRIDGE_LIFT, sortY: (bridge.y + bridge.len) * T - 2, fade: true });
+  for (const [cx, cy, side] of [[bridge.x - 1, bridge.y + 1, 1], [bridge.x + bridge.w, bridge.y + 2, -1], [bridge.x - 1, bridge.y + 3, 1]]) {
+    const col = bridgeColumn();
+    props.push({ sprite: col, x: side > 0 ? (cx + 1) * T - col.width + 8 : cx * T - 8, y: (cy + 1) * T - 6 - col.height, sortY: (cy + 1) * T - 6 });
+    S(cx, cy);
+  }
 
   // planting beds (drawn on the ground)
   S(aud.x, 7, 1, 3);
@@ -114,12 +120,12 @@ export function buildOutside(): GameMap {
   put(P.bench(), 12, 7, 3, 1);
 
   // street furniture
-  for (const [tx, ty] of [[28, 27], [34, 27], [26, 39], [31, 39], [54.5, 26], [64.5, 10]]) put(P.bench(), tx, ty, 3, 1);
-  for (const [tx, ty] of [[35, 26], [36, 26], [18, 13], [41, 13], [26, 11], [33, 11], [8, 26], [10, 26], [66, 12], [66, 19], [56, 28], [14, 28]]) put(P.planter(seed++), tx, ty);
+  for (const [tx, ty] of [[28, 27], [34, 27], [26, 39], [31, 39], [64.5, 10]]) put(P.bench(), tx, ty, 3, 1);
+  for (const [tx, ty] of [[35, 26], [36, 26], [18, 13], [41, 13], [26, 11], [33, 11], [8, 26], [10, 26], [66, 12], [66, 19], [14, 28]]) put(P.planter(seed++), tx, ty);
   for (const [tx, ty] of [[19, 27], [41, 27], [19, 37], [41, 37], [47, 9], [59, 28], [30, 11], [65, 19], [65, 30]]) put(P.lamp(), tx, ty, 0);
   for (const [tx, ty] of [[47, 26], [38, 39], [56, 8]]) put(P.bin(), tx, ty);
-  ["#f2c230", "#3f9fd8", "#f2c230", "#3fb87a"].forEach((col, i) => put(P.bike(col), 52.4 + i * 0.9, 29, 0));
-  S(53, 29, 4, 1);
+  ["#f2c230", "#3f9fd8", "#f2c230", "#3fb87a"].forEach((col, i) => put(P.bike(col), 51.5 + i * 0.75, 29, 0));
+  S(52, 29, 2, 1);
   for (const ty of [12, 19, 26, 28]) put(P.bollard(), 64, ty === 19 ? 19.4 : ty, 0);
   for (let i = 0; i < 10; i++) {
     const left = i < 5;
@@ -135,7 +141,7 @@ export function buildOutside(): GameMap {
     info("lion", 23, 32, 5, 1, "The HKU lion", "港大狮子", "A seated cartoon lion about 2.5 m tall, with a yellow mane, a pale green jacket and brown shorts, held down by guy ropes. Students say he waits in the grand hall as the final boss."),
     info("hku-letters", 29, 34, 7, 1, "HKU letters", "HKU 立体字", "Three white block letters, each about 2 m tall, standing straight on the grass. This lawn is the favourite photo spot on campus."),
     info("monument", 42, 29, 6, 1, "Monument sign", "学院标志墙", "A white slab with the HKU crest and the words SCHOOL OF COMPUTING & DATA SCIENCE, The University of Hong Kong. The yellow lane line sweeps around it."),
-    info("footbridge", 26, 15, 8, 2, "Footbridge", "空中连廊", "A deck on three round white columns links the two towers. Look up: a big oval hole is cut through it, like an eye in the ceiling."),
+    info("footbridge", bridge.x, bridge.y + 2, bridge.w, 2, "Footbridge", "空中连廊", "A deck on three round white columns links CDS1 to the tower facing it, at second-floor height. Look up: a big oval hole is cut through it, like an eye in the ceiling."),
     info("sunken-plaza", 26, 21, 9, 3, "Sunken round plaza", "下沉广场", "A round court a few metres below the plaza, with a sweeping stair and dark granite rings in the floor. The site plan calls it 下沉广场."),
     info("civil-board", 52, 27, 3, 1, "Civil defence board", "民防工程引导图", "The red board is a real map of this block: Zuchongzhi Road north, Jidian Road south, Jichuang Road west, Fangchun Road east. The basement is a civil defence shelter."),
     info("taobao", LK.x - 1, LK.tb, 1, LK.len, "Taobao lockers", "淘宝闪购柜", "The white and red wall is the Taobao parcel locker, numbered up to 125 like its yellow Meituan neighbour. Both walls face CDS1 across the service road, with Fangchun Road behind them."),
@@ -152,8 +158,8 @@ export function buildOutside(): GameMap {
     say("guard", "guard", 59, 38, "right", "Gate guard", "门卫", "Welcome to the HKU Zhangjiang Base, 500 Fangchun Road. CDS1 is the tower with the revolving door. The food lockers are up the service road, on the Fangchun Road side."),
     say("visitor1", "visitor1", 28, 33, "left", "Visitor", "访客", "We came for the lion photo. My daughter got her offer last week!"),
     say("visitor2", "visitor2", 65, 27, "up", "Parent", "家长", "I have never written code. They say a for loop just repeats something. Is that all?"),
-    say("visitor3", "visitor3", 33, 22, "down", "Student", "学生", "Stand on the dark rings and look up at the footbridge. Best echo on campus."),
-    say("visitor4", "visitor4", 54, 9, "down", "Student", "学生", "Building 5 needs a key. I heard a professor on the third floor of CDS1 hands it out."),
+    say("visitor3", "visitor3", 33, 22, "down", "Student", "学生", "Stand on the dark rings and clap your hands. Best echo on campus."),
+    say("visitor4", "visitor3", 54, 9, "down", "Student", "学生", "Building 5 needs a key card. I heard a bot locked it in the lab on the third floor of CDS1."),
   ];
 
   const labels: MapLabel[] = [

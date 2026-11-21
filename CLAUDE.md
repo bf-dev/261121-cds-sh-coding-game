@@ -85,5 +85,7 @@ npm run preview      # serve the build
 - Rules live in `game/src/battle/rules.ts` (no DOM). Blocks, rewards and pop-up texts are data in `game/src/data/`. Maps are drawn in code from `buildings/` in `game/src/maps/`. If a doc changes a rule, change these and the doc in the same commit.
 - Presentation: `Demo mode` on the title screen plays a full match by itself; `Level select` jumps to any floor or the Grand Hall.
 - Story, professors and their lines are in `game/src/data/professors.ts`. The lineup follows `docs/professor-levels.md`.
+- Story (decisions #39 to #41): an AI took over CDS. New game opens in the Grand Hall with Leo's tutorial; on each floor the professor certifies you in a battle, then the floor's lab bot asks one question and gives the new block; each floor also gives a postcard. Lab questions and postcard facts are in `game/src/data/labs.ts`.
+- Background music is the HKU anthem in `game/src/assets/hku-anthem.mp3` (raw file and source in `resources/audio/`).
 - The HKU logo is the official file in `game/src/assets/` (from hku.hk). Never redraw it; use `crest()` / `logoFull()` from `game/src/art/logo.ts`.
 - Online copy: https://insu.ng/cds/ (static build, rule-based opponents), republished with `game/scripts/deploy-insu.sh` on Insung's server.

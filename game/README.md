@@ -86,3 +86,11 @@ src/assets/            HKU logo and crest (SVG, from hku.hk)
 Design defaults picked during the build are in [DESIGN-CHOICES.md](DESIGN-CHOICES.md).
 
 Fonts: SungSans (Latin) and Noto Sans CJK SC (Chinese), subset to the characters the game uses. After changing any Chinese text run `npm run fonts` (needs `fonttools` and `brotli`, and the two source fonts on the machine).
+
+## story, labs, postcards, music (2026-11-21 afternoon)
+
+- New game opens in the Grand Hall: Leo gives the coached first battle, then the AI takes over CDS and the student is sent to CDS1.
+- Each CDS1 floor: find the professor in a room, win the block battle (certified), then walk to the door marked `Lab 实验室` and answer the bot's question. The floor's new block comes from the lab. A postcard of the floor goes into the Bag.
+- Lab questions and postcard facts are data in `src/data/labs.ts`.
+- Background music is the HKU anthem (`src/assets/hku-anthem.mp3`, source in `resources/README.md`). Menu > Music turns it on and off.
+- Level select has a `Building 5` button. Debug links: `?map=cds1-6&floor=7&postcard=6` shows a postcard, `?map=cds1-1&floor=2&pending=1&tp=3,4` stands at a lab whose bot is still running.

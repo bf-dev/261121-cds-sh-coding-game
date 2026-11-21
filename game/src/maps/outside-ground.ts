@@ -238,8 +238,9 @@ export function drawGround(): HTMLCanvasElement {
   }
   for (const b of [L.aud, L.b5]) dark(g, b.x * T, (b.y + b.roof + b.face) * T, b.w * T, 12, 0.16);
   const B = L.bridge;
-  dark(g, B.x * T, B.row * T - 8, B.w * T, 2 * T + 8, 0.2);
-  dark(g, B.x * T + 12, (B.row + 2) * T, B.w * T - 24, 10, 0.1);
+  // under the deck, and its shadow falling west like the towers'
+  dark(g, B.x * T, B.y * T, B.w * T, B.len * T, 0.2);
+  dark(g, B.x * T - 44, B.y * T + 20, 44, B.len * T - 20, 0.1);
 
   court(g);
 
