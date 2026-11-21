@@ -230,17 +230,13 @@ export function drawGround(): HTMLCanvasElement {
   hedge(g, A.x * T + 6, 7 * T, T - 12, 3 * T - 8);
   hedge(g, (A.x + A.w - 1) * T + 6, 7 * T, T - 12, 3 * T - 8);
 
-  // shadows: west of each tower, under the footbridge, at wall bases
+  // shadows: west of each tower, at wall bases
   for (const b of [L.cds1, L.cds2, L.se, L.sw]) {
     for (let i = 0; i < 6; i++) dark(g, b.x * T - 90 + i * 15, (b.y + b.roof) * T + 80 + i * 22, 90 - i * 15, b.face * T - 80 - i * 22, 0.15);
     dark(g, b.x * T, (b.y + b.roof + b.face) * T, b.w * T, 10, 0.2);
     dark(g, b.x * T, (b.y + b.roof + b.face) * T + 10, b.w * T, 10, 0.08);
   }
   for (const b of [L.aud, L.b5]) dark(g, b.x * T, (b.y + b.roof + b.face) * T, b.w * T, 12, 0.16);
-  const B = L.bridge;
-  // under the deck, and its shadow falling west like the towers'
-  dark(g, B.x * T, B.y * T, B.w * T, B.len * T, 0.2);
-  dark(g, B.x * T - 44, B.y * T + 20, 44, B.len * T - 20, 0.1);
 
   court(g);
 

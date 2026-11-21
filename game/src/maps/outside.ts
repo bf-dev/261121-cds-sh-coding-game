@@ -2,13 +2,13 @@ import { TILE, type GameMap, type Prop, type Trigger, type NpcDef, type MapLabel
 import { block, rect, mk } from "../art/px";
 import { COLS, ROWS, L } from "./outside-layout";
 import { drawGround } from "./outside-ground";
-import { towerSprite, b5Sprite, auditoriumSprite, bridgeSprite, bridgeColumn, BRIDGE_LIFT } from "./outside-buildings";
+import { towerSprite, b5Sprite, auditoriumSprite } from "./outside-buildings";
 import * as P from "./outside-props";
 
 const T = TILE;
 
 // The outdoor site, drawn from buildings/outside/README.md: central axis with the lawn, lion and HKU
-// letters, the sunken round plaza and the footbridge, CDS1 on the east of the axis with Building 5
+// letters, the sunken round plaza, CDS1 on the east of the axis with Building 5
 // behind it, and the service road, lockers and gate on the east side.
 export function buildOutside(): GameMap {
   const ground = drawGround();
@@ -30,7 +30,7 @@ export function buildOutside(): GameMap {
   S(0, L.south, COLS, 3);
 
   // buildings
-  const { cds1, cds2, se, sw, b5, aud, bridge } = L;
+  const { cds1, cds2, se, sw, b5, aud } = L;
   for (const b of [cds1, cds2, se, sw, b5, aud]) S(b.x, b.y, b.w, b.roof + b.face);
   S(cds1.door, cds1.y + cds1.roof + cds1.face - 1, 2, 1, 0);
   S(b5.door, b5.y + b5.roof + b5.face - 1, 2, 1, 0);
@@ -39,14 +39,6 @@ export function buildOutside(): GameMap {
   for (const b of [se, sw]) props.push({ sprite: towerSprite({ w: b.w, roof: b.roof, face: b.face, door: b.door - b.x, main: false }), x: b.x * T, y: b.y * T, sortY: (b.y + b.roof + b.face - 1) * T, fade: true });
   props.push({ sprite: b5Sprite({ w: b5.w, roof: b5.roof, face: b5.face, door: b5.door - b5.x }), x: b5.x * T, y: 0, sortY: 6 * T, fade: true });
   props.push({ sprite: auditoriumSprite(aud), x: aud.x * T, y: 0, sortY: 7 * T - 2 });
-  // the footbridge runs north to south over the gap between CDS1 and the tower south of it.
-  // The deck is overhead, so only its three columns are solid.
-  props.push({ sprite: bridgeSprite(bridge.w, bridge.len), x: bridge.x * T, y: bridge.y * T - BRIDGE_LIFT, sortY: (bridge.y + bridge.len) * T - 2, fade: true });
-  for (const [cx, cy, side] of [[bridge.x - 1, bridge.y + 1, 1], [bridge.x + bridge.w, bridge.y + 2, -1], [bridge.x - 1, bridge.y + 3, 1]]) {
-    const col = bridgeColumn();
-    props.push({ sprite: col, x: side > 0 ? (cx + 1) * T - col.width + 8 : cx * T - 8, y: (cy + 1) * T - 6 - col.height, sortY: (cy + 1) * T - 6 });
-    S(cx, cy);
-  }
 
   // planting beds (drawn on the ground)
   S(aud.x, 7, 1, 3);
@@ -138,7 +130,6 @@ export function buildOutside(): GameMap {
     info("lion", 23, 32, 5, 1, "The HKU lion", "港大狮子", "A seated cartoon lion about 2.5 m tall, with a yellow mane, a pale green jacket and brown shorts, held down by guy ropes. Students say he waits in the grand hall as the final boss."),
     info("hku-letters", 29, 34, 7, 1, "HKU letters", "HKU 立体字", "Three white block letters, each about 2 m tall, standing straight on the grass. This lawn is the favourite photo spot on campus."),
     info("monument", 42, 29, 6, 1, "Monument sign", "学院标志墙", "A white slab with the HKU crest and the words SCHOOL OF COMPUTING & DATA SCIENCE, The University of Hong Kong. The yellow lane line sweeps around it."),
-    info("footbridge", bridge.x, bridge.y + 2, bridge.w, 2, "Footbridge", "空中连廊", "A deck on three round white columns links CDS-1 to CDS-2, the tower facing it, at second-floor height. Look up: a big oval hole is cut through it, like an eye in the ceiling."),
     info("sunken-plaza", 26, 21, 9, 3, "Sunken round plaza", "下沉广场", "A round court a few metres below the plaza, with a sweeping stair and dark granite rings in the floor. The site plan calls it 下沉广场."),
     info("taobao", LK.x - 1, LK.tb, 1, LK.len, "Taobao lockers", "淘宝闪购柜", "The white and red wall is the Taobao parcel locker, numbered up to 125 like its yellow Meituan neighbour. Both walls face CDS-1 across the service road, with Fangchun Road behind them."),
     info("gate", L.road.x, 38, L.road.w, 2, "East gate", "东门", "The guard booth and the red and white barrier arm on the service road. Beyond it the blue sign points to Yindong Road and Jidian Road."),
