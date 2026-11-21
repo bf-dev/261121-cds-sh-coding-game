@@ -1,6 +1,6 @@
 // CDS1 1/F: entrance lobby, stone wall and turnstiles, lift hall, LED timetable, cafe commons (buildings/cds1 §3).
 import { mk, rect, ellipse, shade, text, hash } from "../art/px";
-import { Floor, T, WALL_PX, stoneFloor, cafeFloor, ao } from "./cds1-kit";
+import { Floor, T, WALL_PX, stoneFloor, cafeFloor, ao, sunPatch } from "./cds1-kit";
 import { wall, liftDoors, door, screen, panel, exitLamp, crest } from "./cds1-wall";
 import { windowBay } from "./cds1-rooms";
 import { banquette, tableSet, pouf, plant, counter, clutter } from "./cds1-props";
@@ -62,7 +62,11 @@ export function buildLobby(): Floor {
   for (let j = 0; j < 150; j += 2) for (let i = -j; i < 3 * T + j; i += 4) if ((i + j) % 8 < 4) rect(g, 15 * T + i, 21 * T - j, 2, 2, "rgba(255,255,255,0.3)");
 
   // back wall, left to right
-  wall(g, T, 2 * T, "fluted");
+  wall(g, T, 2 * T, "white");
+  // wall screen: the current floor and the Building 5 poster
+  screen(g, T + 10, 40, 108, 118, "1  ▲   SAT 星期六", ["BUILDING 5 &", "SPORTS COURT", "ARE NOW OPEN", "7 Days a Week", "08:00-22:00", "HKU Zhangjiang Base"], "#f6f1e4", "#1d2a44");
+  rect(g, T + 94, 132, 18, 18, "#16181c");
+  for (let q = 0; q < 16; q++) if ((q * 7) % 3) rect(g, T + 96 + (q % 4) * 4, 134 + (q >> 2) * 4, 3, 3, "#f6f1e4");
   wall(g, 3 * T, 6 * T, "white");
   liftDoors(g, 3 * T, 3, "1");
   wall(g, 9 * T, 3 * T, "white");
@@ -94,6 +98,7 @@ export function buildLobby(): Floor {
   rect(g, 19 * T + 34, 80, 22, 30, "#fbfbf8"); // notice sheet
   exitLamp(g, 19 * T + 6);
   windowBay(g, 23 * T, 10 * T, "green");
+  sunPatch(g, 23 * T, 5 * T, 130);
 
   // cafe commons
   f.put(fridge(), 29, 3, 1);
@@ -135,6 +140,20 @@ export function buildLobby(): Floor {
   ao(g, T, 12 * T, 13 * T, 12);
   ao(g, 19 * T, 12 * T, 14 * T, 12);
 
+  // lift hall: long white benches, plants, the corridor to the cafe
+  for (const bx of [4, 11]) {
+    const [bench, bg] = mk(4 * T, 60);
+    rect(bg, 6, 50, 4 * T - 12, 6, "rgba(20,24,40,0.2)");
+    rect(bg, 4, 10, 4 * T - 8, 22, "#fbfaf6");
+    rect(bg, 4, 10, 4 * T - 8, 3, "#ffffff");
+    rect(bg, 4, 32, 4 * T - 8, 18, "#dcd8cd");
+    rect(bg, 4, 48, 4 * T - 8, 3, "#a9a59a");
+    f.put(bench, bx, 7, 4);
+  }
+  f.put(plant(5), 1, 4, 1);
+  f.put(plant(6), 9, 7, 1);
+  f.put(plant(7), 19, 3, 1);
+  f.npc("visitor-c", "visitor3", 13, 8, "up", "Offer holder", "新生");
   // lobby
   f.put(desk(5, "#e6dcc6", "#f6f2e8"), 25, 13, 5);
   f.put(banquette("#c9a879", "#ece5d3"), 5, 17, 5, 2);
@@ -161,6 +180,7 @@ export function buildLobby(): Floor {
   f.npc("guard", "guard", 20, 13, "down", "Security guard", "保安");
   f.npc("visitor-a", "visitor1", 11, 17, "left", "Visitor", "访客");
   f.npc("visitor-b", "visitor2", 26, 9, "up", "Student", "学生");
+  f.info("poster", 1, 3, 2, 2, "Lift hall screen", "电梯厅屏幕", "The screen by the lifts says BUILDING 5 & SPORTS COURT ARE NOW OPEN, 7 days a week, 08:00 to 22:00. Building 5 is the low block north of this tower.");
   f.info("guide", 9, 3, 3, 1, "Floor guide", "楼层指南", "The panel by the lifts lists the tower: lecture theatres on 1 to 3, classrooms and teaching labs up to 7, research labs on 9 and 10, professors on 11 and 13, the director and the exhibition lounge on 14.");
   f.info("timetable", 13, 3, 5, 1, "LED timetable", "电子课表", "A wall-sized LED screen shows the Semester 1, 2026 exam timetable: course, venue, date and time.");
   f.info("turnstiles", 13, 12, 7, 1, "Security line", "闸机", "Five stainless turnstiles sit in a doorway cut into the tan stone wall. Each one has a face-recognition terminal at chest height.");

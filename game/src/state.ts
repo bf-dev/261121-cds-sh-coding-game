@@ -73,9 +73,12 @@ export function clearProgress(): void {
   }
 }
 
-export const playerMaxHp = (p: Progress): number => 30 + 5 * p.cleared;
-export const enemyHp = (floor: number): number => (floor <= 1 ? 20 : 24 + 6 * floor);
-export const BOSS_HP = 130;
+// HP grows with the floors because moves grow: 2 operator slots hit for about 10, 6 slots for about 80.
+export const playerMaxHp = (p: Progress): number => 30 + 10 * p.cleared;
+const ENEMY_HP = [20, 30, 40, 60, 66, 72, 110, 120, 130, 140, 150, 160, 170, 180];
+export const enemyHp = (floor: number): number => ENEMY_HP[Math.max(1, Math.min(14, floor)) - 1];
+export const BOSS_HP = 180;
+export const BOSS_BONUS_HP = 20;
 
 /** mark floor n as beaten and hand over its reward */
 export function applyReward(p: Progress, floor: number): void {

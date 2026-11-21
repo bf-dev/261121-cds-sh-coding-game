@@ -2,6 +2,7 @@
 
 A coding education card-battle game set on the HKU CDS Shanghai campus. Built at the CDS-SH "Your campus, your game" hackathon, 2026-11-21.
 
+- **play it: `cd game && npm install && npm run dev`** ([game/README.md](game/README.md))
 - concept: [docs/overview.md](docs/overview.md)
 - what's decided: [docs/decisions.md](docs/decisions.md)
 - what's not: [docs/open-questions.md](docs/open-questions.md)

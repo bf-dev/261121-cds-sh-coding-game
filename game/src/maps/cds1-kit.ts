@@ -99,18 +99,32 @@ function drawEdges(f: Floor): void {
 
 // ---------- floor textures (px rectangles) ----------
 
+const tiles = new Map<string, HTMLCanvasElement>();
+/** 256 px repeating speckle tile, built once per colour set */
+function noiseFill(g: Ctx, x: number, y: number, w: number, h: number, base: string | null, a: string, b: string, pa: number, pb: number, seed: number): void {
+  const key = `${base}|${a}|${b}|${pa}|${pb}|${seed}`;
+  let t = tiles.get(key);
+  if (!t) {
+    const [c, tg] = mk(256, 256);
+    if (base) rect(tg, 0, 0, 256, 256, base);
+    for (let j = 0; j < 256; j += 2)
+      for (let i = 0; i < 256; i += 2) {
+        const r = hash(i, j, seed);
+        if (r < pa) rect(tg, i, j, 2, 2, a);
+        else if (r > 1 - pb) rect(tg, i, j, 2, 2, b);
+      }
+    tiles.set(key, (t = c));
+  }
+  g.fillStyle = g.createPattern(t, "repeat")!;
+  g.fillRect(Math.round(x), Math.round(y), Math.round(w), Math.round(h));
+}
+
 /** polished cream stone: big slabs, grey veining, soft reflections */
 export function stoneFloor(g: Ctx, x: number, y: number, w: number, h: number, base = "#E8E1CE"): void {
-  rect(g, x, y, w, h, base);
   const hi = shade(base, 0.35);
   const lo = shade(base, -0.07);
   const vein = shade(base, -0.16);
-  for (let j = 0; j < h; j += 2)
-    for (let i = 0; i < w; i += 2) {
-      const r = hash(x + i, y + j, 3);
-      if (r < 0.05) rect(g, x + i, y + j, 2, 2, lo);
-      else if (r > 0.97) rect(g, x + i, y + j, 2, 2, hi);
-    }
+  noiseFill(g, x, y, w, h, base, lo, hi, 0.05, 0.03, 3);
   for (let sy = Math.floor(y / 128) * 128; sy < y + h; sy += 128)
     for (let sx = Math.floor(x / 128) * 128; sx < x + w; sx += 128) {
       // one wandering vein per slab
@@ -135,8 +149,8 @@ export function stoneFloor(g: Ctx, x: number, y: number, w: number, h: number, b
 
 /** timber planks running left to right, staggered joints, grain */
 export function timberFloor(g: Ctx, x: number, y: number, w: number, h: number, base = "#B08A62"): void {
-  const tones = [shade(base, -0.1), shade(base, -0.04), base, shade(base, 0.06), shade(base, 0.12)];
-  const dark = shade(base, -0.28);
+  const tones = [shade(base, -0.07), shade(base, -0.03), base, base, shade(base, 0.04), shade(base, 0.08)];
+  const dark = shade(base, -0.2);
   for (let j = 0; j < h; j += 16) {
     const row = Math.floor((y + j) / 16);
     let i = -Math.floor(hash(row, 1, 2) * 120);
@@ -161,6 +175,7 @@ export function timberFloor(g: Ctx, x: number, y: number, w: number, h: number, 
 /** the blue geometric carpet of every student space: interlocking pale shapes on navy */
 export function carpet(g: Ctx, x: number, y: number, w: number, h: number, navy = "#3E4A63", pale = "#9FAFBE"): void {
   rect(g, x, y, w, h, navy);
+  pale = mixHex(pale, navy, 0.22);
   const mid = shade(navy, 0.22);
   const deep = shade(navy, -0.18);
   for (let j = 0; j < h; j += 16)
@@ -173,7 +188,7 @@ export function carpet(g: Ctx, x: number, y: number, w: number, h: number, navy 
       const ww = Math.min(16, w - i);
       const hh = Math.min(16, h - j);
       let c: string | null = null;
-      if (big < 0.3 && small < 0.82) c = pale;
+      if (big < 0.26 && small < 0.8) c = pale;
       else if (big > 0.86 && small < 0.7) c = mid;
       else if (big > 0.6 && big < 0.68) c = deep;
       else if (small < 0.07) c = pale;
@@ -184,20 +199,12 @@ export function carpet(g: Ctx, x: number, y: number, w: number, h: number, navy 
         else rect(g, x + i, y + j + 8, 16, 8, c);
       } else rect(g, x + i, y + j, ww, hh, c);
     }
-  for (let j = 0; j < h; j += 2) for (let i = 0; i < w; i += 2) if (hash(x + i, y + j, 24) < 0.06) rect(g, x + i, y + j, 2, 2, "rgba(20,24,40,0.18)");
+  noiseFill(g, x, y, w, h, null, "rgba(20,24,40,0.18)", "rgba(255,255,255,0.06)", 0.06, 0.04, 24);
 }
 
 /** grey vinyl / stone of the service corridors */
 export function vinyl(g: Ctx, x: number, y: number, w: number, h: number, base = "#8E8D88"): void {
-  rect(g, x, y, w, h, base);
-  const a = shade(base, 0.08);
-  const b = shade(base, -0.08);
-  for (let j = 0; j < h; j += 2)
-    for (let i = 0; i < w; i += 2) {
-      const r = hash(x + i, y + j, 31);
-      if (r < 0.1) rect(g, x + i, y + j, 2, 2, a);
-      else if (r > 0.9) rect(g, x + i, y + j, 2, 2, b);
-    }
+  noiseFill(g, x, y, w, h, base, shade(base, 0.08), shade(base, -0.08), 0.1, 0.1, 31);
   for (let sx = Math.ceil(x / 128) * 128; sx < x + w; sx += 128) rect(g, sx, y, 1, h, shade(base, -0.16));
   for (let sy = Math.ceil(y / 128) * 128; sy < y + h; sy += 128) rect(g, x, sy, w, 1, shade(base, -0.16));
 }
@@ -227,4 +234,34 @@ export function ao(g: Ctx, x: number, y: number, w: number, h = 12): void {
   rect(g, x, y, w, Math.ceil(h / 3), "rgba(20,22,34,0.22)");
   for (let j = Math.ceil(h / 3); j < h; j += 2)
     for (let i = (j >> 1) & 1 ? 0 : 2; i < w; i += 4) rect(g, x + i, y + j, 2, 2, "rgba(20,22,34,0.2)");
+}
+
+function mixHex(a: string, b: string, t: number): string {
+  const pa = parseInt(a.slice(1), 16);
+  const pb = parseInt(b.slice(1), 16);
+  const ch = (sh: number): number => Math.round(((pa >> sh) & 255) * (1 - t) + ((pb >> sh) & 255) * t);
+  return `#${((1 << 24) | (ch(16) << 16) | (ch(8) << 8) | ch(0)).toString(16).slice(1)}`;
+}
+
+/** daylight falling through a window band onto the floor: slanted pale bars, dithered at the far end */
+export function sunPatch(g: Ctx, x: number, w: number, len = 150, y = WALL_PX + 4): void {
+  for (let bx = x + 8; bx < x + w - 40; bx += 64) {
+    for (let j = 0; j < len; j += 2) {
+      const fadeOut = j / len;
+      for (let i = 0; i < 46; i += 2) {
+        if (fadeOut > 0.45 && hash(bx + i, j, 77) < (fadeOut - 0.45) * 1.9) continue;
+        rect(g, bx + i + Math.floor(j * 0.35), y + j, 2, 2, "rgba(255,250,225,0.2)");
+      }
+    }
+  }
+}
+
+/** flat rug with a border, under a seating group */
+export function rug(g: Ctx, x: number, y: number, w: number, h: number, color: string): void {
+  rect(g, x + 4, y + 6, w, h, "rgba(20,22,34,0.16)");
+  rect(g, x, y, w, h, shade(color, -0.18));
+  rect(g, x + 4, y + 4, w - 8, h - 8, color);
+  for (let j = 8; j < h - 8; j += 4) for (let i = 8 + ((j >> 2) & 1) * 4; i < w - 8; i += 8) rect(g, x + i, y + j, 2, 2, shade(color, hash(i, j, 79) < 0.5 ? 0.12 : -0.1));
+  rect(g, x + 10, y + 10, w - 20, 2, shade(color, 0.2));
+  rect(g, x + 10, y + h - 12, w - 20, 2, shade(color, 0.2));
 }

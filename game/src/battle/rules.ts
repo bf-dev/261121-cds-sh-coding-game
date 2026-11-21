@@ -105,10 +105,10 @@ export function movePython(m: Move): string {
   return `${name} = ${exprText(m, true)}  # ${v ?? "error"}`;
 }
 
-/** all bracket placements for n terms: contiguous, at least 2 terms, not the whole expression */
+/** bracket placements for n terms: none, or one pair of neighbours (not the whole expression) */
 export function bracketOptions(n: number): ([number, number] | undefined)[] {
   const out: ([number, number] | undefined)[] = [undefined];
-  for (let len = 2; len < n; len++) for (let i = 0; i + len <= n; i++) out.push([i, i + len - 1]);
+  if (n >= 3) for (let i = 0; i + 2 <= n; i++) out.push([i, i + 1]);
   return out;
 }
 
@@ -296,18 +296,24 @@ export function drawOp(allowed: Op[], r: Rnd): Op {
 
 export const drawDigit = (r: Rnd): number => ri(r, 1, 9);
 
+/** × and ÷ are strong, so a hand holds at most one of each. Returns an operator that keeps that true. */
+function drawOpFor(ops: Op[], skip: number, allowed: Op[], r: Rnd): Op {
+  const held = ops.filter((_, i) => i !== skip);
+  const ok = allowed.filter((o) => (o !== "×" && o !== "÷") || !held.includes(o));
+  return drawOp(ok.length ? ok : allowed, r);
+}
+
 /** slots operators need slots + 1 digits, so the hand is slots + 1 digits and slots operators (5 blocks at 2 slots) */
 export function dealHand(slots: number, allowed: Op[], r: Rnd): Hand {
-  return {
-    digits: Array.from({ length: slots + 1 }, () => drawDigit(r)),
-    ops: Array.from({ length: slots }, () => drawOp(allowed, r)),
-  };
+  const ops: Op[] = [];
+  for (let i = 0; i < slots; i++) ops.push(drawOpFor(ops, -1, allowed, r));
+  return { digits: Array.from({ length: slots + 1 }, () => drawDigit(r)), ops };
 }
 
 /** replace the blocks a move used with new random ones (decision #9) */
 export function refill(hand: Hand, usedDigitIdx: number[], usedOpIdx: number[], allowed: Op[], r: Rnd): void {
   for (const i of usedDigitIdx) hand.digits[i] = drawDigit(r);
-  for (const i of usedOpIdx) hand.ops[i] = drawOp(allowed, r);
+  for (const i of usedOpIdx) hand.ops[i] = drawOpFor(hand.ops, i, allowed, r);
 }
 
 export function slotsForFloor(floor: number): number {

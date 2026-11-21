@@ -1,6 +1,6 @@
 // CDS1 classroom-type floor, filmed on 6/F and reused for 2 to 10 (buildings/cds1 §4, §7).
 import { rect, text, rng } from "../art/px";
-import { Floor, T, WALL_PX, carpet, vinyl, timberFloor } from "./cds1-kit";
+import { Floor, T, WALL_PX, carpet, vinyl, timberFloor, sunPatch, rug } from "./cds1-kit";
 import { wall, liftDoors, door, screen, panel, exitLamp, crest, bigLetters } from "./cds1-wall";
 import { glassRoom, windowBay, type RoomKind, type View } from "./cds1-rooms";
 import { banquette, tableSet, pouf, plant, counter, clutter, column, sofa } from "./cds1-props";
@@ -51,7 +51,7 @@ export function buildClassFloor(c: ClassCfg): Floor {
   screen(g, 6 * T + 44, 140, 40, 26, String(c.floor), [], "#dfeaf8");
   exitLamp(g, 6 * T + 4);
   wall(g, 8 * T, 2 * T, "white");
-  panel(g, 8 * T + 6, 34, 116, 122, `${c.floor}/F`, c.directory, 7);
+  panel(g, 8 * T + 6, 28, 116, 140, `${c.floor}/F`, c.directory, 7);
   c.rooms.forEach((rm, i) => {
     const x = (10 + i * 4) * T;
     if (rm.kind === "ltdoor") {
@@ -72,7 +72,12 @@ export function buildClassFloor(c: ClassCfg): Floor {
     bigLetters(g, 25 * T + 40, 22, "H K U", 132, "#A4342C");
     rect(g, 25 * T + 20, 168, 7 * T, 16, "#C9A879"); // low bench under the letters
     rect(g, 25 * T + 20, 168, 7 * T, 3, "#e0c79c");
-  } else windowBay(g, 25 * T, 8 * T, c.view);
+  } else {
+    windowBay(g, 25 * T, 8 * T, c.view);
+    sunPatch(g, 25 * T, 8 * T);
+  }
+  // big floor numeral painted on the corridor floor by the lifts, in the floor's accent colour
+  text(g, String(c.floor), 9 * T, WALL_PX + 44, 120, "rgba(255,255,255,0.16)", { align: "center" });
 
   // corridor clutter (bins and the loose copier are real)
   f.put(clutter("bins"), 30, 3, 2);
@@ -88,6 +93,7 @@ export function buildClassFloor(c: ClassCfg): Floor {
     f.put(beanbag("#e4e9f1"), 2, 15, 1);
     f.put(tableSet("#d9dcdf", ["#3f6fb8", "#8a9096"]), 6, 16, 2);
   } else {
+    rug(g, 1.5 * T, 12 * T + 20, 4.5 * T, 2.6 * T, "#8f8a80");
     f.put(sofa(), 2, 13, 3);
     f.put(pouf("#f4f3ef", true), 3, 14, 0, 1, 8, 0);
     f.put(tableSet(), 6, 12, 2);
@@ -108,7 +114,7 @@ export function buildClassFloor(c: ClassCfg): Floor {
     f.put(clutter("boxes"), 12, 19, 1);
   } else {
     if (c.variant === "team") {
-      f.put(banquette(), 17, 14, 5, 2);
+      f.put(banquette("#3b4658", "#cfc6b4", "#e9e2d0"), 17, 14, 5, 2);
       for (const [px, py, col, tall] of [[16, 14, "#cfc6b4", false], [22, 14, "#d9a23c", false], [18, 15, "#cfc6b4", true], [21, 15, "#d9a23c", false], [16, 12, "#4b4447", true]] as [number, number, string, boolean][])
         f.put(pouf(col, tall), px, py, 0, 1, 8, py === 15 ? -20 : 0);
     } else {

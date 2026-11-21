@@ -18,4 +18,4 @@ First-time campus visitors: offer holders and their families and friends (hackat
 
 ## status
 
-Concept stage. What's settled is in [decisions](decisions.md). Everything else is in [open-questions](open-questions.md).
+A playable build is in `game/` (see `CLAUDE.md`, "the game: build and run"). The battle pieces are drawn as Scratch-style blocks instead of cards (decision #29). What's settled is in [decisions](decisions.md). Everything else is in [open-questions](open-questions.md), and the defaults the build picked are in `game/DESIGN-CHOICES.md`.

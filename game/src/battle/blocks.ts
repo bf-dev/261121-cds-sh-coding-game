@@ -87,8 +87,8 @@ export function opBlock(op: Op): HTMLElement {
 
 const POWER_LABEL: Record<Exclude<PowerUpKind, "study">, [string, string]> = {
   redbull: ["drink Red Bull", "extra turn"],
-  gym: ["gym session", "+15 HP"],
-  food: ["eat Meituan meal", "+12 HP"],
+  gym: ["gym session", "+1/3 HP"],
+  food: ["eat Meituan meal", "+1/4 HP"],
 };
 
 export function powerBlock(kind: Exclude<PowerUpKind, "study">, count?: number): HTMLElement {

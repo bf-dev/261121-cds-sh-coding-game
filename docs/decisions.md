@@ -24,6 +24,7 @@ What the team agreed, or said without objection. Citations: `mm:ss` = part 1, `p
 | 16 | Power-ups: a fourth group, used at the start of the round before attacking. Extra turn (Red Bull), extra HP | p2 04:44; p4 18:27 to 18:49 |
 | 17 | A pop-up explains each new card and what it's equivalent to. An inventory panel shows your cards | p4 09:01, 10:31 |
 | 18 | Teach for, maybe while, if / else. Nothing advanced | p2 06:41 to 07:00 |
+| 29 | **The battle pieces are shown as Scratch-style blocks, not cards or code text**, so non-CS visitors can follow. The Python equivalent is optional extra (button, pop-ups) | Insung, 2026-11-21, during the build |
 
 ## world and story
 

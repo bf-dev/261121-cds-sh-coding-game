@@ -32,6 +32,7 @@ buildings/                the campus, distilled from all photos and video: one f
   b6/                     dining cluster / senior common room (building unconfirmed)
   grand-hall/             the final boss room: auditorium, LED wall, stage
 prompts/                  reusable prompts, one task per file, built on docs/ and buildings/
+game/                     the playable game (TypeScript, Vite). README.md = run, DESIGN-CHOICES.md = defaults picked
 resources/                raw material, kept as real files (see resources/README.md)
   recordings/             meeting audio (Git LFS)
   transcripts/            raw + cleaned transcripts
@@ -66,6 +67,20 @@ The docs come from these sources. If a doc and a source disagree, the source win
 - Audio and video use Git LFS (`.gitattributes`). Run `git lfs install` once.
 - Name new resources `YYYY-MM-DD-what.ext` or `<building>-<floor>-<what>.ext`, and add a line to `resources/README.md`.
 
-## where the game code goes
+## the game: build and run
 
-Nothing is decided yet (see open-questions: stack, platform, visual style). When the team picks a stack, add `game/` and a "build and run" section here.
+The game is in `game/`: a TypeScript browser game (Vite, canvas, no engine), built on 2026-11-21 from `prompts/build-game.md`.
+
+```
+cd game
+npm install          # npm install --include=dev if NODE_ENV=production is set
+npm run dev          # http://localhost:5173
+npm run build        # typecheck + static files in game/dist
+npm run preview      # serve the build
+```
+
+- It plays with no `.env` (rule-based opponents). For the lab model copy `game/.env.example` to `game/.env` and fill in `LLM_BASE_URL`, `LLM_API_KEY`, `LLM_MODEL`. Details in `game/README.md`.
+- Battle pieces are **Scratch-style blocks**, not cards or code text (decision #29).
+- Every default the builder picked is in `game/DESIGN-CHOICES.md`, labelled as a proposal. When the team keeps one, move it to `docs/decisions.md`.
+- Rules live in `game/src/battle/rules.ts` (no DOM). Blocks, rewards and pop-up texts are data in `game/src/data/`. Maps are drawn in code from `buildings/` in `game/src/maps/`. If a doc changes a rule, change these and the doc in the same commit.
+- Presentation: `Demo mode` on the title screen plays a full match by itself; `Level select` jumps to any floor or the boss.

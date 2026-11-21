@@ -118,10 +118,10 @@ export function carpet(g: Ctx, x: number, y: number, w: number, h: number, ramp 
     for (let i = 0; i < w; i += 16) {
       const r = hash(Math.floor((x + i) / 16), Math.floor((y + j) / 8), seed);
       const big = hash(Math.floor((x + i) / 128), Math.floor((y + j) / 96), seed + 1);
-      rect(g, x + i, y + j, Math.min(16, w - i), Math.min(8, h - j), pick(ramp, 3 + (r - 0.5) * 1.6 + (big - 0.5) * 1.2));
+      rect(g, x + i, y + j, Math.min(16, w - i), Math.min(8, h - j), pick(ramp, 3 + (r - 0.5) * 1.1 + (big - 0.5) * 0.7));
     }
   }
-  speckle(g, x, y, w, h, [ramp[0], ramp[ramp.length - 1]], 0.03, seed + 2, 2);
+  speckle(g, x, y, w, h, [ramp[1], ramp[ramp.length - 1]], 0.015, seed + 2, 2);
 }
 
 /** soft dithered dark band, e.g. ambient occlusion at a wall base. dir 1 = fades downward */

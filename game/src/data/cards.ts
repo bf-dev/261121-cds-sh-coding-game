@@ -24,7 +24,7 @@ export const CARDS: Record<string, CardInfo> = {
   "-": { id: "-", group: "operator", name: "- minus", nameZh: "减号", does: "Takes a number away from your move. Useful to hit an exact value.", example: "ATTACK 9 - 4 hits for 5.", python: "damage = 9 - 4  # 5" },
   "×": { id: "×", group: "operator", name: "× times", nameZh: "乘号", does: "Multiplies. It always goes before + and -, so the inner bubble is worked out first.", example: "ATTACK 8 + 2 × 3: first 2 × 3 = 6, then 8 + 6 = 14.", python: "damage = 8 + 2 * 3  # 14" },
   "÷": { id: "÷", group: "operator", name: "÷ divide", nameZh: "除号", does: "Divides. It also goes before + and -. You can never divide by zero, the game stops you.", example: "ATTACK 8 ÷ 2 + 5: first 8 ÷ 2 = 4, then 4 + 5 = 9.", python: "damage = 8 / 2 + 5  # 9" },
-  brackets: { id: "brackets", group: "operator", name: "( ) brackets", nameZh: "括号", does: "The Group button wraps part of your move in its own bubble. That part is worked out first.", example: "(2 + 3) × 5 = 25, but 2 + 3 × 5 = 17.", python: "damage = (2 + 3) * 5  # 25" },
+  brackets: { id: "brackets", group: "operator", name: "( ) brackets", nameZh: "括号", does: "The Group button wraps two neighbours in their own bubble. That pair is worked out first.", example: "(2 + 3) × 5 = 25, but 2 + 3 × 5 = 17.", python: "damage = (2 + 3) * 5  # 25" },
   for1: { id: "for1", group: "function", name: "repeat (for loop)", nameZh: "重复 (for 循环)", does: "A shield. It repeats the block inside it a set number of times. Each time, 1 damage is taken off.", example: "repeat 3: damage - 1 turns a 7 hit into 4.", python: "for i in range(3):\n    damage -= 1" },
   for2: { id: "for2", group: "function", name: "repeat, 2 each time", nameZh: "重复 (每次减 2)", does: "A stronger loop shield. Each time round, 2 damage is taken off.", example: "repeat 3: damage - 2 turns a 14 hit into 8.", python: "for i in range(3):\n    damage -= 2" },
   for3: { id: "for3", group: "function", name: "repeat, 3 each time", nameZh: "重复 (每次减 3)", does: "The strongest plain loop. Each time round, 3 damage is taken off.", example: "repeat 4: damage - 3 blocks 12.", python: "for i in range(4):\n    damage -= 3" },
@@ -35,8 +35,8 @@ export const CARDS: Record<string, CardInfo> = {
   ifelse: { id: "ifelse", group: "function", name: "if ... else", nameZh: "如果…否则 (if / else)", does: "Two paths. If the answer is yes the first part runs, otherwise the else part runs. One of them always runs.", example: "if damage > 6: - 8, else: - 2.", python: "if damage > 6:\n    damage -= 8\nelse:\n    damage -= 2" },
   while: { id: "while", group: "function", name: "repeat while (while loop)", nameZh: "当…重复 (while 循环)", does: "Keeps repeating as long as the question is true. You do not know in advance how many times.", example: "while damage > 8: damage - 3. A hit of 20 goes 17, 14, 11, 8, then stops.", python: "while damage > 8:\n    damage -= 3" },
   redbull: { id: "redbull", group: "power-up", name: "Red Bull", nameZh: "红牛", does: "Power-up. Use it at the start of your turn, before your move. You get an extra turn straight after this one.", example: "Drink it, attack, then attack again before the professor moves.", python: "turns += 1" },
-  gym: { id: "gym", group: "power-up", name: "Gym session", nameZh: "健身", does: "Power-up from the Building 5 gym. Use it at the start of your turn: +15 HP, even above your maximum.", example: "30 HP becomes 45 HP.", python: "hp += 15" },
-  food: { id: "food", group: "power-up", name: "Meituan meal", nameZh: "美团外卖", does: "Power-up from the food lockers. Use it at the start of your turn: +12 HP.", example: "10 HP becomes 22 HP.", python: "hp += 12" },
+  gym: { id: "gym", group: "power-up", name: "Gym session", nameZh: "健身", does: "Power-up from the Building 5 gym. Use it at the start of your turn: you gain a third of your maximum HP, even above the maximum.", example: "With 60 max HP: 60 HP becomes 80 HP.", python: "hp += max_hp // 3" },
+  food: { id: "food", group: "power-up", name: "Meituan meal", nameZh: "美团外卖", does: "Power-up from the food lockers and the cafe. Use it at the start of your turn: you get back a quarter of your maximum HP.", example: "With 60 max HP: 10 HP becomes 25 HP.", python: "hp += max_hp // 4" },
 };
 
 export const FN_ORDER: FnKind[] = ["for1", "ifgt", "for2", "iflt", "ifelse", "while", "halve", "ifge", "for3"];
@@ -67,7 +67,7 @@ export const REWARDS: Record<number, Reward> = {
   9: { power: "redbull", text: "A can of Red Bull (extra turn)" },
   10: { fn: "while", text: "New shield block: repeat while (while loop)" },
   11: { fn: "halve", text: "New shield block: repeat: halve" },
-  12: { power: "gym", text: "A gym session (+15 HP)" },
+  12: { power: "gym", text: "A gym session (extra HP)" },
   13: { power: "redbull", text: "A can of Red Bull (extra turn)" },
   14: { hallpass: true, text: "An invitation to the Grand Hall. Leo the HKU lion is waiting." },
 };

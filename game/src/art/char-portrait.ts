@@ -50,7 +50,6 @@ function shoulders(g: Ctx, s: HumanSpec, T: Tones, SH: Tones, S: Tones, A: Tones
   switch (s.top) {
     case "hoodie":
       ell(g, CX, top + 2, 38, 15, T.d1, top - 14, 159);
-      ell(g, CX, top + 6, 24, 12, S.d1);
       ell(g, CX, top + 4, 30, 14, T.d2, top + 8, 159);
       ell(g, CX, top, 26, 13, T.b, top + 8, 159);
       ell(g, CX, top - 2, 18, 9, S.d1);
@@ -148,7 +147,7 @@ function hairFront(g: Ctx, s: HumanSpec, H: Tones, S: Tones): void {
   if (st === "bald" || st === "receding") {
     // side tufts and a shine
     for (const sgn of [-1, 1]) {
-      sbox(g, CX + sgn * (RX - 2) - 5, HY - 16, 10, 30, sgn < 0 ? H : { ...H, b: H.d1 }, 4, 4, 2);
+      ell(g, CX + sgn * (RX - 2), HY - 2, 5, 13, sgn < 0 ? H.b : H.d1);
     }
     ell(g, CX - 10, HY - 30, 12, 5, S.l2);
     if (st === "receding") {
@@ -238,14 +237,14 @@ function face(g: Ctx, s: HumanSpec, S: Tones, H: Tones): void {
         ell(g, ex, ey, 13, 12, c);
         ell(g, ex, ey, 11, 10, lens);
       } else {
-        rbox(g, ex - 14, ey - 10, 28, 21, c, 3);
-        rbox(g, ex - 12, ey - 8, 24, 17, lens, 2);
+        rbox(g, ex - 12, ey - 10, 24, 21, c, 3);
+        rbox(g, ex - 10, ey - 8, 20, 17, lens, 2);
       }
       line(g, ex - 7, ey - 6, ex - 3, ey - 9, "#ffffff", 2);
     }
     px(g, fx - 4, ey - 2, 8, 2, c);
-    px(g, CX - RX + 1, ey - 3, fx - 16 - 13 - (CX - RX + 1), 2, c);
-    px(g, fx + 16 + 13, ey - 3, CX + RX - (fx + 16 + 13), 2, c);
+    if (s.hairStyle !== "long" && s.hairStyle !== "bob") px(g, CX - RX + 2, ey - 3, fx - 16 - 13 - (CX - RX + 2), 2, c);
+    if (s.hairStyle !== "long" && s.hairStyle !== "bob") px(g, fx + 16 + 13, ey - 3, CX + RX - 6 - (fx + 16 + 13), 2, c);
   }
   for (const sgn of [-1, 1]) {
     const ex = fx + sgn * 16;

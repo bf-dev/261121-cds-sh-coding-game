@@ -66,8 +66,9 @@ export function lion(): HTMLCanvasElement {
   for (const [x1, x2] of [[X - 40, 6], [X + 40, 254], [X - 30, 40], [X + 30, 220]]) seg(g, x1, 96, x2, 262, "#d9dad5", 1);
   ball(g, X - 52, 232, 36, 22, "#f0d06a");
   ball(g, X + 52, 232, 36, 22, "#f0d06a");
-  ball(g, X, 212, 62, 30, "#8a6a4f");
-  ellipse(g, X, 204, 56, 18, "#9c7a5e");
+  ball(g, X, 214, 64, 30, "#8a6a4f");
+  ellipse(g, X - 6, 208, 54, 20, "#9c7a5e");
+  rect(g, X - 1, 200, 3, 40, "#6b5039");
   ball(g, X, 172, 66, 56, "#cfe0c3");
   ellipse(g, X + 18, 186, 44, 40, "#b9cdb0");
   ellipse(g, X - 10, 160, 40, 38, "#dbe8d2");

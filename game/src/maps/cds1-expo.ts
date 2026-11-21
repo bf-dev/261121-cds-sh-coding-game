@@ -1,6 +1,6 @@
 // CDS1 14/F: director and general office, exhibition lounge (buildings/cds1 §6).
 import { mk, rect, text, shade } from "../art/px";
-import { Floor, T, WALL_PX, timberFloor, stoneFloor } from "./cds1-kit";
+import { Floor, T, WALL_PX, timberFloor, stoneFloor, sunPatch } from "./cds1-kit";
 import { wall, liftDoors, exitLamp, crest, panel } from "./cds1-wall";
 import { windowBay } from "./cds1-rooms";
 import { tableSet, plant, counter } from "./cds1-props";
@@ -9,17 +9,20 @@ import { drum, stepSeat, planter, desk } from "./cds1-props2";
 /** the giant blue-grey CDS letters with fine stripes inside the strokes */
 function cdsLetters(): HTMLCanvasElement {
   const [c, g] = mk(470, 170);
-  g.font = `700 168px Georgia, "Times New Roman", serif`;
-  g.textBaseline = "top";
+  g.font = `700 150px Georgia, "Times New Roman", "Noto Serif", serif`;
+  g.textBaseline = "alphabetic";
   g.fillStyle = "#5E7D84";
-  g.fillText("C", 0, -6);
-  g.fillText("D", 150, -6);
-  g.fillText("S", 330, -6);
+  let cx = 4;
+  for (const ch of "CDS") {
+    const w = g.measureText(ch).width;
+    g.fillText(ch, cx, 150, 140);
+    cx += Math.min(w, 140) + 26;
+  }
   g.globalCompositeOperation = "source-atop";
   g.fillStyle = "#8FA6A9";
   for (let i = -170; i < 470; i += 7) for (let j = 30; j < 140; j += 2) g.fillRect(i + j, j, 2, 2);
   g.fillStyle = "#3f5b62";
-  for (let i = 0; i < 470; i += 1) g.fillRect(i, 166, 1, 4);
+  
   return c;
 }
 
@@ -78,6 +81,7 @@ export function buildExpoFloor(): Floor {
   text(g, "Delta+", lx + 430, 86, 12, "#16181c");
   windowBay(g, 27 * T, 6 * T, "city");
 
+  sunPatch(g, 27 * T, 6 * T, 170);
   // reception desk under the CDS letters, with the school name on its face
   f.put(desk(5, "#D2BE9E", "#efe9dc", "SCHOOL OF COMPUTING & DATA SCIENCE", "The University of Hong Kong"), 12, 6, 5);
   // presentation area: stepped seating blocks, slate blue with a few red

@@ -6,7 +6,7 @@ import { floorInfo } from "./maps/cds1";
 import { setLedText } from "./maps/grandhall";
 import { LEO, professor, PROFESSORS } from "./data/professors";
 import { CARDS, enemyPool, FN_ORDER, OP_ORDER, POWER_ORDER, REWARDS, STUDY_FNS } from "./data/cards";
-import { applyReward, BOSS_HP, clearProgress, enemyHp, freshProgress, loadProgress, playerMaxHp, progressAtFloor, saveProgress, type Progress } from "./state";
+import { applyReward, BOSS_BONUS_HP, BOSS_HP, clearProgress, enemyHp, freshProgress, loadProgress, playerMaxHp, progressAtFloor, saveProgress, type Progress } from "./state";
 import { runBattle, type BattleConfig } from "./battle/ui";
 import { slotsForFloor } from "./battle/rules";
 import { cardPicture, hatBlock, moveBlock, shieldBlock } from "./battle/blocks";
@@ -304,7 +304,7 @@ async function fight(floor: number, t: Target | null): Promise<void> {
       place: `${floorInfo(floor).en}`,
       enemy: prof,
       enemyHp: enemyHp(floor),
-      skill: (floor - 1) / 13,
+      skill: ((floor - 1) / 13) * 0.85,
       pool: enemyPool(floor),
       slots: slotsForFloor(floor),
       tutorial: floor === 1 && progress.cleared === 0,
@@ -328,7 +328,7 @@ async function winFloor(floor: number): Promise<void> {
   applyReward(progress, floor);
   const after = slotsForFloor(floor + 1);
   save();
-  const items = [r.text, "+5 maximum HP", floor < 14 ? `The lift now goes up to ${floor + 1}/F` : "All 14 floors of CDS1 cleared"];
+  const items = [r.text, "+10 maximum HP", floor < 14 ? `The lift now goes up to ${floor + 1}/F` : "All 14 floors of CDS1 cleared"];
   if (after > before && floor < 14) items.push(`One more operator slot: your moves can use ${after} operators`);
   await showDialog({ kicker: `CDS1 ${floor}/F cleared · 通过第 ${floor} 层`, title: `You beat ${prof.name}!`, titleZh: "获胜", portrait: getCharacter(prof.char).portrait, body: [`"${winLine(floor)}"`, h("ul", { class: "reward-list" }, ...items.map((i) => h("li", {}, i)))], buttons: [{ label: "Collect", value: true, primary: true }] });
   const id = r.fn ?? r.op ?? (r.brackets ? "brackets" : r.power);
@@ -351,7 +351,7 @@ function winLine(floor: number): string {
 async function fightBoss(t: Target | null): Promise<void> {
   const sheet = getCharacter("leo");
   while (true) {
-    const cfg: BattleConfig = { ...baseConfig(progress), playerMax: playerMaxHp(progress) + 10, floor: 15, boss: true, place: "Grand Hall · 大礼堂", enemy: LEO, enemyHp: BOSS_HP, skill: 1, pool: enemyPool(15, true), slots: 6, tutorial: false, onLed: setLedText };
+    const cfg: BattleConfig = { ...baseConfig(progress), playerMax: playerMaxHp(progress) + BOSS_BONUS_HP, floor: 15, boss: true, place: "Grand Hall · 大礼堂", enemy: LEO, enemyHp: BOSS_HP, skill: 0.75, pool: enemyPool(15, true), slots: 6, tutorial: false, onLed: setLedText };
     const result = await battle(cfg, t, 336);
     setLedText([]);
     if (result === "quit") return;
@@ -520,7 +520,7 @@ async function demo(): Promise<void> {
     world.snapCamera();
     target = { id: leo.id, en: "", zh: "", action: { type: "boss" }, npc: leo };
   }
-  const cfg: BattleConfig = { ...baseConfig(progress), playerMax: playerMaxHp(progress) + 10, floor: 15, boss: true, place: "Demo mode · Grand Hall · 大礼堂", enemy: LEO, enemyHp: BOSS_HP, skill: 0.8, pool: enemyPool(15, true), slots: 6, tutorial: false, onLed: setLedText, auto: true };
+  const cfg: BattleConfig = { ...baseConfig(progress), playerMax: playerMaxHp(progress) + BOSS_BONUS_HP, floor: 15, boss: true, place: "Demo mode · Grand Hall · 大礼堂", enemy: LEO, enemyHp: BOSS_HP, skill: 0.75, pool: enemyPool(15, true), slots: 6, tutorial: false, onLed: setLedText, auto: true };
   const result = await battle(cfg, target, 336);
   setLedText([]);
   pace.auto = false;

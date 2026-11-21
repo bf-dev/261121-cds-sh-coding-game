@@ -149,7 +149,7 @@ function head(g: Ctx, cx: number, cy: number, back: boolean, turn: number, k = 1
 function frame(dir: "down" | "up" | "right", f: number): HTMLCanvasElement {
   const [c, g] = mk(128, 160);
   const back = dir === "up";
-  const turn = dir === "right" ? 8 : 0;
+  const turn = dir === "right" ? 12 : 0;
   const bob = body(g, f, back, turn);
   head(g, 64, 50 + bob, back, turn);
   outline(c);
@@ -159,8 +159,8 @@ function frame(dir: "down" | "up" | "right", f: number): HTMLCanvasElement {
 function portrait(): HTMLCanvasElement {
   const [c, g] = mk(160, 160);
   // shoulders: jacket, shirt, crest
-  ell(g, 80, 172, 74, 44, JACKET.d1, 0, 159);
-  ell(g, 76, 172, 70, 43, JACKET.b, 0, 159);
+  ell(g, 80, 176, 78, 44, JACKET.d1, 0, 159);
+  ell(g, 76, 176, 74, 43, JACKET.b, 0, 159);
   poly(g, [[58, 128], [102, 128], [92, 160], [68, 160]], SHIRT.b);
   poly(g, [[52, 130], [66, 138], [70, 160], [56, 160]], JACKET.d1);
   poly(g, [[108, 130], [94, 138], [90, 160], [104, 160]], JACKET.d2);
@@ -168,7 +168,7 @@ function portrait(): HTMLCanvasElement {
   sbox(g, 114, 142, 12, 14, tones("#f1e3b0"), 2, 4, 1);
   px(g, 117, 145, 6, 3, "#b3363c");
   px(g, 117, 150, 6, 3, "#1e7a55");
-  head(g, 80, 72, false, 4, 1.5);
+  head(g, 80, 79, false, 4, 1.5);
   outline(c);
   return scaleUp(c, 2);
 }

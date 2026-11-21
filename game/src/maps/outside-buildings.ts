@@ -1,5 +1,5 @@
 import { TILE } from "../engine/types";
-import { mk, rect, hash, speckle, rampV, text, frame, type Ctx } from "../art/px";
+import { mk, rect, hash, speckle, rampV, text, frame, ellipse, type Ctx } from "../art/px";
 
 const T = TILE;
 const GLASS = ["#86a5bf", "#6f8fab", "#5d7d99", "#4d6a85", "#3e566e", "#33475b", "#2c3540", "#232b35", "#1a2027"];
@@ -30,14 +30,52 @@ function plant(g: Ctx, x: number, y: number, w: number, h: number): void {
   for (let i = 6; i < w - 6; i += 6) rect(g, x + i, y + h - 10, 2, 7, "#8f959a");
 }
 
+/** rooftop plant: louvred enclosure with cooling fans, stair bulkhead, solar array, walkway pads */
+function roofGear(g: Ctx, W: number, RH: number, seed: number): void {
+  const ex = Math.round(W * 0.3), ey = Math.round(RH * 0.16), ew = Math.round(W * 0.42), eh = Math.round(RH * 0.5);
+  rect(g, ex + 8, ey + 10, ew, eh, "rgba(30,34,50,0.22)");
+  rect(g, ex, ey, ew, eh, "#aab0b5");
+  rect(g, ex + 8, ey + 8, ew - 16, eh - 26, "#8d9499");
+  for (let x = ex; x < ex + ew; x += 6) rect(g, x, ey + eh - 16, 3, 16, "#c4c9cd");
+  rect(g, ex, ey, ew, 3, "#dfe3e5");
+  rect(g, ex, ey + eh - 18, ew, 2, "#70777c");
+  for (let i = 0, x = ex + 20; x + 54 < ex + ew - 10; x += 66, i++) {
+    rect(g, x, ey + 16, 54, 54, "#c9cdd1");
+    rect(g, x, ey + 66, 54, 4, "#7d8388");
+    ellipse(g, x + 27, ey + 42, 21, 21, "#4a5158");
+    ellipse(g, x + 27, ey + 42, 17, 17, hash(i, seed, 44) < 0.5 ? "#6a7178" : "#5d646b");
+    rect(g, x + 8, ey + 41, 38, 3, "#8d9499");
+    rect(g, x + 26, ey + 23, 3, 38, "#8d9499");
+    ellipse(g, x + 27, ey + 42, 4, 4, "#c9cdd1");
+  }
+  // solar array
+  for (let j = 0; j < 3; j++) for (let i = 0; i < 5; i++) {
+    const x = 34 + i * 40, y = 36 + j * 34;
+    rect(g, x + 3, y + 4, 36, 28, "rgba(30,34,50,0.2)");
+    rect(g, x, y, 36, 28, "#27405e");
+    rect(g, x + 2, y + 2, 32, 11, "#3b5f8a");
+    rect(g, x + 2, y + 15, 32, 11, "#335478");
+    rect(g, x + 17, y, 1, 28, "#9fb4c9");
+    rect(g, x, y, 36, 1, "#9fb4c9");
+  }
+  // stair bulkhead with a door, and walkway pads
+  const bx = Math.round(W * 0.8), by = Math.round(RH * 0.18);
+  rect(g, bx + 6, by + 8, 96, 84, "rgba(30,34,50,0.22)");
+  rect(g, bx, by, 96, 52, "#e2e5e7");
+  rect(g, bx, by + 52, 96, 32, "#b7bcc0");
+  rect(g, bx + 36, by + 56, 22, 28, "#6a7178");
+  rect(g, bx, by + 50, 96, 2, "#8b9095");
+  for (let x = 40; x < W - 60; x += 46) rect(g, x, RH - 34, 36, 12, (x / 46) & 1 ? "#bfc3c7" : "#b3b8bc");
+  for (let x = 20; x < W - 20; x += 24) rect(g, x, 16, 2, 6, "#8b9095");
+  rect(g, 20, 16, W - 40, 2, "#8b9095");
+}
+
 /** One of the two slabs. main = CDS1 (white fins, the school entrance); otherwise the darker facing tower. */
 export function towerSprite(o: { w: number; roof: number; face: number; door: number; main: boolean }): HTMLCanvasElement {
   const W = o.w * T, RH = o.roof * T, FH = o.face * T;
   const [c, g] = mk(W, RH + FH);
   roofTop(g, W, RH, "#cdd1d5", "#e6e9eb");
-  plant(g, W * 0.3, RH * 0.28, 260, 70);
-  plant(g, W * 0.68, RH * 0.5, 120, 56);
-  for (let i = 0; i < 5; i++) rect(g, 60 + i * 34, RH - 60, 22, 12, "#8fb060"), rect(g, 60 + i * 34, RH - 50, 22, 4, "#a9835a");
+  roofGear(g, W, RH, o.main ? 1 : 2);
 
   const storeys = Math.floor((FH - BASE) / 32);
   const top = RH + (FH - BASE - storeys * 32);

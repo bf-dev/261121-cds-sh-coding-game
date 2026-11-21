@@ -256,11 +256,11 @@ export async function runBattle(cfg: BattleConfig): Promise<BattleResult> {
               extraTurn = true;
               cap("Red Bull! You get an extra turn after this one.");
             } else {
-              const gain = p === "gym" ? 15 : 12;
+              const gain = Math.ceil(me.max / (p === "gym" ? 3 : 4));
               me.hp = p === "gym" ? me.hp + gain : Math.min(Math.max(me.max, me.hp), me.hp + gain);
               floatNum(mePanel, `+${gain}`, "heal");
               refreshHp();
-              cap(p === "gym" ? "Gym session: +15 HP." : "Meituan meal: +12 HP.");
+              cap(p === "gym" ? `Gym session: +${gain} HP.` : `Meituan meal: +${gain} HP.`);
             }
           }
         } else if (kind === "run") {

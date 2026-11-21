@@ -61,19 +61,28 @@ export function banquette(drum = "#3b4658", seat = "#cfc6b4", column: string | n
   });
 }
 
-/** curved sofa (3 tiles wide), opening to the south */
+/** curved sofa (3 tiles wide): high back along the north, seat in front, arms at both ends */
 export function sofa(color = "#333F4D"): HTMLCanvasElement {
   return memo(`sofa${color}`, () => {
-    const [c, g] = mk(192, 110);
-    shadow(g, 96, 92, 92, 16, 0.2);
-    for (let i = 0; i < 180; i += 4) {
-      const t = (i - 90) / 90;
-      const yy = 26 + Math.round(t * t * 34);
-      rect(g, 6 + i, yy, 4, 30, shade(color, 0.1 - Math.abs(t) * 0.1)); // back
-      rect(g, 6 + i, yy, 4, 3, shade(color, 0.3));
-      rect(g, 6 + i, yy + 30, 4, 18, shade(color, 0.16)); // seat
-      rect(g, 6 + i, yy + 48, 4, 14, shade(color, -0.16)); // front
-      if (i % 44 === 0 && i > 0) rect(g, 6 + i, yy + 4, 2, 44, shade(color, -0.28));
+    const [c, g] = mk(192, 116);
+    shadow(g, 96, 100, 94, 14, 0.22);
+    for (let i = 0; i < 184; i += 4) {
+      const t = (i - 90) / 92;
+      const bow = Math.round((1 - t * t) * 14); // the middle bows away from us
+      const top = 22 - bow;
+      rect(g, 4 + i, top, 4, 34, shade(color, 0.04 - Math.abs(t) * 0.06)); // back rest
+      rect(g, 4 + i, top, 4, 4, shade(color, 0.28));
+      rect(g, 4 + i, top + 34, 4, 26, shade(color, 0.14)); // seat cushion
+      rect(g, 4 + i, top + 34, 4, 2, shade(color, -0.2));
+      rect(g, 4 + i, top + 60, 4, 16, shade(color, -0.14)); // front
+      rect(g, 4 + i, top + 76, 4, 3, shade(color, -0.4));
+      if (i % 60 === 56) rect(g, 4 + i, top + 6, 2, 68, shade(color, -0.26));
+    }
+    for (const x of [0, 172]) {
+      rect(g, x, 30, 20, 62, shade(color, 0.08));
+      rect(g, x, 30, 20, 4, shade(color, 0.3));
+      rect(g, x, 88, 20, 4, shade(color, -0.4));
+      rect(g, x + (x ? 0 : 18), 34, 2, 54, shade(color, -0.2));
     }
     return c;
   });

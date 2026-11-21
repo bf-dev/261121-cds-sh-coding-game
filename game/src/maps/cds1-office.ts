@@ -1,6 +1,6 @@
 // CDS1 professor-office floor, filmed on 13/F and reused for 11 and 12 (buildings/cds1 §5).
 import { rect, text, hash, shade } from "../art/px";
-import { Floor, T, WALL_PX, timberFloor, vinyl } from "./cds1-kit";
+import { Floor, T, WALL_PX, timberFloor, vinyl, sunPatch, rug } from "./cds1-kit";
 import { wall, liftDoors, door, exitLamp, screen } from "./cds1-wall";
 import { glassRoom } from "./cds1-rooms";
 import { banquette, tableSet, pouf, plant, counter, clutter, sofa } from "./cds1-props";
@@ -60,6 +60,8 @@ export function buildOfficeFloor(floor: 11 | 12 | 13): Floor {
   if (floor === 13) glassRoom(g, 27 * T, 6 * T, "gym", "1354", "GYM 健身房", "city");
   else glassRoom(g, 27 * T, 6 * T, floor === 11 ? "meeting" : "discussion", `${floor}54`, floor === 11 ? "MEETING ROOM" : "DISCUSSION ROOM", "city");
 
+  sunPatch(g, 27 * T, 6 * T, 120);
+  rug(g, 1.5 * T, 11 * T + 20, 9 * T, 4.2 * T, "#cfc6b4");
   // lounge by the lifts: long bar counter, cream curved sofas, black drum side tables
   f.put(counter(5, "#efe9dc", "#C4A070"), 2, 8, 5);
   f.put(sofa("#DDD5C6"), 2, 12, 3);

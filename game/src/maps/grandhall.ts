@@ -6,7 +6,7 @@ import { drawCrest } from "./grandhall-crest";
 // walnut panel walls, light oak stage, one huge LED wall. The camera looks toward the stage.
 
 const COLS = 33;
-const ROWS = 22;
+const ROWS = 18;
 const W = COLS * TILE;
 const H = ROWS * TILE;
 const WALL_ROWS = 5;
@@ -16,7 +16,7 @@ const STAGE_ROWS = 3;
 const STAGE_BOTTOM = STAGE_Y + STAGE_ROWS * TILE;
 
 /** the lit area of the LED wall, world px */
-export const LED_RECT = { x: 416, y: 34, w: 1280, h: 264 };
+export const LED_RECT = { x: 416, y: 48, w: 1280, h: 250 };
 
 const MONO = `"DejaVu Sans Mono", "JetBrains Mono", "SF Mono", Menlo, Consolas, "Liberation Mono", monospace`;
 
@@ -74,14 +74,15 @@ function buildCode(lines: string[], w: number, h: number): HTMLCanvasElement {
   for (let y = 0; y < h; y += 4) rect(g, 0, y, w, 1, "#0a1c28");
   for (let x = 0; x < w; x += 64) rect(g, x, 0, 1, h, "#0b2230");
   const n = Math.max(1, lines.length);
-  let size = Math.floor(Math.min(120, (h - 36) / (n * 1.22)));
+  const usable = Math.round(h * 0.7); // Leo stands in front of the lower middle of the wall
+  let size = Math.floor(Math.min(84, (usable - 20) / (n * 1.22)));
   const fits = (s: number): boolean => {
     g.font = `700 ${s}px ${MONO}`;
     return lines.every((l) => g.measureText(l).width <= w - 96);
   };
   while (size > 14 && !fits(size)) size -= 2;
   const lh = Math.round(size * 1.22);
-  const top = Math.round((h - lh * n) / 2);
+  const top = Math.max(10, Math.round((usable - lh * n) / 2) + 6);
   g.textBaseline = "top";
   g.textAlign = "left";
   lines.forEach((line, i) => {
@@ -196,11 +197,11 @@ function carpet(g: Ctx, x: number, y: number, w: number, h: number, dim: number)
       const ox = ((j / 8) & 1) * 8;
       const r = hash(Math.floor((x + i + ox) / 16), Math.floor((y + j) / 8), 77);
       const big = hash(Math.floor((x + i) / 96), Math.floor((y + j) / 64), 5);
-      const idx = Math.max(0, Math.min(CARPET.length - 1, Math.round(3 - dim + (r - 0.5) * 2.2 + (big - 0.5) * 1.6)));
+      const idx = Math.max(0, Math.min(CARPET.length - 1, Math.round(3 - dim + (r - 0.5) * 1.1 + (big - 0.5) * 0.8)));
       rect(g, x + i, y + j, Math.min(16, w - i), Math.min(8, h - j), CARPET[idx]);
     }
   }
-  speckle(g, x, y, w, h, ["#b3b0ae", "#5a5859", "#8a8786"], 0.06, 3, 2);
+  speckle(g, x, y, w, h, ["#a9a6a4", "#6b6969"], 0.02, 3, 2);
 }
 
 function seat(g: Ctx, x: number, y: number, dim: number, aisle: -1 | 0 | 1): void {
@@ -231,8 +232,12 @@ function seat(g: Ctx, x: number, y: number, dim: number, aisle: -1 | 0 | 1): voi
   rect(g, x + 9, y + 47, 44, 8, d(2, shell));
   rect(g, x + 9, y + 52, 44, 3, d(1, shell));
   rect(g, x + 12, y + 36, 40, 1, d(2, shell));
-  rect(g, x + 26, y + 40, 12, 5, d(1, shell)); // seat number plate
-  rect(g, x + 27, y + 41, 10, 3, "#4a4a48");
+  // rounded top corners of the shell and of the fabric pad
+  rect(g, x + 6, y + 17, 3, 3, "#3a393a");
+  rect(g, x + 55, y + 17, 3, 3, "#3a393a");
+  rect(g, x + 6, y + 27, 2, 2, d(2, fab));
+  rect(g, x + 56, y + 27, 2, 2, d(2, fab));
+  rect(g, x + 14, y + 31, 2, 14, d(4, shell));
   // foot
   rect(g, x + 20, y + 55, 24, 5, "#262526");
   if (aisle !== 0) {
@@ -296,6 +301,22 @@ function door(g: Ctx, x: number, y: number, w: number, h: number): void {
   rect(g, x, y + h - 10, w, 10, "#2b2b2c"); // kick plate
 }
 
+function titleSign(): HTMLCanvasElement {
+  const [c, g] = mk(420, 56);
+  rect(g, 0, 44, 420, 12, "#151618");
+  rect(g, 0, 44, 420, 2, "#3a3d41");
+  const glow = (t: string, x: number, y: number, size: number, col: string): void => {
+    text(g, t, x + 2, y + 2, size, "#0d3b3a", { align: "center" });
+    text(g, t, x, y, size, col, { align: "center" });
+  };
+  rect(g, 6, 2, 408, 42, "rgba(12,40,44,0.6)");
+  glow("CODE CLIMB", 140, 5, 30, "#f4fffb");
+  glow("编程闯关", 330, 7, 26, "#7ff0d8");
+  rect(g, 14, 38, 392, 3, "#38c9b4");
+  rect(g, 14, 38, 392, 1, "#c8fff2");
+  return c;
+}
+
 function lecternSprite(): HTMLCanvasElement {
   const [c, g] = mk(72, 124);
   // gooseneck mic
@@ -328,7 +349,7 @@ export function buildGrandHall(): GameMap {
   const triggers: Trigger[] = [];
 
   // ---- floor: grey loop-pile carpet, dimmer toward the back of the house
-  for (let ty = 0; ty < ROWS; ty++) carpet(g, 0, ty * TILE, W, TILE, ty > 17 ? 2 : ty > 12 ? 1 : 0);
+  for (let ty = 0; ty < ROWS; ty++) carpet(g, 0, ty * TILE, W, TILE, ty > 15 ? 2 : ty > 12 ? 1 : 0);
 
   // ---- back wall behind the stage: walnut panels
   walnut(g, TILE, 16, W - 2 * TILE, WALL_H - 16, 1);
@@ -412,13 +433,6 @@ export function buildGrandHall(): GameMap {
   rect(g, sx0, STAGE_BOTTOM + 6, sw, 2, "#3a3839");
   for (let x = sx0 + 40; x < sx0 + sw; x += 96) rect(g, x, STAGE_BOTTOM + 8, 1, 28, "#151415");
   for (let s = 0; s < 4; s++) dither(g, sx0, STAGE_BOTTOM + 36 + s * 6, sw, 6, "rgba(0,0,0,0)", "rgba(14,12,14,0.8)", 0.8 - s * 0.2, 2);
-  // the game's own title where the event sign stood
-  const titleW = 420;
-  const tx0 = Math.round(W / 2 - titleW / 2);
-  rect(g, tx0, STAGE_BOTTOM + 9, titleW, 24, "#10262c");
-  frame(g, tx0, STAGE_BOTTOM + 9, titleW, 24, "#38c9b4", 2);
-  text(g, "CDS CODE BATTLE · 代码对决", W / 2, STAGE_BOTTOM + 12, 17, "#c8fff2", { align: "center" });
-
   // steps at both ends of the stage front
   const steps = (x: number): void => {
     rect(g, x, STAGE_BOTTOM, 2 * TILE, TILE, "#1d1c1d");
@@ -437,9 +451,9 @@ export function buildGrandHall(): GameMap {
   // ---- seating: two blocks, centre aisle, a cross aisle halfway
   const leftBlock = { a: 3, b: 14 };
   const rightBlock = { a: 18, b: 29 };
-  const seatRows = [10, 11, 12, 13, 15, 16, 17, 18];
+  const seatRows = [10, 11, 12, 14, 15];
   for (const ty of seatRows) {
-    const dim = ty >= 17 ? 2 : ty >= 12 ? 1 : 0;
+    const dim = ty >= 14 ? 1 : 0;
     for (const blk of [leftBlock, rightBlock]) {
       // dark edge band of the carpet under the seats
       rect(g, blk.a * TILE - 4, ty * TILE, (blk.b - blk.a + 1) * TILE + 8, TILE, "#4f4e4f");
@@ -459,7 +473,7 @@ export function buildGrandHall(): GameMap {
     }
   }
   // pools from the ceiling downlights along the aisles
-  for (const ty of [9, 14, 19]) {
+  for (const ty of [9, 13, 16]) {
     for (let x = 2 * TILE; x < W - TILE; x += 3 * TILE + 16) {
       for (let r = 3; r >= 1; r--) {
         g.fillStyle = "rgba(255,244,214,0.05)";
@@ -489,7 +503,7 @@ export function buildGrandHall(): GameMap {
   rect(g, dx - 6, (ROWS - 1) * TILE, 3 * TILE + 12, TILE, "#120b08");
   rect(g, dx, (ROWS - 1) * TILE, 3 * TILE, TILE, "#8a8786");
   carpet(g, dx, (ROWS - 1) * TILE, 3 * TILE, TILE, 3);
-  dither(g, dx, (ROWS - 1) * TILE + 32, 3 * TILE, 32, "rgba(0,0,0,0)", "rgba(8,6,6,0.9)", 0.6, 2);
+  for (let k = 0; k < 4; k++) rect(g, dx, (ROWS - 1) * TILE + 16 + k * 12, 3 * TILE, 48 - k * 12, "rgba(8,6,6,0.3)");
   rect(g, dx - 6, (ROWS - 1) * TILE, 6, TILE, "#5a4133");
   rect(g, dx + 3 * TILE, (ROWS - 1) * TILE, 6, TILE, "#5a4133");
   exitSign(g, dx + 3 * TILE + 20, (ROWS - 1) * TILE + 22);
@@ -501,6 +515,16 @@ export function buildGrandHall(): GameMap {
   block(solid, COLS, COLS - 1, 0, 1, ROWS);
   block(solid, COLS, 0, ROWS - 1, COLS, 1);
   block(solid, COLS, 3, 8, COLS - 6, 1); // stage front; the steps at each end stay open
+
+  // ---- the lit sign on the stage floor, with the game's own title where the event sign stood
+  const sign = titleSign();
+  ellipse(g, W / 2, 7 * TILE - 10, 170, 10, "rgba(40,22,10,0.4)");
+  for (let r = 0; r < 3; r++) {
+    g.fillStyle = "rgba(190,255,240,0.07)";
+    g.fillRect(W / 2 - 190 - r * 16, 7 * TILE - 14 + r * 4, 380 + r * 32, 26 - r * 4);
+  }
+  props.push({ sprite: sign, x: Math.round(W / 2 - sign.width / 2), y: 7 * TILE - 6 - sign.height, sortY: 7 * TILE - 8 });
+  block(solid, COLS, 13, 6, 7, 1);
 
   // ---- lectern, stage left (the audience's left)
   const lec = lecternSprite();
@@ -543,7 +567,7 @@ export function buildGrandHall(): GameMap {
   triggers.push({
     id: "hall-exit",
     tx: 15,
-    ty: 20,
+    ty: ROWS - 2,
     w: 3,
     h: 1,
     en: "Back to CDS1 14/F",
@@ -561,6 +585,16 @@ export function buildGrandHall(): GameMap {
     }
   };
 
+  // stage light: soft cones from the profile spots, drawn over the performers
+  const [beams, bg] = mk(W, STAGE_BOTTOM);
+  for (let x = 311; x < W - 260; x += 188) {
+    for (let y = 26; y < STAGE_BOTTOM; y += 2) {
+      const half = 6 + Math.round(((y - 26) / (STAGE_BOTTOM - 26)) * 88);
+      bg.fillStyle = y % 4 === 0 ? "rgba(255,246,214,0.05)" : "rgba(255,246,214,0.03)";
+      bg.fillRect(x - half, y, half * 2, 2);
+    }
+  }
+
   return {
     id: "hall",
     name: "Grand Hall",
@@ -570,13 +604,15 @@ export function buildGrandHall(): GameMap {
     ground,
     solid,
     props,
-    npcs: [{ id: "leo", char: "leo", tx: 16, ty: 6, dir: "down", name: "Leo the HKU lion", nameZh: "港大狮子 Leo", action: { type: "boss" } }],
+    npcs: [{ id: "leo", char: "leo", tx: 16, ty: 5, dir: "down", name: "Leo the HKU lion", nameZh: "港大狮子 Leo", action: { type: "boss" } }],
     triggers,
-    spawns: { entry: { tx: 16, ty: 20, dir: "up" }, stage: { tx: 16, ty: 7, dir: "up" } },
-    labels: [{ x: W / 2, y: (ROWS - 2) * TILE - 8, en: "Grand Hall", zh: "大礼堂" }],
+    spawns: { entry: { tx: 16, ty: ROWS - 2, dir: "up" }, stage: { tx: 14, ty: 5, dir: "right" } },
     drawUnder: (ctx, timeMs) => {
       drawLed(ctx, L.x, L.y, L.w, L.h, timeMs);
       glow(ctx);
+    },
+    drawOver: (ctx) => {
+      ctx.drawImage(beams, 0, 0);
     },
     tint: "rgba(22,12,8,0.16)",
   };

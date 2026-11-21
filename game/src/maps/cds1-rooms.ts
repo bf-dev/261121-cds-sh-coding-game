@@ -146,9 +146,9 @@ export function glassRoom(g: Ctx, x: number, w: number, kind: RoomKind, num: str
   for (let i = 6; i < w - 6; i += 4) rect(g, x + i, H - 18 + (i % 8 ? 0 : 3), 2, 2, "rgba(255,255,255,0.8)");
   rect(g, x, H - 8, w, 8, "#bdb9ae");
   // etched number and label on a solid strip of wall at the left
-  rect(g, x + 4, 60, 78, 58, "rgba(244,242,236,0.92)");
-  roomSign(g, x + 14, 62, num, 20);
-  text(g, label, x + 8, 104, 9, "#3a3a3a", { maxWidth: 72 });
+  rect(g, x + 4, 54, 108, 78, "rgba(244,242,236,0.94)");
+  roomSign(g, x + 14, 58, num, 20, "#1F1F1F", 14);
+  text(g, label, x + 10, 118, 9, "#3a3a3a", { maxWidth: 98 });
   ao(g, x, H, w, 14);
   void shade;
 }

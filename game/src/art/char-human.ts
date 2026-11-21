@@ -300,8 +300,8 @@ function torsoSide(g: Ctx, s: HumanSpec, G: Geo, P: Pal): void {
   sbox(g, x, y, w, torsoH + 2, T, 4, 0);
   if (s.top === "hoodie") rbox(g, x - 3, y - 2, 10, 9, T.d1, 3);
   if (s.top === "cardigan" || s.top === "blazer" || s.top === "suit" || s.top === "coat" || s.top === "vest") {
-    px(g, x + w - 4, y + 1, 4, torsoH, P.shirt.b);
-    px(g, x + w - 5, y + 1, 1, torsoH, T.d2);
+    px(g, x + w - 3, y + 1, 3, torsoH, P.shirt.b);
+    px(g, x + w - 4, y + 1, 1, torsoH, T.d2);
     if (s.tie) px(g, x + w - 2, y + 2, 2, 13, s.tie);
   }
   if (s.top === "uniform") {
@@ -360,8 +360,8 @@ function hairCapFront(g: Ctx, s: HumanSpec, G: Geo, P: Pal, back: boolean): void
   if (back) {
     if (st === "bald" || st === "receding") {
       px(g, x + 6, y + 2, 6, 2, P.skin.l2);
-      rbox(g, x - 1, y + 9, w + 2, hh - 13, H.b, 0, 5);
-      px(g, x - 1, y + 9, w + 2, 2, H.l1);
+      rbox(g, x - 1, y + 13, w + 2, hh - 18, H.b, 2, 5);
+      px(g, x + 1, y + 13, w - 2, 1, H.l1);
       return;
     }
     const down = st === "long" ? hh + 12 : st === "bob" ? hh + 1 : st === "curly" ? hh - 2 : hh - 5;
@@ -554,21 +554,22 @@ function headSide(g: Ctx, s: HumanSpec, G: Geo, P: Pal): void {
     const capH = st === "crew" ? 7 : 10;
     const wide = st === "curly" ? 3 : st === "bob" || st === "long" ? 2 : 1;
     const down = st === "long" ? h + 12 : st === "bob" ? h + 1 : st === "curly" ? h - 3 : h - 6;
-    sbox(g, x - wide, y - 3, 16 + wide, down + 3, H, 8, st === "long" ? 2 : 5);
+    sbox(g, x - wide, y - 3, 13 + wide, down + 3, H, 8, st === "long" ? 2 : 5);
     sbox(g, x - wide, y - 3, w + wide + 1, capH, H, 7, 0);
     px(g, x + 5, y - 1, 8, 2, H.l2);
-    px(g, x + 15, y + 6, 7, st === "crew" ? 0 : st === "bob" ? 5 : 3, H.b);
+    px(g, x + 12, y + 6, 10, st === "crew" ? 0 : st === "bob" ? 5 : 3, H.b);
+    px(g, x + 12, y + 6, 3, st === "crew" ? 4 : 9, H.b);
     if (st === "bun") ell(g, x + 2, y - 4, 7, 5, H.b);
     if (st === "curly") for (let i = 0; i < 7; i++) ell(g, x - 2 + i * 5, y - 2 + (i % 2), 4, 4, i % 2 ? H.b : H.l1);
     if (st === "spiky") for (let i = 0; i < 7; i++) poly(g, [[x - 1 + i * 4, y - 2], [x + 3 + i * 4, y - 7 + (i % 2) * 2], [x + 5 + i * 4, y - 2]], i % 2 ? H.b : H.l1);
   } else {
-    rbox(g, x - 1, y + 8, 15, h - 13, H.b, 0, 5);
+    rbox(g, x - 1, y + 12, 11, h - 18, H.b, 2, 5);
     px(g, x + 6, y + 2, 6, 2, S.l2);
     if (st === "receding") rbox(g, x, y - 2, 16, 5, H.b, 4, 0);
   }
   // ear, eye, brow, mouth
-  px(g, cx - 2, y + 11, 4, 6, S.b);
-  px(g, cx - 1, y + 13, 2, 3, S.d1);
+  px(g, cx - 1, y + 12, 4, 6, S.b);
+  px(g, cx, y + 14, 2, 3, S.d1);
   px(g, x + w - 6, e - 1, 3, 5, "#fbfbf6");
   px(g, x + w - 5, e, 2, 4, "#2a1d24");
   px(g, x + w - 7, e - 4, 5, 1, H.d2);

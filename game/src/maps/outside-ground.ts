@@ -34,7 +34,11 @@ function paving(g: Ctx, x0: number, y0: number, w: number, h: number): void {
       if (x >= x0) rect(g, x, y, 1, 32, "#8f939a");
     }
   }
-  speckle(g, x0, y0, w, h, ["#e2e4e8", "#9da2ad", "#8a8f9b", "#eceef0", "#a9aeb8"], 0.06, 5, 2);
+  // granite grain: one 512 px speckle tile, repeated
+  const [grain, gg] = mk(512, 512);
+  speckle(gg, 0, 0, 512, 512, ["#d6d9de", "#a9aeb8", "#9da2ad", "#b8bcc5", "#c8cbd2"], 0.09, 5, 2);
+  g.fillStyle = g.createPattern(grain, "repeat")!;
+  g.fillRect(x0, y0, w, h);
 }
 
 function inset(j: number, h: number, r: number): number {
@@ -191,7 +195,7 @@ export function drawGround(): HTMLCanvasElement {
 
   // shadows: west of each tower, under the footbridge, at wall bases
   for (const b of [L.cds1, L.cds2]) {
-    for (let i = 0; i < 6; i++) dark(g, b.x * T - 90 + i * 15, (b.y + b.roof) * T + 80 + i * 22, 90 - i * 15, b.face * T - 80 - i * 22, 0.11);
+    for (let i = 0; i < 6; i++) dark(g, b.x * T - 90 + i * 15, (b.y + b.roof) * T + 80 + i * 22, 90 - i * 15, b.face * T - 80 - i * 22, 0.15);
     dark(g, b.x * T, (b.y + b.roof + b.face) * T, b.w * T, 10, 0.2);
     dark(g, b.x * T, (b.y + b.roof + b.face) * T + 10, b.w * T, 10, 0.08);
   }
@@ -208,6 +212,20 @@ export function drawGround(): HTMLCanvasElement {
   lawn(g, L.sign.x * T - 20, L.sign.y * T - 6, L.sign.w * T + 40, L.sign.h * T, 50);
   lawn(g, 4 * T, 27 * T, 12 * T, 4 * T, 60);
   lawn(g, 4 * T, 34 * T, 12 * T, 5 * T, 60);
+  lawn(g, 3 * T, 2 * T, 14 * T, 5 * T, 70);
+  lawn(g, 18 * T + 20, 2 * T, 3 * T, 4 * T, 50);
+  lawn(g, 39 * T - 20, 2 * T, 4 * T + 40, 4 * T, 50);
+
+  // drain grates and manhole covers
+  for (const [mx, my] of [[33, 13], [45, 29], [24, 38], [50, 9], [14, 32], [37, 27]]) {
+    rect(g, mx * T + 8, my * T + 14, 48, 36, "#6a6f73");
+    rect(g, mx * T + 10, my * T + 16, 44, 32, "#8b9095");
+    for (let i = 0; i < 7; i++) rect(g, mx * T + 13 + i * 6, my * T + 19, 3, 26, "#4a4f53");
+  }
+  for (let x = 19 * T; x < 41 * T; x += 2 * T) {
+    rect(g, x + 10, 26 * T + 50, 40, 8, "#7d828f");
+    for (let i = 0; i < 6; i++) rect(g, x + 13 + i * 6, 26 * T + 52, 3, 4, "#4a4f53");
+  }
 
   // planting beds: either side of the CDS1 door, B5 frontage, tower base
   const d = L.cds1;

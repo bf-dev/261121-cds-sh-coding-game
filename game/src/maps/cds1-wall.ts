@@ -67,7 +67,7 @@ export function crest(g: Ctx, x: number, y: number, s = 2, c = "#1f1f1f", paper 
 }
 
 /** hollow stencil-outline room number over a long rule that turns down to a small oval door handle */
-export function roomSign(g: Ctx, x: number, y: number, num: string, size = 22, ink = "#1F1F1F"): void {
+export function roomSign(g: Ctx, x: number, y: number, num: string, size = 22, ink = "#1F1F1F", ext = 22): void {
   g.font = `700 ${size}px ${FONT}`;
   g.textAlign = "left";
   g.textBaseline = "alphabetic";
@@ -75,40 +75,40 @@ export function roomSign(g: Ctx, x: number, y: number, num: string, size = 22, i
   g.strokeStyle = ink;
   g.strokeText(num, Math.round(x), Math.round(y + size));
   const w = Math.ceil(g.measureText(num).width);
-  rect(g, x - 6, y + size + 3, w + 30, 2, ink);
-  rect(g, x + w + 22, y + size + 3, 2, 16, ink);
-  frame(g, x + w + 19, y + size + 19, 8, 12, ink, 2);
+  rect(g, x - 6, y + size + 3, w + ext + 8, 2, ink);
+  rect(g, x + w + ext, y + size + 3, 2, 16, ink);
+  frame(g, x + w + ext - 3, y + size + 19, 8, 12, ink, 2);
 }
 
 /** n brushed-steel lift doors, 2 tiles each, with the raised red floor numeral */
 export function liftDoors(g: Ctx, x: number, n: number, numeral: string): void {
   for (let k = 0; k < n; k++) {
     const dx = x + k * 128 + 14;
-    rect(g, dx - 6, 34, 112, H - 34 - SKIRT + 8, "#8d9092");
-    rect(g, dx - 4, 36, 108, H - 36, "#d5d7d8");
+    rect(g, dx - 6, 58, 112, H - 58, "#8d9092");
+    rect(g, dx - 4, 60, 108, H - 60, "#d5d7d8");
     for (let leaf = 0; leaf < 2; leaf++) {
       const lx = dx + leaf * 50;
-      rect(g, lx, 40, 50, H - 40, "#B9BCBE");
-      for (let i = 0; i < 50; i += 2) if (hash(lx + i, k, 61) < 0.5) rect(g, lx + i, 40, 1, H - 40, hash(lx + i, k, 62) < 0.5 ? "#c9cccd" : "#a9acae");
-      rect(g, lx + 6, 46, 8, H - 60, "rgba(255,255,255,0.35)");
+      rect(g, lx, 64, 50, H - 64, "#B9BCBE");
+      for (let i = 0; i < 50; i += 2) if (hash(lx + i, k, 61) < 0.5) rect(g, lx + i, 64, 1, H - 64, hash(lx + i, k, 62) < 0.5 ? "#c9cccd" : "#a9acae");
+      rect(g, lx + 6, 70, 8, H - 84, "rgba(255,255,255,0.35)");
     }
-    rect(g, dx + 49, 40, 2, H - 40, "#5d6062");
+    rect(g, dx + 49, 64, 2, H - 64, "#5d6062");
     // pink prohibition pictograms
     for (let p = 0; p < 2; p++) {
-      rect(g, dx + 18 + p * 50, 104, 12, 12, "#f3f3f3");
-      frame(g, dx + 18 + p * 50, 104, 12, 12, "#e2578a", 2);
+      rect(g, dx + 18 + p * 50, 112, 12, 12, "#f3f3f3");
+      frame(g, dx + 18 + p * 50, 112, 12, 12, "#e2578a", 2);
     }
     // call panel with yellow button plate
     rect(g, dx + 108, 96, 12, 34, "#8d9092");
     rect(g, dx + 110, 100, 8, 8, "#e9c84a");
     rect(g, dx + 110, 112, 8, 8, "#e9c84a");
-    rect(g, dx + 30, 22, 40, 10, "#1b1b1b");
-    text(g, "▲", dx + 50, 22, 9, "#ff9a3c", { align: "center" });
+    rect(g, dx + 30, 46, 40, 10, "#1b1b1b");
+    rect(g, dx + 47, 49, 6, 4, "#ff9a3c");
   }
   // raised red numeral with a drop shadow
-  const nx = x + n * 64;
-  text(g, numeral, nx + 2, 2, 30, "#5e1510", { align: "center" });
-  text(g, numeral, nx, 0, 30, "#B02B22", { align: "center" });
+  const nx = x + (n > 2 ? 128 + 64 : 64);
+  text(g, numeral, nx + 2, 16, 30, "#5e1510", { align: "center" });
+  text(g, numeral, nx, 14, 30, "#B02B22", { align: "center" });
 }
 
 /** a single door leaf (64 px slot). kind: tan timber, grey double, glass */
@@ -131,7 +131,7 @@ export function door(g: Ctx, x: number, num = "", kind: "tan" | "timber" | "grey
   if (num) {
     rect(g, x + 66, 96, 10, 16, "#1F1F1F"); // card reader
     rect(g, x + 68, 98, 6, 6, "#3e86d8");
-    roomSign(g, x + 68, 52, num, 18);
+    roomSign(g, x + 70, 52, num, 16, "#1F1F1F", 4);
   }
   if (label) text(g, label, x + 32, 30, 11, "#3a3a3a", { align: "center" });
 }
