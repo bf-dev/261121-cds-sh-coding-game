@@ -36,7 +36,7 @@ What the team agreed, or said without objection. Citations: `mm:ss` = part 1, `p
 | 23 | Building 5 holds the power-ups (gym, study, food). A key from CDS1 unlocks it | 24:38 to 25:07 |
 | 24 | MT = Meituan food locker. CDS1 6/F classroom floor, 13/F professors' offices | p2 05:01 to 05:34 |
 | 25 | The first battle is a step-by-step tutorial. Intuitive for any first-time visitor | p2 05:45 to 06:41 |
-| 26 | 2D pixel art, realistic and detailed, from the building photos | p2 07:21 to 08:38 |
+| 26 | 2D pixel art, realistic and detailed, from the building photos. Follow the style of https://insu.ng/zhangjiang, but more detailed and realistic | p2 07:21 to 08:38; Insung 2026-11-21 |
 | 27 | Tech stack left to the builder. Demo mode. Presentation under 15 min | p2 07:40 to 07:57 |
 | 28 | Make it as complete as possible, fast. The team wants the expo spot | p2 08:00 to 08:18 |
 

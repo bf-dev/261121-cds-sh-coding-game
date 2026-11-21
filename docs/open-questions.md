@@ -13,5 +13,5 @@ Updated after part 4. When one is answered, move it to [decisions](decisions.md)
 9. **14 levels vs real floors:** CDS1 floors 4, 5, 8 and 12 don't appear on the floor guide (see `buildings/cds1/`). Use real floors only, or all 14?
 10. **The dining cluster** (walnut stair, fine-dining room with the "SR" plaque, `Dining Area 用餐区` canteen, "...LABS" reception): which building is it? See `buildings/b6/`.
 11. **No footage yet** of the grand hall itself or the senior common room.
-12. **The pixel-art reference project link** (p2 07:35).
+12. ~~pixel-art reference link~~ answered: https://insu.ng/zhangjiang, see art-style.md.
 13. **Which teachers** agree to appear as avatars.
