@@ -1,7 +1,7 @@
 # building or floor level
 
 ```
-Read docs/map-and-campus.md, docs/progression-and-story.md, docs/avatars.md and docs/education.md. Then look at the photos/videos for <building>, <floor> in resources/photos and resources/videos.
+Read docs/map-and-campus.md, docs/progression-and-story.md, docs/avatars.md and docs/education.md. Then read buildings/<folder>/README.md for <building>, <floor> and look at the keyframes it lists. Open resources/videos only if buildings/ is missing something.
 
 Design this place as a game level:
 - what the visitor sees (based on the real photos; name real features you can see)

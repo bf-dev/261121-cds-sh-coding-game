@@ -1,7 +1,7 @@
 # campus location art
 
 ```
-Look at <resources/photos/... or resources/videos/...> showing <building, floor, place>.
+Read buildings/<folder>/README.md and look at the keyframes for <building, floor, place> (and docs/art-style.md for the target size and detail).
 
 Write an image-generation prompt that turns it into a game background in <style>, keeping the recognisable features (layout, signage, colours, landmarks) so a visitor who has just walked through would recognise it. List the features you kept.
 

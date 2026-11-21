@@ -274,7 +274,7 @@ Photos the team should take next, in priority order:
 
 ---
 
-## Source corrections for the main assistant
+## Source corrections
 
 - `facts-2.md` writes the sign as `用餐区`; the sign is traditional `用餐區`.
 - `web/SOURCES.md` describes `high-table-dinner-01.webp` as a High Table dinner hall. The file is actually an exterior shot of the crowd on the stone staircase under the `香港大學 / THE UNIVERSITY OF HONG KONG` band, no interior.

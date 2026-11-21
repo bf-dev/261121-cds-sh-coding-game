@@ -20,10 +20,14 @@ SCR = senior common room (01:37).
 - Aretha: the food locker (MT), and CDS1 floors 6 and 13 (p2 05:03 to 05:27).
 - Everyone else: split the remaining buildings (28:05).
 
-## photos and videos so far
+## photos and videos
 
-Aretha's iCloud album "MAP", shot 10:29 to 10:42 CST, is in `resources/photos/2026-11-21-map-album/` and `resources/videos/2026-11-21-map-album/`. It covers the Meituan lockers, a building entrance, the arched hall on Building 5's first floor (confirmed by Insung; not the grand hall), a lobby with a spiral staircase, lounges (piano and mural, hammocks), a pool table room, a table tennis room, café seating, tiered stair seating (looks like the "stairs study area"), study booths, study rooms and a meeting room.
+All footage is filmed and sorted per place in `buildings/` (see `buildings/README.md`). What it settled:
 
-**The album doesn't say which building each shot is in.** The lobby pillar reads "05 / B2", which hints at Building 5. Ask Aretha to confirm, then add the building to the file index in `resources/README.md`.
+- **CDS1**: entrance, 1/F lobby, 6/F, 13/F and 14/F are on film. The lift floor guide lists 1, 2, 3/7, 9/10, 11/13 and 14 (`buildings/cds1/` §3).
+- **B5**: 1/F vaulted galleria (not the grand hall, confirmed by Insung), marble lobby with the "05 / B2" pillar, the amenity floor (most likely 2/F: gym, games, piano, auditorium, study stair), the 4/F co-creation rooms 411 to 420, and the 5/F learning commons with study rooms 501 to 531. The whiteboard's "2/F, stairs, study area" fits this (`buildings/b5/`).
+- **B6**: a Senior Common Room suite, plaque-confirmed, plus a crested dining foyer and an AI LABS reception. The building number is not on film (`buildings/b6/`).
+- **MT**: the yellow Meituan and orange Taobao locker walls on the east service road (`buildings/outside/` §3.13).
+- **Outside**: the four roads, two towers, footbridge, sunken round plaza, lawn with the lion and HKU letters (`buildings/outside/`).
 
-Missing: CDS1 (all floors, including 6/F and 13/F), B6 senior common room.
+Not on film yet: the grand hall interior, CDS1 floors 3 to 5 and 7 to 12, B5 6/F and up.
