@@ -613,7 +613,51 @@ export async function runBattle(cfg: BattleConfig): Promise<BattleResult> {
     const dPanel = attacker === "me" ? foePanel : mePanel;
     const aName = attacker === "me" ? "You" : cfg.enemy.name;
     const dName = attacker === "me" ? cfg.enemy.name : "you";
-    palette.replaceChildren(h("div", { class: "pal-group busy" }, h("span", { class: "flag" }), "Running the blocks..."));
+    // the bottom half becomes one big read-out while the blocks run
+    const bigName = h("span", { class: "run-name" }, move.verb === "ATTACK" ? "damage" : "heal");
+    const bigVal = h("span", { class: "run-val" }, "?");
+    const bigNote = h("span", { class: "run-note" }, "Running the blocks...");
+    palette.replaceChildren(h("div", { class: "pal-group busy run-strip" }, h("span", { class: "flag" }), bigNote, h("span", { class: "run-eq" }, bigName, " = ", bigVal)));
+    root.classList.add("is-running");
+    const scriptOf = (el: HTMLElement) => el.closest(".script");
+    const focus = (el: HTMLElement | null) => {
+      root.querySelectorAll(".script.active").forEach((e) => e.classList.remove("active"));
+      if (el) scriptOf(el)?.classList.add("active");
+    };
+    /** the watcher in the band and the big number below show the same value */
+    const show = (name: string, v: number) => {
+      watch(name, v);
+      bigName.textContent = name;
+      bigVal.textContent = fmt(v);
+      bigVal.classList.remove("tick");
+      void bigVal.offsetWidth;
+      bigVal.classList.add("tick");
+    };
+    /** a small chip flies from one element to another (a blocked amount on its way to the damage number) */
+    const fly = (from: Element | null, to: Element, text: string, ms: number) => {
+      if (!from) return;
+      const r = root.getBoundingClientRect();
+      const k = r.width / root.offsetWidth || 1;
+      const a = from.getBoundingClientRect();
+      const b = to.getBoundingClientRect();
+      const chip = h("div", { class: "fly-chip" }, text);
+      chip.style.left = `${(a.left + a.width / 2 - r.left) / k}px`;
+      chip.style.top = `${(a.top + a.height / 2 - r.top) / k}px`;
+      root.append(chip);
+      const dx = (b.left + b.width / 2 - a.left - a.width / 2) / k;
+      const dy = (b.top + b.height / 2 - a.top - a.height / 2) / k;
+      const anim = chip.animate([{ transform: "translate(-50%, -50%) scale(0.6)", opacity: 0 }, { transform: "translate(-50%, -50%) scale(1.25)", opacity: 1, offset: 0.2 }, { transform: `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px)) scale(0.8)`, opacity: 1 }], { duration: ms / pace.speed, easing: "ease-in" });
+      anim.onfinish = () => chip.remove();
+      setTimeout(() => chip.remove(), ms / pace.speed + 200);
+    };
+    /** operator nodes of the move block in the order they are computed (inner ones first) */
+    const opNodes = (el: Element | null, out: HTMLElement[] = []): HTMLElement[] => {
+      if (!el || !el.classList.contains("opnode")) return out;
+      opNodes(el.children[0], out);
+      opNodes(el.children[2], out);
+      out.push(el as HTMLElement);
+      return out;
+    };
 
     const ev = evaluate(move)!;
     const value = Math.max(0, Math.floor(ev.value + 1e-9));
@@ -627,16 +671,26 @@ export async function runBattle(cfg: BattleConfig): Promise<BattleResult> {
     led([`${move.verb} ${exprText(move)}`]);
     const moveEl = aScript.querySelector(".move") as HTMLElement;
     moveEl.classList.add("running");
+    focus(aScript);
+    bigNote.textContent = `${move.verb} ${exprText(move)}`;
     sfx("run");
     cap(`${aName} ${attacker === "me" ? "run" : "runs"}: ${move.verb} ${exprText(move)}`);
     await wait(900);
-    for (const st of ev.steps) {
+    const nodes = opNodes(moveEl.querySelector(":scope > .opnode"));
+    for (let i = 0; i < ev.steps.length; i++) {
+      const st = ev.steps[i];
+      const node = nodes[i];
       cap(st.text);
-      watch(varName, st.value);
+      bigNote.textContent = st.text;
+      // the two numbers slide together and become one
+      node?.classList.add("merging");
+      await wait(380);
+      node?.replaceWith(pill(fmt(st.value), "merged"));
+      show(varName, st.value);
       sfx("tick");
-      await wait(800);
+      await wait(420);
     }
-    watch(varName, value);
+    show(varName, value);
     aScript.replaceChild(moveBlock(move, value), aScript.querySelector(".move")!);
     (aScript.querySelector(".move") as HTMLElement).classList.add("running");
     led([`${move.verb} ${exprText(move)} = ${value}`]);
@@ -650,6 +704,7 @@ export async function runBattle(cfg: BattleConfig): Promise<BattleResult> {
       aSide.hp = Math.max(aSide.hp, Math.min(aSide.max, aSide.hp + value));
       dScript.querySelector(".cblk")?.classList.add("idle");
       cap(`HEAL goes straight to ${attacker === "me" ? "you" : aName}. The shield does nothing against HEAL.`);
+      bigNote.textContent = "HEAL: no shield can stop it";
       floatNum(aPanel, `+${aSide.hp - before}`, "heal");
       sfx("heal");
       refreshHp();
@@ -662,6 +717,8 @@ export async function runBattle(cfg: BattleConfig): Promise<BattleResult> {
         dScript.replaceChildren(hatBlock("when I am attacked"), block);
         dPy.textContent = shieldPython(shield).join("\n");
         block.classList.add("reveal");
+        focus(dScript);
+        bigNote.textContent = "The shield runs on the incoming damage";
         led([`${move.verb} ${exprText(move)} = ${value}`, shieldText(shield)]);
         cap(`${attacker === "me" ? cfg.enemy.name + "'s" : "Your"} shield runs on damage ${value}.`);
         sfx("shield");
@@ -670,16 +727,40 @@ export async function runBattle(cfg: BattleConfig): Promise<BattleResult> {
         final = run.final;
         // long loops speed up so a while block never stalls the match
         const stepMs = run.trace.length > 8 ? Math.max(110, Math.round(3600 / run.trace.length)) : run.trace.length > 5 ? 560 : 800;
+        const looping = shield.kind === "for1" || shield.kind === "while";
+        const headEl = block.querySelector('[data-part="head"]');
+        const roundChip = h("span", { class: "round-chip" });
+        let rounds = 0;
+        let prev = value;
         for (const st of run.trace) {
           block.querySelectorAll(".running").forEach((e) => e.classList.remove("running"));
-          block.querySelector(`[data-part="${st.part}"]`)?.classList.add("running");
+          const partEl = block.querySelector(`[data-part="${st.part}"]`);
+          partEl?.classList.add("running");
+          if (st.part === "body" || st.part === "else") {
+            // every round of a loop is its own beat: count it, pulse the block, send the blocked amount to the damage number
+            if (looping && headEl) {
+              rounds++;
+              roundChip.textContent = shield.kind === "for1" ? `round ${rounds} of ${shield.a}` : `round ${rounds}`;
+              if (!roundChip.isConnected) headEl.append(roundChip);
+              roundChip.classList.remove("tick");
+              void roundChip.offsetWidth;
+              roundChip.classList.add("tick");
+            }
+            partEl?.classList.remove("beat");
+            void (partEl as HTMLElement | null)?.offsetWidth;
+            partEl?.classList.add("beat");
+            const cut = prev - st.damage;
+            if (cut > 0 && stepMs > 300) fly(partEl, bigVal, `-${fmt(cut)}`, Math.min(420, stepMs * 0.6));
+          }
+          prev = st.damage;
+          bigNote.textContent = st.text;
           if (st.truth !== undefined && st.part === "head") {
             // show the answer of the test on the block itself: true or false
             block.querySelector(".truth")?.remove();
             block.querySelector('[data-part="head"]')?.append(h("span", { class: `truth ${st.truth ? "yes" : "no"}` }, st.truth ? "true" : "false"));
           }
           cap(st.text);
-          watch("damage", st.damage);
+          show("damage", st.damage);
           if (stepMs > 300) sfx("tick");
           await wait(stepMs);
         }
@@ -688,9 +769,12 @@ export async function runBattle(cfg: BattleConfig): Promise<BattleResult> {
         dScript.replaceChildren(hatBlock("when I am attacked"), h("div", { class: "blk stack ghost" }, "no shield planted"));
         dPy.textContent = "";
         cap(`No shield this round. The ATTACK lands in full.`);
+        bigNote.textContent = "No shield: the ATTACK lands in full";
         await wait(900);
       }
-      watch("damage", final);
+      show("damage", final);
+      bigNote.textContent = value !== final ? `${value} - ${value - final} blocked` : "Nothing blocked";
+      focus(null);
       dSide.hp = Math.max(0, dSide.hp - final);
       cap(final > 0 ? `${attacker === "me" ? cfg.enemy.name + " takes" : "You take"} ${final} damage${value !== final ? ` (${value} - ${value - final} blocked)` : ""}.` : `The shield blocked everything. ${dName === "you" ? "You take" : dName + " takes"} 0 damage.`);
       led([`${move.verb} ${exprText(move)} = ${value}`, shield ? shieldText(shield) : "no shield", `damage = ${final}`]);
@@ -708,6 +792,8 @@ export async function runBattle(cfg: BattleConfig): Promise<BattleResult> {
     }
     if (attacker === "foe") say(pendingSay || explainMove(move));
     await wait(cfg.auto ? 1900 : 1500);
+    focus(null);
+    root.classList.remove("is-running");
     if (shield && !cfg.seen.has(shield.kind) && move.verb === "ATTACK") await seeCard(shield.kind, attacker === "me" ? `${cfg.enemy.name} used a new block · 新积木` : "Your shield block · 你的护盾积木");
     watch(null);
   }

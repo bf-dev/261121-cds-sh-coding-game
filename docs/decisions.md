@@ -44,6 +44,8 @@ What the team agreed, or said without objection. Citations: `mm:ss` = part 1, `p
 | 46 | The opening plays by itself like a short film, with Skip as the only button | Insung, 2026-11-21, during the build |
 | 47 | There is a mode with no battles where people just walk around (Sandbox mode on the title screen) | Insung, 2026-11-21, during the build |
 | 48 | Names: `CDS-1`, `CDS-2`, `Grand Hall`. No civil defence sign. 1/F behind the gates is a lift hall with four lifts on each side | Koki, `game/BUGS.md`, 2026-11-21 |
+| 49 | Battle animation shows the blocks working on each other: the two numbers of every operation merge into the result, each loop round is its own beat with the amount flying to the damage number, and the bottom half shows the current damage large while blocks run | team, 2026-11-21, during the build |
+| 50 | There is no footbridge outside CDS-1. It is removed from the map | team, 2026-11-21, during the build |
 
 ## world and story
 
