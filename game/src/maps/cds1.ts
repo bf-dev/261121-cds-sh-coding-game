@@ -44,7 +44,8 @@ function classCfg(floor: number): ClassCfg {
     case 4:
       return { ...base, navy: "#4a4763", pale: "#b3aecb", rooms: [R("lab", n(9), "T&L LAB"), R("discussion", n(3), "DISCUSSION ROOM"), R("class", n(11), "CLASSROOM")], doorNum: n(12), doorLabel: "CLASSROOM", directory: dir([`${n(3)} DISCUSSION`, `${n(9)} T&L LAB`, `${n(11)}-${n(12)} CLASSROOM`, "!STUDENT ZONE"]) };
     case 5:
-      return { ...base, navy: "#3e5a4c", pale: "#a9c2b0", rooms: [R("class", n(11), "CLASSROOM"), R("meeting", n(7), "MEETING ROOM"), R("lab", n(9), "T&L LAB")], doorNum: n(5), doorLabel: "TEACHING ASSISTANTS", directory: dir([`${n(5)} TEACHING ASSISTANTS`, `${n(7)} MEETING ROOM`, `${n(9)} T&L LAB`, `${n(11)} CLASSROOM`]) };
+      // filmed in passing (IMG_3756 4:08 to 4:34): blue and cream carpet, and the room you walk into is a teaching lab
+      return { ...base, navy: "#4f6388", pale: "#c3cddb", roomNum: n(9), roomLabel: "T&L LAB", rooms: [R("class", n(11), "CLASSROOM"), R("meeting", n(7), "MEETING ROOM"), R("class", n(13), "CLASSROOM")], doorNum: n(5), doorLabel: "TEACHING ASSISTANTS", directory: dir([`${n(5)} TEACHING ASSISTANTS`, `${n(7)} MEETING ROOM`, `${n(9)} T&L LAB`, `${n(11)}-${n(13)} CLASSROOM`]) };
     case 6:
       return { ...base, filmed: true, rooms: [R("gym", "604", "GYM 健身房"), R("meeting", "607", "MEETING ROOM"), R("discussion", "608", "DISCUSSION ROOM")], doorNum: "609", doorLabel: "T&L LAB", roomNum: "611", directory: dir(["602 STORAGE", "603 DISCUSSION ROOM", "604 GYM", "605 TEACHING ASSISTANTS", "607 MEETING ROOM", "608 DISCUSSION ROOM", "609-610 T&L LAB", "-> 601 TUTORIAL ROOM", "!TEAMWORK SPACE", "611-613 CLASSROOM"]) };
     case 7:

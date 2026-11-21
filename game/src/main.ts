@@ -528,6 +528,7 @@ async function openMenu(): Promise<void> {
       { label: "Back to the game", value: "back", primary: true },
       { label: "Demo mode", value: "demo" },
       { label: "Level select", value: "levels" },
+      { label: "Building 5", value: "b5" },
       { label: "Title screen", value: "title" },
     ],
   });
@@ -535,7 +536,17 @@ async function openMenu(): Promise<void> {
   world.paused = false;
   if (pick === "demo") await demo();
   else if (pick === "levels") await levelSelect();
-  else if (pick === "title") showTitle();
+  else if (pick === "b5") {
+    // shortcut for the presentation: hands over the key and walks you to the Building 5 door
+    progress.b5key = true;
+    save();
+    busy = true;
+    world.paused = true;
+    await travel("b5-1", "door");
+    busy = false;
+    world.paused = false;
+    refreshPrompt();
+  } else if (pick === "title") showTitle();
 }
 
 async function levelSelect(): Promise<void> {
@@ -637,8 +648,8 @@ function showTitle(): void {
     h(
       "div",
       { class: "menu" },
-      saved && saved.cleared > 0 ? h("button", { class: "btn primary", type: "button", id: "btn-continue", onclick: () => void start(false) }, `Continue · 继续 (${saved.cleared}/14)`) : null,
-      h("button", { class: `btn ${saved && saved.cleared > 0 ? "" : "primary"}`, type: "button", id: "btn-start", onclick: () => void start(true) }, "New game · 开始"),
+      saved ? h("button", { class: "btn primary", type: "button", id: "btn-continue", onclick: () => void start(false) }, `Continue · 继续 (${saved.cleared}/14)`) : null,
+      h("button", { class: `btn ${saved ? "" : "primary"}`, type: "button", id: "btn-start", onclick: () => void start(true) }, "New game · 开始"),
       h("button", { class: "btn", type: "button", id: "btn-demo", onclick: () => ((busy = false), void demo()) }, "Demo mode · 演示"),
       h("button", { class: "btn", type: "button", id: "btn-levels", onclick: () => void levelSelect().then(() => { if (!title) { busy = false; world.paused = false; refreshPrompt(); } else { busy = true; world.paused = true; } }) }, "Level select · 选关"),
     ),
