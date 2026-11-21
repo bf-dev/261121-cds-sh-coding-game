@@ -73,12 +73,10 @@ function buildIdle(w: number, h: number): HTMLCanvasElement {
   const ty = py0 + ph + 14;
   text(g, "Grand Hall", px0 + 4, ty + 3, 50, "#06323c");
   text(g, "Grand Hall", px0 + 2, ty, 50, "#f4fffb");
-  text(g, "大礼堂", px0 + 290, ty + 7, 40, "#06323c");
-  text(g, "大礼堂", px0 + 288, ty + 4, 40, "#d8fff3");
   text(g, "HKU School of Computing and Data Science", 28, h - 32, 19, "#c6f3ea");
   // right: the final exam card
-  text(g, "FINAL EXAM · 期末大考", w - 36, 26, 30, "#06323c", { align: "right" });
-  text(g, "FINAL EXAM · 期末大考", w - 38, 23, 30, "#f4fffb", { align: "right" });
+  text(g, "FINAL CHALLENGE", w - 36, 26, 30, "#06323c", { align: "right" });
+  text(g, "FINAL CHALLENGE", w - 38, 23, 30, "#f4fffb", { align: "right" });
   const rows = ["for i in range(3): damage -= 2", "if damage > 5: damage -= 5", "while damage > 9: damage -= 4"];
   g.font = `700 24px ${MONO}`;
   g.textAlign = "right";
@@ -362,7 +360,6 @@ function sideScreen(g: Ctx, x: number, y: number): void {
   for (let i = 0; i < 88; i += 8) rect(g, x + 4 + i, y + 4, 8, 148, teal[Math.floor(hash(i, x, 8) * teal.length)]);
   drawCrest(g, x + 22, y + 34, 52);
   text(g, "HKU", x + 48, y + 106, 18, "#f4fffb", { align: "center" });
-  text(g, "港大", x + 48, y + 126, 15, "#d8fff3", { align: "center" });
 }
 
 function exitSign(g: Ctx, x: number, y: number): void {
@@ -395,8 +392,7 @@ function titleSign(): HTMLCanvasElement {
     text(g, t, x, y, size, col, { align: "center" });
   };
   rect(g, 6, 2, 408, 42, "rgba(12,40,44,0.6)");
-  glow("CODE CLIMB", 140, 5, 30, "#f4fffb");
-  glow("编程闯关", 330, 7, 26, "#7ff0d8");
+  glow("CODE CLIMB", 210, 5, 30, "#f4fffb");
   rect(g, 14, 38, 392, 3, "#38c9b4");
   rect(g, 14, 38, 392, 1, "#c8fff2");
   return c;
