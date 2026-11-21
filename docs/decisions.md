@@ -42,7 +42,7 @@ What the team agreed, or said without objection. Citations: `mm:ss` = part 1, `p
 | 44 | The background music is the HKU anthem, played as retro game music from the written score, with no speech | Insung, 2026-11-21, during the build |
 | 45 | **Story: the invited visitor.** Replaces the AI takeover of #39 and the compulsory labs of #40. The player is invited to CDS Shanghai, starts at the High Table welcome dinner in the University Galleria (Building 5, 1/F), has a helpful AI guide, meets the professors as mentors on the 14 floors, and takes Leo's friendly final challenge in the Grand Hall. Blocks come from the mentors again; a floor still gives a postcard; the lab question is optional | `docs/visitor-journey-story.md` (Aretha) and Insung "check this and apply", 2026-11-21 |
 | 46 | The opening plays by itself like a short film, with Skip as the only button | Insung, 2026-11-21, during the build |
-| 47 | There is a mode with no battles where people just walk around (Explore on the title screen) | Insung, 2026-11-21, during the build |
+| 47 | There is a mode with no battles where people just walk around (Sandbox mode on the title screen) | Insung, 2026-11-21, during the build |
 | 48 | Names: `CDS-1`, `CDS-2`, `Grand Hall`. No civil defence sign. 1/F behind the gates is a lift hall with four lifts on each side | Koki, `game/BUGS.md`, 2026-11-21 |
 
 ## world and story

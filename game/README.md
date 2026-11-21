@@ -93,5 +93,5 @@ Fonts: SungSans (Latin) and Noto Sans CJK SC (Chinese), subset to the characters
 - Each CDS-1 floor: find the mentor, complete the block challenge, get a stamp, the floor's block and a postcard. The door marked `Lab 实验室` has an optional question from the guide (+1 maximum HP).
 - Lab questions and postcard facts are data in `src/data/labs.ts`.
 - Background music is the HKU anthem as a chiptune rendered from the written score (`src/assets/hku-anthem.mp3`, renderer and source in `resources/audio/`). Menu > Music turns it on and off.
-- Title screen: `Explore` walks the whole campus with every door open and no battles. `Level select` has a `Building 5` button.
+- Title screen: `Sandbox mode` walks the whole campus with every door open and no battles. `Level select` has a `Building 5` button.
 - Debug links: `?map=cds1-6&floor=7&postcard=6` shows a postcard, `?battle=1` starts the coached first lesson.

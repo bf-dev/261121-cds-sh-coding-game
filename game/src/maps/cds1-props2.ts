@@ -1,5 +1,5 @@
 // Floor-specific CDS-1 props: turnstiles, booths, exhibition drums, bleachers, lab kit, fridges.
-import { mk, rect, frame, ellipse, shade, hash, shadow, text } from "../art/px";
+import { mk, rect, frame, ellipse, shade, hash, shadow, text, textWidth } from "../art/px";
 import { box, cyl } from "./cds1-props";
 
 const cache = new Map<string, HTMLCanvasElement>();
@@ -220,8 +220,19 @@ export function desk(w: number, body = "#D2BE9E", top = "#efe9dc", line1 = "", l
       rect(g, 4 + i, yy + 50, 4, 2, shade(body, -0.3));
       if (i % 40 === 0) rect(g, 4 + i, yy + 4, 1, 46, shade(body, -0.14));
     }
-    if (line1) text(g, line1, W / 2, 60, 11, "#1f1f1f", { align: "center", maxWidth: W - 30 });
-    if (line2) text(g, line2, W / 2, 74, 9, "#1f1f1f", { align: "center", bold: false, maxWidth: W - 30 });
+    // the face is tallest in the middle of the curve, so the lettering stays in the middle half:
+    // line1 may hold "\n" for a second row, and the size shrinks until the widest row fits
+    const rows = line1 ? line1.split("\n") : [];
+    const fit = W * 0.5;
+    let size = 12;
+    while (size > 7 && rows.some((r) => textWidth(g, r, size) > fit)) size--;
+    const total = rows.length * (size + 2) + (line2 ? 11 : 0);
+    let y = Math.round(60 - total / 2);
+    for (const r of rows) {
+      text(g, r, W / 2, y, size, "#1f1f1f", { align: "center" });
+      y += size + 2;
+    }
+    if (line2) text(g, line2, W / 2, y + 2, 9, "#1f1f1f", { align: "center", bold: false, maxWidth: fit });
     return c;
   });
 }

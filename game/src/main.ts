@@ -103,7 +103,7 @@ function refreshPrompt(): void {
 
 function questText(): (string | Node)[] {
   const p = progress;
-  if (exploring) return [h("b", {}, "Explore mode"), ": walk anywhere, no battles. The lift, Building 5 and the Grand Hall are open. Menu, then Title screen, to leave."];
+  if (exploring) return [h("b", {}, "Sandbox mode"), ": walk anywhere, no battles. The lift, Building 5 and the Grand Hall are open. Menu, then Title screen, to leave."];
   const blocks = h("span", { class: "quest-blocks" }, "Stamps ", h("b", {}, `${p.cleared}/14`), " · ");
   if (p.bossBeaten) return ["You are a CDS Explorer. Keep exploring the campus, there are details left to find."];
   if (p.cleared >= 14) {
@@ -356,7 +356,7 @@ async function fight(floor: number, t: Target | null): Promise<void> {
   const prof = professor(floor);
   const sheet = getCharacter(prof.char);
   if (exploring) {
-    await showDialog({ kicker: `${floorInfo(floor).en} · ${prof.topic}`, title: prof.name, titleZh: prof.nameZh, portrait: sheet.portrait, body: [`"${prof.hello}"`, h("p", { class: "dim" }, "Explore mode has no battles. Start a New game from the title screen to take the test.")] });
+    await showDialog({ kicker: `${floorInfo(floor).en} · ${prof.topic}`, title: prof.name, titleZh: prof.nameZh, portrait: sheet.portrait, body: [`"${prof.hello}"`, h("p", { class: "dim" }, "Sandbox mode has no battles. Start a New game from the title screen to take the test.")] });
     return;
   }
   if (floor > progress.cleared + 1) {
@@ -486,7 +486,7 @@ async function labDoor(floor: number): Promise<void> {
 async function fightBoss(t: Target | null): Promise<void> {
   const sheet = getCharacter("leo");
   if (exploring) {
-    await showDialog({ kicker: "Grand Hall · 大礼堂", title: "Leo the HKU lion", titleZh: "港大狮子 Leo", portrait: sheet.portrait, body: ['"ROAR! Welcome to the Grand Hall. The big wall behind me is where the final battle of the game is fought."', h("p", { class: "dim" }, "Explore mode has no battles. Start a New game from the title screen to play the story.")] });
+    await showDialog({ kicker: "Grand Hall · 大礼堂", title: "Leo the HKU lion", titleZh: "港大狮子 Leo", portrait: sheet.portrait, body: ['"ROAR! Welcome to the Grand Hall. The big wall behind me is where the final battle of the game is fought."', h("p", { class: "dim" }, "Sandbox mode has no battles. Start a New game from the title screen to play the story.")] });
     return;
   }
   while (true) {
@@ -807,7 +807,7 @@ function showTitle(): void {
       { class: "menu" },
       saved ? h("button", { class: "btn primary", type: "button", id: "btn-continue", onclick: () => void start(false) }, `Continue · 继续 (${saved.cleared}/14)`) : null,
       h("button", { class: `btn ${saved ? "" : "primary"}`, type: "button", id: "btn-start", onclick: () => void start(true) }, "New game · 开始"),
-      h("button", { class: "btn", type: "button", id: "btn-explore", onclick: () => void explore() }, "Explore · 自由探索"),
+      h("button", { class: "btn", type: "button", id: "btn-explore", onclick: () => void explore() }, "Sandbox mode · 自由探索"),
       h("button", { class: "btn", type: "button", id: "btn-demo", onclick: () => ((busy = false), void demo()) }, "Demo mode · 演示"),
       h("button", { class: "btn", type: "button", id: "btn-levels", onclick: () => void levelSelect().then(() => { if (!title) { busy = false; world.paused = false; refreshPrompt(); } else { busy = true; world.paused = true; } }) }, "Level select · 选关"),
     ),

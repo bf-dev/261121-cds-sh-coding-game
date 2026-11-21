@@ -105,7 +105,7 @@ Built:
 - Postcards: a picture of the floor as drawn in the game, a crest stamp and one fact from `buildings/` (`POSTCARDS` in `src/data/labs.ts`). The Bag keeps them and the ending shows four.
 - Lab doors: an optional question from the guide about the floor's idea (`LABS` in `src/data/labs.ts`), hint after a wrong answer, +1 maximum HP the first time.
 - Leo is the friendly final examiner. The ending gives the CDS Explorer certificate in text.
-- Explore mode (title screen): every door open, no battles, nothing saved.
+- Sandbox mode (title screen): every door open, no battles, nothing saved.
 
 Not built from the proposal: the guide as a character you can ask, the mini-games (Hangman, Tower of Hanoi, Snake, history exhibition, Shanghai board), milestone keys with Visit now / Later, portals, the Shanghai postcard set, item explanations in the Bag, a drawn certificate, replay of the opening from the Menu.
 

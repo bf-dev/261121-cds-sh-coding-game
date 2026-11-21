@@ -120,7 +120,7 @@ export function buildExpoFloor(): Floor {
   f.label(13, 4.9, "Director & general office", "院长与综合办公室");
 
   // reception desk in front of the timber wall, with the school name on its face
-  f.put(desk(5, "#D2BE9E", "#efe9dc", "SCHOOL OF COMPUTING & DATA SCIENCE", "The University of Hong Kong"), 4, 10, 5);
+  f.put(desk(5, "#D2BE9E", "#efe9dc", "SCHOOL OF COMPUTING\n& DATA SCIENCE", "The University of Hong Kong"), 4, 10, 5);
   // presentation area: stepped seating blocks, slate blue with a few red
   for (let row = 0; row < 2; row++)
     for (let k = 0; k < 6; k++) {

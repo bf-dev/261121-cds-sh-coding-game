@@ -27,4 +27,6 @@ Builder, 2026-11-21 15:30. The numbers are the ones under "open".
 6. Done. Behind the gates there is only a lift hall, four lifts in a row on each side. The floor guide moved to the wall before the gates, the LED wall is gone, Dr. Dougherty stands in the entrance lobby.
 7. The hall already used the official colour crest. The LED wall now carries the full official colour logo (crest plus name) from the hku.hk file.
 
+8. Done. The floor is 14/F. The school name on the reception desk is on two rows and sized to fit the desk front.
+
 Still open: 5 (Chinese names of the non-Chinese professors). The game shows the field in Chinese under every name and no invented names. Send the names you want and they go into `src/data/professors.ts` (`nameZh`).
