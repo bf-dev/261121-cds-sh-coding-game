@@ -30,4 +30,6 @@ All footage is filmed and sorted per place in `buildings/` (see `buildings/READM
 - **MT**: the yellow Meituan and orange Taobao locker walls on the east service road (`buildings/outside/` §3.13).
 - **Outside**: the four roads, two towers, footbridge, sunken round plaza, lawn with the lion and HKU letters (`buildings/outside/`).
 
-Not on film yet: the grand hall interior, CDS1 floors 3 to 5 and 7 to 12, B5 6/F and up.
+- **Grand hall**: two photos of the auditorium, stage and LED wall (`buildings/grand-hall/`). Its building is not known.
+
+Not on film yet: the grand hall's building and entrance, CDS1 floors 3 to 5 and 7 to 12, B5 6/F and up.

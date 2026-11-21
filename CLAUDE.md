@@ -30,6 +30,7 @@ buildings/                the campus, distilled from all photos and video: one f
   cds1/                   CDS1 tower: entrance, lobby, floor guide, floors
   b5/                     Building 5: hall, lobby, amenity floor, 5/F, 6/F
   b6/                     dining cluster / senior common room (building unconfirmed)
+  grand-hall/             the final boss room: auditorium, LED wall, stage
 prompts/                  reusable prompts, one task per file, built on docs/ and buildings/
 resources/                raw material, kept as real files (see resources/README.md)
   recordings/             meeting audio (Git LFS)

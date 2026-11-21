@@ -8,6 +8,7 @@ The campus, distilled from every photo and video the team took on 2026-11-21, pl
 | `cds1/` | CDS1 tower: entrance, 1/F lobby and turnstiles, lifts, the floor guide, 6/F, 13/F, 14/F | 61 | §3 floor guide (the 14 levels) |
 | `b5/` | Building 5: 1/F vaulted galleria and marble lobby, 2/F amenity floor (gym, games, piano, study stair), 4/F co-creation, 5/F learning commons | 60 | §3.3 amenity floor (power-ups) |
 | `b6/` | the Senior Common Room suite, a crested dining foyer and canteen, an AI LABS reception. Building number not proven | 30 | Summary, Verdict |
+| `grand-hall/` | the final boss room: raked auditorium, walnut walls, timber stage, huge LED wall, lectern with the HKU crest. Building not known | 5 | whole README |
 
 ## how each folder works
 
@@ -18,7 +19,7 @@ The campus, distilled from every photo and video the team took on 2026-11-21, pl
 
 ## what is still not on film
 
-- **The grand hall** (final boss room) has no interior shot. `outside/` §3.4 says it is most likely the white glass-box auditorium (construction board letter A). Design it from the exterior and the step theatre until someone films it.
+- **The grand hall's building** and the way in from outside. The room itself is in `grand-hall/`; `outside/` §3.4 guesses the white glass-box auditorium.
 - **CDS1 floors 3 to 5, 7 to 12.** The floor guide gives their functions (lecture theatres, labs, research, professors). Reuse the 6/F and 13/F layouts, as the team planned (01:11 "we can copy for the other floors").
 - **Which building is B6.** Plaque-confirmed Senior Common Room, but the footage never shows a building number.
 

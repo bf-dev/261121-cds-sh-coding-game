@@ -38,6 +38,13 @@ Raw material. Files here are kept as they were captured. Interpretations go in `
 | --- | --- |
 | `videos/2026-11-21-insung/IMG_3756-campus-walkthrough.mp4` (4:36, shot 11:08, HEVC 1080x1920, re-encoded from the 362 MB original) | Plaza, two-tower canyon, footbridge with oval void, sunken oval court, civil-defence board with the four street names, lawn with the lion mascot and HKU letters, CDS1 entrance, lobby, turnstiles, lifts, floor guide, upper lounge. Narrated |
 
+## grand hall (Insung)
+
+| file | what it shows |
+| --- | --- |
+| `photos/2026-11-21-insung-grand-hall/IMG_1208.heic` | grand hall during an HKU event: stage, LED wall with the twenty new institutes slide, lectern with crest |
+| `photos/2026-11-21-insung-grand-hall/IMG_1220.heic` | same hall from near the back: centre aisle, seating, speaker stacks, side door |
+
 ## map album (Aretha, iCloud shared album "MAP", 2026-11-21 10:29 to 10:42 CST)
 
 File names start with the local time the shot was taken (HHMMSS). Photos are 2731x1536 and videos are 720p, which is the most an iCloud shared album serves. Ask Aretha for originals if a background needs more detail. **The building for each shot is a guess until Aretha confirms.**

@@ -12,6 +12,6 @@ Updated after part 4. When one is answered, move it to [decisions](decisions.md)
 8. **Where Building 5 fits** in the 14-floor ladder (side area for power-ups between floors?).
 9. **14 levels vs real floors:** the CDS1 floor guide groups floors and skips some (4, 8, 12 are never named) (see `buildings/cds1/`). Use real floors only, or all 14?
 10. **The dining cluster** (walnut stair, fine-dining room with the "SR" plaque, `Dining Area 用餐區` canteen, "...LABS" reception): which building is it? See `buildings/b6/`.
-11. **No footage yet** of the grand hall interior. The senior common room is now filmed (`buildings/b6/`). Until someone films the hall, the build prompt designs it from the white glass-box auditorium (`buildings/outside/` §3.4).
+11. **Which building the grand hall is in.** The room is photographed (`buildings/grand-hall/`), but not its building or entrance.
 12. ~~pixel-art reference link~~ answered: https://insu.ng/zhangjiang, see art-style.md.
 13. **Which teachers** agree to appear as avatars.

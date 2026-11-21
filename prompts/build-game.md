@@ -28,7 +28,7 @@ Must have:
    - Power-ups are played at the start of a round, before the move (extra turn, extra HP).
    - Show the move as real code while it is built and evaluated, e.g. `damage = 8 + 2 * 3  # 14`, and the shield as `for i in range(3): damage -= 2`.
    - A pop-up explains every new card the first time you get it (what it does, what it equals).
-4. Levels per docs/progression-and-story.md: CDS1 floors are levels 1 to 14, with harder professors higher up and more operator slots as you climb (start at 2). Lift between floors. Use the real floors from buildings/cds1/ (1/F lobby, 6/F, 13/F, 14/F); for floors with no footage, reuse those layouts and change the signage to match the floor guide in buildings/cds1/README.md. After floor 14: the grand hall and the final boss, Leo the HKU lion (look in buildings/outside/ for the lion).
+4. Levels per docs/progression-and-story.md: CDS1 floors are levels 1 to 14, with harder professors higher up and more operator slots as you climb (start at 2). Lift between floors. Use the real floors from buildings/cds1/ (1/F lobby, 6/F, 13/F, 14/F); for floors with no footage, reuse those layouts and change the signage to match the floor guide in buildings/cds1/README.md. After floor 14: the grand hall (buildings/grand-hall/) and the final boss, Leo the HKU lion (look in buildings/outside/ for the lion). Use the hall's LED wall as the boss backdrop.
 5. Building 5 (buildings/b5/) is where you get power-ups and new functions: gym = extra HP, study stair / learning commons = new function card, food (the Meituan lockers, cafe) = heal. How the player gets in is open (docs/open-questions.md); default below.
 6. The first battle is a step-by-step tutorial (docs/education.md, prompts/tutorial-for-visitors.md).
 7. The AI opponent uses an OpenAI-compatible endpoint from .env: LLM_BASE_URL, LLM_API_KEY, LLM_MODEL (the lab's DeepSeek V4.1 Flash). Professors explain their move in one line. If the call fails, is slow (over 2 s) or returns an illegal move, play a rule-based move. Ship .env.example, never a real key.
@@ -40,7 +40,7 @@ Defaults for what is still open (replace if docs/decisions.md says otherwise):
 - Maximum expression length: 2 operator slots on floor 1, plus 1 every 3 floors, up to 6.
 - Damage is rounded down after the shield. A shield cannot take damage below 0.
 - B5 is unlocked by a key won on floor 3, and can be revisited between floors.
-- The grand hall interior is not filmed. Design it as the inside of the white glass-box auditorium in buildings/outside/ §3.4, and note it in DESIGN-CHOICES.md.
+- How the player walks into the grand hall is not filmed. Reach it from the CDS1 floor 14 exit (a short cutscene is fine) and note it in DESIGN-CHOICES.md.
 
 Put all code under game/. Write game/README.md with how to run it and how to set .env. Before you stop, play a full match to the end in the browser, run demo mode once, and fix what breaks.
 ```
