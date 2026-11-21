@@ -8,6 +8,7 @@ import { buildB5Study, buildB5CoCreation, buildB5Commons, liftDoors } from "./b5
 // Building 5, from buildings/b5/: the reward building north of CDS-1.
 // b5-1 = 1/F marble lift lobby with the University Galleria behind the walnut arch.
 // b5-2 = the amenity floor at the top of the white feature stair (gym, games, lounge). No cafe.
+//        A second flight of the same stair goes on to 3/F and stops there.
 // b5-3 .. b5-5 = study and meeting floors, in b5-upper.ts. The study stair joins 3/F and 4/F.
 // The lift serves 1/F to 5/F (Insung, 2026-11-21).
 
@@ -522,7 +523,7 @@ function buildLobby(): GameMap {
   info("reception", 25, 19, 4, 1, "Reception", "前台", "Building 5 is the student amenity centre, north of CDS-1. It opened on 30 August 2026 with a fitness room, music and dance rooms, a game hub and study spaces.");
   info("pictures", 19, 13, 3, 1, "Picture wall", "画廊墙", "Backlit beige marble with a row of dark framed artworks at eye level, under a warm cove of light.");
   info("oval-table", 19, 16, 3, 2, "Oval table", "椭圆高桌", "One tall oval pedestal table, maroon base and white top, standing alone on the inlaid lattice floor.");
-  info("mind-your-head", 6, 19, 3, 1, "Feature stair", "旋转楼梯", "A white feature stair with a solid white plaster balustrade curves up to 2/F, turning over a small landing on the way. The signs say Mind Your Step and Mind Your Head.");
+  info("mind-your-head", 6, 19, 3, 1, "Feature stair", "旋转楼梯", "A white feature stair with a solid white plaster balustrade curves up to 2/F, turning over a small landing on the way. A second curved flight goes on from 2/F to 3/F, where the stair stops. The signs say Mind Your Step and Mind Your Head.");
   info("courtyard", 27, 13, 4, 1, "Courtyard", "庭院", "Full-height glass looks onto a paved courtyard with clipped hedges and trees.");
   info("high-table", 11, 4, 2, 1, "University Galleria", "大学长廊", "Three vaulted naves, crystal chandeliers and very long walnut tables. This hall is home to HKU's High Table Dinner tradition.");
 
@@ -747,6 +748,17 @@ function buildAmenity(): GameMap {
   rect(g, T + 4, WH - 8, 8, 3 * T + 8, "rgba(190,220,232,0.4)");
   rect(g, 4 * T - 14, WH - 8, 8, 3 * T + 8, "rgba(190,220,232,0.4)");
   block(solid, COLS, 1, 3, 3, 3);
+  // the second flight of the curved stair, on up to 3/F where it stops (Koki, 2026-11-21)
+  for (let i = 0; i < 10; i++) {
+    const y = 6 * T - 14 - i * 12;
+    const dx = Math.round(12 * Math.sin((i / 9) * (Math.PI / 2)));
+    const shadeI = Math.min(6, 1 + Math.floor(i / 2));
+    rect(g, 4 * T + 6 + dx, y, T - 24, 12, K.R.cream[shadeI]);
+    rect(g, 4 * T + 6 + dx, y + 10, T - 24, 2, "#8f8b80");
+    rect(g, 4 * T + 2 + dx, y, 4, 12, "#f6f4ee");
+    rect(g, 4 * T + T - 18 + dx, y, 4, 12, "#f6f4ee");
+  }
+  block(solid, COLS, 4, 4, 1, 2);
 
   // ------------------------------------------------ piano corner
   // white patterned rug
@@ -925,7 +937,7 @@ function buildAmenity(): GameMap {
   rect(g, kx, CFACE + 8, kw, 5, "#17181a");
   rect(g, kx, CFACE + CFH - 13, kw, 5, "#17181a");
   rect(g, kx + 130, CFACE + 46, kw - 140, 24, "rgba(236,244,246,0.5)");
-  text(g, "AUDITORIUM 小剧场", kx + 130 + (kw - 140) / 2, CFACE + 50, 15, "rgba(255,255,255,0.95)", { align: "center" });
+  text(g, "MUSIC ROOM 音乐室", kx + 130 + (kw - 140) / 2, CFACE + 50, 15, "rgba(255,255,255,0.95)", { align: "center" });
   K.ao(g, CX, CFACE + CFH, CW, 18, 0.4);
   block(solid, COLS, 14, 11, 14, 4);
   // ------------------------------------------------ chill zone: poufs, beanbag, hammocks, the rope net
@@ -1086,14 +1098,15 @@ function buildAmenity(): GameMap {
     triggers.push({ id, tx, ty, w, h, en, zh, action: { type: "info", title: en, titleZh: zh, text: textEn } });
   };
   triggers.push({ id: "down", tx: 1, ty: 6, w: 3, h: 1, en: "Stairs to 1/F", zh: "下一楼", action: { type: "goto", map: "b5-1", spawn: "stair" } });
+  triggers.push({ id: "up3", tx: 4, ty: 6, w: 1, h: 1, en: "Stairs to 3/F", zh: "上三楼", action: { type: "goto", map: "b5-3", spawn: "stair-low" } });
   triggers.push({ id: "gym", tx: 28, ty: 5, w: 5, h: 1, en: "Gym: train", zh: "健身房：锻炼", action: { type: "powerup", kind: "gym" } });
   triggers.push({ id: "lift", tx: 3, ty: 14, w: 2, h: 1, en: "Lift", zh: "电梯", action: { type: "lift", building: "b5" } });
-  info("auditorium", 22, 15, 5, 1, "Auditorium", "小剧场", "The small performance hall: a long narrow room behind glass, rows of white chairs with olive-green seats facing a dark wall with one huge black circle cut into it.");
-  info("crest-panel", 19, 15, 2, 1, "Crest panel", "校徽木板", "A wall of pressed strand board with the HKU crest stamped into it, shield, lion and open book, and Sapientia et Virtus on the ribbon. The glass doors of the auditorium are straight beside it.");
+  info("auditorium", 22, 15, 5, 1, "Music Room", "音乐室", "The music room: a long narrow room behind glass, rows of white chairs with olive-green seats facing a dark wall with one huge black circle cut into it.");
+  info("crest-panel", 19, 15, 2, 1, "Crest panel", "校徽木板", "A wall of pressed strand board with the HKU crest stamped into it, shield, lion and open book, and Sapientia et Virtus on the ribbon. The glass doors of the Music Room are straight beside it.");
   info("music", 6, 14, 5, 1, "Music wing", "音乐区", "The directory lists the piano room, music room 2 and the multipurpose room. One oak door carries a Closed note.");
   info("piano", 7, 6, 3, 1, "Grand piano and mural", "三角钢琴与壁画", "A glossy black concert grand stands at the top of the stair, in front of a pop-art mural of the Shanghai skyline. Look for the little HKU gate with 1911 painted into it.");
   info("wayfinding", 4, 3, 1, 1, "Wayfinding", "指示牌", "Stencilled on the wall: Men's Showers 男淋浴间, Music Room 1 音乐室1, Dance Room 舞蹈室, and Toilet 洗手间 to the right.");
-  info("pool", 15, 6, 3, 1, "Pool room", "台球室", "A green-baize pool table on a dark wood body, behind black-framed glass with a frosted HKU and Est. 1911 band.");
+  info("pool", 15, 6, 3, 1, "Multipurpose Room", "多功能室", "The multipurpose room: a green-baize pool table on a dark wood body, behind black-framed glass with a frosted HKU and Est. 1911 band.");
   info("tabletennis", 20, 5, 3, 1, "Game Hub", "电玩区", "Two blue table tennis tables on a pale sports floor with a white court circle, under a bright yellow wall. The plate reads GAME HUB 电玩区.");
   info("chill", 14, 17, 6, 1, "Chill zone", "休闲区", "A web of ropes and nets with plush shapes hangs above a second street mural, with hammocks, a rainbow beanbag and dozens of round poufs below.");
   info("lounge", 30, 13, 6, 1, "Lounge", "休息区", "Orange and teal armchairs, a green velvet sofa and red booth benches. The real lounge looks out over the canal and its green banks.");
@@ -1115,13 +1128,14 @@ function buildAmenity(): GameMap {
     props,
     npcs,
     triggers,
-    spawns: { stair: { tx: 2, ty: 7, dir: "down" }, lift: { tx: 3, ty: 14, dir: "down" } },
+    spawns: { stair: { tx: 2, ty: 7, dir: "down" }, "stair-up": { tx: 5, ty: 6, dir: "down" }, lift: { tx: 3, ty: 14, dir: "down" } },
     labels: [
+      { x: 4 * T + 40, y: 7 * T + 30, en: "Stairs to 3/F", zh: "上三楼" },
       { x: 32 * T, y: 9 * T - 92, en: "Gym", zh: "健身房" },
-      { x: 16 * T + 32, y: 9 * T - 92, en: "Pool", zh: "台球室" },
+      { x: 16 * T + 32, y: 9 * T - 92, en: "Multipurpose Room", zh: "多功能室" },
       { x: 23 * T, y: 9 * T - 92, en: "Game Hub", zh: "电玩区" },
       { x: 4 * T, y: 11 * T - 6, en: "Lift", zh: "电梯" },
-      { x: 24 * T + 32, y: 11 * T - 6, en: "Auditorium", zh: "小剧场" },
+      { x: 24 * T + 32, y: 11 * T - 6, en: "Music Room", zh: "音乐室" },
     ],
   };
 }

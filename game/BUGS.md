@@ -29,4 +29,8 @@ Builder, 2026-11-21 15:30. The numbers are the ones under "open".
 
 8. Done. The floor is 14/F. The school name on the reception desk is on two rows and sized to fit the desk front.
 
+9. Done. Building 5 2/F: Music Room / 音乐室.
+10. Done. Building 5 2/F: Multipurpose Room / 多功能室 (the pool table is still drawn inside).
+11. Partly. A stair now links 2/F and 3/F, so the stair route is 1/F, 2/F, 3/F. The new flight is small, not a full curved stair. The timber study stair from 3/F to 4/F is still there (Insung asked for it earlier): tell us if it should go.
+
 Still open: 5 (Chinese names of the non-Chinese professors). The game shows the field in Chinese under every name and no invented names. Send the names you want and they go into `src/data/professors.ts` (`nameZh`).

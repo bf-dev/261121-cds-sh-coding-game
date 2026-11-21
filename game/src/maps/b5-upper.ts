@@ -617,15 +617,28 @@ export function buildB5Study(): GameMap {
     put(f, K.chair("#c5aa7c", "#9c855b"), tx + 1, 16, 1, 1, -10, -2);
   }
 
+  // the head of the curved stair from 2/F: it stops on this floor (Koki, 2026-11-21)
+  rect(g, T, 7 * T, T, 2 * T, "#3a3d41");
+  for (let i = 0; i < 10; i++) {
+    const y = 7 * T + 4 + i * 12;
+    const dx = Math.round(10 * Math.sin((i / 9) * (Math.PI / 2)));
+    const shadeI = Math.max(0, 6 - Math.floor(i / 2));
+    rect(g, T + 6 + dx, y, T - 22, 12, K.R.cream[shadeI]);
+    rect(g, T + 6 + dx, y + 10, T - 22, 2, "#8f8b80");
+  }
+  rect(g, 2 * T - 6, 7 * T, 4, 2 * T, "#f6f4ee");
+  block(solid, COLS, 1, 7, 1, 2);
+
   finish(f);
 
+  f.triggers.push({ id: "down2", tx: 2, ty: 7, w: 1, h: 2, en: "Stairs to 2/F", zh: "下二楼", action: { type: "goto", map: "b5-2", spawn: "stair-up" } });
   f.triggers.push({ id: "up", tx: 15, ty: 3, w: 3, h: 1, en: "Study stair up to 4/F", zh: "上四楼", auto: true, action: { type: "goto", map: "b5-4", spawn: "stair" } });
   f.triggers.push({ id: "study", tx: 15, ty: 6, w: 3, h: 3, en: "Study stair: learn a function", zh: "阶梯自习区：学新函数", action: { type: "powerup", kind: "study" } });
   info(f, "stair-sofas", 6, 13, 6, 1, "Sofas under the stair", "楼梯下的沙发", "The study stair starts here on 3/F. At its foot and on its tiers are sofas, cushions, small lamps and white lap desks. People sit on the steps to read and work.");
   info(f, "stair-lounge", 21, 13, 6, 1, "Study stair", "阶梯自习区", "A wide tiered timber staircase used as seats: light oak treads with cushions in dusty pink, teal, mustard and orange. It climbs one floor, to the co-creation level on 4/F.");
   info(f, "meeting", 24, 3, 8, 1, "Meeting rooms", "会议室", "Levels 3, 4 and 5 of Building 5 are study and meeting rooms. This one has an oval table, a screen and a whiteboard behind the glass.");
   info(f, "study-rooms", 14, 18, 6, 1, "Study rooms", "自习室", "Tan doors in teal frames. The glass beside each door is etched Sapientia et Virtus on one pane and 明德格物 on the other: the HKU motto.");
-  info(f, "wayfinding", 7, 3, 3, 1, "Wayfinding", "指示牌", "The stair in front of you goes up to 4/F, the co-creation level. The lift serves 1/F to 5/F.");
+  info(f, "wayfinding", 7, 3, 3, 1, "Wayfinding", "指示牌", "The curved stair from 1/F and 2/F stops here on 3/F. The timber study stair in front of you goes on up to 4/F, the co-creation level. The lift serves 1/F to 5/F.");
   info(f, "high-table", 4, 17, 3, 1, "High table", "高桌", "A long high timber table with black stools on the window side, past the sofas. Good for a laptop and a quick group check before class.");
   info(f, "round-tables", 23, 17, 6, 1, "Round tables", "圆桌区", "Round timber tables and chairs in a bay behind screens of upright timber fins, next to the windows. Groups meet here between classes.");
 
@@ -644,8 +657,9 @@ export function buildB5Study(): GameMap {
     props,
     npcs,
     triggers: f.triggers,
-    spawns: { lift: { tx: 2, ty: 3, dir: "down" }, "stair-top": { tx: 16, ty: 4, dir: "down" } },
+    spawns: { lift: { tx: 2, ty: 3, dir: "down" }, "stair-top": { tx: 16, ty: 4, dir: "down" }, "stair-low": { tx: 3, ty: 7, dir: "right" } },
     labels: [
+      { x: 2 * T, y: 7 * T - 4, en: "Stairs to 2/F", zh: "下二楼" },
       { x: 16 * T + 32, y: 4 * T + 30, en: "Study stair to 4/F", zh: "阶梯自习区 · 上四楼" },
       { x: 3 * T, y: WH - 150, en: "Lift", zh: "电梯" },
     ],
