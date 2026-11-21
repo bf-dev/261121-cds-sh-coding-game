@@ -19,6 +19,7 @@ Raw material. Files here are kept as they were captured. Interpretations go in `
 | `transcripts/2026-11-21-video-narration.raw.md` | Speech recorded in the campus videos (Koki's narration, Insung's walkthrough) |
 | `photos/2026-11-21-whiteboard.heic` | Original iPhone photo of the whiteboard |
 | `photos/2026-11-21-whiteboard.jpg` | JPG copy of the same photo (1600x2133) |
+| `photos/2026-11-21-whatsapp-satellite-cds1.jpg` | Satellite view of the campus block, north up, posted by Insung in the team WhatsApp group on 2026-11-20. Source for the outdoor layout: four towers, the central axis, the service road and Fangchun Road on the east edge |
 
 ## Koki's footage (iPhone originals, 1080p, re-encoded to HEVC 4 Mbps on the MacBook)
 

@@ -1,4 +1,5 @@
 import { TILE } from "../engine/types";
+import { logoMono } from "../art/logo";
 import { mk, rect, hash, speckle, rampV, text, frame, ellipse, type Ctx } from "../art/px";
 
 const T = TILE;
@@ -246,14 +247,8 @@ export function auditoriumSprite(o: { w: number; roof: number; face: number }): 
   // logo band: crest, 香港大學, THE UNIVERSITY OF HONG KONG
   rect(g, gx, RH + 18, gw, 46, "#2a2c2b");
   rect(g, gx, RH + 18, gw, 2, "#4b4d4c");
-  const lx = W / 2 - 250;
-  rect(g, lx, RH + 24, 28, 34, "#d8dad6");
-  rect(g, lx + 2, RH + 26, 24, 10, "#c8362c");
-  rect(g, lx + 2, RH + 36, 24, 18, "#2f6b4a");
-  rect(g, lx + 8, RH + 40, 12, 9, "#f2f2ee");
-  rect(g, lx + 6, RH + 28, 16, 5, "#e8c34a");
-  text(g, "香港大學", lx + 40, RH + 27, 26, "#d8dad6");
-  text(g, "THE UNIVERSITY OF HONG KONG", lx + 156, RH + 31, 20, "#d8dad6");
+  const lg = logoMono(38, "#e4e6e2"); // the official one-colour logo: crest, 香港大學, THE UNIVERSITY OF HONG KONG
+  g.drawImage(lg, Math.round(W / 2 - lg.width / 2), RH + 22);
   for (const dx of [-66, 2]) {
     frame(g, W / 2 + dx, RH + FH - 130, 64, 106, "#eeefec", 4);
     rect(g, W / 2 + dx + 4, RH + FH - 126, 56, 100, "#9db4bf");

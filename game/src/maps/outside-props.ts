@@ -1,4 +1,5 @@
 import { mk, rect, hash, ellipse, text, frame, rng, type Ctx } from "../art/px";
+import { drawCrestIn } from "../art/logo";
 
 const OUT = "#2a2433";
 
@@ -135,12 +136,7 @@ export function monument(): HTMLCanvasElement {
   rect(g, 6, 6, 280, 136, "#eeece6");
   rect(g, 6, 6, 280, 3, "#ffffff");
   rect(g, 6, 136, 280, 6, "#d6d4cc");
-  frame(g, 26, 40, 54, 62, "#8c8c86", 2);
-  rect(g, 30, 44, 46, 16, "#a8a8a2");
-  rect(g, 36, 48, 30, 7, "#77776f");
-  frame(g, 38, 66, 30, 22, "#8c8c86", 2);
-  rect(g, 52, 66, 2, 22, "#8c8c86");
-  rect(g, 22, 102, 62, 5, "#9a9a94");
+  drawCrestIn(g, 18, 28, 70, 90, "#6f6f69"); // the official crest, engraved grey as on the real slab
   text(g, "SCHOOL OF", 94, 30, 22, "#1d1d1b");
   text(g, "COMPUTING &", 94, 54, 22, "#1d1d1b");
   text(g, "DATA SCIENCE", 94, 78, 22, "#1d1d1b");
@@ -226,6 +222,77 @@ export function lockers(kind: "mt" | "tb", bays = 6): HTMLCanvasElement {
   rect(g, 6, H - 16, W - 12, 3, F[3]);
   rect(g, 4, 6, 10, 8, "#e9ecec"); // CCTV dome on the frame corner
   ellipse(g, 9, 15, 5, 4, "#2a2d2e");
+  return c;
+}
+
+/** bay length along the wall and cabinet height (px) of the north-south locker walls */
+export const LOCKER_V = { bay: 62, lift: 88, w: 144 };
+
+/**
+ * A locker wall running north to south with its doors facing west (toward CDS1), as it stands on
+ * the east side of the service road. Seen in the 3/4 view: the long roof, the steeply foreshortened
+ * door face on its west side, and the south end panel with the logo.
+ */
+export function lockersV(kind: "mt" | "tb", bays = 6): HTMLCanvasElement {
+  const { bay: BL, lift: LIFT, w: W } = LOCKER_V;
+  const LEN = bays * BL + 12;
+  const [c, g] = mk(W, LEN + LIFT);
+  const mt = kind === "mt";
+  const F = mt ? ["#f9dc6a", "#f2c230", "#c39a1c", "#8f6f10"] : ["#ffffff", "#f1ede8", "#cfcbc4", "#9a968f"];
+  const FX = 12, FW = 58, RX = FX + FW, RW = W - RX - 6; // door face band, then the roof
+  // ground shadow west of the doors and under the south end
+  g.fillStyle = "rgba(22,26,44,0.22)";
+  g.fillRect(0, LIFT + 6, FX + 4, LEN - 6);
+  g.fillRect(FX, LEN + LIFT - 8, W - FX - 2, 8);
+  // door face (west side), drawn flat then sheared: its ground edge is on the left and sits LIFT px
+  // lower than its top edge, which meets the roof on the right
+  const [fc, f] = mk(FW, LEN);
+  rect(f, 0, 0, FW, LEN, F[2]);
+  let n = 0;
+  for (let b = 0; b < bays; b++) {
+    const y0 = 6 + b * BL;
+    rect(f, 0, y0 - 3, FW, 3, F[3]); // bay joint
+    rect(f, FW - 9, y0, 9, BL - 3, mt ? "#f7d453" : "#c8102e"); // pelmet strip
+    rect(f, FW - 8, y0 + 4, 6, 6, mt ? "#3a2a12" : "#ffffff");
+    for (let q = 0; q < 6; q++) rect(f, FW - 8 + (q % 2) * 3, y0 + BL - 16 + ((q / 2) | 0) * 3, 3, 3, hash(q, b, 95) < 0.5 ? "#222" : "#fff");
+    for (let col = 0; col < 3; col++)
+      for (let row = 0; row < 7; row++) {
+        n++;
+        const dy = y0 + 1 + col * 19, dx = Math.round(FW - 16 - row * 6.6);
+        const screen = b === 0 && col === 1 && row === 1;
+        rect(f, dx, dy, 5, 17, screen ? "#5d9fb8" : mt ? (hash(n, 1, 96) < 0.25 ? "#d0aa70" : "#b8915a") : hash(n, 1, 97) < 0.3 ? "#9fb9c4" : "#c3cfd1");
+        rect(f, dx, dy, 5, 1, mt ? "#f2f1ec" : "#eef1f1");
+      }
+  }
+  rect(f, 0, 0, 2, LEN, F[3]); // plinth line at the ground
+  rect(f, 0, LEN - 3, FW, 3, F[3]);
+  for (let x = 0; x < FW; x += 2) g.drawImage(fc, x, 0, 2, LEN, FX + x, Math.round(LIFT * (1 - (x + 2) / FW)), 2, LEN);
+  // roof: long slab, lit west edge, bay seams
+  rect(g, RX, 0, RW, LEN, F[1]);
+  rect(g, RX, 0, 4, LEN, F[0]);
+  rect(g, RX + RW - 5, 0, 5, LEN, F[2]);
+  rect(g, RX, 0, RW, 3, F[0]);
+  for (let b = 1; b < bays; b++) rect(g, RX + 4, 6 + b * BL - 1, RW - 9, 2, F[2]);
+  for (let y = 4; y < LEN - 4; y += 2) for (let x = RX + 6; x < RX + RW - 6; x += 2) if (hash(x, y, 98) < 0.05) rect(g, x, y, 2, 2, F[0]);
+  if (!mt) rect(g, RX + 10, 0, 8, LEN, "#c8102e");
+  rect(g, RX - 6, 8, 12, 9, "#e9ecec"); // CCTV dome over the first bay
+  ellipse(g, RX, 19, 5, 4, "#2a2d2e");
+  // south end panel with the logo
+  rect(g, RX - 2, LEN, RW + 2, LIFT - 6, F[1]);
+  rect(g, RX - 2, LEN, RW + 2, 4, F[2]);
+  rect(g, RX - 2, LEN, 3, LIFT - 6, F[0]);
+  rect(g, RX + RW - 5, LEN, 5, LIFT - 6, F[2]);
+  rect(g, RX - 2, LEN + LIFT - 12, RW + 2, 6, F[3]);
+  if (mt) {
+    rect(g, RX + 8, LEN + 14, 22, 22, "#3a2a12");
+    rect(g, RX + 12, LEN + 18, 14, 14, "#f7d453");
+    text(g, "美团", RX + 34, LEN + 15, 17, "#3a2a12");
+    text(g, "外卖柜", RX + 9, LEN + 42, 16, "#3a2a12");
+  } else {
+    rect(g, RX + 2, LEN + 10, RW - 8, 26, "#c8102e");
+    text(g, "淘宝", RX + RW / 2 - 2, LEN + 14, 17, "#ffffff", { align: "center" });
+    text(g, "闪购柜", RX + RW / 2 - 2, LEN + 42, 16, "#c8102e", { align: "center" });
+  }
   return c;
 }
 

@@ -83,6 +83,18 @@ Reading notes:
 
 ---
 
+## 2b. Layout corrections (Insung, 2026-11-21)
+
+Source: `resources/photos/2026-11-21-whatsapp-satellite-cds1.jpg` (satellite view, north up), Insung's corrections during the build, and Koki's outdoor walk-through narration (`110510`). Where this section and the sketch above differ, this section wins.
+
+- The block has four towers in a 2 x 2 grid around the central axis (auditorium, step theatre, sunken plaza, lawn).
+- CDS1 (C) is the north-east tower. Building 5 is its low block on the north side.
+- South of CDS1, across the entrance plaza, is the south-east tower (D, CDS Tech Landmark). Two more towers mirror them on the west side.
+- East of CDS1, west to east: a planted bed, the service road with yellow edge lines, a strip of paving, the locker walls, a tree strip, then Fangchun Road 芳春路 on the east edge.
+- The locker walls stand north to south with their doors facing west, toward CDS1. Meituan (yellow) is the north one, Taobao (white and red) the south one.
+- The guard booth and boom gate are at the south end of the service road, where it meets Jidian Road.
+- Not confirmed: the exact line of the footbridge. The game keeps it across the central axis, over the sunken plaza.
+
 ## 3. Landmarks
 
 Sizes are estimates from the frames, given as a drawing guide, not measured. Hex values are sampled from the photos and rounded; treat them as a working palette.

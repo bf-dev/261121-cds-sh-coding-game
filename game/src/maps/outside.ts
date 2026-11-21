@@ -25,17 +25,18 @@ export function buildOutside(): GameMap {
 
   // edges and roads
   S(0, 0, 2, ROWS);
-  S(66, 0, 2, ROWS);
+  S(L.strip.x, 0, COLS - L.strip.x, ROWS);
   S(0, 0, COLS, 1);
   S(0, L.south, COLS, 3);
 
   // buildings
-  const { cds1, cds2, b5, aud, bridge } = L;
-  for (const b of [cds1, cds2, b5, aud]) S(b.x, b.y, b.w, b.roof + b.face);
+  const { cds1, cds2, se, sw, b5, aud, bridge } = L;
+  for (const b of [cds1, cds2, se, sw, b5, aud]) S(b.x, b.y, b.w, b.roof + b.face);
   S(cds1.door, cds1.y + cds1.roof + cds1.face - 1, 2, 1, 0);
   S(b5.door, b5.y + b5.roof + b5.face - 1, 2, 1, 0);
   props.push({ sprite: towerSprite({ w: cds1.w, roof: cds1.roof, face: cds1.face, door: cds1.door - cds1.x, main: true }), x: cds1.x * T, y: cds1.y * T, sortY: 24 * T, fade: true });
   props.push({ sprite: towerSprite({ w: cds2.w, roof: cds2.roof, face: cds2.face, door: cds2.door - cds2.x, main: false }), x: cds2.x * T, y: cds2.y * T, sortY: 24 * T, fade: true });
+  for (const b of [se, sw]) props.push({ sprite: towerSprite({ w: b.w, roof: b.roof, face: b.face, door: b.door - b.x, main: false }), x: b.x * T, y: b.y * T, sortY: (b.y + b.roof + b.face - 1) * T, fade: true });
   props.push({ sprite: b5Sprite({ w: b5.w, roof: b5.roof, face: b5.face, door: b5.door - b5.x }), x: b5.x * T, y: 0, sortY: 6 * T, fade: true });
   props.push({ sprite: auditoriumSprite(aud), x: aud.x * T, y: 0, sortY: 7 * T - 2 });
   props.push({ sprite: bridgeSprite(bridge.w), x: bridge.x * T, y: (bridge.row + 2) * T - BRIDGE_H, sortY: (bridge.row + 2) * T - 2, fade: true });
@@ -50,7 +51,8 @@ export function buildOutside(): GameMap {
   S(b5.door + 3, 7, b5.x + b5.w - b5.door - 3, 1);
   S(cds2.x, 25, 6, 1);
   S(cds2.x + 9, 25, 7, 1);
-  S(58, 10, 3, 15);
+  S(58, 10, 2, 15);
+  S(58, 30, 2, 8);
 
   // sunken round plaza: the rim, railing, hedge and far wall block; the floor and the stair are free
   const c = L.court;
@@ -76,13 +78,17 @@ export function buildOutside(): GameMap {
   put(P.civilBoard(), 42, 8, 2, 1);
   put(P.arrowPlate(), 59, 26, 1, 1);
   put(P.pylon5(), 49, 7, 1, 1);
-  put(P.lockers("mt"), 51.8, 31, 9, 2);
-  put(P.lockers("tb"), 51.8, 36, 9, 2);
-  put(P.booth(), 59.6, 40, 2, 2);
-  props.push({ sprite: P.boom(), x: 61 * T + 10, y: 40 * T - 30, sortY: 41 * T - 8 });
-  S(62, 40, 4, 1);
-  put(P.roadSign(), 66, 37, 1, 1);
-  put(P.car(), 63.6, 14, 2, 3);
+  // the two delivery locker walls stand north to south on the east side of the service road,
+  // doors facing west toward CDS1; the tree strip and Fangchun Road are behind them
+  const LK = L.lockers;
+  for (const [kind, row] of [["mt", LK.mt], ["tb", LK.tb]] as const) {
+    props.push({ sprite: P.lockersV(kind, LK.len), x: LK.x * T - 4, y: row * T - P.LOCKER_V.lift, sortY: (row + LK.len) * T - 6 });
+  }
+  put(P.booth(), 57.6, 40, 2, 2);
+  props.push({ sprite: P.boom(), x: (L.road.x - 1) * T + 10, y: 40 * T - 30, sortY: 41 * T - 8 });
+  S(L.road.x, 40, L.road.w, 1);
+  put(P.roadSign(), 65, 39, 1, 1);
+  put(P.car(), 61.6, 6, 2, 3);
 
   // trees: cherry avenue beside the lawn, ginkgo on the street, staked saplings in the canyon
   let seed = 1;
@@ -91,21 +97,22 @@ export function buildOutside(): GameMap {
     put(P.tree("cherry", seed++), 41, ty + (ty === 29 ? 1 : 0));
   }
   for (const tx of [3, 7, 11, 15, 20, 24, 34, 38, 44, 48, 53, 57]) put(P.tree("ginkgo", seed++), tx, 40);
-  for (let ty = 3; ty < 33; ty += 4) put(P.tree("ginkgo", seed++), 66, ty);
+  for (let ty = 3; ty < 41; ty += 3) put(P.tree("ginkgo", seed++), 68.5, ty);
+  for (const ty of [4, 8, 11, 28, 32, 36]) put(P.tree("green", seed++), 66.4, ty);
   for (let ty = 2; ty < 40; ty += 4) put(P.tree("green", seed++), 0.6, ty);
   for (const [tx, ty] of [[20, 12], [39, 12], [20, 19], [39, 19], [21, 26], [38, 26], [19, 8], [40, 4], [20, 4], [43, 4]]) put(P.tree("bare", seed++), tx, ty);
-  for (const [tx, ty] of [[6, 29], [12, 29], [9, 36], [14, 37], [5, 37], [5, 4], [9, 5], [13, 4], [16, 6]]) put(P.tree(tx % 2 ? "cherry" : "green", seed++), tx, ty);
+  for (const [tx, ty] of [[5, 4], [9, 5], [13, 4], [16, 6]]) put(P.tree(tx % 2 ? "cherry" : "green", seed++), tx, ty);
   put(P.bench(), 6, 7, 3, 1);
   put(P.bench(), 12, 7, 3, 1);
 
   // street furniture
-  for (const [tx, ty] of [[28, 27], [34, 27], [26, 39], [31, 39], [54.5, 26], [9, 32]]) put(P.bench(), tx, ty, 3, 1);
-  for (const [tx, ty] of [[35, 26], [36, 26], [51, 32], [51, 37], [61, 31], [18, 13], [41, 13], [45, 31], [26, 11], [33, 11], [8, 26], [10, 26]]) put(P.planter(seed++), tx, ty);
-  for (const [tx, ty] of [[19, 27], [41, 27], [19, 37], [41, 37], [47, 9], [61, 28], [30, 11], [50, 39]]) put(P.lamp(), tx, ty, 0);
+  for (const [tx, ty] of [[28, 27], [34, 27], [26, 39], [31, 39], [54.5, 26], [64.5, 10]]) put(P.bench(), tx, ty, 3, 1);
+  for (const [tx, ty] of [[35, 26], [36, 26], [18, 13], [41, 13], [26, 11], [33, 11], [8, 26], [10, 26], [66, 12], [66, 19], [56, 28], [14, 28]]) put(P.planter(seed++), tx, ty);
+  for (const [tx, ty] of [[19, 27], [41, 27], [19, 37], [41, 37], [47, 9], [59, 28], [30, 11], [65, 19], [65, 30]]) put(P.lamp(), tx, ty, 0);
   for (const [tx, ty] of [[47, 26], [38, 39], [56, 8]]) put(P.bin(), tx, ty);
-  ["#f2c230", "#3f9fd8", "#f2c230", "#3fb87a"].forEach((col, i) => put(P.bike(col), 47.6 + i * 0.9, 34, 0));
-  S(48, 34, 4, 1);
-  for (const ty of [30, 33, 35, 38]) put(P.bollard(), 61, ty, 0);
+  ["#f2c230", "#3f9fd8", "#f2c230", "#3fb87a"].forEach((col, i) => put(P.bike(col), 52.4 + i * 0.9, 29, 0));
+  S(53, 29, 4, 1);
+  for (const ty of [12, 19, 26, 28]) put(P.bollard(), 64, ty === 19 ? 19.4 : ty, 0);
   for (let i = 0; i < 10; i++) {
     const left = i < 5;
     put(P.shrub(i), (left ? cds1.x + 0.3 : cds1.door + 3.2) + (i % 5) * 1.05, 25, 0);
@@ -116,15 +123,15 @@ export function buildOutside(): GameMap {
   const triggers: Trigger[] = [
     { id: "cds1-door", tx: cds1.door, ty: 24, w: 2, h: 1, en: "Enter CDS1", zh: "进入一号楼", auto: true, action: { type: "goto", map: "cds1-1", spawn: "door" } },
     { id: "b5-door", tx: b5.door, ty: 6, w: 2, h: 1, en: "Enter Building 5", zh: "进入五号楼", auto: true, action: { type: "goto", map: "b5-1", spawn: "door", requires: "b5key" } },
-    { id: "meituan", tx: 52, ty: 32, w: 9, h: 1, en: "Meituan food locker", zh: "美团外卖柜", action: { type: "powerup", kind: "food" } },
+    { id: "meituan", tx: LK.x - 1, ty: LK.mt, w: 1, h: LK.len, en: "Meituan food locker", zh: "美团外卖柜", action: { type: "powerup", kind: "food" } },
     info("lion", 23, 32, 5, 1, "The HKU lion", "港大狮子", "A seated cartoon lion about 2.5 m tall, with a yellow mane, a pale green jacket and brown shorts, held down by guy ropes. Students say he waits in the grand hall as the final boss."),
     info("hku-letters", 29, 34, 7, 1, "HKU letters", "HKU 立体字", "Three white block letters, each about 2 m tall, standing straight on the grass. This lawn is the favourite photo spot on campus."),
     info("monument", 42, 29, 6, 1, "Monument sign", "学院标志墙", "A white slab with the HKU crest and the words SCHOOL OF COMPUTING & DATA SCIENCE, The University of Hong Kong. The yellow lane line sweeps around it."),
     info("footbridge", 26, 15, 8, 2, "Footbridge", "空中连廊", "A deck on three round white columns links the two towers. Look up: a big oval hole is cut through it, like an eye in the ceiling."),
     info("sunken-plaza", 26, 21, 9, 3, "Sunken round plaza", "下沉广场", "A round court a few metres below the plaza, with a sweeping stair and dark granite rings in the floor. The site plan calls it 下沉广场."),
     info("civil-board", 52, 27, 3, 1, "Civil defence board", "民防工程引导图", "The red board is a real map of this block: Zuchongzhi Road north, Jidian Road south, Jichuang Road west, Fangchun Road east. The basement is a civil defence shelter."),
-    info("taobao", 52, 37, 9, 1, "Taobao lockers", "淘宝闪购柜", "The white and red wall is the Taobao parcel locker, numbered up to 125 like its yellow Meituan neighbour."),
-    info("gate", 62, 38, 4, 2, "East gate", "东门", "The guard booth and the red and white barrier arm on the service road. Beyond it the blue sign points to Yindong Road and Jidian Road."),
+    info("taobao", LK.x - 1, LK.tb, 1, LK.len, "Taobao lockers", "淘宝闪购柜", "The white and red wall is the Taobao parcel locker, numbered up to 125 like its yellow Meituan neighbour. Both walls face CDS1 across the service road, with Fangchun Road behind them."),
+    info("gate", L.road.x, 38, L.road.w, 2, "East gate", "东门", "The guard booth and the red and white barrier arm on the service road. Beyond it the blue sign points to Yindong Road and Jidian Road."),
     info("auditorium", 26, 7, 8, 3, "Step theatre and auditorium", "阶梯剧场与礼堂", "The white glass box carries 香港大學 THE UNIVERSITY OF HONG KONG and the crest. Its wide shallow steps double as an outdoor theatre."),
     info("b5-pylon", 48, 8, 2, 1, "Building 5 pylon", "五号楼指示牌", "A slim black and white pylon with a big 5. Building 5 has the gym, the study stair and the learning commons."),
   ];
@@ -134,9 +141,9 @@ export function buildOutside(): GameMap {
     return { id, char, tx, ty, dir, name, nameZh, action: { type: "info", title: name, titleZh: nameZh, text: textEn } };
   };
   const npcs: NpcDef[] = [
-    say("guard", "guard", 61, 37, "left", "Gate guard", "门卫", "Welcome to the HKU Zhangjiang Base, 500 Fangchun Road. CDS1 is the tower with the revolving door. The food lockers are right behind you."),
+    say("guard", "guard", 59, 38, "right", "Gate guard", "门卫", "Welcome to the HKU Zhangjiang Base, 500 Fangchun Road. CDS1 is the tower with the revolving door. The food lockers are up the service road, on the Fangchun Road side."),
     say("visitor1", "visitor1", 28, 33, "left", "Visitor", "访客", "We came for the lion photo. My daughter got her offer last week!"),
-    say("visitor2", "visitor2", 47, 31, "up", "Parent", "家长", "I have never written code. They say a for loop just repeats something. Is that all?"),
+    say("visitor2", "visitor2", 65, 27, "up", "Parent", "家长", "I have never written code. They say a for loop just repeats something. Is that all?"),
     say("visitor3", "visitor3", 33, 22, "down", "Student", "学生", "Stand on the dark rings and look up at the footbridge. Best echo on campus."),
     say("visitor4", "visitor4", 54, 9, "down", "Student", "学生", "Building 5 needs a key. I heard a professor on the third floor of CDS1 hands it out."),
   ];
@@ -147,9 +154,12 @@ export function buildOutside(): GameMap {
     { x: (aud.x + aud.w / 2) * T, y: 5.2 * T, en: "Auditorium", zh: "礼堂" },
     { x: 35.5 * T, y: 30.2 * T, en: "The Lawn", zh: "中央草坪" },
     { x: c.cx * T, y: 17.2 * T, en: "Sunken Plaza", zh: "下沉广场" },
-    { x: 56.2 * T, y: 28.6 * T, en: "Meituan lockers", zh: "美团外卖柜" },
-    { x: 56.2 * T, y: 33.6 * T, en: "Taobao lockers", zh: "淘宝闪购柜" },
-    { x: 64 * T, y: 39 * T, en: "East Gate", zh: "东门" },
+    { x: (LK.x + 1) * T, y: LK.mt * T - P.LOCKER_V.lift - 6, en: "Meituan lockers", zh: "美团外卖柜" },
+    { x: (LK.x + 1) * T, y: (LK.tb + LK.len) * T + 62, en: "Taobao lockers", zh: "淘宝闪购柜" },
+    { x: (L.road.x + 2) * T, y: 39 * T, en: "East Gate", zh: "东门" },
+    { x: (L.road.x + 2) * T, y: 3 * T, en: "Service road", zh: "内部车道" },
+    { x: (L.fangchun.x + 4) * T, y: 12 * T, en: "Fangchun Road", zh: "芳春路" },
+    { x: (se.door + 1) * T, y: 36.6 * T, en: "Tower D, CDS Tech Landmark", zh: "D 座 科技地标楼" },
   ];
 
   const map: GameMap = {

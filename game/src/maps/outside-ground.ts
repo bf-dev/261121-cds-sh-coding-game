@@ -168,7 +168,8 @@ export function drawGround(): HTMLCanvasElement {
 
   // green edges west and east, Jidian Road in the south, service road in the east
   hedge(g, 0, 0, 2 * T - 8, L.south * T - 40);
-  hedge(g, 66 * T + 8, 0, 2 * T - 8, L.south * T - 40);
+  const ST = L.strip, FR = L.fangchun, LK = L.lockers;
+  hedge(g, ST.x * T + 6, 0, ST.w * T - 16, L.south * T - 40);
   asphalt(g, 0, L.south * T, COLS * T, 3 * T);
   rect(g, 0, L.south * T - 10, COLS * T, 10, KERB[3]);
   rect(g, 0, L.south * T - 10, COLS * T, 3, KERB[0]);
@@ -181,6 +182,42 @@ export function drawGround(): HTMLCanvasElement {
   rect(g, R.x * T - 8, 0, 3, L.south * T - 10, KERB[0]);
   rect(g, (R.x + R.w) * T, 0, 8, L.south * T - 10, KERB[4]);
   for (let y = 20; y < L.south * T - 80; y += 110) rect(g, (R.x + 2) * T - 3, y, 6, 56, "#d9dad6");
+  // yellow edge lines of the service lane, and the zebra crossing from the CDS1 plaza to the lockers
+  for (const x of [R.x * T + 8, (R.x + R.w) * T - 13]) {
+    rect(g, x, 0, 5, L.south * T - 10, YEL[2]);
+    for (let y = 0; y < L.south * T - 10; y += 2) if (hash(x, y, 41) < 0.12) rect(g, x, y, 5, 2, YEL[3]);
+  }
+  asphalt(g, R.x * T, 26 * T + 4, R.w * T, 2 * T - 8);
+  for (let x = R.x * T + 10; x < (R.x + R.w) * T - 20; x += 40) rect(g, x, 26 * T + 12, 22, 2 * T - 24, "#eeeeea");
+
+  // Fangchun Road on the east edge, behind the locker walls and the tree strip
+  asphalt(g, FR.x * T, 0, FR.w * T, ROWS * T);
+  rect(g, FR.x * T - 10, 0, 10, L.south * T - 10, KERB[3]);
+  rect(g, FR.x * T - 10, 0, 3, L.south * T - 10, KERB[0]);
+  rect(g, (FR.x + FR.w / 2) * T - 4, 0, 3, L.south * T, YEL[1]);
+  rect(g, (FR.x + FR.w / 2) * T + 3, 0, 3, L.south * T, YEL[1]);
+  for (const lx of [FR.x + FR.w / 4, FR.x + (FR.w * 3) / 4]) for (let y = 30; y < L.south * T - 40; y += 120) rect(g, lx * T - 3, y, 6, 60, "#e7e8e4");
+  for (let i = 0; i < 12; i++) rect(g, FR.x * T + 14 + i * 40, L.south * T - 96, 24, 78, "#eeeeea"); // crossing at the junction
+  g.save();
+  g.translate((FR.x + 1) * T + 6, 20 * T);
+  g.rotate(Math.PI / 2);
+  text(g, "芳春路  Fangchun Road", 0, 0, 30, "#6a6d6b");
+  g.restore();
+  g.save();
+  g.translate((FR.x + 1) * T + 6, 4 * T);
+  g.rotate(Math.PI / 2);
+  text(g, "芳春路  Fangchun Road", 0, 0, 30, "#6a6d6b");
+  g.restore();
+
+  // concrete plinth under the two north-south locker walls
+  {
+    const py = LK.mt * T - 14, ph = (LK.tb + LK.len - LK.mt) * T + 28;
+    rect(g, LK.x * T - 6, py, 2 * T + 12, ph, "#b9b7ad");
+    rect(g, LK.x * T - 6, py, 2 * T + 12, 3, "#d2d0c6");
+    rect(g, LK.x * T - 6, py, 3, ph, "#d2d0c6");
+    rect(g, LK.x * T - 6, py + ph - 6, 2 * T + 12, 6, "#8f8d84");
+    speckle(g, LK.x * T - 6, py, 2 * T + 12, ph - 6, ["#c9c7bd", "#a7a59b", "#d6d4ca"], 0.12, 13, 2);
+  }
 
   // step theatre below the auditorium box
   const A = L.aud;
@@ -194,7 +231,7 @@ export function drawGround(): HTMLCanvasElement {
   hedge(g, (A.x + A.w - 1) * T + 6, 7 * T, T - 12, 3 * T - 8);
 
   // shadows: west of each tower, under the footbridge, at wall bases
-  for (const b of [L.cds1, L.cds2]) {
+  for (const b of [L.cds1, L.cds2, L.se, L.sw]) {
     for (let i = 0; i < 6; i++) dark(g, b.x * T - 90 + i * 15, (b.y + b.roof) * T + 80 + i * 22, 90 - i * 15, b.face * T - 80 - i * 22, 0.15);
     dark(g, b.x * T, (b.y + b.roof + b.face) * T, b.w * T, 10, 0.2);
     dark(g, b.x * T, (b.y + b.roof + b.face) * T + 10, b.w * T, 10, 0.08);
@@ -210,8 +247,6 @@ export function drawGround(): HTMLCanvasElement {
   const W = L.lawn;
   lawn(g, W.x * T, W.y * T, W.w * T, W.h * T, 90);
   lawn(g, L.sign.x * T - 20, L.sign.y * T - 6, L.sign.w * T + 40, L.sign.h * T, 50);
-  lawn(g, 4 * T, 27 * T, 12 * T, 4 * T, 60);
-  lawn(g, 4 * T, 34 * T, 12 * T, 5 * T, 60);
   lawn(g, 3 * T, 2 * T, 14 * T, 5 * T, 70);
   lawn(g, 18 * T + 20, 2 * T, 3 * T, 4 * T, 50);
   lawn(g, 39 * T - 20, 2 * T, 4 * T + 40, 4 * T, 50);
@@ -235,20 +270,13 @@ export function drawGround(): HTMLCanvasElement {
   hedge(g, (L.b5.door + 3) * T, 7 * T + 4, (L.b5.x + L.b5.w - L.b5.door - 3) * T - 8, 40);
   hedge(g, L.cds2.x * T + 8, 25 * T + 4, 6 * T, 44);
   hedge(g, (L.cds2.x + 9) * T, 25 * T + 4, 7 * T - 8, 44);
-  hedge(g, 58 * T + 6, 10 * T, 3 * T, 15 * T - 20); // bed between CDS1 and the service road
-
-  // locker plinths (concrete, gravel edge)
-  for (const py of [30, 35]) {
-    rect(g, 51 * T + 32, py * T - 10, 9 * T, 2 * T + 30, "#b9b7ad");
-    rect(g, 51 * T + 32, py * T - 10, 9 * T, 3, "#d2d0c6");
-    rect(g, 51 * T + 32, py * T + 2 * T + 14, 9 * T, 6, "#8f8d84");
-    speckle(g, 51 * T + 32, py * T - 10, 9 * T, 2 * T + 24, ["#c9c7bd", "#a7a59b", "#d6d4ca"], 0.12, 13, 2);
-  }
+  hedge(g, 58 * T + 6, 10 * T, 2 * T - 18, 15 * T - 20); // bed between CDS1 and the service road
+  hedge(g, 58 * T + 6, 30 * T, 2 * T - 18, 8 * T - 20); // and beside the south-east tower
 
   // yellow lane lines, white chevron and bars
   for (const o of [0, 0.16]) {
     line(g, [[41.2 + o, 7.2], [41.2 + o, 24.6], [41 + o, 26], [40.5 + o, 27.2], [40.35 + o, 28.6], [40.35 + o, 39.8]], YEL[2]);
-    line(g, [[47 + o * 0.5, 29.3 + o], [61.7, 29.3 + o]], YEL[2]);
+    line(g, [[47 + o * 0.5, 29.3 + o], [59.9, 29.3 + o]], YEL[2]);
   }
   line(g, [[41.3, 26], [42.4, 26.6], [43.6, 29.2], [47, 29.3]], YEL[1]);
   line(g, [[18.6, 10.6], [41.2, 10.6]], YEL[2]);
