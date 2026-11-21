@@ -1,0 +1,273 @@
+# raw transcript: 2026-11-21 team meeting, part 4 ("Fangchun Road 9")
+
+source: resources/recordings/2026-11-21-team-meeting-4.qta (19:31, ends about 11:14 CST)
+machine transcript (Whisper large-v3). unedited except repeated 'Thank you.' lines (Whisper filling silence) removed. cite as `p4 mm:ss`.
+
+[00:00] talk about the limitations okay so i was just saying that we need to have comparatives so we
+[00:05] need to have this and this also uh we need to have less than equal or like greater than equal
+[00:12] yeah uh and also i think for the if operations our action needs to be more like specific
+[00:21] right so yeah i don't think there should be that much flexibility in what can be done here
+[00:30] So for example, if the if operation we should set it to like strictly like do for example
+[00:42] zero damage.
+[00:47] Right or time zero.
+[00:50] Right.
+[00:52] right but what's like the base number the base digit I'm thinking how we can
+[01:04] implement if mainly because I'm just thinking like what's the benefit of so
+[01:09] so my original thought for the F card would be it's like if if conditions if
+[01:14] you manage to guess how much damage your opponent is about to do to you so I got
+[01:18] if damage is let's say greater than five then maybe you do um something like that
+[01:34] so if the damage that your opponent does to you is more than five then you have to minus
+[01:39] then then then the damage is dealt to you is less than five so the objective is like for them to
+[01:46] make their own system before the war before like before up before the attack
+[01:52] so yeah this is kind of like the turn system so a let's say that's you B let's
+[01:58] say that's the opponent right let me change this to cope or E for enemy right
+[02:08] so the cycle always be like this so a moves they can either choose to attack
+[02:11] If it an attack and then at the same time while A is moving the enemy will try to plant a shield to try to protect themselves themselves right if it an attack then we then the shield is activated right if it a shield then the shield is useless right um if attack shield
+[02:42] is activated like enemies shield is activated yeah and it will and will maybe deal less damage
+[02:48] based on how much this attack is right but if it's heal then directly to emove
+[02:57] yeah well either way if it's attacked then it shields if it's healed then it
+[03:03] goes directly to move so it moves right and then same thing goes
+[03:10] Does that make sense?
+[03:14] Does it have to take turn can they like heal?
+[03:18] Like how is the healing system?
+[03:21] Heal system is just hitting plus I think
+[03:25] So I'm just thinking that this is the base
+[03:27] So if you want to heal you need to have a plus
+[03:31] If you want to attack you need to have a minus
+[03:35] But now my question is
+[03:38] we said in the beginning that
+[03:41] the way that you get these cards will always be from
+[03:44] will be from
+[03:46] drawing, right?
+[03:48] Yeah.
+[03:49] If this is the only way to heal, this is the only way
+[03:51] to attack,
+[03:54] then
+[03:55] what if you don't have
+[03:58] those things? And that means you cannot
+[04:00] heal or you cannot attack.
+[04:01] Or probably, like, plus and minus
+[04:04] is, like, the basic that they have.
+[04:06] like they have to have it from the first like they collect it somewhere that it's always have to be
+[04:12] that and then starting from there we can do the drawing like yeah um so it's like when when we
+[04:23] introduce the game we give them this but like
+[04:27] how do you differentiate like this and minus and damage and heal like plus plus is your
+[04:39] minuses damage so for example if you do um if you do minus if your move is minus five and that means
+[04:52] then you damage the opponent by 5 If your move is plus 5 then that means you heal yourself by five But I think it would be hard to explain to them
+[05:05] You know, like, oh, plus is to yourself and minus to other people.
+[05:09] Getting the other way.
+[05:10] Maybe it should be different buttons.
+[05:13] Like, should not be plus and minus.
+[05:16] Like, you know, to make them understand, oh, this is for yourself and this is for others.
+[05:22] So make it strictly heal and attack.
+[05:24] Oh, yeah. So let's make it strictly heal and attack.
+[05:28] Yeah, yeah. Right. And then in that case, plus and times become the modifiers.
+[05:35] So for example, if you want to heal and then you have digit plus two, for example.
+[05:42] Yeah. For example, if you have that heal three plus two, that means you don't heal back.
+[05:48] or attack 3 times 2 yeah so all the operators can be used right yeah they just be dumb if they use minus in them in attack
+[06:09] no that's insung insung why are you talking to the chinese spy insung come back don't talk to him
+[06:16] Don't talk to the Chinese spy.
+[06:19] Oh my god, I actually stolen that...
+[06:22] I stole the data to the Chinese spy.
+[06:24] Like, Lucy and I are team, and what's the...
+[06:27] Busco's real name?
+[06:29] You gave it to him?
+[06:31] Yes.
+[06:32] No!
+[06:33] What? What did you give him?
+[06:34] I give...
+[06:35] Your real name.
+[06:36] Real... your real name.
+[06:41] What does that mean? Okay.
+[06:42] We were just saying, right?
+[06:43] We need to... we need to make a small change, which is...
+[06:46] Instead of plus and minus for heal and attack, right? We need to make them the actual word heal or attack. So that's like a baseline and
+[06:55] Because the issue before was
+[06:57] Plus and minus which is the original heal and attack you get by drawing right? Yeah, if you don't have heal attack
+[07:02] You're screwed
+[07:04] First thing and second thing plus and minus for heal and attack is a little bit confusing. Yeah
+[07:09] So heal and attack will now be a basic
+[07:11] operation that you must have on you.
+[07:14] Right? And then plus, minus, multiply, divide. That will all be an operator.
+[07:19] So for example, if you want to heal,
+[07:21] if you want to heal so now the move the format of the move will be like heal or attack Right Yeah
+[07:36] This is the first thing they must have.
+[07:38] Second thing is a digit.
+[07:39] One digit.
+[07:42] And then after that, an operation.
+[07:44] so example this operation can be plus two minus three plus two times five yeah uh times six for
+[07:56] example that can be an operation so this is always the format so it must be your tech digit operation
+[08:02] and so i'm thinking to make it simpler as well we can make functions
+[08:09] only a thing for defense.
+[08:13] So in order to defend, you must have a function.
+[08:17] Can you give an example?
+[08:18] So for example,
+[08:19] that means what I'm saying is that you cannot use the function
+[08:22] in here.
+[08:24] This must always be a
+[08:26] number in and of itself.
+[08:30] This must be a math operation.
+[08:32] So you cannot say in here
+[08:33] 4
+[08:35] range in 3, attack 3 times.
+[08:38] Can we make a simulation of the real thing?
+[08:42] Like, let's say we are player A. And then what do we see?
+[08:47] Can I erase the rest of this?
+[09:01] So, and then like, every time you get a new card, it will show up and it will say,
+[09:05] say oh this is your new card this is what it does and this is equivalent to a ball ball ball ball
+[09:11] all right this is
+[09:12] this is rb that looks like that right and then this is you
+[09:26] you're sad because you're a cs uh okay so obviously we don't need that much space in the
+[09:33] Okay, so the idea is right you lay out an operation the operation is in the form, right?
+[09:40] Let's say it's currently your turn
+[09:46] So what you have to lay down is you need to lay down
+[09:52] This is attack or heal
+[09:58] Right
+[10:00] base digit.
+[10:04] So this is the base number of
+[10:06] healing or attack you'll be doing.
+[10:08] And then here, you get to create
+[10:10] an operation.
+[10:13] So an example
+[10:14] would be
+[10:15] attack
+[10:17] 8 plus
+[10:20] 2
+[10:21] and then let's say
+[10:24] times 3.
+[10:26] Right? So you have to make
+[10:28] the combination
+[10:29] Yes.
+[10:30] What you have.
+[10:31] And then here you will have like a panel of what you have, like your inventory.
+[10:35] Yes, yes, yes.
+[10:36] So it will have like a bunch of cards, cards, cards, cards, cards, right?
+[10:39] So that's what you'll be able to see.
+[10:42] And then, um, yeah.
+[10:45] So, and then after that it will evaluate that and then so this is equal to 14, right?
+[10:52] And then it will attack 14, right?
+[10:55] Yeah.
+[10:56] So that means that we will have attack 14 damage, right?
+[11:01] So that's minus 14 for him, right?
+[11:04] Yeah.
+[11:05] But then, RB is smart, so RB can set up a shield.
+[11:09] But the shield must be in the form of a function.
+[11:13] Is there this map for a shield as well?
+[11:16] The function needs to be, for example, a for loop.
+[11:21] For example, for loop is for in the range of 3 minus 2.
+[11:26] For example. So minus 6? Yeah, so minus 6 in this case. So the attack will be 14 minus 6, which is 8.
+[11:36] Or if the function is, but it has to be in the form of function, so it cannot be times 0. Times 0 is not a function.
+[11:45] Alright, function has to be for loop or something like that, or if. Yeah, it has to be if.
+[11:49] So for example, if the damage is bigger than, let's say, 5, then minus 5.
+[12:05] Okay.
+[12:06] Question.
+[12:07] When do they, so do they get to choose the function and operations they have?
+[12:11] You go to senior commoner.
+[12:13] Yeah.
+[12:14] Okay.
+[12:14] I have the video.
+[12:15] I have the video.
+[12:17] Oh what was your question When do they like do they get the functions in the like before the game The operations before the game
+[12:27] At the beginning of every round, I think.
+[12:29] Like, you choose it?
+[12:30] Uh, you, uh, I think randomly.
+[12:33] Randomly?
+[12:34] Random selection of some roles.
+[12:36] No, cause like, imagine...
+[12:38] Yeah.
+[12:39] So the operations like this, right?
+[12:41] Yeah.
+[12:42] That means, like, they already know what's the biggest combination, you know, what's
+[12:46] What's the thing they use it again and again?
+[12:51] Oh, but then the digits that you get and these, these are all random.
+[12:59] So this is random?
+[13:01] The cards, each of these things is random.
+[13:06] So every time after you use it, it will change?
+[13:09] Yeah, it will change.
+[13:09] All right, perfect.
+[13:10] So in the beginning you have like one, let's say you really suck.
+[13:17] Let's say you have one, one, one, plus, plus.
+[13:19] Right.
+[13:20] Right.
+[13:21] Then in this case here, all you can do is what?
+[13:24] You can only do two.
+[13:26] One.
+[13:27] One.
+[13:28] And then maybe, should we have a maximum length for the operation?
+[13:33] Maybe six symbols.
+[13:35] Yeah.
+[13:35] Six symbols.
+[13:35] So, at most you can do is 1, plus 1, plus 1. So that will be 3 damage.
+[13:42] Alright, and then it changes.
+[13:45] Yeah, that. Alright.
+[13:47] So, there will be...
+[13:52] How many choices and how many choices of operations.
+[13:58] Like, no, symbols.
+[14:00] I can't...
+[14:02] Wait, how many plays here and how many choices do they have?
+[14:07] Uh, I think...
+[14:09] Four numbers?
+[14:11] I think here is six, maybe?
+[14:13] Alright, so you can add at most six things here.
+[14:17] Oh, or as the level increases, they can have more space, so it will be more complicated.
+[14:26] Oh, maybe, maybe.
+[14:27] yeah at first they only have like two or something yeah okay and then how do they okay okay now the
+[14:35] game is set and then now how do we operate with the map i think at different at different floors you have more difficult and more and smarter professors so the level is CBS1 the level is like first level first lobby is no maybe not level
+[14:57] the more you go up the more it's colder
+[14:59] one floor level one second floor level two so we have 14 levels
+[15:05] I think so
+[15:07] after 14 we go to grand hall to fight with the real
+[15:13] with the lion
+[15:16] with the lion yeah yeah yeah okay okay this is okay the game is set
+[15:23] and probably like we need to make it fun on like how do we get
+[15:29] the other call
+[15:32] Oh, how do you obtain the functions?
+[15:36] The functions I think also, um, the functions I think in the beginning you can have some.
+[15:43] And then as you progress you can have, you can get more from beating different bosses.
+[15:48] Oh, so you only have one at first?
+[15:51] Uh, maybe one or two, maybe you only have like, uh, maybe you have some bad ones, so you only have four.
+[15:59] and then later on as you as you progress you get like if I think zero is a source
+[16:11] of all our problems so we should remove zero from the game because the only case where this is like really overpowered is like if it's like time zero right but it's not just no damage right or so there'll be the greatest card the greatest
+[16:28] Or do you want to omit that?
+[16:31] Do you want to remove that?
+[16:33] To time zero?
+[16:35] I think we just remove the number zero in general.
+[16:38] Alright.
+[16:39] Because if we...
+[16:40] It's the cause of all of our problems now.
+[16:45] Because you can't divide by zero.
+[16:46] You can't log zero.
+[16:48] You know, you can't...
+[16:50] Yeah, so...
+[16:51] So to make things less complicated for us,
+[16:54] I think we just don't have zero.
+[16:56] They can do lock one times lock one So we removing zero the card Or they can do 1 minus 1 I think it okay Minus 1 That the number card
+[17:13] Yeah, so we just have to do checks to make sure that our number is non-zero.
+[17:18] Especially for those operations.
+[17:21] Yeah.
+[17:27] Should we have brackets?
+[17:30] Like what?
+[17:32] Because brackets, so that, you know, if we have like 2 plus 3 times 5, or 2 plus 3 times that, that's the difference of 17 and 25 damage, right?
+[17:44] Yeah.
+[17:46] Oh yeah, sure.
+[17:47] If we have brackets, then how do we implement it?
+[17:54] Like, would they take up a space?
+[17:56] Maybe, maybe, instead of like giving them space, like it's just like a normal keyboard.
+[18:07] So they can, so as the level increases, they have more numbers and more symbols in the
+[18:12] choices.
+[18:13] But like, it's up to them how to use it.
+[18:17] Like, we don't need to fix only six.
+[18:22] So that's why they can use the power up.
+[18:27] It's just like blank.
+[18:28] And then we also need to control power ups.
+[18:31] So I think power ups is very simple.
+[18:32] You can just use it at the start of the round if you want or if you don't want, right?
+[18:35] Before you attack.
+[18:36] Oh yeah, like before the game starts.
+[18:39] Power ups we can have a few kinds, right?
+[18:41] So you can have extra turn.
+[18:46] ADHD
+[18:49] Extra turn or maybe extra HP
+[19:03] My agent
+[19:16] yeah
+[19:28] What's depressing?

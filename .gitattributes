@@ -5,3 +5,5 @@
 *.wav filter=lfs diff=lfs merge=lfs -text
 *.mp4 filter=lfs diff=lfs merge=lfs -text
 *.mov filter=lfs diff=lfs merge=lfs -text
+*.qta filter=lfs diff=lfs merge=lfs -text
+*.QTA filter=lfs diff=lfs merge=lfs -text

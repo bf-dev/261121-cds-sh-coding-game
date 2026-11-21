@@ -1,40 +1,41 @@
 # game flow
 
-Whiteboard: "game flow -> A vs. B, turn taking". Sources: part 1 21:19 to 23:07, part 2 00:00 to 04:35. Citation format is explained in CLAUDE.md.
+Whiteboard: "game flow -> A vs. B, turn taking". Sources: part 1 21:19 to 23:07, part 2 00:00 to 04:35, **part 4 01:52 to 14:26 (current rule)**.
 
 ## the match
 
-- **Turn-based**, A vs B (board; p2 00:11). The Plants vs. Zombies cooldown idea was dropped as too much work to code (p2 00:11 to 00:22).
-- **You play against the AI.** The game is "AI native" (p2 00:27 to 00:36). The lab's local model is the opponent. If the AI can't cope, there needs to be a fallback (p2 00:29). PvP isn't required.
-- Each side has **HP** (p2 01:06). **Whoever reaches 0 HP first loses** (p2 04:33). Earlier in part 2 the team also said "respawn" when HP goes negative (p2 01:12 to 01:21). See open-questions.
-- It's like a trading card game (19:10). Hand: maybe draw 5 at the start and refill each card you play (22:40). Tentative.
+- **Turn-based, you vs the AI** ("AI native"), with a fallback if the AI fails (p2 00:11 to 00:36).
+- Each side has **HP. Whoever reaches 0 HP first loses** (p2 04:33).
+- **Cards are random and change after you use them** (p4 12:51 to 13:09). HEAL and ATTACK are always available (p4 07:09).
+- **An inventory panel** shows your cards (p4 10:31).
+- **When you get a new card, a pop-up explains what it does and what it's equivalent to** (p4 09:01 to 09:11).
 
-## one turn
-
-From p2 03:44 to 04:29:
-
-1. **Attack phase.** On your turn you build a calculation from your cards (digits, math, CS, power-ups).
-2. If the result **heals**, it heals you.
-3. If it's **damage**, it goes to the opponent. **The opponent's shield is applied to it** and they take whatever is left.
-4. **Shield phase.** Before the opponent's turn you can put up a shield. Then the opponent attacks and your shield applies to their damage.
+## one turn (part 4)
 
 ```
-your attack: for range 3 do -2            -> 6 damage
-their shield: mod 4                        -> 6 mod 4 = 2
-they take 2
+A (you)                                E (enemy)
+1. optional power-up (start of round)
+2. build a move:                       at the same time, plants a shield
+   HEAL|ATTACK  digit  operation         (must be a function: for / if)
+   e.g. ATTACK 8 + 2 × 3  = 14
+3. evaluate
+   HEAL   -> heals A, E's shield does nothing
+   ATTACK -> E's shield applies:  for range 3: -2  = -6
+             E takes 14 - 6 = 8
+then roles swap: E moves, A shields
 ```
 
-## shields
+Sources: p4 01:52 to 03:10, 07:21 to 11:49, 18:27.
 
-- **A shield is a card, or a set of cards, put up before the opponent's turn.** It isn't a separate stat (p2 02:49 to 03:07).
-- **The game calculates the incoming damage, then applies the shield's operation to it** (p2 03:25 to 03:33). Examples given: 10 damage vs a `mod 2` shield = 10 mod 2. 10 damage vs a `÷4` shield = 2.5 (p2 03:14 to 03:42).
-- `mod` and `÷` are the obvious shield cards (see [cards-math](cards-math.md)).
+- Move format: **HEAL or ATTACK, then one base digit, then an operation** (p4 07:21 to 08:02).
+- **Max length about six symbols**, starting smaller and growing with level (p4 13:28 to 14:26). A keyboard-style input with no cap was also floated (p4 17:56). Open.
 
-## turn manipulation
+## earlier ideas now replaced
 
-- `break` skips the opponent's turn (board; 22:55). See [cards-cs-logic](cards-cs-logic.md).
-- Red Bull gives you two turns (24:46). See [cards-power-ups](cards-power-ups.md).
+- `+` = heal / `-` = damage (part 1) -> HEAL / ATTACK base cards (p4 06:43).
+- `mod` / `÷` as shields (part 2) -> shields must be functions (p4 11:09).
+- ÷0 / log 0 glitch (part 2) -> zero removed (p4 16:00).
 
 ## demo
 
-- There needs to be a **demo mode** that plays a match by itself, for the presentation of under 15 minutes (p2 07:43 to 07:57).
+A **demo mode** that plays a match by itself, for the presentation of under 15 minutes (p2 07:43 to 07:57).

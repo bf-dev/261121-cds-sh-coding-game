@@ -1,27 +1,33 @@
-# CS cards (control and logic)
+# CS cards: functions (defence)
 
-Whiteboard: "control (logic) CS: for, break (skip one turn)", with the example "for range [DIGIT 3] do: ____". Sources: part 1 16:58, 18:14 and 19:24 to 21:10, part 2 01:31, 04:38 and 06:23.
+Whiteboard: "control (logic) CS: for, break (skip one turn)", "for range [DIGIT 3] do: ____". Sources: part 1 19:24 to 21:10, part 2 01:31 and 06:41, **part 4 00:00 to 01:46, 08:02 to 11:49, 15:32 (current rule)**.
 
-"This is where most of the mechanics come in" (18:17).
+## functions are defence only (part 4 change)
+
+- **Functions are only used to defend. A shield must be a function. You can't use a function in an attack** (p4 08:02 to 08:35, 11:05 to 11:45).
+- A shield is planted **while the opponent is making their move**, and it only activates if that move is an ATTACK (p4 01:52 to 03:03).
+- This replaces part 1's `for range 3 do +2` as an attack/heal.
 
 ## for
 
-- A **repeat card** (20:07). Shape: `for range <DIGIT> do <action>` (board).
-- **`for range 3 do +2` heals you by 2, three times** (20:37 to 20:42).
-- **The action slot can hold another CS card**, so loops can nest (20:54 to 21:03).
-- **`for range 0` does nothing** (p2 01:31).
+- `for range <digit>: <operation>` repeats the operation on the incoming damage.
+- Example: attack of 14 vs shield **`for range 3: -2`** = -6, so you take **14 - 6 = 8** (p4 11:16 to 11:36).
+- Part 1 said the slot can hold another CS card (nesting, 20:54). Not revisited in part 4.
+
+## if
+
+- **Needs comparisons: `<`, `>`, `<=`, `>=`** (p4 00:00 to 00:12).
+- **The action is fixed and specific, with little freedom** (p4 00:12 to 00:47).
+- Idea: **guess how hard the opponent will hit.** `if damage > 5: -5` (p4 01:04 to 01:46, 11:49).
 
 ## break
 
-- **Skips the opponent's turn** (board; 22:55 to 23:05).
+- Board: "break (skip one turn)". Not discussed in part 4. Whether it's a function, a power-up or dropped is open.
 
-## concepts the game should introduce (p2 06:41 to 06:54)
+## getting functions
 
-- for loop
-- while loop ("maybe")
-- if / else if / else
-- nothing too complicated: no calculus, differentiation or Markov models
+- **You start with one or two functions**, maybe weak ones, and **win more by beating professors** (p4 15:36 to 15:59).
 
-## more cards
+## concepts to teach (p2 06:41)
 
-The team handed this to the AI: "AI, you think about it. Please do" (p2 04:38 to 04:43). Earlier ideas: `if` (21:05), Big O (19:28), `pass` / `continue` (23:03). New cards should teach one of the concepts above. Mark them as proposals until the team agrees.
+for loop, maybe while, if / else if / else. Nothing advanced.

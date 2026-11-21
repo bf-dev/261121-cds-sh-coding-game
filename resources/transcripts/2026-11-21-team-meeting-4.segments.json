@@ -1,0 +1,1342 @@
+[
+ {
+  "start": 0,
+  "end": 5.74,
+  "text": "talk about the limitations okay so i was just saying that we need to have comparatives so we"
+ },
+ {
+  "start": 5.74,
+  "end": 12.84,
+  "text": "need to have this and this also uh we need to have less than equal or like greater than equal"
+ },
+ {
+  "start": 12.84,
+  "end": 21.66,
+  "text": "yeah uh and also i think for the if operations our action needs to be more like specific"
+ },
+ {
+  "start": 21.66,
+  "end": 29.78,
+  "text": "right so yeah i don't think there should be that much flexibility in what can be done here"
+ },
+ {
+  "start": 30,
+  "end": 42.06,
+  "text": "So for example, if the if operation we should set it to like strictly like do for example"
+ },
+ {
+  "start": 42.06,
+  "end": 47.4,
+  "text": "zero damage."
+ },
+ {
+  "start": 47.4,
+  "end": 50.24,
+  "text": "Right or time zero."
+ },
+ {
+  "start": 50.24,
+  "end": 52.24,
+  "text": "Right."
+ },
+ {
+  "start": 52.24,
+  "end": 64.68,
+  "text": "right but what's like the base number the base digit I'm thinking how we can"
+ },
+ {
+  "start": 64.68,
+  "end": 69.42,
+  "text": "implement if mainly because I'm just thinking like what's the benefit of so"
+ },
+ {
+  "start": 69.42,
+  "end": 74.82,
+  "text": "so my original thought for the F card would be it's like if if conditions if"
+ },
+ {
+  "start": 74.82,
+  "end": 78.06,
+  "text": "you manage to guess how much damage your opponent is about to do to you so I got"
+ },
+ {
+  "start": 78.06,
+  "end": 94.54,
+  "text": "if damage is let's say greater than five then maybe you do um something like that"
+ },
+ {
+  "start": 94.54,
+  "end": 99.76,
+  "text": "so if the damage that your opponent does to you is more than five then you have to minus"
+ },
+ {
+  "start": 99.76,
+  "end": 106.04,
+  "text": "then then then the damage is dealt to you is less than five so the objective is like for them to"
+ },
+ {
+  "start": 106.04,
+  "end": 112.58,
+  "text": "make their own system before the war before like before up before the attack"
+ },
+ {
+  "start": 112.58,
+  "end": 118.64,
+  "text": "so yeah this is kind of like the turn system so a let's say that's you B let's"
+ },
+ {
+  "start": 118.64,
+  "end": 128.12,
+  "text": "say that's the opponent right let me change this to cope or E for enemy right"
+ },
+ {
+  "start": 128.12,
+  "end": 131.9,
+  "text": "so the cycle always be like this so a moves they can either choose to attack"
+ },
+ {
+  "start": 131.9,
+  "end": 162.27,
+  "text": "If it an attack and then at the same time while A is moving the enemy will try to plant a shield to try to protect themselves themselves right if it an attack then we then the shield is activated right if it a shield then the shield is useless right um if attack shield"
+ },
+ {
+  "start": 162.27,
+  "end": 168.83,
+  "text": "is activated like enemies shield is activated yeah and it will and will maybe deal less damage"
+ },
+ {
+  "start": 168.83,
+  "end": 177.55,
+  "text": "based on how much this attack is right but if it's heal then directly to emove"
+ },
+ {
+  "start": 177.55,
+  "end": 183.79,
+  "text": "yeah well either way if it's attacked then it shields if it's healed then it"
+ },
+ {
+  "start": 183.79,
+  "end": 190.33,
+  "text": "goes directly to move so it moves right and then same thing goes"
+ },
+ {
+  "start": 190.33,
+  "end": 192.33,
+  "text": "Does that make sense?"
+ },
+ {
+  "start": 194.33,
+  "end": 198.33,
+  "text": "Does it have to take turn can they like heal?"
+ },
+ {
+  "start": 198.33,
+  "end": 201.33,
+  "text": "Like how is the healing system?"
+ },
+ {
+  "start": 201.33,
+  "end": 203.33,
+  "text": "Heal system is just hitting plus I think"
+ },
+ {
+  "start": 205.33,
+  "end": 207.33,
+  "text": "So I'm just thinking that this is the base"
+ },
+ {
+  "start": 207.33,
+  "end": 210.33,
+  "text": "So if you want to heal you need to have a plus"
+ },
+ {
+  "start": 211.33,
+  "end": 214.33,
+  "text": "If you want to attack you need to have a minus"
+ },
+ {
+  "start": 215.33,
+  "end": 218.33,
+  "text": "But now my question is"
+ },
+ {
+  "start": 218.33,
+  "end": 221.59,
+  "text": "we said in the beginning that"
+ },
+ {
+  "start": 221.59,
+  "end": 224.57,
+  "text": "the way that you get these cards will always be from"
+ },
+ {
+  "start": 224.57,
+  "end": 226.69,
+  "text": "will be from"
+ },
+ {
+  "start": 226.69,
+  "end": 227.35,
+  "text": "drawing, right?"
+ },
+ {
+  "start": 228.43,
+  "end": 228.91,
+  "text": "Yeah."
+ },
+ {
+  "start": 229.31,
+  "end": 231.93,
+  "text": "If this is the only way to heal, this is the only way"
+ },
+ {
+  "start": 231.93,
+  "end": 232.99,
+  "text": "to attack,"
+ },
+ {
+  "start": 234.99,
+  "end": 235.33,
+  "text": "then"
+ },
+ {
+  "start": 235.33,
+  "end": 238.47,
+  "text": "what if you don't have"
+ },
+ {
+  "start": 238.47,
+  "end": 240.43,
+  "text": "those things? And that means you cannot"
+ },
+ {
+  "start": 240.43,
+  "end": 241.75,
+  "text": "heal or you cannot attack."
+ },
+ {
+  "start": 241.99,
+  "end": 244.75,
+  "text": "Or probably, like, plus and minus"
+ },
+ {
+  "start": 244.75,
+  "end": 246.85,
+  "text": "is, like, the basic that they have."
+ },
+ {
+  "start": 246.85,
+  "end": 252.53,
+  "text": "like they have to have it from the first like they collect it somewhere that it's always have to be"
+ },
+ {
+  "start": 252.53,
+  "end": 263.17,
+  "text": "that and then starting from there we can do the drawing like yeah um so it's like when when we"
+ },
+ {
+  "start": 263.17,
+  "end": 267.33,
+  "text": "introduce the game we give them this but like"
+ },
+ {
+  "start": 267.33,
+  "end": 279.07,
+  "text": "how do you differentiate like this and minus and damage and heal like plus plus is your"
+ },
+ {
+  "start": 279.07,
+  "end": 292.23,
+  "text": "minuses damage so for example if you do um if you do minus if your move is minus five and that means"
+ },
+ {
+  "start": 292.23,
+  "end": 304.85,
+  "text": "then you damage the opponent by 5 If your move is plus 5 then that means you heal yourself by five But I think it would be hard to explain to them"
+ },
+ {
+  "start": 305.27,
+  "end": 308.91,
+  "text": "You know, like, oh, plus is to yourself and minus to other people."
+ },
+ {
+  "start": 309.03,
+  "end": 309.91,
+  "text": "Getting the other way."
+ },
+ {
+  "start": 310.37,
+  "end": 313.33,
+  "text": "Maybe it should be different buttons."
+ },
+ {
+  "start": 313.33,
+  "end": 316.51,
+  "text": "Like, should not be plus and minus."
+ },
+ {
+  "start": 316.77,
+  "end": 322.31,
+  "text": "Like, you know, to make them understand, oh, this is for yourself and this is for others."
+ },
+ {
+  "start": 322.55,
+  "end": 324.29,
+  "text": "So make it strictly heal and attack."
+ },
+ {
+  "start": 324.29,
+  "end": 328.51,
+  "text": "Oh, yeah. So let's make it strictly heal and attack."
+ },
+ {
+  "start": 328.51,
+  "end": 335.03,
+  "text": "Yeah, yeah. Right. And then in that case, plus and times become the modifiers."
+ },
+ {
+  "start": 335.03,
+  "end": 342.43,
+  "text": "So for example, if you want to heal and then you have digit plus two, for example."
+ },
+ {
+  "start": 342.43,
+  "end": 348.05,
+  "text": "Yeah. For example, if you have that heal three plus two, that means you don't heal back."
+ },
+ {
+  "start": 348.05,
+  "end": 363.41,
+  "text": "or attack 3 times 2 yeah so all the operators can be used right yeah they just be dumb if they use minus in them in attack"
+ },
+ {
+  "start": 369.41,
+  "end": 376.61,
+  "text": "no that's insung insung why are you talking to the chinese spy insung come back don't talk to him"
+ },
+ {
+  "start": 376.61,
+  "end": 378.61,
+  "text": "Don't talk to the Chinese spy."
+ },
+ {
+  "start": 379.17,
+  "end": 381.17,
+  "text": "Oh my god, I actually stolen that..."
+ },
+ {
+  "start": 382.21,
+  "end": 384.77,
+  "text": "I stole the data to the Chinese spy."
+ },
+ {
+  "start": 384.77,
+  "end": 386.77,
+  "text": "Like, Lucy and I are team, and what's the..."
+ },
+ {
+  "start": 387.17,
+  "end": 389.17,
+  "text": "Busco's real name?"
+ },
+ {
+  "start": 389.81,
+  "end": 391.81,
+  "text": "You gave it to him?"
+ },
+ {
+  "start": 391.81,
+  "end": 392.85,
+  "text": "Yes."
+ },
+ {
+  "start": 392.85,
+  "end": 393.35,
+  "text": "No!"
+ },
+ {
+  "start": 393.35,
+  "end": 394.05,
+  "text": "What? What did you give him?"
+ },
+ {
+  "start": 394.05,
+  "end": 395.01,
+  "text": "I give..."
+ },
+ {
+  "start": 395.01,
+  "end": 396.21,
+  "text": "Your real name."
+ },
+ {
+  "start": 396.21,
+  "end": 398.21,
+  "text": "Real... your real name."
+ },
+ {
+  "start": 401.17,
+  "end": 402.45,
+  "text": "What does that mean? Okay."
+ },
+ {
+  "start": 402.45,
+  "end": 403.25,
+  "text": "We were just saying, right?"
+ },
+ {
+  "start": 403.25,
+  "end": 405.65,
+  "text": "We need to... we need to make a small change, which is..."
+ },
+ {
+  "start": 406.61,
+  "end": 413.85,
+  "text": "Instead of plus and minus for heal and attack, right? We need to make them the actual word heal or attack. So that's like a baseline and"
+ },
+ {
+  "start": 415.43,
+  "end": 417.35,
+  "text": "Because the issue before was"
+ },
+ {
+  "start": 417.35,
+  "end": 422.43,
+  "text": "Plus and minus which is the original heal and attack you get by drawing right? Yeah, if you don't have heal attack"
+ },
+ {
+  "start": 422.87,
+  "end": 424.39,
+  "text": "You're screwed"
+ },
+ {
+  "start": 424.39,
+  "end": 428.47,
+  "text": "First thing and second thing plus and minus for heal and attack is a little bit confusing. Yeah"
+ },
+ {
+  "start": 429.35,
+  "end": 431.35,
+  "text": "So heal and attack will now be a basic"
+ },
+ {
+  "start": 431.35,
+  "end": 434.23,
+  "text": "operation that you must have on you."
+ },
+ {
+  "start": 434.23,
+  "end": 439.35,
+  "text": "Right? And then plus, minus, multiply, divide. That will all be an operator."
+ },
+ {
+  "start": 439.35,
+  "end": 441.83,
+  "text": "So for example, if you want to heal,"
+ },
+ {
+  "start": 441.83,
+  "end": 454.88,
+  "text": "if you want to heal so now the move the format of the move will be like heal or attack Right Yeah"
+ },
+ {
+  "start": 456.08,
+  "end": 457.3,
+  "text": "This is the first thing they must have."
+ },
+ {
+  "start": 458.06,
+  "end": 459.2,
+  "text": "Second thing is a digit."
+ },
+ {
+  "start": 459.48,
+  "end": 460.0,
+  "text": "One digit."
+ },
+ {
+  "start": 462.8,
+  "end": 464.26,
+  "text": "And then after that, an operation."
+ },
+ {
+  "start": 464.26,
+  "end": 476.8,
+  "text": "so example this operation can be plus two minus three plus two times five yeah uh times six for"
+ },
+ {
+  "start": 476.8,
+  "end": 482.2,
+  "text": "example that can be an operation so this is always the format so it must be your tech digit operation"
+ },
+ {
+  "start": 482.2,
+  "end": 489.36,
+  "text": "and so i'm thinking to make it simpler as well we can make functions"
+ },
+ {
+  "start": 489.36,
+  "end": 492.3,
+  "text": "only a thing for defense."
+ },
+ {
+  "start": 493.44,
+  "end": 495.74,
+  "text": "So in order to defend, you must have a function."
+ },
+ {
+  "start": 497.12,
+  "end": 498.26,
+  "text": "Can you give an example?"
+ },
+ {
+  "start": 498.9,
+  "end": 499.54,
+  "text": "So for example,"
+ },
+ {
+  "start": 499.86,
+  "end": 502.78,
+  "text": "that means what I'm saying is that you cannot use the function"
+ },
+ {
+  "start": 502.78,
+  "end": 503.4,
+  "text": "in here."
+ },
+ {
+  "start": 504.76,
+  "end": 506.14,
+  "text": "This must always be a"
+ },
+ {
+  "start": 506.14,
+  "end": 508.54,
+  "text": "number in and of itself."
+ },
+ {
+  "start": 510.4,
+  "end": 511.94,
+  "text": "This must be a math operation."
+ },
+ {
+  "start": 512.36,
+  "end": 513.88,
+  "text": "So you cannot say in here"
+ },
+ {
+  "start": 513.88,
+  "end": 515.28,
+  "text": "4"
+ },
+ {
+  "start": 515.28,
+  "end": 518.78,
+  "text": "range in 3, attack 3 times."
+ },
+ {
+  "start": 518.78,
+  "end": 522.78,
+  "text": "Can we make a simulation of the real thing?"
+ },
+ {
+  "start": 522.78,
+  "end": 527.78,
+  "text": "Like, let's say we are player A. And then what do we see?"
+ },
+ {
+  "start": 527.78,
+  "end": 529.78,
+  "text": "Can I erase the rest of this?"
+ },
+ {
+  "start": 541.78,
+  "end": 545.78,
+  "text": "So, and then like, every time you get a new card, it will show up and it will say,"
+ },
+ {
+  "start": 545.78,
+  "end": 551.14,
+  "text": "say oh this is your new card this is what it does and this is equivalent to a ball ball ball ball"
+ },
+ {
+  "start": 551.14,
+  "end": 552.34,
+  "text": "all right this is"
+ },
+ {
+  "start": 552.34,
+  "end": 565.54,
+  "text": "this is rb that looks like that right and then this is you"
+ },
+ {
+  "start": 566.26,
+  "end": 573.48,
+  "text": "you're sad because you're a cs uh okay so obviously we don't need that much space in the"
+ },
+ {
+  "start": 573.48,
+  "end": 580.66,
+  "text": "Okay, so the idea is right you lay out an operation the operation is in the form, right?"
+ },
+ {
+  "start": 580.66,
+  "end": 582.66,
+  "text": "Let's say it's currently your turn"
+ },
+ {
+  "start": 586.98,
+  "end": 590.6,
+  "text": "So what you have to lay down is you need to lay down"
+ },
+ {
+  "start": 592.44,
+  "end": 596.08,
+  "text": "This is attack or heal"
+ },
+ {
+  "start": 598.24,
+  "end": 599.94,
+  "text": "Right"
+ },
+ {
+  "start": 600,
+  "end": 601.86,
+  "text": "base digit."
+ },
+ {
+  "start": 604.12,
+  "end": 606.14,
+  "text": "So this is the base number of"
+ },
+ {
+  "start": 606.14,
+  "end": 607.84,
+  "text": "healing or attack you'll be doing."
+ },
+ {
+  "start": 608.34,
+  "end": 610.26,
+  "text": "And then here, you get to create"
+ },
+ {
+  "start": 610.26,
+  "end": 610.82,
+  "text": "an operation."
+ },
+ {
+  "start": 613.3,
+  "end": 614.3,
+  "text": "So an example"
+ },
+ {
+  "start": 614.3,
+  "end": 615.16,
+  "text": "would be"
+ },
+ {
+  "start": 615.16,
+  "end": 617.5,
+  "text": "attack"
+ },
+ {
+  "start": 617.5,
+  "end": 620.28,
+  "text": "8 plus"
+ },
+ {
+  "start": 620.28,
+  "end": 621.02,
+  "text": "2"
+ },
+ {
+  "start": 621.02,
+  "end": 624.36,
+  "text": "and then let's say"
+ },
+ {
+  "start": 624.36,
+  "end": 626.02,
+  "text": "times 3."
+ },
+ {
+  "start": 626.98,
+  "end": 628.34,
+  "text": "Right? So you have to make"
+ },
+ {
+  "start": 628.34,
+  "end": 629.82,
+  "text": "the combination"
+ },
+ {
+  "start": 629.82,
+  "end": 630.82,
+  "text": "Yes."
+ },
+ {
+  "start": 630.82,
+  "end": 631.82,
+  "text": "What you have."
+ },
+ {
+  "start": 631.82,
+  "end": 635.82,
+  "text": "And then here you will have like a panel of what you have, like your inventory."
+ },
+ {
+  "start": 635.82,
+  "end": 636.82,
+  "text": "Yes, yes, yes."
+ },
+ {
+  "start": 636.82,
+  "end": 639.82,
+  "text": "So it will have like a bunch of cards, cards, cards, cards, cards, right?"
+ },
+ {
+  "start": 639.82,
+  "end": 642.82,
+  "text": "So that's what you'll be able to see."
+ },
+ {
+  "start": 642.82,
+  "end": 645.82,
+  "text": "And then, um, yeah."
+ },
+ {
+  "start": 645.82,
+  "end": 652.82,
+  "text": "So, and then after that it will evaluate that and then so this is equal to 14, right?"
+ },
+ {
+  "start": 652.82,
+  "end": 655.82,
+  "text": "And then it will attack 14, right?"
+ },
+ {
+  "start": 655.82,
+  "end": 656.82,
+  "text": "Yeah."
+ },
+ {
+  "start": 656.82,
+  "end": 660.46,
+  "text": "So that means that we will have attack 14 damage, right?"
+ },
+ {
+  "start": 661.84,
+  "end": 664.1,
+  "text": "So that's minus 14 for him, right?"
+ },
+ {
+  "start": 664.3,
+  "end": 664.48,
+  "text": "Yeah."
+ },
+ {
+  "start": 665.22,
+  "end": 669.34,
+  "text": "But then, RB is smart, so RB can set up a shield."
+ },
+ {
+  "start": 669.96,
+  "end": 672.32,
+  "text": "But the shield must be in the form of a function."
+ },
+ {
+  "start": 673.72,
+  "end": 675.46,
+  "text": "Is there this map for a shield as well?"
+ },
+ {
+  "start": 676.92,
+  "end": 679.54,
+  "text": "The function needs to be, for example, a for loop."
+ },
+ {
+  "start": 681.16,
+  "end": 686.08,
+  "text": "For example, for loop is for in the range of 3 minus 2."
+ },
+ {
+  "start": 686.82,
+  "end": 695.02,
+  "text": "For example. So minus 6? Yeah, so minus 6 in this case. So the attack will be 14 minus 6, which is 8."
+ },
+ {
+  "start": 696.94,
+  "end": 705.28,
+  "text": "Or if the function is, but it has to be in the form of function, so it cannot be times 0. Times 0 is not a function."
+ },
+ {
+  "start": 705.6,
+  "end": 709.5,
+  "text": "Alright, function has to be for loop or something like that, or if. Yeah, it has to be if."
+ },
+ {
+  "start": 709.5,
+  "end": 724.72,
+  "text": "So for example, if the damage is bigger than, let's say, 5, then minus 5."
+ },
+ {
+  "start": 725.22,
+  "end": 725.38,
+  "text": "Okay."
+ },
+ {
+  "start": 726.04,
+  "end": 726.44,
+  "text": "Question."
+ },
+ {
+  "start": 727,
+  "end": 730.84,
+  "text": "When do they, so do they get to choose the function and operations they have?"
+ },
+ {
+  "start": 731.32,
+  "end": 732.62,
+  "text": "You go to senior commoner."
+ },
+ {
+  "start": 733.32,
+  "end": 733.58,
+  "text": "Yeah."
+ },
+ {
+  "start": 734.04,
+  "end": 734.32,
+  "text": "Okay."
+ },
+ {
+  "start": 734.48,
+  "end": 734.98,
+  "text": "I have the video."
+ },
+ {
+  "start": 735.46,
+  "end": 736.38,
+  "text": "I have the video."
+ },
+ {
+  "start": 737.88,
+  "end": 747.64,
+  "text": "Oh what was your question When do they like do they get the functions in the like before the game The operations before the game"
+ },
+ {
+  "start": 747.64,
+  "end": 749.64,
+  "text": "At the beginning of every round, I think."
+ },
+ {
+  "start": 749.64,
+  "end": 750.64,
+  "text": "Like, you choose it?"
+ },
+ {
+  "start": 750.64,
+  "end": 753.64,
+  "text": "Uh, you, uh, I think randomly."
+ },
+ {
+  "start": 753.64,
+  "end": 754.64,
+  "text": "Randomly?"
+ },
+ {
+  "start": 754.64,
+  "end": 756.64,
+  "text": "Random selection of some roles."
+ },
+ {
+  "start": 756.64,
+  "end": 758.64,
+  "text": "No, cause like, imagine..."
+ },
+ {
+  "start": 758.64,
+  "end": 759.64,
+  "text": "Yeah."
+ },
+ {
+  "start": 759.64,
+  "end": 761.64,
+  "text": "So the operations like this, right?"
+ },
+ {
+  "start": 761.64,
+  "end": 762.64,
+  "text": "Yeah."
+ },
+ {
+  "start": 762.64,
+  "end": 766.64,
+  "text": "That means, like, they already know what's the biggest combination, you know, what's"
+ },
+ {
+  "start": 766.64,
+  "end": 769.6,
+  "text": "What's the thing they use it again and again?"
+ },
+ {
+  "start": 771.28,
+  "end": 777.86,
+  "text": "Oh, but then the digits that you get and these, these are all random."
+ },
+ {
+  "start": 779.28,
+  "end": 780.38,
+  "text": "So this is random?"
+ },
+ {
+  "start": 781.76,
+  "end": 785.16,
+  "text": "The cards, each of these things is random."
+ },
+ {
+  "start": 786.16,
+  "end": 789.04,
+  "text": "So every time after you use it, it will change?"
+ },
+ {
+  "start": 789.28,
+  "end": 789.82,
+  "text": "Yeah, it will change."
+ },
+ {
+  "start": 789.88,
+  "end": 790.56,
+  "text": "All right, perfect."
+ },
+ {
+  "start": 790.56,
+  "end": 796.4,
+  "text": "So in the beginning you have like one, let's say you really suck."
+ },
+ {
+  "start": 797.04,
+  "end": 798.9,
+  "text": "Let's say you have one, one, one, plus, plus."
+ },
+ {
+  "start": 799.68,
+  "end": 799.92,
+  "text": "Right."
+ },
+ {
+  "start": 800.56,
+  "end": 800.9,
+  "text": "Right."
+ },
+ {
+  "start": 801.24,
+  "end": 804.32,
+  "text": "Then in this case here, all you can do is what?"
+ },
+ {
+  "start": 804.46,
+  "end": 805.98,
+  "text": "You can only do two."
+ },
+ {
+  "start": 806.94,
+  "end": 807.38,
+  "text": "One."
+ },
+ {
+  "start": 807.44,
+  "end": 807.74,
+  "text": "One."
+ },
+ {
+  "start": 808.8,
+  "end": 812.66,
+  "text": "And then maybe, should we have a maximum length for the operation?"
+ },
+ {
+  "start": 813.1,
+  "end": 814.28,
+  "text": "Maybe six symbols."
+ },
+ {
+  "start": 815.06,
+  "end": 815.2,
+  "text": "Yeah."
+ },
+ {
+  "start": 815.38,
+  "end": 815.82,
+  "text": "Six symbols."
+ },
+ {
+  "start": 815.82,
+  "end": 822.82,
+  "text": "So, at most you can do is 1, plus 1, plus 1. So that will be 3 damage."
+ },
+ {
+  "start": 822.82,
+  "end": 825.82,
+  "text": "Alright, and then it changes."
+ },
+ {
+  "start": 825.82,
+  "end": 827.82,
+  "text": "Yeah, that. Alright."
+ },
+ {
+  "start": 827.82,
+  "end": 832.82,
+  "text": "So, there will be..."
+ },
+ {
+  "start": 832.82,
+  "end": 838.82,
+  "text": "How many choices and how many choices of operations."
+ },
+ {
+  "start": 838.82,
+  "end": 840.82,
+  "text": "Like, no, symbols."
+ },
+ {
+  "start": 840.82,
+  "end": 842.82,
+  "text": "I can't..."
+ },
+ {
+  "start": 842.82,
+  "end": 847.82,
+  "text": "Wait, how many plays here and how many choices do they have?"
+ },
+ {
+  "start": 847.82,
+  "end": 849.82,
+  "text": "Uh, I think..."
+ },
+ {
+  "start": 849.82,
+  "end": 851.82,
+  "text": "Four numbers?"
+ },
+ {
+  "start": 851.82,
+  "end": 853.82,
+  "text": "I think here is six, maybe?"
+ },
+ {
+  "start": 853.82,
+  "end": 857.82,
+  "text": "Alright, so you can add at most six things here."
+ },
+ {
+  "start": 857.82,
+  "end": 866.82,
+  "text": "Oh, or as the level increases, they can have more space, so it will be more complicated."
+ },
+ {
+  "start": 866.82,
+  "end": 867.82,
+  "text": "Oh, maybe, maybe."
+ },
+ {
+  "start": 867.82,
+  "end": 875.14,
+  "text": "yeah at first they only have like two or something yeah okay and then how do they okay okay now the"
+ },
+ {
+  "start": 875.14,
+  "end": 897.22,
+  "text": "game is set and then now how do we operate with the map i think at different at different floors you have more difficult and more and smarter professors so the level is CBS1 the level is like first level first lobby is no maybe not level"
+ },
+ {
+  "start": 897.22,
+  "end": 899.22,
+  "text": "the more you go up the more it's colder"
+ },
+ {
+  "start": 899.22,
+  "end": 905.22,
+  "text": "one floor level one second floor level two so we have 14 levels"
+ },
+ {
+  "start": 905.22,
+  "end": 907.22,
+  "text": "I think so"
+ },
+ {
+  "start": 907.22,
+  "end": 913.3,
+  "text": "after 14 we go to grand hall to fight with the real"
+ },
+ {
+  "start": 913.3,
+  "end": 916.5,
+  "text": "with the lion"
+ },
+ {
+  "start": 916.5,
+  "end": 923.78,
+  "text": "with the lion yeah yeah yeah okay okay this is okay the game is set"
+ },
+ {
+  "start": 923.78,
+  "end": 929.54,
+  "text": "and probably like we need to make it fun on like how do we get"
+ },
+ {
+  "start": 929.54,
+  "end": 932.26,
+  "text": "the other call"
+ },
+ {
+  "start": 932.26,
+  "end": 936.26,
+  "text": "Oh, how do you obtain the functions?"
+ },
+ {
+  "start": 936.26,
+  "end": 943.26,
+  "text": "The functions I think also, um, the functions I think in the beginning you can have some."
+ },
+ {
+  "start": 943.26,
+  "end": 948.26,
+  "text": "And then as you progress you can have, you can get more from beating different bosses."
+ },
+ {
+  "start": 948.26,
+  "end": 951.26,
+  "text": "Oh, so you only have one at first?"
+ },
+ {
+  "start": 951.26,
+  "end": 959.26,
+  "text": "Uh, maybe one or two, maybe you only have like, uh, maybe you have some bad ones, so you only have four."
+ },
+ {
+  "start": 959.26,
+  "end": 971.72,
+  "text": "and then later on as you as you progress you get like if I think zero is a source"
+ },
+ {
+  "start": 971.72,
+  "end": 988.36,
+  "text": "of all our problems so we should remove zero from the game because the only case where this is like really overpowered is like if it's like time zero right but it's not just no damage right or so there'll be the greatest card the greatest"
+ },
+ {
+  "start": 988.36,
+  "end": 990.94,
+  "text": "Or do you want to omit that?"
+ },
+ {
+  "start": 991.5,
+  "end": 993.0,
+  "text": "Do you want to remove that?"
+ },
+ {
+  "start": 993.32,
+  "end": 994.42,
+  "text": "To time zero?"
+ },
+ {
+  "start": 995.92,
+  "end": 998.52,
+  "text": "I think we just remove the number zero in general."
+ },
+ {
+  "start": 998.86,
+  "end": 999.08,
+  "text": "Alright."
+ },
+ {
+  "start": 999.48,
+  "end": 1000.68,
+  "text": "Because if we..."
+ },
+ {
+  "start": 1000.68,
+  "end": 1005.22,
+  "text": "It's the cause of all of our problems now."
+ },
+ {
+  "start": 1005.32,
+  "end": 1006.62,
+  "text": "Because you can't divide by zero."
+ },
+ {
+  "start": 1006.78,
+  "end": 1008.36,
+  "text": "You can't log zero."
+ },
+ {
+  "start": 1008.74,
+  "end": 1010.5,
+  "text": "You know, you can't..."
+ },
+ {
+  "start": 1010.5,
+  "end": 1011.72,
+  "text": "Yeah, so..."
+ },
+ {
+  "start": 1011.72,
+  "end": 1014.26,
+  "text": "So to make things less complicated for us,"
+ },
+ {
+  "start": 1014.78,
+  "end": 1016.54,
+  "text": "I think we just don't have zero."
+ },
+ {
+  "start": 1016.54,
+  "end": 1033.91,
+  "text": "They can do lock one times lock one So we removing zero the card Or they can do 1 minus 1 I think it okay Minus 1 That the number card"
+ },
+ {
+  "start": 1033.91,
+  "end": 1038.91,
+  "text": "Yeah, so we just have to do checks to make sure that our number is non-zero."
+ },
+ {
+  "start": 1038.91,
+  "end": 1041.91,
+  "text": "Especially for those operations."
+ },
+ {
+  "start": 1041.91,
+  "end": 1043.91,
+  "text": "Yeah."
+ },
+ {
+  "start": 1047.91,
+  "end": 1050.91,
+  "text": "Should we have brackets?"
+ },
+ {
+  "start": 1050.91,
+  "end": 1052.91,
+  "text": "Like what?"
+ },
+ {
+  "start": 1052.91,
+  "end": 1064.91,
+  "text": "Because brackets, so that, you know, if we have like 2 plus 3 times 5, or 2 plus 3 times that, that's the difference of 17 and 25 damage, right?"
+ },
+ {
+  "start": 1064.91,
+  "end": 1066.91,
+  "text": "Yeah."
+ },
+ {
+  "start": 1066.91,
+  "end": 1067.91,
+  "text": "Oh yeah, sure."
+ },
+ {
+  "start": 1067.91,
+  "end": 1070.91,
+  "text": "If we have brackets, then how do we implement it?"
+ },
+ {
+  "start": 1074.91,
+  "end": 1076.91,
+  "text": "Like, would they take up a space?"
+ },
+ {
+  "start": 1076.91,
+  "end": 1087.09,
+  "text": "Maybe, maybe, instead of like giving them space, like it's just like a normal keyboard."
+ },
+ {
+  "start": 1087.09,
+  "end": 1092.75,
+  "text": "So they can, so as the level increases, they have more numbers and more symbols in the"
+ },
+ {
+  "start": 1092.75,
+  "end": 1093.75,
+  "text": "choices."
+ },
+ {
+  "start": 1093.75,
+  "end": 1097.41,
+  "text": "But like, it's up to them how to use it."
+ },
+ {
+  "start": 1097.41,
+  "end": 1102.03,
+  "text": "Like, we don't need to fix only six."
+ },
+ {
+  "start": 1102.03,
+  "end": 1107.03,
+  "text": "So that's why they can use the power up."
+ },
+ {
+  "start": 1107.03,
+  "end": 1108.03,
+  "text": "It's just like blank."
+ },
+ {
+  "start": 1108.03,
+  "end": 1111.03,
+  "text": "And then we also need to control power ups."
+ },
+ {
+  "start": 1111.03,
+  "end": 1112.03,
+  "text": "So I think power ups is very simple."
+ },
+ {
+  "start": 1112.03,
+  "end": 1115.03,
+  "text": "You can just use it at the start of the round if you want or if you don't want, right?"
+ },
+ {
+  "start": 1115.03,
+  "end": 1116.03,
+  "text": "Before you attack."
+ },
+ {
+  "start": 1116.03,
+  "end": 1119.03,
+  "text": "Oh yeah, like before the game starts."
+ },
+ {
+  "start": 1119.03,
+  "end": 1121.03,
+  "text": "Power ups we can have a few kinds, right?"
+ },
+ {
+  "start": 1121.03,
+  "end": 1126.03,
+  "text": "So you can have extra turn."
+ },
+ {
+  "start": 1126.03,
+  "end": 1128.03,
+  "text": "ADHD"
+ },
+ {
+  "start": 1129.81,
+  "end": 1132.93,
+  "text": "Extra turn or maybe extra HP"
+ },
+ {
+  "start": 1143.73,
+  "end": 1145.73,
+  "text": "My agent"
+ },
+ {
+  "start": 1156.03,
+  "end": 1158.03,
+  "text": "yeah"
+ },
+ {
+  "start": 1168.55,
+  "end": 1170.55,
+  "text": "What's depressing?"
+ }
+]

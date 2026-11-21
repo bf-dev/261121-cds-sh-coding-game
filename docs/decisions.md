@@ -1,33 +1,52 @@
 # decisions
 
-What the team agreed, or said without objection. Citations: `mm:ss` = part 1 recording, `p2 mm:ss` = part 2, `board` = whiteboard. When something changes, update the line and give the new source.
+What the team agreed, or said without objection. Citations: `mm:ss` = part 1, `p2` / `p4` = parts 2 and 4, `board` = whiteboard. Later parts override earlier ones. Replaced rules are listed at the bottom.
+
+## rules
 
 | # | decision | source |
 | --- | --- | --- |
 | 1 | Coding education game based on the HKU CDS-SH campus | board; 23:42 |
-| 2 | Four card groups: DIGIT, MATH, CS (control/logic), POWER-UPS | board; 16:39; p2 04:44 to 05:00 |
-| 3 | Digit cards 0 to 9, one at a time, no concatenation | board; 17:10 to 17:24 |
-| 4 | Math cards `+ - x ÷ ^ log`, every operation has its inverse | board; 17:35 to 18:01 |
-| 5 | `+` heals you, `-` damages the opponent, `x ÷ ^ log` augment | board; 18:22 to 18:51 |
-| 6 | `mod` is a defensive card | p2 02:21 to 02:28 |
-| 7 | Shields: a card or set of cards put up before the opponent's turn. Incoming damage is calculated, then the shield's operation is applied to it. Not a separate stat | p2 02:33 to 03:42 |
-| 8 | Turn = build an attack. Heal goes to you, damage goes through the opponent's shield to them | p2 03:44 to 04:29 |
-| 9 | HP. Whoever reaches 0 HP first loses | p2 01:06, 04:33 |
-| 10 | ÷0 and log 0 trigger a "glitch" that hurts the player who played it. `for range 0` does nothing | p2 01:25 to 02:01 |
-| 11 | Turn-based, not real-time | board; p2 00:11 to 00:22 |
-| 12 | Opponent is the AI ("AI native"), with a fallback if the AI fails | p2 00:27 to 00:36 |
-| 13 | `for range <digit> do <action>`, and the action can be another CS card | board; 20:07 to 21:03 |
-| 14 | `break` skips the opponent's turn | board; 22:55 |
-| 15 | More CS cards: the AI proposes them. Concepts: for, maybe while, if / else if / else. Nothing advanced | p2 04:38, 06:41 to 07:00 |
-| 16 | Red Bull power-up = two turns | 24:46; p2 04:48 |
-| 17 | Player is a student. Teachers are challengers, not villains. No real students as characters | p2 07:00 to 07:18; 16:16; 25:48 |
-| 18 | Teacher avatars from the CDS teacher list, only people who won't mind | 15:45 to 16:04 |
-| 19 | Final boss: Leo the HKU lion, in the grand hall | p2 05:35; 25:10 |
-| 20 | CDS1 main arena. A key unlocks Building 5 power-ups | 24:22 to 24:46 |
-| 21 | MT = Meituan food locker. CDS1 6/F = classroom, 13/F = professors' offices (needs a photo) | p2 05:01 to 05:34 |
-| 22 | The first battle is a step-by-step tutorial. The game must be intuitive for any first-time visitor | p2 05:45 to 06:41 |
-| 23 | 2D pixel art, realistic and detailed layouts from the building photos | p2 07:21 to 08:38 |
-| 24 | Tech stack is left to the builder | p2 07:40 |
-| 25 | A demo mode. Presentation under 15 minutes | p2 07:43 to 07:57 |
-| 26 | Make it as complete as possible, fast. The team wants the expo spot | p2 08:00 to 08:18 |
-| 27 | One shared GitHub prompt repo, then a one-shot build | 27:06; 29:07 |
+| 2 | Turn-based, you vs the AI ("AI native"), with a fallback if the AI fails | p2 00:11 to 00:36 |
+| 3 | HP. Whoever reaches 0 HP first loses | p2 01:06, 04:33 |
+| 4 | **HEAL and ATTACK are base cards everyone always has** | p4 05:22 to 07:14 |
+| 5 | Move = HEAL or ATTACK, one base digit, then an operation. `ATTACK 8 + 2 × 3` = 14 | p4 07:21 to 10:52 |
+| 6 | Operators `+ - × ÷` modify the base digit | p4 05:28, 07:14 |
+| 7 | **Digits 1 to 9. Zero removed.** The game checks for zero values before ÷ / log | p4 16:00 to 17:18 |
+| 8 | One digit card at a time, no concatenation | 17:10 to 17:24 |
+| 9 | Digits and operators are random and change after use | p4 12:51 to 13:09 |
+| 10 | **Functions are defence only. A shield must be a function** (`for`, `if`) | p4 08:02, 11:05 to 11:45 |
+| 11 | The shield is planted during the opponent's move and only works against ATTACK. HEAL goes straight through | p4 01:52 to 03:03 |
+| 12 | `for range 3: -2` shield = -6, so 14 damage becomes 8 | p4 11:16 to 11:36 |
+| 13 | `if` uses `< > <= >=`, with a fixed specific action, e.g. `if damage > 5: -5` | p4 00:00 to 01:46, 11:49 |
+| 14 | Start with one or two functions, win more by beating professors | p4 15:36 to 15:59 |
+| 15 | Brackets are allowed (input method open) | p4 17:27 to 17:46 |
+| 16 | Power-ups: a fourth group, used at the start of the round before attacking. Extra turn (Red Bull), extra HP | p2 04:44; p4 18:27 to 18:49 |
+| 17 | A pop-up explains each new card and what it's equivalent to. An inventory panel shows your cards | p4 09:01, 10:31 |
+| 18 | Teach for, maybe while, if / else. Nothing advanced | p2 06:41 to 07:00 |
+
+## world and story
+
+| # | decision | source |
+| --- | --- | --- |
+| 19 | **CDS1 floors are the levels: 14 levels, harder professors higher up** | p4 14:35 to 15:05 |
+| 20 | **After floor 14: the grand hall, final boss Leo the HKU lion** | p4 15:05; p2 05:35 |
+| 21 | Player is a student. Teachers are challengers, not villains. No real students as characters | p2 07:00 to 07:18; 16:16; 25:48 |
+| 22 | Teacher avatars from the CDS teacher list, only people who won't mind | 15:45 to 16:04 |
+| 23 | Building 5 holds the power-ups (gym, study, food). A key from CDS1 unlocks it | 24:38 to 25:07 |
+| 24 | MT = Meituan food locker. CDS1 6/F classroom floor, 13/F professors' offices | p2 05:01 to 05:34 |
+| 25 | The first battle is a step-by-step tutorial. Intuitive for any first-time visitor | p2 05:45 to 06:41 |
+| 26 | 2D pixel art, realistic and detailed, from the building photos | p2 07:21 to 08:38 |
+| 27 | Tech stack left to the builder. Demo mode. Presentation under 15 min | p2 07:40 to 07:57 |
+| 28 | Make it as complete as possible, fast. The team wants the expo spot | p2 08:00 to 08:18 |
+
+## replaced
+
+| old rule | replaced by |
+| --- | --- |
+| `+` heals, `-` damages (18:22) | HEAL / ATTACK base cards (p4 06:43) |
+| `for range 3 do +2` as a heal/attack (20:37) | functions are defence only (p4 08:02) |
+| `mod` / `÷` as shield cards (p2 02:21) | shields must be functions (p4 11:09) |
+| ÷0 / log 0 "glitch" hurts you (p2 01:36) | zero removed (p4 16:00) |
+| digits 0 to 9 (board) | digits 1 to 9 (p4 16:35) |
+| CDS1 main arena + B5 unlock (24:22) as the whole map | 14 CDS1 floor levels, then the grand hall (p4 14:35). B5's place is open |

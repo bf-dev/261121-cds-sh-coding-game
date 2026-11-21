@@ -24,7 +24,13 @@ docs/                     the design, one concept per file
   education.md            explaining it to non-coders
   decisions.md            settled points, each with a source
   open-questions.md       everything not settled yet
-prompts/                  reusable prompts, one task per file, built on docs/
+buildings/                the campus, distilled from all photos and video: one folder per place
+  README.md               index and how to use it
+  outside/                site, roads, plaza, footbridge, lawn + lion, lockers, gate
+  cds1/                   CDS1 tower: entrance, lobby, floor guide, floors
+  b5/                     Building 5: hall, lobby, amenity floor, 5/F, 6/F
+  b6/                     dining cluster / senior common room (building unconfirmed)
+prompts/                  reusable prompts, one task per file, built on docs/ and buildings/
 resources/                raw material, kept as real files (see resources/README.md)
   recordings/             meeting audio (Git LFS)
   transcripts/            raw + cleaned transcripts
@@ -34,16 +40,17 @@ resources/                raw material, kept as real files (see resources/README
 
 ## sources of truth
 
-1. `resources/recordings/2026-11-21-team-meeting.m4a` (part 1, 30 min: whiteboard, hackathon briefing, core design) and `...-team-meeting-2.m4a` (part 2, 9 min: the team answers the open questions). Cleaned transcripts are `resources/transcripts/*.clean.md`, raw ones are `*.raw.txt`.
+1. Meeting recordings in `resources/recordings/`: part 1 (30 min: whiteboard, hackathon briefing, core design), part 2 (9 min: answers to the open questions), part 3 (10 min: logistics while filming, little design), part 4 (20 min: revised battle rules, **overrides parts 1 and 2 where they differ**). Cleaned transcripts are `resources/transcripts/*.clean.md`, raw ones are `*.raw.txt`.
 2. `resources/photos/2026-11-21-whiteboard.jpg`, the whiteboard from that meeting. A line-by-line reading is in `resources/README.md`.
-3. Anything a teammate adds later: a new recording, photo or chat export goes into `resources/` first, then into the docs.
+3. Campus photos and video in `resources/photos/` and `resources/videos/`. **Use `buildings/` instead of the raw videos**: every place has its keyframes and a README there. Open a video only if `buildings/` is missing something, and then add what you found to `buildings/`.
+4. Anything a teammate adds later: a new recording, photo or chat export goes into `resources/` first, then into the docs.
 
 The docs come from these sources. If a doc and a source disagree, the source wins. Fix the doc.
 
 ## rules
 
 - **One concept per file.** A new mechanic, building or system gets its own file in `docs/`, linked from `overview.md`. Don't make one big design doc.
-- **Cite the source for every design claim**: `(mm:ss)` for part 1, `(p2 mm:ss)` for part 2, `board`, or the new resource file. If you can't cite it, it isn't a decision. Put it in `open-questions.md` or mark it as a proposal.
+- **Cite the source for every design claim**: `(mm:ss)` for part 1, `(p2 mm:ss)`, `(p3 mm:ss)`, `(p4 mm:ss)` for later parts, `board`, or the new resource file. If you can't cite it, it isn't a decision. Put it in `open-questions.md` or mark it as a proposal.
 - **Don't invent design.** Ideas from Claude or a teammate are welcome, but label them `proposal (<name>, <date>)` until the team agrees.
 - **When the design changes, update the docs in the same commit**: the concept file, plus `decisions.md` or `open-questions.md`. A settled question moves from open-questions to decisions.
 - **Prompts in `prompts/` reference docs, they don't copy them.** Tell the model which doc files to read, so prompts don't go stale.

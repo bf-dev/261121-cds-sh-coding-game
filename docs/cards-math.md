@@ -1,22 +1,24 @@
-# MATH cards (arithmetic)
+# HEAL / ATTACK and operators
 
-Whiteboard: "(arithmetic) MATH: + - x ÷ ^ log (mod)". Notes under it: "+/- heal / dmg" and "x / ÷ / ^ / log augmentation". Sources: part 1 17:35 to 18:51, part 2 01:25 to 03:42.
+Whiteboard: "(arithmetic) MATH: + - x ÷ ^ log (mod)", "+/- heal / dmg", "x / ÷ / ^ / log augmentation". Sources: part 1 17:35 to 18:51, part 2 01:25 to 03:42, **part 4 03:14 to 11:01 (current rule)**.
 
-| card | in your attack | as a shield |
-| --- | --- | --- |
-| `+` | **heal** yourself (18:29) | |
-| `-` | **damage** the opponent (18:29) | |
-| `x` | augment: increases the heal or damage. +1, then x2, gives +2 (18:41 to 18:51) | |
-| `÷` | augment: decreases it (18:41) | divides incoming damage. 10 vs `÷4` = 2.5 (p2 03:33) |
-| `^` | augment (board, 17:40) | |
-| `log` | augment, the inverse of `^` (17:52 to 18:01) | |
-| `mod` | | **defensive card.** 10 vs `mod 2` = 10 mod 2 (p2 02:21 to 03:22) |
+## HEAL and ATTACK (part 4 change)
 
-The design rule: every operation has its inverse in the deck, so plays can cancel out (17:56).
+- **HEAL and ATTACK are base cards every player always has.** They replace `+` = heal and `-` = damage from part 1 (p4 05:22 to 07:14).
+- Reasons: if heal/attack came only from random draws you could be stuck without them, and "plus is for you, minus is for them" was confusing for visitors (p4 03:38 to 05:16).
 
-## edge cases (p2 01:25 to 02:01)
+## operators
 
-- **÷0 and log 0 cause a "glitch" that damages the player who played it**, to teach that you can't divide by zero.
-- Rounding: the ÷4 example gave 2.5, so decimals were accepted in that example. A firm rule wasn't set.
+- **`+ - × ÷` are operators that modify the base digit** (p4 05:28, 07:14). `^` and `log` from the board weren't mentioned in part 4; whether they stay is open.
+- Operators are drawn at random and change after use (p4 12:51).
+- Example: `ATTACK 8 + 2 × 3` = 14 damage (p4 10:13 to 10:52; normal precedence, 2 × 3 first).
+- **Brackets** were agreed in principle: (2 + 3) × 5 = 25 vs 2 + 3 × 5 = 17 (p4 17:27 to 17:46). How they're entered is open.
+- **Length limit:** six symbols, fewer at the start (maybe 2) and more at higher levels (p4 13:28 to 14:26). A later idea was a keyboard-style input with no fixed cap (p4 17:56 to 18:22). Not settled.
 
-`+` and `-` with `x ÷ ^ log` are a lot for a first-time player. The team wants operations kept "simple enough" (p2 06:23). See [education](education.md).
+## mod and ÷ as shields (superseded)
+
+Part 2 had `mod` and `÷` as shield cards (p2 02:21 to 03:42). **Part 4 says a shield must be a function** (`for`, `if`), and "×0 is not a function" (p4 11:09 to 11:45). See [cards-cs-logic](cards-cs-logic.md). Whether `mod` survives is open.
+
+## zero
+
+There is no 0 card. Expressions that reach 0 (1 - 1, log 1) must be caught before ÷ or log (p4 16:56 to 17:18). This replaces part 2's "glitch" rule for ÷0 / log 0.
