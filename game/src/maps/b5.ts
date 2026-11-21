@@ -121,6 +121,60 @@ function pier(exit: boolean): HTMLCanvasElement {
   return c;
 }
 
+function receptionDesk(): HTMLCanvasElement {
+  const [c, g] = mk(236, 116);
+  ellipse(g, 118, 108, 112, 6, "rgba(20,24,40,0.3)");
+  // monitor and a small plant on the top
+  rect(g, 150, 10, 44, 28, "#17181a");
+  rect(g, 153, 13, 38, 20, "#7fd0e0");
+  rect(g, 156, 16, 20, 2, "#e9fffb");
+  rect(g, 156, 21, 28, 2, "#3a8fa3");
+  rect(g, 168, 38, 8, 6, "#3a3d41");
+  ellipse(g, 44, 28, 12, 10, K.R.leaf[3]);
+  ellipse(g, 38, 24, 7, 6, K.R.leaf[5]);
+  rect(g, 38, 34, 12, 10, "#f2f0ea");
+  // cream stone top
+  rect(g, 2, 42, 232, 12, K.R.cream[5]);
+  rect(g, 2, 42, 232, 3, "#ffffff");
+  rect(g, 2, 52, 232, 3, K.R.cream[0]);
+  // timber-framed front
+  rect(g, 6, 55, 224, 48, K.R.walnut[5]);
+  for (let x = 6; x < 230; x += 56) {
+    rect(g, x, 55, 4, 48, K.R.walnut[2]);
+    rect(g, x + 4, 55, 2, 48, K.R.walnut[7]);
+    rect(g, x + 10, 61, 40, 36, K.R.walnut[4]);
+    rect(g, x + 10, 61, 40, 2, K.R.walnut[6]);
+  }
+  rect(g, 6, 99, 224, 5, K.R.walnut[1]);
+  rect(g, 96, 60, 44, 40, K.R.cream[5]);
+  drawCrest(g, 106, 62, 24);
+  text(g, "HKU", 118, 90, 9, "#3d2a20", { align: "center" });
+  // warm strip under the top
+  rect(g, 6, 55, 224, 2, "#ffd9a0");
+  return c;
+}
+
+function hoursTotem(): HTMLCanvasElement {
+  const [c, g] = mk(92, 168);
+  ellipse(g, 46, 160, 36, 6, "rgba(20,24,40,0.3)");
+  rect(g, 8, 4, 76, 152, "#17181a");
+  rect(g, 8, 4, 76, 3, "#44464b");
+  rect(g, 12, 10, 68, 122, "#0f2f4a");
+  dither(g, 12, 10, 68, 50, "#134a6e", "#0f2f4a", 0.5, 2);
+  text(g, "BUILDING 5", 46, 16, 11, "#ffffff", { align: "center" });
+  text(g, "& SPORTS COURT", 46, 29, 8, "#ffffff", { align: "center" });
+  text(g, "ARE NOW OPEN", 46, 40, 9, "#ffd23f", { align: "center" });
+  text(g, "五号楼开放", 46, 54, 11, "#bfe9f2", { align: "center" });
+  rect(g, 20, 72, 52, 1, "#3a8fa3");
+  text(g, "08:00-22:00", 46, 78, 12, "#ffffff", { align: "center" });
+  text(g, "7 Days a Week", 46, 96, 8, "#bfe9f2", { align: "center" });
+  text(g, "Sports · Study", 46, 108, 8, "#bfe9f2", { align: "center" });
+  text(g, "Co-Creation", 46, 118, 8, "#bfe9f2", { align: "center" });
+  drawCrest(g, 38, 136, 16);
+  rect(g, 4, 154, 84, 6, "#2a2b30");
+  return c;
+}
+
 function longTable(g: Ctx, tx: number, ty: number, len: number, solid: Uint8Array, cols: number): void {
   const x = tx * T;
   const y = ty * T;
@@ -336,8 +390,9 @@ function buildLobby(): GameMap {
   rect(g, pxx + 46, FACE_Y - 6, 6, FACE_H + 6, "#bdc6c4");
   K.pline(g, pxx + 12, FACE_Y + 30, pxx + 30, FACE_Y + 60, "#cfd6d4", 1);
   for (const [s, yy] of [["05", 34], ["B2", 84]] as const) {
-    text(g, s, pxx + 25, FACE_Y + yy, 26, "#9aa3a5", { align: "center" });
-    text(g, s, pxx + 24, FACE_Y + yy - 1, 26, "#f4f6f6", { align: "center" });
+    // silver outline numerals
+    for (const [ox, oy] of [[-1, 0], [1, 0], [0, -1], [0, 1], [1, 1]] as const) text(g, s, pxx + 24 + ox, FACE_Y + yy + oy, 27, "#7d898c", { align: "center" });
+    text(g, s, pxx + 24, FACE_Y + yy, 27, "#e3e8e7", { align: "center" });
   }
   rect(g, pxx + 22, FACE_Y + 70, 6, 3, "#9aa3a5");
   rect(g, pxx + 34, FACE_Y + 10, 10, 12, "#c21a24");
@@ -408,6 +463,11 @@ function buildLobby(): GameMap {
   ellipse(og, 26, 33, 14, 4, "#ffffff");
   K.place(st, ot, 20 * T + 32, 17 * T + 56, true);
   block(solid, COLS, 20, 16, 1, 2);
+  K.place(st, receptionDesk(), 27 * T, 18 * T + 56, true);
+  block(solid, COLS, 25, 18, 4, 1);
+  K.place(st, hoursTotem(), 14 * T + 32, 20 * T + 44, true);
+  block(solid, COLS, 14, 20, 1, 1);
+  K.lightPool(g, 27 * T, 18 * T, 240, 110, "255,226,168", 0.06);
   const pl = K.plant(124);
   for (const [tx, ty] of [[9, 13], [34, 13], [34, 20], [1, 20]] as const) {
     K.place(st, pl, tx * T + 32, ty * T + 58, true);
@@ -430,7 +490,9 @@ function buildLobby(): GameMap {
   triggers.push({ id: "exit", tx: 17, ty: 21, w: 2, h: 1, en: "Exit", zh: "出口", auto: true, action: { type: "goto", map: "outside", spawn: "b5-door" } });
   triggers.push({ id: "up", tx: 4, ty: 18, w: 3, h: 1, en: "Stairs to 2/F", zh: "上二楼", action: { type: "goto", map: "b5-2", spawn: "stair" } });
   info("pillar", 17, 13, 1, 1, "Pier 05 / B2", "05 / B2 石柱", "The white marble pier by lift 1 is engraved 05 over B2. 05 is Building 5. Nobody on the team knows yet what B2 stands for.");
-  info("directory", 13, 13, 2, 1, "Directory panel", "楼层索引", "A tall dark glass panel covered in small white lines of text: the building directory. Building 5 is open 08:00 to 22:00, seven days a week.");
+  info("directory", 13, 13, 2, 1, "Directory panel", "楼层索引", "A tall dark glass panel beside lift 1, covered in small white lines of text: the building directory.");
+  info("hours", 13, 19, 3, 1, "Opening hours", "开放时间", "Building 5 and the sports court are now open: your new space for sports, study and co-creation. 08:00 to 22:00, seven days a week, except public holidays.");
+  info("reception", 25, 19, 4, 1, "Reception", "前台", "Building 5 is the student amenity centre, north of CDS1. It opened on 30 August 2026 with a fitness room, music and dance rooms, a game hub and study spaces.");
   info("pictures", 19, 13, 3, 1, "Picture wall", "画廊墙", "Backlit beige marble with a row of dark framed artworks at eye level, under a warm cove of light.");
   info("oval-table", 19, 16, 3, 2, "Oval table", "椭圆高桌", "One tall oval pedestal table, maroon base and white top, standing alone on the inlaid lattice floor.");
   info("mind-your-head", 6, 19, 3, 1, "Feature stair", "旋转楼梯", "A wide ribbon of white plaster with a glass balustrade and a walnut handrail sweeps up to 2/F. The signs say Mind Your Step and Mind Your Head.");
@@ -440,6 +502,7 @@ function buildLobby(): GameMap {
   const npcs: NpcDef[] = [
     { id: "b5-visitor-1", char: "visitor1", tx: 24, ty: 16, dir: "left", name: "Visitor", nameZh: "访客" },
     { id: "b5-visitor-2", char: "visitor2", tx: 16, ty: 6, dir: "left", name: "Visitor", nameZh: "访客" },
+    { id: "b5-guard", char: "guard", tx: 27, ty: 17, dir: "down", name: "Receptionist", nameZh: "前台" },
   ];
 
   return {
@@ -601,8 +664,13 @@ function buildAmenity(): GameMap {
   // stair head wall with the stencilled wayfinding column
   K.wall(g, T, 0, 4 * T, WH, "#e9e6de", "#f6f4ee", "#b9b6ae");
   const wf = ["← MEN'S SHOWERS", "男淋浴间", "MUSIC ROOM 1", "音乐室1", "DANCE ROOM", "舞蹈室", "→ TOILET", "洗手间"];
-  rect(g, 4 * T + 4, 22, 66, 150, "#3a3d41");
-  wf.forEach((s, i) => text(g, s, 4 * T + 9, 30 + i * 17, i % 2 ? 9 : 8, "#f4f2ec"));
+  rect(g, T + 14, 14, 3 * T - 22, 164, "#3a3d41");
+  rect(g, T + 14, 14, 3 * T - 22, 3, "#55585d");
+  wf.forEach((s, i) => text(g, s, T + 26, 24 + i * 19 + (i % 2 ? -2 : 0), i % 2 ? 13 : 12, i % 2 ? "#cfd3d6" : "#f4f2ec"));
+  // big stencilled floor number beside it
+  text(g, "2", 4 * T + 34, 34, 84, "#d9d6cf", { align: "center" });
+  text(g, "2", 4 * T + 32, 32, 84, "#3a3d41", { align: "center" });
+  text(g, "二层", 4 * T + 32, 126, 18, "#3a3d41", { align: "center" });
   // the pop-art skyline mural
   K.wall(g, 5 * T, 0, 8 * T, WH, "#e9e6de", "#f6f4ee", "#b9b6ae");
   K.muralSkyline(g, 5 * T + 24, 12, 8 * T - 48, WH - 26, true);
@@ -689,6 +757,7 @@ function buildAmenity(): GameMap {
   K.place(st, pn, 8 * T + 40, 6 * T - 8, true);
   block(solid, COLS, 7, 4, 3, 2);
   K.place(st, K.pianoBench(), 8 * T + 30, 6 * T + 44);
+  block(solid, COLS, 8, 6, 1, 1);
   K.place(st, K.armchair("#c9a233", "#8f7220", "#e2bf55"), 5 * T + 32, 5 * T + 60, true);
   K.place(st, K.armchair("#d9692a", "#9b4517", "#f08a4b"), 11 * T + 32, 5 * T + 60, true);
   K.place(st, K.armchair("#5f6f7f", "#3f4b57", "#8494a3"), 11 * T + 32, 7 * T + 60, true);
@@ -734,8 +803,10 @@ function buildAmenity(): GameMap {
   block(solid, COLS, 15, 4, 3, 2);
   K.place(st, K.roundTable("#f4f2ec", 44), 14 * T + 36, 7 * T + 40);
   K.place(st, K.chair("#f2c62f", "#e0b21f"), 18 * T + 32, 7 * T + 50);
-  K.place(st, K.chair("#b9bcc2", "#a5a8ae"), 18 * T + 30, 4 * T + 40);
+  K.place(st, K.chair("#b9bcc2", "#a5a8ae"), 18 * T + 30, 3 * T + 62);
   block(solid, COLS, 14, 7, 1, 1);
+  block(solid, COLS, 18, 7, 1, 1);
+  block(solid, COLS, 18, 3, 1, 1);
 
   // ------------------------------------------------ table tennis room
   const tt = K.ttTable();
@@ -761,6 +832,37 @@ function buildAmenity(): GameMap {
   }
   K.place(st, K.plant(116), 38 * T + 30, 3 * T + 58, true);
   block(solid, COLS, 38, 3, 1, 1);
+
+  // ------------------------------------------------ glass corridor: white planter boxes, a teal bench
+  const planterBox = (tx: number, n: number): void => {
+    const [c, pg] = mk(n * T - 8, 84);
+    rect(pg, 4, 76, n * T - 16, 8, "rgba(20,24,40,0.25)");
+    rect(pg, 0, 36, n * T - 8, 42, "#f2f0ea");
+    rect(pg, 0, 36, n * T - 8, 4, "#ffffff");
+    rect(pg, n * T - 16, 40, 8, 38, "#c9c6bf");
+    rect(pg, 0, 74, n * T - 8, 4, "#a9a6a0");
+    for (let k = 0; k < n * 9; k++) {
+      const bx = 8 + hash(k, tx, 31) * (n * T - 30);
+      const by = 14 + hash(k, tx, 32) * 22;
+      ellipse(pg, bx, by, 9 + hash(k, tx, 33) * 5, 8, K.R.leaf[1 + Math.floor(hash(k, tx, 34) * 5)]);
+    }
+    for (let k = 0; k < n * 4; k++) rect(pg, 8 + hash(k, tx, 35) * (n * T - 30), 8 + hash(k, tx, 36) * 20, 3, 3, k % 2 ? "#f6c1c8" : "#ffe36e");
+    props.push({ sprite: c, x: tx * T + 4, y: 11 * T - 6 - 84, sortY: 11 * T - 8 });
+    block(solid, COLS, tx, 10, n, 1);
+  };
+  planterBox(15, 2);
+  planterBox(24, 2);
+  planterBox(30, 2);
+  planterBox(35, 2);
+  // long teal bench cushions
+  for (const bx of [19, 20, 21]) {
+    rect(g, bx * T + 2, 10 * T + 50, T - 2, 8, "rgba(20,24,40,0.25)");
+    rect(g, bx * T, 10 * T + 22, T, 30, "#3f8f8a");
+    rect(g, bx * T, 10 * T + 22, T, 6, "#62b3ad");
+    rect(g, bx * T, 10 * T + 46, T, 6, "#2a6a66");
+    rect(g, bx * T + T - 2, 10 * T + 22, 2, 30, "#2a6a66");
+    block(solid, COLS, bx, 10, 1, 1);
+  }
 
   // ------------------------------------------------ the core: chill mural and cafe
   const CX = 14 * T;
@@ -925,6 +1027,18 @@ function buildAmenity(): GameMap {
   block(solid, COLS, 1, 13, 1, 1);
 
   // ------------------------------------------------ lounge
+  // rugs under the two seating groups
+  const rug = (x: number, y: number, w: number, h: number, a: string, b: string): void => {
+    rect(g, x, y, w, h, a);
+    dither(g, x + 8, y + 8, w - 16, h - 16, a, b, 0.5, 4);
+    frame(g, x + 4, y + 4, w - 8, h - 8, b, 2);
+    for (let i = x; i < x + w; i += 6) {
+      rect(g, i, y - 3, 2, 3, b);
+      rect(g, i, y + h, 2, 3, b);
+    }
+  };
+  rug(30 * T - 20, 13 * T + 14, 6 * T + 40, 2 * T - 20, "#b9a98a", "#a39274");
+  rug(30 * T - 20, 18 * T + 14, 7 * T + 40, 2 * T - 10, "#8fa9a6", "#7a9592");
   K.place(st, K.sofa("#2f7a52", "#1f5a3b", "#4f9c72", 156), 31 * T, 13 * T + 4, true);
   block(solid, COLS, 30, 12, 2, 1);
   K.place(st, K.armchair("#d9692a", "#9b4517", "#f08a4b"), 33 * T + 32, 13 * T + 4, true);
@@ -945,6 +1059,30 @@ function buildAmenity(): GameMap {
     K.place(st, pl, tx * T + 32, ty * T + 58, true);
     block(solid, COLS, tx, ty, 1, 1);
   }
+  // a floor lamp and a low shelf of board games
+  const [lamp, lg] = mk(48, 150);
+  ellipse(lg, 24, 144, 14, 4, "rgba(20,24,40,0.3)");
+  rect(lg, 22, 44, 3, 98, "#2a2b30");
+  rect(lg, 14, 140, 20, 4, "#17181a");
+  for (let j = 0; j < 40; j++) rect(lg, 24 - 8 - j * 0.3, 6 + j, 16 + j * 0.6, 1, j < 3 ? "#fff6d8" : "#f1d9a0");
+  rect(lg, 10, 44, 28, 3, "#d9b96a");
+  K.place(st, lamp, 37 * T + 32, 13 * T, true);
+  block(solid, COLS, 37, 12, 1, 1);
+  K.lightPool(g, 37 * T + 32, 13 * T + 20, 120, 60, "255,236,190", 0.08);
+  const [shelf, sg] = mk(3 * T - 8, 100);
+  ellipse(sg, 92, 94, 86, 5, "rgba(20,24,40,0.3)");
+  rect(sg, 0, 8, 3 * T - 8, 84, "#cba77f");
+  rect(sg, 0, 8, 3 * T - 8, 4, "#e8cba9");
+  for (let r = 0; r < 2; r++) {
+    rect(sg, 6, 16 + r * 38, 3 * T - 20, 32, "#8f6d48");
+    for (let k = 0; k < 8; k++) {
+      const col = ["#e63946", "#2ec4b6", "#ffd23f", "#7b4bd6", "#f4f2ec", "#ff7a2f"][Math.floor(hash(k, r, 55) * 6)];
+      rect(sg, 10 + k * 21, 20 + r * 38 + (k % 3) * 3, 17, 28 - (k % 3) * 3, col);
+      rect(sg, 10 + k * 21, 20 + r * 38 + (k % 3) * 3, 17, 3, "rgba(255,255,255,0.45)");
+    }
+  }
+  K.place(st, shelf, 37 * T + 16, 16 * T - 12, true);
+  block(solid, COLS, 36, 15, 3, 1);
   K.lightPool(g, 33 * T, 15 * T, 260, 120, "255,236,190", 0.05);
   K.lightPool(g, 24 * T + 32, 19 * T + 32, 220, 120, "255,236,190", 0.05);
 
@@ -992,9 +1130,9 @@ function buildAmenity(): GameMap {
     triggers,
     spawns: { stair: { tx: 2, ty: 7, dir: "down" } },
     labels: [
-      { x: 33 * T, y: 9 * T - 170, en: "Gym", zh: "健身房" },
-      { x: 16 * T + 32, y: 9 * T - 170, en: "Pool", zh: "台球" },
-      { x: 23 * T, y: 9 * T - 170, en: "Game Hub", zh: "电玩区" },
+      { x: 32 * T, y: 9 * T - 92, en: "Gym", zh: "健身房" },
+      { x: 16 * T + 32, y: 9 * T - 92, en: "Pool", zh: "台球室" },
+      { x: 23 * T, y: 9 * T - 92, en: "Game Hub", zh: "电玩区" },
       { x: 6 * T + 32, y: 11 * T - 6, en: "Study stair", zh: "阶梯自习区" },
     ],
   };

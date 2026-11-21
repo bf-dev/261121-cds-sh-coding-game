@@ -10,6 +10,10 @@ Rules that come straight from `docs/decisions.md` are not repeated here.
 | --- | --- |
 | **Blocks, not cards or code text.** Moves and shields are Scratch-style blocks: a red ATTACK or teal HEAL block, white number pills, green operator bubbles, orange C-shaped `repeat` / `if` blocks with `change damage by` inside | Insung, 2026-11-21, during the build: "instead of making it actual cards or like code, make it something like block coding, so like scratch". Added to `docs/decisions.md` as #29 |
 | Python is still there, but off by default: a `Show Python` button in the battle, and one "the same thing in Python" box in each new-block pop-up | keeps decision #17 ("what it's equivalent to") and the build prompt's "show the move as real code" without putting code in front of a first-time visitor |
+| **30 seconds per turn** for each player: a clock next to the round counter, red for the last 10 seconds | Insung, 2026-11-21, during the build. Added to `docs/decisions.md` as #30 |
+| When the clock runs out on your move, the blocks already placed are run (cut back to the last complete move). With no number placed the turn is lost. When it runs out while you pick a shield, a random one of the offered shields is planted | builder's choice for what "time limit" does |
+| The clock stops while a pop-up is open, and the tutorial battle on floor 1 has no clock | a first-time visitor should not be rushed while reading what a block does |
+| The opponent's turn is also inside the limit: the model gets 2 seconds, the rule-based AI is instant | |
 | Precedence is shown by nesting: `8 + 2 × 3` draws `2 × 3` as a bubble inside the `+` bubble. Brackets are a bubble with a white outline | answers open question 2 (how brackets are entered): a `( ) Group` button cycles which pair of neighbours is wrapped |
 
 ## battle numbers

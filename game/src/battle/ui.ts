@@ -3,7 +3,7 @@
 // Scratch-style blocks; the blocks light up one by one while they run.
 
 import { h, pace, ui, wait } from "../ui/dom";
-import { cardPopup, showDialog } from "../ui/dialogs";
+import { cardPopup, dialogOpen, showDialog } from "../ui/dialogs";
 import { getCharacter } from "../art/characters";
 import type { PowerUpKind } from "../engine/types";
 import { hatBlock, hiddenShield, moveBlock, opBlock, pill, powerBlock, shieldBlock } from "./blocks";
@@ -62,6 +62,9 @@ export interface BattleConfig {
 
 export type BattleResult = "win" | "lose" | "quit";
 
+/** each side has this long for a turn (Insung, 2026-11-21). The tutorial battle has no clock. */
+export const TURN_SECONDS = 30;
+
 interface CoachStep {
   text: string;
   want: string | null; // an action id that must be done, or null = any action
@@ -100,24 +103,21 @@ export async function runBattle(cfg: BattleConfig): Promise<BattleResult> {
   const caption = h("div", { class: "caption" });
   const bubble = h("div", { class: "bubble off" });
   const roundTag = h("div", { class: "round-tag" });
-  const mid = h("div", { class: "b-mid" }, roundTag, watcher, caption);
+  const timerEl = h("div", { class: "timer off" }, h("span", { class: "t-num" }, String(TURN_SECONDS)), h("span", { class: "t-label" }, "s"));
+  const mid = h("div", { class: "b-mid" }, roundTag, timerEl, watcher, caption);
+  const band = h("div", { class: "b-band" }, h("div", { class: "band-title me" }, "Your blocks", h("small", {}, "你的积木")), mid, h("div", { class: "band-title foe" }, `${cfg.enemy.name}'s blocks`, h("small", {}, "对手的积木")));
   const myScript = h("div", { class: "script-body" });
   const foeScript = h("div", { class: "script-body" });
   const myPy = h("pre", { class: "py" });
   const foePy = h("pre", { class: "py" });
-  const scripts = h(
-    "div",
-    { class: "b-scripts" },
-    h("div", { class: "script me" }, h("div", { class: "script-title" }, "Your blocks", h("small", {}, "你的积木")), myScript, myPy),
-    h("div", { class: "script foe" }, h("div", { class: "script-title" }, `${cfg.enemy.name}'s blocks`, h("small", {}, `${cfg.enemy.nameZh}的积木`)), foeScript, foePy),
-  );
+  const scripts = h("div", { class: "b-scripts" }, h("div", { class: "script me" }, myScript, myPy), h("div", { class: "script foe" }, foeScript, foePy));
   const palette = h("div", { class: "b-palette" });
   const coachEl = h("div", { class: "coach off" });
-  const speedBtn = h("button", { class: "btn small", type: "button", "data-act": "speed" }, "Speed 1x");
+  const speedBtn = h("button", { class: "btn small", type: "button", "data-act": "speed" }, `Speed ${pace.speed}x`);
   const pyBtn = h("button", { class: "btn small", type: "button", "data-act": "python" }, "Show Python");
   const quitBtn = h("button", { class: "btn small", type: "button", "data-act": "quit" }, "Leave");
   const tools = h("div", { class: "b-tools" }, h("span", { class: "place" }, cfg.place), pyBtn, speedBtn, quitBtn);
-  const root = h("div", { class: `battle ${cfg.boss ? "boss" : ""}`, id: "battle" }, tools, h("div", { class: "b-top" }, mePanel, mid, foePanel), bubble, scripts, palette, coachEl);
+  const root = h("div", { class: `battle ${cfg.boss ? "boss" : ""}`, id: "battle" }, tools, h("div", { class: "b-top" }, mePanel, foePanel), bubble, band, scripts, palette, coachEl);
   ui().append(root);
 
   speedBtn.onclick = () => {
@@ -168,6 +168,33 @@ export async function runBattle(cfg: BattleConfig): Promise<BattleResult> {
   };
   const led = (lines: string[]) => cfg.onLed?.(lines);
 
+  /** the 30 second turn clock. Returns a function that stops it. It waits while a pop-up is open. */
+  const startTimer = (onTimeUp: () => void): (() => void) => {
+    if (cfg.tutorial) return () => {};
+    let left = TURN_SECONDS;
+    const show = () => {
+      timerEl.classList.remove("off");
+      timerEl.classList.toggle("low", left <= 10);
+      timerEl.querySelector(".t-num")!.textContent = String(left);
+    };
+    show();
+    const stop = () => {
+      clearInterval(id);
+      timerEl.classList.add("off");
+    };
+    const id = window.setInterval(() => {
+      if (dialogOpen()) return;
+      left--;
+      show();
+      if (left <= 5 && left > 0) sfx("tick");
+      if (left <= 0) {
+        stop();
+        onTimeUp();
+      }
+    }, 1000);
+    return stop;
+  };
+
   // ------------------------------------------------------------ tutorial coach
   let coachSteps: CoachStep[] = [];
   const coachShow = () => {
@@ -200,6 +227,8 @@ export async function runBattle(cfg: BattleConfig): Promise<BattleResult> {
     digitIdx: number[];
     opIdx: number[];
     extraTurn: boolean;
+    /** the clock ran out with no number placed: the turn is lost */
+    skipped?: boolean;
   }
 
   function buildMove(): Promise<Built | null> {
@@ -210,7 +239,22 @@ export async function runBattle(cfg: BattleConfig): Promise<BattleResult> {
       let bracketI = 0;
       let extraTurn = false;
       let note = "";
-      quit = () => resolve(null);
+      const stopTimer = startTimer(() => {
+        // time is up: run what is on the table, cut back to the last complete move
+        while (oIdx.length && oIdx.length >= dIdx.length) oIdx.pop();
+        while (dIdx.length > 1 && !evaluate(current())) {
+          dIdx.pop();
+          oIdx.pop();
+        }
+        quit = null;
+        sfx("block");
+        if (!dIdx.length) resolve({ move: { verb: "ATTACK", digits: [], ops: [] }, digitIdx: [], opIdx: [], extraTurn, skipped: true });
+        else resolve({ move: { verb: verb ?? "ATTACK", ...current() }, digitIdx: dIdx.slice(), opIdx: oIdx.slice(), extraTurn });
+      });
+      quit = () => {
+        stopTimer();
+        resolve(null);
+      };
 
       const current = () => {
         const opts = bracketOptions(dIdx.length);
@@ -270,6 +314,7 @@ export async function runBattle(cfg: BattleConfig): Promise<BattleResult> {
             sfx("click");
             coachDid(id);
             quit = null;
+            stopTimer();
             resolve({ move: { verb: verb!, ...current() }, digitIdx: dIdx.slice(), opIdx: oIdx.slice(), extraTurn });
             return;
           }
@@ -296,11 +341,11 @@ export async function runBattle(cfg: BattleConfig): Promise<BattleResult> {
         if (note) myScript.append(h("div", { class: "note" }, note));
         // palette
         const used = (arr: number[], i: number) => (arr.includes(i) ? "used" : "");
-        const verbs = h("div", { class: "pal-group" }, h("div", { class: "pal-title" }, "1. Action", h("small", {}, "动作")), h("div", { class: "pal-row" }, ...(["ATTACK", "HEAL"] as Verb[]).map((v) => h("button", { class: `blk-btn blk stack ${v === "ATTACK" ? "attack" : "heal"} ${verb === v ? "on" : ""}`, type: "button", "data-act": `verb:${v}`, onclick: () => act(`verb:${v}`) }, h("span", { class: `ico ${v === "ATTACK" ? "sword" : "heart"}` }), v))));
-        const nums = h("div", { class: "pal-group" }, h("div", { class: "pal-title" }, "2. Numbers", h("small", {}, "数字")), h("div", { class: "pal-row" }, ...myHand.digits.map((d, i) => h("button", { class: `pill-btn pill ${used(dIdx, i)}`, type: "button", "data-act": `num:${i}`, onclick: () => act(`num:${i}`) }, String(d)))));
-        const ops = h("div", { class: "pal-group" }, h("div", { class: "pal-title" }, `3. Operators (up to ${cfg.slots})`, h("small", {}, "运算符")), h("div", { class: "pal-row" }, ...myHand.ops.map((o, i) => h("button", { class: `op-btn ${used(oIdx, i)}`, type: "button", "data-act": `op:${i}`, onclick: () => act(`op:${i}`) }, opBlock(o)))));
+        const verbs = h("div", { class: "pal-group verbs" }, h("div", { class: "pal-title" }, "1. Action", h("small", {}, "动作")), h("div", { class: "pal-row" }, ...(["ATTACK", "HEAL"] as Verb[]).map((v) => h("button", { class: `blk-btn blk stack ${v === "ATTACK" ? "attack" : "heal"} ${verb === v ? "on" : ""}`, type: "button", "data-act": `verb:${v}`, onclick: () => act(`verb:${v}`) }, h("span", { class: `ico ${v === "ATTACK" ? "sword" : "heart"}` }), v))));
+        const nums = h("div", { class: "pal-group nums" }, h("div", { class: "pal-title" }, "2. Numbers", h("small", {}, "数字")), h("div", { class: "pal-row" }, ...myHand.digits.map((d, i) => h("button", { class: `pill-btn pill ${used(dIdx, i)}`, type: "button", "data-act": `num:${i}`, onclick: () => act(`num:${i}`) }, String(d)))));
+        const ops = h("div", { class: "pal-group ops" }, h("div", { class: "pal-title" }, `3. Operators (up to ${cfg.slots})`, h("small", {}, "运算符")), h("div", { class: "pal-row" }, ...myHand.ops.map((o, i) => h("button", { class: `op-btn ${used(oIdx, i)}`, type: "button", "data-act": `op:${i}`, onclick: () => act(`op:${i}`) }, opBlock(o)))));
         const powers = (Object.keys(cfg.power) as Power[]).filter((p) => cfg.power[p] > 0);
-        const pw = powers.length ? h("div", { class: "pal-group" }, h("div", { class: "pal-title" }, "Power-ups (before your move)", h("small", {}, "道具")), h("div", { class: "pal-row" }, ...powers.map((p) => h("button", { class: `power-btn ${dIdx.length ? "used" : ""}`, type: "button", "data-act": `power:${p}`, onclick: () => act(`power:${p}`) }, powerBlock(p, cfg.power[p]))))) : null;
+        const pw = powers.length ? h("div", { class: "pal-group powers" }, h("div", { class: "pal-title" }, "Power-ups (before your move)", h("small", {}, "道具")), h("div", { class: "pal-row" }, ...powers.map((p) => h("button", { class: `power-btn ${dIdx.length ? "used" : ""}`, type: "button", "data-act": `power:${p}`, onclick: () => act(`power:${p}`) }, powerBlock(p, cfg.power[p]))))) : null;
         const canGroup = cfg.brackets && dIdx.length >= 3;
         const controls = h(
           "div",
@@ -355,12 +400,26 @@ export async function runBattle(cfg: BattleConfig): Promise<BattleResult> {
   // ------------------------------------------------------------ your shield
   function pickShield(offers: Shield[]): Promise<Shield | null> {
     return new Promise((resolve) => {
-      quit = () => resolve(null);
+      let done = false;
+      const stopTimer = startTimer(() => {
+        // time is up: a random shield is planted for you
+        if (done) return;
+        done = true;
+        quit = null;
+        sfx("block");
+        resolve(offers[Math.floor(rnd() * offers.length)]);
+      });
+      quit = () => {
+        stopTimer();
+        resolve(null);
+      };
       const choose = (i: number) => {
-        if (!coachAllows(`shield:${i}`)) return;
+        if (done || !coachAllows(`shield:${i}`)) return;
+        done = true;
         sfx("click");
         coachDid(`shield:${i}`);
         quit = null;
+        stopTimer();
         resolve(offers[i]);
       };
       myScript.replaceChildren(hatBlock("when I am attacked"), h("div", { class: "blk stack ghost" }, "pick a shield below"));
@@ -544,8 +603,13 @@ export async function runBattle(cfg: BattleConfig): Promise<BattleResult> {
       coachShow();
       if (cfg.tutorial && round === 1) coachNote("Dr. Hello planted a shield: a repeat block. Watch it run its inside block 2 times.");
       if (plan && !(cfg.tutorial && round === 1)) foeShield = foeOffers[plan.shield] ?? foeShield;
-      await runTurn("me", built.move, foeShield, !showFoeShield);
-      refill(myHand, built.digitIdx, built.opIdx, cfg.ops, rnd);
+      if (built.skipped) {
+        cap(`Time is up! ${TURN_SECONDS} seconds passed with no number placed, so you lose this turn.`);
+        await wait(2200);
+      } else {
+        await runTurn("me", built.move, foeShield, !showFoeShield);
+        refill(myHand, built.digitIdx, built.opIdx, cfg.ops, rnd);
+      }
       if (cfg.tutorial && round === 1) {
         myHand.digits = [2, 5, 6];
         myHand.ops = ["-", "+"];

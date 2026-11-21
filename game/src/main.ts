@@ -116,7 +116,7 @@ function refreshHud(): void {
 const world = new World(canvas, {
   mark: (npc) => {
     const a = npc.action;
-    if (!a) return "";
+    if (!a || inBattle) return "";
     if (a.type === "battle") return a.floor <= progress.cleared ? "ok" : a.floor === progress.cleared + 1 ? "!" : "";
     if (a.type === "boss") return progress.bossBeaten ? "ok" : "!";
     return "";
@@ -266,8 +266,10 @@ function focusOn(t: Target, screenY: number): void {
   world.dir = (Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? "right" : "left") : dy > 0 ? "down" : "up") as Dir;
 }
 
-async function battle(cfg: BattleConfig, t: Target | null, screenY = 318): Promise<"win" | "lose" | "quit"> {
+async function battle(cfg: BattleConfig, t: Target | null, screenY = 300): Promise<"win" | "lose" | "quit"> {
   if (t) focusOn(t, screenY);
+  // against Leo the camera sits at the top of the hall, so the whole LED wall is in view
+  if (cfg.boss && world.focus) world.focus = { x: world.focus.x, y: 0, screenY: 0 };
   inBattle = true;
   showHud(false);
   const speed = pace.speed;
@@ -352,7 +354,7 @@ async function fightBoss(t: Target | null): Promise<void> {
   const sheet = getCharacter("leo");
   while (true) {
     const cfg: BattleConfig = { ...baseConfig(progress), playerMax: playerMaxHp(progress) + BOSS_BONUS_HP, floor: 15, boss: true, place: "Grand Hall · 大礼堂", enemy: LEO, enemyHp: BOSS_HP, skill: 0.75, pool: enemyPool(15, true), slots: 6, tutorial: false, onLed: setLedText };
-    const result = await battle(cfg, t, 336);
+    const result = await battle(cfg, t);
     setLedText([]);
     if (result === "quit") return;
     if (result === "win") {
@@ -514,14 +516,14 @@ async function demo(): Promise<void> {
   let target: Target | null = null;
   if (leo) {
     // walk-on: stand in front of Leo
-    world.px = leo.tx * TILE + TILE / 2;
-    world.py = (leo.ty + 2) * TILE + TILE - 10;
-    world.dir = "up";
+    world.px = (leo.tx - 3) * TILE + TILE / 2;
+    world.py = leo.ty * TILE + TILE - 10;
+    world.dir = "right";
     world.snapCamera();
     target = { id: leo.id, en: "", zh: "", action: { type: "boss" }, npc: leo };
   }
   const cfg: BattleConfig = { ...baseConfig(progress), playerMax: playerMaxHp(progress) + BOSS_BONUS_HP, floor: 15, boss: true, place: "Demo mode · Grand Hall · 大礼堂", enemy: LEO, enemyHp: BOSS_HP, skill: 0.75, pool: enemyPool(15, true), slots: 6, tutorial: false, onLed: setLedText, auto: true };
-  const result = await battle(cfg, target, 336);
+  const result = await battle(cfg, target);
   setLedText([]);
   pace.auto = false;
   pace.speed = 1;
@@ -679,8 +681,9 @@ async function boot(): Promise<void> {
     if (battleParam) {
       const npc = world.map.npcs.find((n) => n.action?.type === "battle" || n.action?.type === "boss");
       if (npc) {
-        world.px = npc.tx * TILE + TILE / 2;
-        world.py = (npc.ty + 2) * TILE + TILE - 10;
+        const boss = npc.action?.type === "boss";
+        world.px = (npc.tx - (boss ? 3 : 0)) * TILE + TILE / 2;
+        world.py = (npc.ty + (boss ? 0 : 2)) * TILE + TILE - 10;
         world.snapCamera();
         await runAction({ id: npc.id, en: "", zh: "", action: npc.action!, npc });
       }

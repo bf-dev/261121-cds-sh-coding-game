@@ -8,6 +8,8 @@ Whiteboard: "game flow -> A vs. B, turn taking". Sources: part 1 21:19 to 23:07,
 - Each side has **HP. Whoever reaches 0 HP first loses** (p2 04:33).
 - **Cards are random and change after you use them** (p4 12:51 to 13:09). HEAL and ATTACK are always available (p4 07:09).
 - **An inventory panel** shows your cards (p4 10:31).
+- **Each player has 30 seconds for a turn** (Insung, 2026-11-21, during the build).
+- **The pieces are drawn as Scratch-style blocks**, not cards or code text (Insung, 2026-11-21, during the build).
 - **When you get a new card, a pop-up explains what it does and what it's equivalent to** (p4 09:01 to 09:11).
 
 ## one turn (part 4)
