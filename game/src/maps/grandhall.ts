@@ -34,7 +34,11 @@ export function getLedText(): string[] {
 let idleCanvas: HTMLCanvasElement | null = null;
 let idleFontsReady = false;
 let codeCanvas: HTMLCanvasElement | null = null;
+let tickerCanvas: HTMLCanvasElement | null = null;
+let frameCanvas: HTMLCanvasElement | null = null;
 let codeKey = "";
+/** height of the scrolling code ticker along the bottom of the wall */
+const TICKER_H = 66;
 
 function buildIdle(w: number, h: number): HTMLCanvasElement {
   const [c, g] = mk(w, h);
@@ -50,67 +54,112 @@ function buildIdle(w: number, h: number): HTMLCanvasElement {
     g.fillStyle = `rgba(4,26,34,${0.1 + s * 0.07})`;
     for (let y = h - 96 + s * 16; y < h - 96 + (s + 1) * 16; y += 4) for (let x = (y / 4) % 2 ? 0 : 4; x < w; x += 8) g.fillRect(x, y, 4, 4);
   }
-  const ch = Math.round(h * 0.62);
+  // crest and hall name on the left, so whoever stands centre stage hides nothing
+  const ch = Math.round(h * 0.66);
   const cw = Math.round(ch / 1.18);
-  const total = cw + 40 + 520;
-  const x0 = Math.round((w - total) / 2);
-  const cy = Math.round((h - ch) / 2) - 6;
+  const x0 = 70;
+  const cy = Math.round((h - ch) / 2) - 12;
   rect(g, x0 - 10, cy - 10, cw + 20, ch + 20, "rgba(4,26,34,0.35)");
   drawCrest(g, x0, cy, cw);
-  text(g, "Grand Hall", x0 + cw + 42, cy + 2, 76, "#06323c");
-  text(g, "Grand Hall", x0 + cw + 40, cy - 2, 76, "#f4fffb");
-  text(g, "大礼堂", x0 + cw + 42, cy + 86, 52, "#06323c");
-  text(g, "大礼堂", x0 + cw + 40, cy + 83, 52, "#d8fff3");
-  text(g, "HKU School of Computing and Data Science · 香港大学 计算与数据科学学院", w / 2, h - 34, 20, "#c6f3ea", { align: "center" });
-  text(g, "FINAL EXAM · 期末大考", w - 28, 18, 22, "#f4fffb", { align: "right" });
+  text(g, "Grand Hall", x0 + cw + 34, cy + 6, 68, "#06323c");
+  text(g, "Grand Hall", x0 + cw + 32, cy + 2, 68, "#f4fffb");
+  text(g, "大礼堂", x0 + cw + 34, cy + 82, 50, "#06323c");
+  text(g, "大礼堂", x0 + cw + 32, cy + 79, 50, "#d8fff3");
+  text(g, "HKU School of Computing and Data Science", 28, h - 32, 19, "#c6f3ea");
+  // right: the final exam card
+  text(g, "FINAL EXAM · 期末大考", w - 36, 26, 30, "#06323c", { align: "right" });
+  text(g, "FINAL EXAM · 期末大考", w - 38, 23, 30, "#f4fffb", { align: "right" });
+  const rows = ["for i in range(3): damage -= 2", "if damage > 5: damage -= 5", "while damage > 9: damage -= 4"];
+  g.font = `700 24px ${MONO}`;
+  g.textAlign = "right";
+  g.textBaseline = "top";
+  rows.forEach((r, i) => {
+    g.fillStyle = "#06323c";
+    g.fillText(r, w - 36, 78 + i * 34 + 2);
+    g.fillStyle = i === 0 ? "#ffe9a8" : "#c6f3ea";
+    g.fillText(r, w - 38, 78 + i * 34);
+  });
+  text(g, "香港大学 计算与数据科学学院", w - 38, h - 34, 20, "#c6f3ea", { align: "right" });
   return c;
 }
 
-const KEYWORDS = /^(for|if|in|range|else|elif|while|def|return|and|or|not|break|pass)$/;
+const KEYWORDS = /^(for|if|in|range|else|elif|while|def|return|and|or|not|break|pass|repeat|times)$/;
 
+/** draws one line of code with simple syntax colours, returns the x after the last glyph */
+function codeLine(g: Ctx, line: string, x: number, y: number, size: number): number {
+  g.font = `700 ${size}px ${MONO}`;
+  g.textBaseline = "top";
+  g.textAlign = "left";
+  const hashAt = line.indexOf("#");
+  const code = hashAt >= 0 ? line.slice(0, hashAt) : line;
+  const comment = hashAt >= 0 ? line.slice(hashAt) : "";
+  const off = Math.max(2, Math.round(size / 18));
+  for (const tok of code.split(/(\s+|[A-Za-z_]+|\d+(?:\.\d+)?)/).filter(Boolean)) {
+    let col = "#eafff6";
+    if (KEYWORDS.test(tok)) col = "#ffb454";
+    else if (/^\d/.test(tok)) col = "#7fe0ff";
+    else if (/^[A-Za-z_]+$/.test(tok)) col = "#b8ffcf";
+    else if (/[-+*/<>=×÷]/.test(tok)) col = "#ff8fa3";
+    g.fillStyle = "#03090d";
+    g.fillText(tok, x + off, y + off);
+    g.fillStyle = col;
+    g.fillText(tok, x, y);
+    x += g.measureText(tok).width;
+  }
+  if (comment) {
+    g.fillStyle = "#03090d";
+    g.fillText(comment, x + off, y + off);
+    g.fillStyle = "#63c08c";
+    g.fillText(comment, x, y);
+    x += g.measureText(comment).width;
+  }
+  return x;
+}
+
+/** the static block: all lines, as large as fits above the ticker */
 function buildCode(lines: string[], w: number, h: number): HTMLCanvasElement {
   const [c, g] = mk(w, h);
   rect(g, 0, 0, w, h, "#06131c");
   for (let y = 0; y < h; y += 4) rect(g, 0, y, w, 1, "#0a1c28");
   for (let x = 0; x < w; x += 64) rect(g, x, 0, 1, h, "#0b2230");
   const n = Math.max(1, lines.length);
-  const usable = Math.round(h * 0.7); // Leo stands in front of the lower middle of the wall
-  let size = Math.floor(Math.min(84, (usable - 20) / (n * 1.22)));
-  const fits = (s: number): boolean => {
-    g.font = `700 ${s}px ${MONO}`;
+  const usable = h - TICKER_H - 8;
+  let size = Math.floor(Math.min(72, (usable - 12) / (n * 1.2)));
+  const fits = (sz: number): boolean => {
+    g.font = `700 ${sz}px ${MONO}`;
     return lines.every((l) => g.measureText(l).width <= w - 96);
   };
   while (size > 14 && !fits(size)) size -= 2;
-  const lh = Math.round(size * 1.22);
-  const top = Math.max(10, Math.round((usable - lh * n) / 2) + 6);
-  g.textBaseline = "top";
-  g.textAlign = "left";
+  const lh = Math.round(size * 1.2);
+  const top = Math.max(8, Math.round((usable - lh * n) / 2) + 4);
   lines.forEach((line, i) => {
     g.font = `700 ${size}px ${MONO}`;
     const lw = g.measureText(line).width;
-    let x = Math.round(Math.max(48, (w - lw) / 2));
-    const y = top + i * lh + Math.round((lh - size) / 2);
-    const hashAt = line.indexOf("#");
-    const code = hashAt >= 0 ? line.slice(0, hashAt) : line;
-    const comment = hashAt >= 0 ? line.slice(hashAt) : "";
-    for (const tok of code.split(/(\s+|[A-Za-z_]+|\d+(?:\.\d+)?)/).filter(Boolean)) {
-      let col = "#eafff6";
-      if (KEYWORDS.test(tok)) col = "#ffb454";
-      else if (/^\d/.test(tok)) col = "#7fe0ff";
-      else if (/^[A-Za-z_]+$/.test(tok)) col = "#b8ffcf";
-      else if (/[-+*/<>=×÷]/.test(tok)) col = "#ff8fa3";
-      g.fillStyle = "#03090d";
-      g.fillText(tok, x + 3, y + 3);
-      g.fillStyle = col;
-      g.fillText(tok, x, y);
-      x += g.measureText(tok).width;
-    }
-    if (comment) {
-      g.fillStyle = "#03090d";
-      g.fillText(comment, x + 3, y + 3);
-      g.fillStyle = "#63c08c";
-      g.fillText(comment, x, y);
-    }
+    codeLine(g, line, Math.round(Math.max(48, (w - lw) / 2)), top + i * lh + Math.round((lh - size) / 2), size);
+  });
+  // ticker bed
+  rect(g, 0, h - TICKER_H, w, TICKER_H, "#04202a");
+  rect(g, 0, h - TICKER_H, w, 3, "#38c9b4");
+  rect(g, 0, h - TICKER_H + 3, w, 1, "#0d5a58");
+  return c;
+}
+
+/** all lines on one long strip; it scrolls along the bottom of the wall, behind whoever is on stage */
+function buildTicker(lines: string[]): HTMLCanvasElement {
+  const size = 44;
+  const [probe, pg] = mk(8, 8);
+  void probe;
+  pg.font = `700 ${size}px ${MONO}`;
+  const gap = 110;
+  const total = lines.reduce((a, l) => a + pg.measureText(l).width + gap, 0);
+  const [c, g] = mk(Math.max(64, Math.ceil(total)), TICKER_H - 4);
+  let x = 0;
+  lines.forEach((line, i) => {
+    const end = codeLine(g, line, x + 40, 9, size);
+    // separator diamond
+    const dx = end + (gap - 40) / 2 + 12;
+    for (let j = -9; j <= 9; j++) rect(g, dx - (9 - Math.abs(j)), 31 + j, (9 - Math.abs(j)) * 2 + 1, 1, i % 2 ? "#ffb454" : "#38c9b4");
+    x = end + gap - 40;
   });
   return c;
 }
@@ -126,17 +175,26 @@ export function drawLed(ctx: Ctx, x: number, y: number, w: number, h: number, ti
   ctx.imageSmoothingEnabled = false;
   if (ledLines.length) {
     const key = ledLines.join("\n");
-    if (!codeCanvas || key !== codeKey) {
+    if (!codeCanvas || !tickerCanvas || key !== codeKey) {
       codeCanvas = buildCode(ledLines, lw, lh);
+      tickerCanvas = buildTicker(ledLines);
       codeKey = key;
     }
-    ctx.drawImage(codeCanvas, 0, 0, lw, lh, x, y, w, h);
-    // slow scan line
+    if (!frameCanvas) frameCanvas = mk(lw, lh)[0];
+    const fg = frameCanvas.getContext("2d")!;
+    fg.imageSmoothingEnabled = false;
+    fg.drawImage(codeCanvas, 0, 0);
+    // scroll the ticker in whole 2 px steps; repeat it across the wall
+    const tw = tickerCanvas.width;
+    const off = (Math.floor(timeMs / 12) * 2) % tw;
+    for (let tx = -off; tx < lw; tx += tw) fg.drawImage(tickerCanvas, tx, lh - TICKER_H + 5);
+    // slow scan line over the static block
     const sy = Math.floor(((timeMs / 28) % (lh + 60)) / 4) * 4 - 30;
-    if (sy > 0 && sy < lh - 4) {
-      ctx.fillStyle = "rgba(160,255,220,0.07)";
-      ctx.fillRect(x, y + (sy * h) / lh, w, (12 * h) / lh);
+    if (sy > 0 && sy < lh - TICKER_H - 12) {
+      fg.fillStyle = "rgba(160,255,220,0.07)";
+      fg.fillRect(0, sy, lw, 12);
     }
+    ctx.drawImage(frameCanvas, 0, 0, lw, lh, x, y, w, h);
   } else {
     if (!idleCanvas || (!idleFontsReady && document.fonts && document.fonts.status === "loaded")) {
       idleCanvas = buildIdle(lw, lh);
@@ -518,13 +576,14 @@ export function buildGrandHall(): GameMap {
 
   // ---- the lit sign on the stage floor, with the game's own title where the event sign stood
   const sign = titleSign();
-  ellipse(g, W / 2, 7 * TILE - 10, 170, 10, "rgba(40,22,10,0.4)");
+  const signX = 24 * TILE + 32;
+  ellipse(g, signX, 8 * TILE - 10, 210, 9, "rgba(40,22,10,0.4)");
   for (let r = 0; r < 3; r++) {
     g.fillStyle = "rgba(190,255,240,0.07)";
-    g.fillRect(W / 2 - 190 - r * 16, 7 * TILE - 14 + r * 4, 380 + r * 32, 26 - r * 4);
+    g.fillRect(signX - 220 - r * 16, 8 * TILE - 70 + r * 4, 440 + r * 32, 20 - r * 4);
   }
-  props.push({ sprite: sign, x: Math.round(W / 2 - sign.width / 2), y: 7 * TILE - 6 - sign.height, sortY: 7 * TILE - 8 });
-  block(solid, COLS, 13, 6, 7, 1);
+  props.push({ sprite: sign, x: Math.round(signX - sign.width / 2), y: 8 * TILE - 6 - sign.height, sortY: 8 * TILE - 8 });
+  block(solid, COLS, 21, 7, 7, 1);
 
   // ---- lectern, stage left (the audience's left)
   const lec = lecternSprite();

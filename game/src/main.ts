@@ -307,7 +307,7 @@ async function fight(floor: number, t: Target | null): Promise<void> {
       skill: ((floor - 1) / 13) * 0.85,
       pool: enemyPool(floor),
       slots: slotsForFloor(floor),
-      tutorial: floor === 1 && progress.cleared === 0,
+      tutorial: floor === 1 && progress.cleared === 0 && !pace.auto,
     };
     const result = await battle(cfg, t);
     if (result === "quit") return;

@@ -380,7 +380,8 @@ export function ruleMove(hand: Hand, slots: number, brackets: boolean, me: Side,
   const missing = me.max - me.hp;
   const canKill = best.value >= foe.hp + 4;
   if (canKill && r() < 0.5 + skill * 0.5) return { move: { verb: "ATTACK", ...best.move }, cand: best };
-  if (me.hp <= me.max * 0.38 && missing >= 6 && r() < 0.45 + 0.4 * skill) {
+  // beginners' professors (floors 1 and 2) never heal, so the first matches stay short
+  if (skill > 0.1 && me.hp <= me.max * 0.38 && missing >= 6 && r() < 0.3 + 0.5 * skill) {
     // heal: the smallest candidate that covers what is missing, else the biggest
     const h = c.find((x) => x.value >= missing) ?? best;
     return { move: { verb: "HEAL", ...h.move }, cand: h };
