@@ -21,7 +21,7 @@ The building is unlocked as a reward space, so it should feel calmer and more ge
 
 ## 2. Exterior and entrances
 
-**Seen** in Koki's exterior walk (`mac/110510-outside-cds1-entrance-b5-lockers-gate.mp4`, 01:56 to 02:10) and in `103019` (medium confidence that this is B5):
+**Seen** in Koki's exterior walk (`resources/videos/2026-11-21-koki/110510-outside-cds1-entrance-b5-lockers-gate.mp4`, 01:56 to 02:10) and in `103019` (medium confidence that this is B5):
 
 - Facade: a stack of dark glass boxes with deep cantilevers, slim bronze-brown mullions, a heavier dark recessed base. Some panels are frosted. Above and behind, a taller glass tower with a gold lattice crown.
 - Main glass wall (`ext-hku-glass-wall-01.jpg`): tall curtain wall, slim grey mullions, a horizontal frosted white band at door height repeating `HKU` on every leaf and `Est. 1911` on the right leaf. Automatic sliding doors, warm yellow interior with timber-framed columns and a reception counter.

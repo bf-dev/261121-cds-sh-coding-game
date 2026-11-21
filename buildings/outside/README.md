@@ -28,7 +28,7 @@ Block size, read off the site plan dimension strings: roughly **190 m east to we
 
 **Where sources disagree:**
 
-- `web/SOURCES.md` says the block is "north of 祖冲之路". The park map and the shelter board both put 香港大学 **south** of 祖冲之路, with the Line 2 viaduct running along that road. Treat "south of 祖冲之路" as correct and the SOURCES.md note as an error.
+- One web write-up says the block is "north of 祖冲之路". The park map and the shelter board both put 香港大学 **south** of 祖冲之路, with the Line 2 viaduct running along that road. Treat "south of 祖冲之路" as correct.
 - The blue road sign photographed beside the lockers reads **银冬路 Yindong Rd** over **集电路 Jidian Rd** with a straight ahead arrow. 银冬路 is not one of the four board streets, so it is most likely the continuation of the east-west road beyond the junction, seen from the campus exit. Do not put 银冬路 on the block boundary without checking; treat it as a road near the east or south edge.
 - The team's building names (**CDS1, CDS2, B5, B6, MT**) do not appear on any public source or sign. They are internal labels. The HKU construction board uses letters **A to E** instead (see section 2).
 

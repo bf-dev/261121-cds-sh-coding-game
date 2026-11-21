@@ -251,7 +251,7 @@ All frames are 1280x720 stills from the 720p source. Zooms are crops of those st
 | labs-reception-wide-01.jpg | lobby wide: LED wall, desk, fluted wall, gloss floor, plant | FF14 + 5 s |
 | labs-porthole-ring-sofa-01.jpg | porthole screen in a perforated wall, grey ring sofa, fin ceiling | FF14 + 8 s |
 
-Web images: none added. No public photo of this cluster, the Senior Common Room or the grand hall exists in the reference pack (see `web/SOURCES.md`), so there is nothing to copy that shows these spaces.
+Web images: none added. No public photo of this cluster, the Senior Common Room or the grand hall exists in the web images collected for this repo, so there is nothing to copy that shows these spaces.
 
 ---
 
@@ -276,10 +276,8 @@ Photos the team should take next, in priority order:
 
 ## Source corrections
 
-- `facts-2.md` writes the sign as `用餐区`; the sign is traditional `用餐區`.
-- `web/SOURCES.md` describes `high-table-dinner-01.webp` as a High Table dinner hall. The file is actually an exterior shot of the crowd on the stone staircase under the `香港大學 / THE UNIVERSITY OF HONG KONG` band, no interior.
-- `web/SOURCES.md` describes `cds-building-interior-dsc02151-01.webp` as an oval hall with a suspended ring ceiling. The file shows students at a Go-playing robot, no hall.
-- So the pack still contains no image of any hall interior.
+- The canteen sign is traditional `用餐區`, not simplified.
+- Two press photos once labelled as hall interiors are not: one is a crowd on the exterior staircase under the `香港大學 / THE UNIVERSITY OF HONG KONG` band, the other is students at a Go-playing robot. No image of any hall interior exists in this repo.
 
 ---
 

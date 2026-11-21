@@ -7,7 +7,7 @@ All images in this folder are full-resolution keyframes from the team's own vide
 ## 1. what CDS1 is
 
 - CDS1 is the team's name for the main School of Computing and Data Science building on the HKU Zhangjiang Base, No. 500 Fangchun Road (芳春路500号), Pudong, Shanghai. Seen: the school name and crest are on the entrance, the lobby wall and every floor sign.
-- Official naming on the web: "HKU Zhangjiang Base", academic unit "HKU School of Computing and Data Science (Shanghai)" / "HKU CDS (Shanghai)", Chinese 香港大學計算與數據科學學院（上海）. Sources in `web/SOURCES.md` of the collection, copied below in the image index.
+- Official naming on the web: "HKU Zhangjiang Base", academic unit "HKU School of Computing and Data Science (Shanghai)" / "HKU CDS (Shanghai)", Chinese 香港大學計算與數據科學學院（上海）. Source URLs are in the image index.
 - The reference map in `docs/art-style.md` reads a construction board as **C = CDS Main Building**, which matches this building. Inferred, but consistent.
 - Floors we have footage of: **1/F** (entrance lobby, turnstiles, cafe, lecture theatre), **6/F** (classroom floor, the "normal" floor type), **13/F** (professors' offices and lounge, different fit-out), **14/F** (director and general office, exhibition lounge), plus one upper floor that is not identified (looks like 2/F, see section 7).
 - The floor guide puts the building at least 14 storeys. A photo shows `14` over `B3` on a lift panel, so there are basements, probably B1 to B3. Heard, plus seen on the sign; the basement count is not confirmed.
