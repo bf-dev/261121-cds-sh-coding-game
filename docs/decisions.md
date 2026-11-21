@@ -33,6 +33,7 @@ What the team agreed, or said without objection. Citations: `mm:ss` = part 1, `p
 | 35 | The last stage is called **Grand Hall** | Insung, 2026-11-21, during the build |
 | 36 | Building 5: the lift serves 1/F to 5/F, the study stair connects 3/F and 4/F with sofas under it, 3/F to 5/F are study and meeting rooms, there is no cafe. Meituan lockers stand east of CDS1, upright, across the service road, with Fangchun Road behind them | Insung, 2026-11-21, during the build |
 | 37 | The look is cute | Insung, 2026-11-21, during the build |
+| 38 | The game is playable online at insu.ng/cds | Insung, 2026-11-21, during the build |
 
 ## world and story
 

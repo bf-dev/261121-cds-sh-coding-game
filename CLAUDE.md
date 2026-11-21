@@ -83,4 +83,7 @@ npm run preview      # serve the build
 - Battle pieces are **Scratch-style blocks**, not cards or code text (decision #29).
 - Every default the builder picked is in `game/DESIGN-CHOICES.md`, labelled as a proposal. When the team keeps one, move it to `docs/decisions.md`.
 - Rules live in `game/src/battle/rules.ts` (no DOM). Blocks, rewards and pop-up texts are data in `game/src/data/`. Maps are drawn in code from `buildings/` in `game/src/maps/`. If a doc changes a rule, change these and the doc in the same commit.
-- Presentation: `Demo mode` on the title screen plays a full match by itself; `Level select` jumps to any floor or the boss.
+- Presentation: `Demo mode` on the title screen plays a full match by itself; `Level select` jumps to any floor or the Grand Hall.
+- Story, professors and their lines are in `game/src/data/professors.ts`. The lineup follows `docs/professor-levels.md`.
+- The HKU logo is the official file in `game/src/assets/` (from hku.hk). Never redraw it; use `crest()` / `logoFull()` from `game/src/art/logo.ts`.
+- Online copy: https://insu.ng/cds/ (static build, rule-based opponents), republished with `game/scripts/deploy-insu.sh` on Insung's server.

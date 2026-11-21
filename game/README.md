@@ -44,21 +44,23 @@ LLM_MODEL=deepseek-v4.1-flash
 | --- | --- |
 | walk | arrow keys or WASD, or the pad on screen |
 | talk, open, lift | Space (or Enter, E, or tap the prompt) |
-| battle | click blocks: ATTACK or HEAL, a number, then operator and number pairs, then the green flag |
+| attack | click blocks: ATTACK or HEAL, a number, then operator and number pairs, then the green flag |
+| defend | pick a shield block, tap shield numbers into its empty slots, press Plant. Or `No shield` to save the block. Blocks and numbers are limited per battle |
 | Bag | your blocks, with a picture of each |
 | Menu | demo mode, level select, title |
 
 ## for the presentation
 
 - **Demo mode** (title screen or Menu): plays a full match against Leo in the Grand Hall by itself. `?demo=1` in the URL starts it straight away. `&speed=2` runs it faster.
-- **Level select** (title screen or Menu): jump to any floor, or to Leo, with the blocks you would have by then.
+- **Level select** (title screen or Menu): jump to any floor, or to the Grand Hall, with the blocks you would have by then.
+- **Online**: https://insu.ng/cds/ serves the static build (rule-based opponents). `scripts/deploy-insu.sh` rebuilds and republishes it; it only works on Insung's server.
 - In a battle: `Speed` cycles 1x, 2x, 3x. `Show Python` shows each block as a line of Python.
 - Progress is saved in the browser (localStorage). `New game` wipes it.
 
 Debug links (never touch the saved game):
 
 ```
-?map=outside&spawn=start        any map: outside, cds1-1 .. cds1-14, b5-1, b5-2, hall
+?map=outside&spawn=start        any map: outside, cds1-1 .. cds1-14, b5-1 .. b5-5, hall
 ?map=cds1-6&tp=10,8             teleport to a tile
 ?battle=5                       fight floor 5 with a floor-5 kit      ?battle=boss
 ?battle=5&auto=1&speed=3        let it play itself
@@ -77,7 +79,8 @@ src/battle/ui.ts       the battle screen, tutorial coach, demo autoplayer
 src/battle/llm.ts      the model opponent and its validation
 src/data/              blocks and their pop-up texts, rewards per floor, professors
 src/maps/              outside, cds1 (14 floors), b5, grandhall: drawn from buildings/
-src/art/               pixel helpers, characters
+src/art/               pixel helpers, chibi characters, the official HKU logo loader
+src/assets/            HKU logo and crest (SVG, from hku.hk)
 ```
 
 Design defaults picked during the build are in [DESIGN-CHOICES.md](DESIGN-CHOICES.md).

@@ -16,6 +16,7 @@ Rules that come straight from `docs/decisions.md` are not repeated here.
 | The same build-it-yourself rule is used for every shield block (`if`, `if / else`, `while`), not only `repeat` | one way to build a shield is easier to learn than two |
 | **Less HP, fewer shields.** A professor may plant 1 shield per battle on floors 1 and 2, 2 on floors 3 to 6, 3 on floors 7 to 14, Leo 4. When they have blocks left they plant one about 6 rounds in 10 | Insung, 2026-11-21: "makes HP less than before", "less the shield because it is boring to have longer and repetitive". `docs/decisions.md` #32 |
 | The clock stops while a pop-up is open, and the tutorial battle on floor 1 has no clock | a first-time visitor should not be rushed while reading what a block does |
+| In a battle the student steps to the professor's side, so both stand on one line above the HP panels and face each other. The student goes back to where they stood afterwards | |
 | The opponent's turn is also inside the limit: the model gets 2 seconds, the rule-based AI is instant | |
 | Precedence is shown by nesting: `8 + 2 × 3` draws `2 × 3` as a bubble inside the `+` bubble. Brackets are a bubble with a white outline | answers open question 2 (how brackets are entered): a `( ) Group` button cycles which pair of neighbours is wrapped |
 
@@ -48,13 +49,22 @@ Every number slot is filled by the player from the shield numbers.
 | block | shown as | Python | got from |
 | --- | --- | --- | --- |
 | for | `repeat [A] times: change damage by -[B]` | `for i in range(A): damage -= B` | start |
-| if > | `if damage > [A] then: change damage by -[B]` | `if damage > A: damage -= B` | floor 1 (build prompt default) |
-| if < | `if damage < [A] then: set damage to 0` (needs only 1 number) | `if damage < A: damage = 0` | floor 7 |
+| round() | `set damage to round(damage ÷ 2)`, needs no numbers | `damage = round(damage / 2)` | floor 1, Dr. Dougherty's Round Off |
+| if > | `if damage > [A] then: change damage by -[B]` | `if damage > A: damage -= B` | floor 2, Dr. Qin's Security Check |
+| if < | `if damage < [A] then: set damage to 0` (1 number) | `if damage < A: damage = 0` | floor 7 |
 | if / else | `if damage > [A] then: -[B], else: -[C]` | | floor 8 |
-| while | `repeat while damage > [A]: change damage by -[B]` | `while damage > A: damage -= B` | floor 10 |
+| while | `repeat while damage > [A]0: change damage by -[B]`. The limit is the number times ten | `while damage > 30: damage -= B` | floor 10 |
+| len() | `change damage by -len(numbers) × [A]`: counts the number blocks in the attack | `damage -= len(numbers) * A` | floor 12, Prof. Luo's Sequence Length |
+| sorted() | `change damage by - middle of sorted([A]0, [B]0, [C]0)` | `damage -= sorted([60, 20, 40])[1]` | floor 13, Prof. Lam's Order the Options |
+| filter() | `change damage by - sum of filter(numbers > [A])`: the attack's number blocks bigger than A | `damage -= sum(filter(lambda n: n > A, numbers))` | floor 14, Prof. Ma's Pattern Filter |
 | if ≥ | `if damage ≥ [A] then: change damage by -[B]` | | B5 study stair, first visit |
 
-Other floor rewards: floor 3 the Building 5 key (build prompt default), floors 5 and 11 one more shield block per battle, floor 9 and 13 a Red Bull, floor 12 a gym session, floor 14 the Grand Hall invitation. The second study-stair visit gives 2 more shield numbers per battle.
+- **Five professors have a shield of their own**, always the first one they plant, announced by name, and won as a block when you beat them: Dougherty `round()`, Qin `if`, Luo `len()`, Lam `sorted()`, Ma `filter()`. The functions come from `docs/professor-levels.md` (Aretha). The other nine functions in that file (`min`, `abs`, `any`, `randint`, `sum`, `max`, `all`, `mod`, and its own `while` variant) are not built. Source for doing these five first: the review Insung forwarded on 2026-11-21 ("give the key professors distinct battles first: Alan, Brian, RB Luo, Tak-Wah Lam, Yi Ma").
+- The exact effects of `len()`, `sorted()` and `filter()` are the builder's: `docs/professor-levels.md` marks 13/F and 14/F as experimental. `round()` follows Python: a value exactly in the middle goes to the even number (`round(2.5)` is 2), and the game says so when it happens.
+- `while` used to stop at a limit of 1 to 9, which erased any hit. The limit is now the number times ten.
+- **The logic is animated, not only the damage**: each test shows a `true` or `false` tag on the block (`8 > 5` true, then the inside runs), loops take the damage down one pass at a time, and the caption reads the step out. Same review, point 2.
+
+Other floor rewards: floor 2 also the `×` block, floor 3 the Building 5 key (build prompt default), floor 4 `÷`, floors 5 and 11 one more shield block per battle, floor 6 brackets, floor 9 and 13 a Red Bull, floor 12 a gym session, floor 14 the Grand Hall invitation. The second study-stair visit gives 2 more shield numbers per battle.
 
 ## power-ups
 
@@ -67,6 +77,7 @@ Other floor rewards: floor 3 the Building 5 key (build prompt default), floors 5
 
 - Building 5 has no cafe (Insung, 2026-11-21), so the Red Bull moved to the drink fridges that the footage shows on CDS1 1/F.
 - Used at the start of your turn, before the first number is placed (decision #16).
+- **Campus details are worth HP**: every info spot found on the maps gives +1 maximum HP in all battles, up to 20. With the study stair (a shield block), the lockers and the fridge, exploring the real places changes the fights. Review point 1 ("make a few campus locations necessary to the adventure").
 - You carry at most 2 of each. Each station gives one item per floor cleared, so the player comes back to B5 between floors (open question 8).
 - The Meituan lockers work from the start, before B5 is unlocked.
 

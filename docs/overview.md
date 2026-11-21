@@ -18,4 +18,4 @@ First-time campus visitors: offer holders and their families and friends (hackat
 
 ## status
 
-A playable build is in `game/` (see `CLAUDE.md`, "the game: build and run"). The battle pieces are drawn as Scratch-style blocks instead of cards (decision #29). What's settled is in [decisions](decisions.md). Everything else is in [open-questions](open-questions.md), and the defaults the build picked are in `game/DESIGN-CHOICES.md`.
+A playable build is in `game/` (see `CLAUDE.md`, "the game: build and run"). It is also online at https://insu.ng/cds/. Shields are built by the player from limited blocks and numbers (decision #31), the 14 floors use the professor lineup with one story from title to ending (decision #33), and the look is cute (decision #37). The battle pieces are drawn as Scratch-style blocks instead of cards (decision #29). What's settled is in [decisions](decisions.md). Everything else is in [open-questions](open-questions.md), and the defaults the build picked are in `game/DESIGN-CHOICES.md`.

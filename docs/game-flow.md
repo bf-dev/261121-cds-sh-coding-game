@@ -10,6 +10,8 @@ Whiteboard: "game flow -> A vs. B, turn taking". Sources: part 1 21:19 to 23:07,
 - **An inventory panel** shows your cards (p4 10:31).
 - **Each player has 30 seconds for a turn** (Insung, 2026-11-21, during the build).
 - **The pieces are drawn as Scratch-style blocks**, not cards or code text (Insung, 2026-11-21, during the build).
+- **Shields are built, and limited**: the player taps numbers into a repeat block (how many times, how much each time). A battle gives a few shield blocks and one set of shield numbers, dealt at the start (Insung, 2026-11-21, during the build). So a round may have no shield at all.
+- **Less HP, fewer shields**: the first floors are easy, each floor up is harder (Insung, 2026-11-21, during the build). Numbers are in `game/DESIGN-CHOICES.md`.
 - **When you get a new card, a pop-up explains what it does and what it's equivalent to** (p4 09:01 to 09:11).
 
 ## one turn (part 4)
