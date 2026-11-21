@@ -4,6 +4,7 @@ import { World, type Target } from "./engine/world";
 import { getCharacter } from "./art/characters";
 import { floorInfo } from "./maps/cds1";
 import { setLedText } from "./maps/grandhall";
+import { B5_FLOORS } from "./maps/b5";
 import { LEO, professor, PROFESSORS } from "./data/professors";
 import { CARDS, enemyPool, enemyShieldCount, FN_ORDER, OP_ORDER, POWER_ORDER, REWARDS, STUDY_FNS, STUDY_VISITS } from "./data/cards";
 import { applyReward, BOSS_BONUS_HP, BOSS_HP, clearProgress, enemyHp, freshProgress, loadProgress, playerMaxHp, progressAtFloor, saveProgress, shieldBlocksFor, shieldDigitsFor, type Progress } from "./state";
@@ -107,7 +108,7 @@ function questText(): (string | Node)[] {
   const next = professor(p.cleared + 1);
   if (p.cleared === 0 && world.map?.id === "outside") return [blocks, "Walk up to the ", h("b", {}, "CDS1 entrance"), " and go in. ", `${next.name} is in the lobby.`];
   const where = world.map?.id === `cds1-${next.floor}` ? "on this floor" : `on CDS1 ${next.floor}/F (take the lift)`;
-  const extra = p.b5key && p.cleared === 3 ? " Building 5 is open now: power-ups inside." : "";
+  const extra = p.b5key && p.cleared === 3 ? " Building 5 is open now: gym on 2/F, study stair on 3/F." : "";
   return [blocks, "Next: ", h("b", {}, next.name), ` ${where}.${extra}`];
 }
 
@@ -180,7 +181,8 @@ async function doAction(a: Action, t: Target): Promise<void> {
       await travel(a.map, a.spawn);
       return;
     case "lift":
-      await liftPicker();
+      if (a.building === "b5") await b5LiftPicker();
+      else await liftPicker();
       return;
     case "battle":
       await fight(a.floor, t);
@@ -250,6 +252,35 @@ function liftPicker(): Promise<void> {
     ui().append(veil);
     window.addEventListener("keydown", onKey, true);
   });
+}
+
+/** Building 5: the lift serves 1/F to 5/F, every floor is open once you hold the key */
+async function b5LiftPicker(): Promise<void> {
+  const here = Number(/^b5-(\d)$/.exec(world.map.id)?.[1] ?? 0);
+  const what: Record<number, string> = { 1: "the way out to the plaza", 2: "gym session power-up", 3: "study stair: learn a new block", 4: "project rooms, top of the study stair", 5: "self-study rooms and carrels" };
+  const grid = h("div", { class: "lift-grid b5" });
+  const floor = await new Promise<number>((resolve) => {
+    const veil = h("div", { class: "veil" });
+    const done = (f: number) => {
+      veil.remove();
+      window.removeEventListener("keydown", onKey, true);
+      resolve(f);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") done(0);
+    };
+    for (const f of B5_FLOORS.slice().reverse()) {
+      const b = h("button", { class: `lift-btn ${f.floor === here ? "here" : ""}`, type: "button", "data-floor": f.floor }, h("span", { class: "num" }, String(f.floor)), h("span", { class: "what" }, `${f.name} · ${f.nameZh}`, h("span", {}, what[f.floor] ?? "")));
+      b.onclick = () => done(f.floor);
+      grid.append(b);
+    }
+    veil.append(h("div", { class: "dialog wide" }, h("div", { class: "dialog-main" }, h("div", { class: "kicker" }, "Building 5 · HKU Zhangjiang Base"), h("h2", {}, "Lift", h("small", {}, "电梯 · 选择楼层")), grid, h("div", { class: "dialog-buttons" }, h("button", { class: "btn", type: "button", onclick: () => done(0) }, "Stay here")))));
+    ui().append(veil);
+    window.addEventListener("keydown", onKey, true);
+  });
+  if (!floor || floor === here) return;
+  sfx("lift");
+  await travel(`b5-${floor}`, "lift", true);
 }
 
 async function toHall(close: () => void, resolve: () => void): Promise<void> {
@@ -420,8 +451,8 @@ async function station(kind: PowerUpKind): Promise<void> {
   }
   const names: Record<string, [string, string, string]> = {
     gym: ["Gym · 健身房", "Gym session", "You run on the treadmill with the canal outside the window."],
-    food: ["Food · 餐食", "Meituan meal", "A warm meal box, picked up and packed in your bag."],
-    redbull: ["Drinks fridge · 饮料柜", "Red Bull", "A cold can from the fridge."],
+    food: ["Meituan locker · 美团外卖柜", "Meituan meal", "Your order is in the yellow locker: a warm meal box, packed in your bag."],
+    redbull: ["Drink fridge · 饮料柜", "Red Bull", "A cold can from the glass-front fridge."],
   };
   const [kicker, name, line] = names[kind];
   if (p.power[kind] >= 2) {

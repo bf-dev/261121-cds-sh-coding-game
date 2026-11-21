@@ -2,15 +2,38 @@ import { TILE, type GameMap, type NpcDef, type Prop, type Trigger } from "../eng
 import { mk, rect, frame, hash, dither, ellipse, text, block, type Ctx } from "../art/px";
 import { drawCrest } from "./grandhall-crest";
 import * as K from "./b5-kit";
+import { buildB5Study, buildB5CoCreation, buildB5Commons, liftDoors } from "./b5-upper";
 
 // Building 5, from buildings/b5/: the reward building north of CDS1.
 // b5-1 = 1/F marble lift lobby with the University Galleria behind the walnut arch.
-// b5-2 = the amenity floor at the top of the white feature stair (power-ups).
+// b5-2 = the amenity floor at the top of the white feature stair (gym, games, lounge). No cafe.
+// b5-3 .. b5-5 = study and meeting floors, in b5-upper.ts. The study stair joins 3/F and 4/F.
+// The lift serves 1/F to 5/F (Insung, 2026-11-21).
 
 const T = TILE;
 
-export function buildB5(level: 1 | 2): GameMap {
-  return level === 1 ? buildLobby() : buildAmenity();
+/** the floors the Building 5 lift serves, with the names on the real signage */
+export const B5_FLOORS: { floor: number; name: string; nameZh: string }[] = [
+  { floor: 1, name: "University Galleria", nameZh: "大学长廊" },
+  { floor: 2, name: "Gym and Game Hub", nameZh: "健身房 · 电玩区" },
+  { floor: 3, name: "Study stair", nameZh: "阶梯自习区" },
+  { floor: 4, name: "Co-creation Space", nameZh: "共创空间" },
+  { floor: 5, name: "Learning Commons", nameZh: "学习共享空间" },
+];
+
+export function buildB5(level: number): GameMap {
+  switch (level) {
+    case 2:
+      return buildAmenity();
+    case 3:
+      return buildB5Study();
+    case 4:
+      return buildB5CoCreation();
+    case 5:
+      return buildB5Commons();
+    default:
+      return buildLobby();
+  }
 }
 
 function wallTop(g: Ctx, x: number, y: number, w: number, h: number): void {
@@ -489,6 +512,7 @@ function buildLobby(): GameMap {
   };
   triggers.push({ id: "exit", tx: 17, ty: 21, w: 2, h: 1, en: "Exit", zh: "出口", auto: true, action: { type: "goto", map: "outside", spawn: "b5-door" } });
   triggers.push({ id: "up", tx: 4, ty: 18, w: 3, h: 1, en: "Stairs to 2/F", zh: "上二楼", action: { type: "goto", map: "b5-2", spawn: "stair" } });
+  triggers.push({ id: "lift", tx: 15, ty: 13, w: 2, h: 1, en: "Lift", zh: "电梯", action: { type: "lift", building: "b5" } });
   info("pillar", 17, 13, 1, 1, "Pier 05 / B2", "05 / B2 石柱", "The white marble pier by lift 1 is engraved 05 over B2. 05 is Building 5. Nobody on the team knows yet what B2 stands for.");
   info("directory", 13, 13, 2, 1, "Directory panel", "楼层索引", "A tall dark glass panel beside lift 1, covered in small white lines of text: the building directory.");
   info("hours", 13, 19, 3, 1, "Opening hours", "开放时间", "Building 5 and the sports court are now open: your new space for sports, study and co-creation. 08:00 to 22:00, seven days a week, except public holidays.");
@@ -516,10 +540,11 @@ function buildLobby(): GameMap {
     props,
     npcs,
     triggers,
-    spawns: { door: { tx: 17, ty: 20, dir: "up" }, stair: { tx: 5, ty: 19, dir: "down" } },
+    spawns: { door: { tx: 17, ty: 20, dir: "up" }, stair: { tx: 5, ty: 19, dir: "down" }, lift: { tx: 15, ty: 13, dir: "down" } },
     labels: [
       { x: 12 * T, y: LOBBY_Y - arch.height - 6, en: "University Galleria", zh: "大学长廊" },
       { x: 5 * T, y: 13 * T - 40, en: "Stairs to 2/F", zh: "上二楼" },
+      { x: 16 * T, y: LOBBY_Y - 150, en: "Lift", zh: "电梯" },
     ],
   };
 }
@@ -527,14 +552,6 @@ function buildLobby(): GameMap {
 // =====================================================================================
 // 2/F amenity floor
 // =====================================================================================
-
-function tierCushion(g: Ctx, x: number, y: number, col: string, light: string, dark: string, w = 44): void {
-  rect(g, x + 2, y + 16, w, 4, "rgba(40,28,14,0.3)");
-  rect(g, x, y, w, 16, col);
-  rect(g, x, y, w, 4, light);
-  rect(g, x, y + 13, w, 3, dark);
-  rect(g, x + w / 2 - 1, y + 4, 2, 9, dark);
-}
 
 function hammock(): HTMLCanvasElement {
   const [c, g] = mk(170, 150);
@@ -585,19 +602,6 @@ function ropeNet(w: number, h: number): HTMLCanvasElement {
   return c;
 }
 
-function concreteColumn(): HTMLCanvasElement {
-  const [c, g] = mk(64, 190);
-  ellipse(g, 32, 182, 28, 6, "rgba(20,24,40,0.3)");
-  rect(g, 8, 0, 48, 182, "#9c9c98");
-  rect(g, 8, 0, 6, 182, "#b4b4b0");
-  rect(g, 46, 0, 10, 182, "#7d7d79");
-  for (let k = 0; k < 40; k++) rect(g, 10 + hash(k, 1, 5) * 44, hash(k, 2, 5) * 178, 2, 2, hash(k, 3, 5) < 0.5 ? "#8b8b87" : "#aaaaa6");
-  text(g, "2F", 30, 56, 15, "#f4f2ec", { align: "center" });
-  text(g, "学习", 30, 76, 11, "#f4f2ec", { align: "center" });
-  rect(g, 8, 174, 48, 8, "#26221f");
-  return c;
-}
-
 function buildAmenity(): GameMap {
   const COLS = 40;
   const ROWS = 24;
@@ -630,7 +634,7 @@ function buildAmenity(): GameMap {
   for (let j = 0; j < T; j += 2) for (let i = 0; i < 12 * T; i += 2) if (hash(i, j, 48) < 0.35) rect(g, 27 * T + i, 7 * T + j, 2, 3, K.R.turf[Math.floor(hash(i, j, 49) * 6)]);
   for (let x = 27 * T + 60; x < 39 * T; x += 128) rect(g, x, 7 * T + 4, 3, T - 8, "#e9f5e2");
   rect(g, 27 * T, 7 * T, 12 * T, 3, "#e9f5e2");
-  // cafe seating: pale wood
+  // in front of the auditorium: pale wood
   K.planks(g, 21 * T, 15 * T, 7 * T, 6 * T, K.R.paleWood, 23);
   // chill zone: raised wooden bench platform
   rect(g, 14 * T - 8, 15 * T, 6 * T + 16, 2 * T + 10, "rgba(30,22,14,0.3)");
@@ -864,7 +868,7 @@ function buildAmenity(): GameMap {
     block(solid, COLS, bx, 10, 1, 1);
   }
 
-  // ------------------------------------------------ the core: chill mural and cafe
+  // ------------------------------------------------ the core: chill mural and the auditorium
   const CX = 14 * T;
   const CW = 14 * T;
   const CY = 11 * T;
@@ -876,33 +880,36 @@ function buildAmenity(): GameMap {
   rect(g, CX, CY + 74, CW, 6, "#17181a");
   K.wall(g, CX, CFACE, CW, CFH, "#e6e2d8", "#f4f1e9", "#b3aea2");
   K.muralSkyline(g, CX + 16, CFACE + 12, 7 * T - 24, CFH - 30, false);
-  // cafe back wall: red-wood cladding, menu board, cup shelf
+  // the small performance hall behind glass: white chairs with olive seats facing a dark wall
+  // with one huge black circle, under a red-orange slatted ceiling
   const kx = CX + 7 * T + 16;
   const kw = 7 * T - 32;
-  rect(g, kx, CFACE + 8, kw, CFH - 16, "#8f4a34");
-  for (let x = kx; x < kx + kw; x += 12) {
-    rect(g, x, CFACE + 8, 1, CFH - 16, "#5f2c1e");
-    rect(g, x + 1, CFACE + 8, 2, CFH - 16, "#a85d44");
-  }
-  rect(g, kx + 20, CFACE + 22, 200, 84, "#1e2a26");
-  frame(g, kx + 20, CFACE + 22, 200, 84, "#c9a26e", 4);
-  text(g, "CAFE 咖啡", kx + 120, CFACE + 30, 20, "#f4f2ec", { align: "center" });
-  const menu = ["Latte 拿铁 ......... HEAL", "Snacks 小吃 ....... +HP", "Red Bull 红牛 .. extra turn"];
-  menu.forEach((m, i) => text(g, m, kx + 32, CFACE + 58 + i * 15, 11, i === 2 ? "#ffd23f" : "#cfe6dc", { bold: false }));
-  rect(g, kx + 240, CFACE + 52, 120, 4, "#e8cba9");
-  rect(g, kx + 240, CFACE + 92, 120, 4, "#e8cba9");
-  for (let k = 0; k < 7; k++) {
-    rect(g, kx + 246 + k * 16, CFACE + 40, 10, 12, k % 2 ? "#f4f2ec" : "#2ec4b6");
-    rect(g, kx + 246 + k * 16, CFACE + 78, 10, 14, k % 3 ? "#c9a26e" : "#e63946");
-  }
+  rect(g, kx, CFACE + 8, kw, CFH - 16, "#3a3d41");
+  rect(g, kx, CFACE + 8, kw, 26, "#c4512a");
+  for (let x = kx; x < kx + kw; x += 8) rect(g, x, CFACE + 8, 3, 26, "#8f3518");
+  rect(g, kx, CFACE + 34, 120, CFH - 42, "#2a2b30");
+  ellipse(g, kx + 60, CFACE + 96, 44, 44, "#0e0f11");
+  ellipse(g, kx + 54, CFACE + 90, 30, 30, "#17181a");
+  rect(g, kx + 120, CFACE + 120, kw - 120, CFH - 128, "#8f9089");
+  for (let r = 0; r < 3; r++)
+    for (let k = 0; k < 8; k++) {
+      const ax = kx + 134 + k * 34 + r * 6;
+      const ay = CFACE + 84 + r * 26;
+      rect(g, ax, ay, 22, 14, "#f6f4ee");
+      rect(g, ax, ay, 22, 3, "#ffffff");
+      rect(g, ax + 2, ay + 14, 18, 7, "#7f8a4a");
+      rect(g, ax + 2, ay + 21, 2, 6, "#c9c6bf");
+      rect(g, ax + 18, ay + 21, 2, 6, "#c9c6bf");
+    }
+  rect(g, kx, CFACE + 8, kw, CFH - 16, "rgba(176,208,222,0.2)");
+  for (let x = kx; x < kx + kw; x += 96) rect(g, x, CFACE + 8, 5, CFH - 16, "#17181a");
+  rect(g, kx + kw - 5, CFACE + 8, 5, CFH - 16, "#17181a");
+  rect(g, kx, CFACE + 8, kw, 5, "#17181a");
+  rect(g, kx, CFACE + CFH - 13, kw, 5, "#17181a");
+  rect(g, kx + 130, CFACE + 46, kw - 140, 24, "rgba(236,244,246,0.5)");
+  text(g, "AUDITORIUM 小剧场", kx + 130 + (kw - 140) / 2, CFACE + 50, 15, "rgba(255,255,255,0.95)", { align: "center" });
   K.ao(g, CX, CFACE + CFH, CW, 18, 0.4);
   block(solid, COLS, 14, 11, 14, 4);
-  // counter and drinks fridge standing in front of it
-  K.place(st, K.cafeCounter(), 24 * T, 16 * T - 6, true);
-  block(solid, COLS, 22, 15, 4, 1);
-  K.place(st, K.fridge(), 27 * T + 30, 16 * T - 10, true);
-  block(solid, COLS, 27, 15, 1, 1);
-
   // ------------------------------------------------ chill zone: poufs, beanbag, hammocks, the rope net
   const poufs: Array<[number, number, string, string, string]> = [
     [14, 18, "#e2b93b", "#a8861f", "#f6d76a"],
@@ -934,97 +941,58 @@ function buildAmenity(): GameMap {
   K.place(st, K.plant(120), 20 * T + 34, 16 * T - 4, true);
   block(solid, COLS, 20, 15, 1, 1);
 
-  // ------------------------------------------------ cafe seating
-  const cafeTable = (tx: number, ty: number): void => {
-    K.place(st, K.chair("#d5b38c", "#c09b73", "up"), tx * T + 32, ty * T + 20);
-    K.place(st, K.roundTable(), tx * T + 32, ty * T + 60);
-    block(solid, COLS, tx, ty, 1, 1);
-  };
-  cafeTable(22, 18);
-  cafeTable(25, 18);
-  cafeTable(23, 20);
-  cafeTable(26, 20);
+  // ------------------------------------------------ seats outside the auditorium
+  K.place(st, K.armchair("#5f6f7f", "#3f4b57", "#8494a3"), 22 * T + 32, 18 * T + 56, true);
+  K.place(st, K.roundTable("#f4f2ec", 44), 23 * T + 32, 18 * T + 52);
+  K.place(st, K.armchair("#c9a233", "#8f7220", "#e2bf55"), 24 * T + 32, 18 * T + 56, true);
+  block(solid, COLS, 22, 18, 3, 1);
+  K.place(st, K.plant(120), 27 * T + 30, 16 * T - 4, true);
+  block(solid, COLS, 27, 15, 1, 1);
 
-  // ------------------------------------------------ tiered study stair
-  const SX = 2 * T;
-  const SW = 9 * T;
-  // crest wall: brick-red louvred screen with the HKU shield
-  rect(g, SX, 11 * T, SW, 24, "#3a2622");
-  rect(g, SX, 11 * T, SW, 3, "#6b4a42");
-  rect(g, SX, 11 * T + 24, SW, 104, "#593e38");
-  for (let x = SX; x < SX + SW; x += 8) {
-    rect(g, x, 11 * T + 24, 4, 104, "#956250");
-    rect(g, x, 11 * T + 24, 1, 104, "#b07a66");
-  }
-  for (let y = 11 * T + 44; y < 13 * T; y += 26) rect(g, SX, y, SW, 2, "#3a2622");
-  rect(g, SX + SW / 2 - 44, 11 * T + 30, 88, 96, "#4a302b");
-  drawCrest(g, SX + SW / 2 - 34, 11 * T + 36, 68);
-  text(g, "Sapientia et Virtus", SX + 96, 11 * T + 62, 13, "#f1dccf", { align: "center" });
-  text(g, "明德格物", SX + SW - 96, 11 * T + 60, 16, "#f1dccf", { align: "center" });
-  block(solid, COLS, 2, 11, 9, 2);
-  // seven oak tiers, lit from above, the highest at the back
-  const oak = ["#8f7850", "#9c855b", "#aa9165", "#b99d6f", "#c5aa7c", "#d1b88b", "#dcc69b", "#e6d3ac"];
-  const cush: Array<[string, string, string]> = [
-    ["#d9a3a0", "#edc3c0", "#b07f7c"],
-    ["#6d99a1", "#93b9c0", "#4d757c"],
-    ["#c9b23f", "#e2cf6c", "#9a8726"],
-    ["#c8793a", "#e39a5e", "#9b5c37"],
-  ];
-  for (let i = 0; i < 7; i++) {
-    const y = 13 * T + i * T;
-    const lit = 6 - Math.round(i * 0.6);
-    rect(g, SX, y, SW, 46, oak[lit]);
-    for (let x = SX; x < SX + SW; x += 96) rect(g, x + ((i * 37) % 60), y, 1, 46, oak[lit - 1]);
-    for (let k = 0; k < 8; k++) rect(g, SX + hash(k, i, 81) * (SW - 40), y + 6 + hash(k, i, 82) * 34, 26, 1, oak[lit - 1]);
-    rect(g, SX, y, SW, 3, oak[Math.min(7, lit + 1)]);
-    rect(g, SX, y + 46, SW, 18, oak[Math.max(0, lit - 3)]);
-    rect(g, SX, y + 46, SW, 2, oak[Math.max(0, lit - 4)]);
-    rect(g, SX, y + 60, SW, 4, "rgba(40,28,14,0.35)");
-    // the walking steps in the middle: two risers per tier
-    rect(g, 5 * T, y + 22, 3 * T, 4, oak[Math.max(0, lit - 2)]);
-    rect(g, 5 * T, y + 26, 3 * T, 20, oak[Math.max(0, lit - 1)]);
-    rect(g, 5 * T, y + 26, 3 * T, 2, oak[Math.min(7, lit + 1)]);
-    // cushions, bolsters and small white lap desks on the seating sides
-    for (const side of [0, 1]) {
-      const bx = side ? 8 * T + 8 : SX + 8;
-      for (let k = 0; k < 3; k++) {
-        const r = hash(i, k, 83 + side);
-        if (r < 0.28) continue;
-        const c = cush[Math.floor(hash(i, k, 85 + side) * cush.length)];
-        const cx = bx + k * 58 + Math.floor(hash(i, k, 86) * 8);
-        if (r < 0.8) tierCushion(g, cx, y + 14, c[0], c[1], c[2]);
-        else {
-          rect(g, cx + 2, y + 34, 40, 4, "rgba(40,28,14,0.3)");
-          rect(g, cx, y + 16, 40, 18, "#f6f4ee");
-          rect(g, cx, y + 16, 40, 3, "#ffffff");
-          rect(g, cx + 4, y + 34, 3, 6, "#c9c6bf");
-          rect(g, cx + 33, y + 34, 3, 6, "#c9c6bf");
-          rect(g, cx + 8, y + 21, 14, 9, "#3a3d41");
-        }
-      }
+  // ------------------------------------------------ lift lobby and the music wing
+  const LX = 2 * T;
+  const LW = 9 * T;
+  const LY = 11 * T;
+  rect(g, LX, LY, LW, 40, "#2a2b30");
+  for (let x = LX; x < LX + LW; x += 12) rect(g, x, LY, 6, 40, "#34363c");
+  rect(g, LX, LY, LW, 4, "#55575e");
+  K.wall(g, LX, LY + 40, LW, 152, "#e9e6de", "#f6f4ee", "#b9b6ae");
+  liftDoors(g, 3 * T, LY + 40 + 152 - 116, 116, "2");
+  // plywood directory
+  rect(g, 6 * T - 6, LY + 52, 126, 96, "#cfa56c");
+  for (let k = 0; k < 90; k++) rect(g, 6 * T - 4 + hash(k, 1, 62) * 114, LY + 54 + hash(k, 2, 62) * 90, 6, 2, hash(k, 3, 62) < 0.5 ? "#b98b52" : "#e0bd88");
+  ["TOILET 洗手间", "PIANO ROOM 钢琴房", "MUSIC ROOM 2 音乐室2", "MULTIPURPOSE ROOM", "多功能室"].forEach((s, i) => text(g, s, 6 * T, LY + 60 + i * 17, 10, "#33291d"));
+  // two light oak doors with brass plates; one carries a Closed note
+  for (const [dx, note] of [[8 * T + 8, false], [9 * T + 40, true]] as const) {
+    rect(g, dx - 4, LY + 62, 64, 130, "#8f8b80");
+    rect(g, dx, LY + 66, 56, 126, "#d5b38c");
+    rect(g, dx, LY + 66, 5, 126, "#e8cba9");
+    rect(g, dx + 50, LY + 66, 6, 126, "#a8835d");
+    rect(g, dx + 20, LY + 80, 16, 8, "#c9a233");
+    rect(g, dx + 44, LY + 130, 4, 14, "#3a3d41");
+    if (note) {
+      rect(g, dx + 14, LY + 100, 28, 22, "#fbfaf6");
+      text(g, "Closed", dx + 28, LY + 105, 8, "#3a3d41", { align: "center" });
     }
   }
-  // white steel and glass handrails each side of the steps
-  for (const hx of [5 * T - 4, 8 * T]) {
-    rect(g, hx, 13 * T - 6, 8, 7 * T, "rgba(190,220,232,0.35)");
-    rect(g, hx + 3, 13 * T - 10, 3, 7 * T + 4, "#f6f4ee");
-    for (let y = 13 * T; y < 20 * T; y += 64) rect(g, hx + 1, y - 12, 7, 14, "#e2dfd8");
+  K.exitSign(g, LX + 10, LY + 50);
+  K.ao(g, LX, LY + 192, LW, 18, 0.4);
+  block(solid, COLS, 2, 11, 9, 3);
+  // teal benches and plants along the lobby
+  for (const bx of [6, 7, 8]) {
+    rect(g, bx * T + 2, 17 * T + 50, T - 2, 8, "rgba(20,24,40,0.25)");
+    rect(g, bx * T, 17 * T + 22, T, 30, "#3f8f8a");
+    rect(g, bx * T, 17 * T + 22, T, 6, "#62b3ad");
+    rect(g, bx * T, 17 * T + 46, T, 6, "#2a6a66");
+    block(solid, COLS, bx, 17, 1, 1);
   }
-  block(solid, COLS, 2, 13, 3, 7);
-  block(solid, COLS, 8, 13, 3, 7);
-  // landing at the foot
-  K.planks(g, SX - 32, 20 * T, SW + 64, T - 6, K.R.paleWood, 29, 16, 4);
-  rect(g, SX - 32, 21 * T - 6, SW + 64, 6, K.R.paleWood[0]);
   const pl = K.plant(124);
   K.place(st, pl, 1 * T + 34, 20 * T + 56, true);
   K.place(st, pl, 11 * T + 30, 20 * T + 56, true);
   block(solid, COLS, 1, 20, 1, 1);
   block(solid, COLS, 11, 20, 1, 1);
-  const colm = concreteColumn();
-  K.place(st, colm, 11 * T + 32, 13 * T + 58, true);
-  K.place(st, colm, 1 * T + 32, 13 * T + 58, true);
-  block(solid, COLS, 11, 13, 1, 1);
-  block(solid, COLS, 1, 13, 1, 1);
+  K.place(st, pl, 1 * T + 34, 14 * T + 56, true);
+  block(solid, COLS, 1, 14, 1, 1);
 
   // ------------------------------------------------ lounge
   // rugs under the two seating groups
@@ -1101,9 +1069,9 @@ function buildAmenity(): GameMap {
   };
   triggers.push({ id: "down", tx: 1, ty: 6, w: 3, h: 1, en: "Stairs to 1/F", zh: "下一楼", action: { type: "goto", map: "b5-1", spawn: "stair" } });
   triggers.push({ id: "gym", tx: 28, ty: 5, w: 5, h: 1, en: "Gym: train", zh: "健身房：锻炼", action: { type: "powerup", kind: "gym" } });
-  triggers.push({ id: "study", tx: 5, ty: 15, w: 3, h: 4, en: "Study stair: learn a function", zh: "阶梯自习区：学新函数", action: { type: "powerup", kind: "study" } });
-  triggers.push({ id: "redbull", tx: 27, ty: 16, w: 2, h: 1, en: "Drinks fridge", zh: "饮料冰柜", action: { type: "powerup", kind: "redbull" } });
-  triggers.push({ id: "food", tx: 22, ty: 16, w: 4, h: 1, en: "Cafe counter", zh: "咖啡吧台", action: { type: "powerup", kind: "food" } });
+  triggers.push({ id: "lift", tx: 3, ty: 14, w: 2, h: 1, en: "Lift", zh: "电梯", action: { type: "lift", building: "b5" } });
+  info("auditorium", 22, 15, 5, 1, "Auditorium", "小剧场", "The small performance hall: a long narrow room behind glass, rows of white chairs with olive-green seats facing a dark wall with one huge black circle cut into it.");
+  info("music", 6, 14, 5, 1, "Music wing", "音乐区", "The directory lists the piano room, music room 2 and the multipurpose room. One oak door carries a Closed note.");
   info("piano", 7, 6, 3, 1, "Grand piano and mural", "三角钢琴与壁画", "A glossy black concert grand stands at the top of the stair, in front of a pop-art mural of the Shanghai skyline. Look for the little HKU gate with 1911 painted into it.");
   info("wayfinding", 4, 3, 1, 1, "Wayfinding", "指示牌", "Stencilled on the wall: Men's Showers 男淋浴间, Music Room 1 音乐室1, Dance Room 舞蹈室, and Toilet 洗手间 to the right.");
   info("pool", 15, 6, 3, 1, "Pool room", "台球室", "A green-baize pool table on a dark wood body, behind black-framed glass with a frosted HKU and Est. 1911 band.");
@@ -1128,12 +1096,13 @@ function buildAmenity(): GameMap {
     props,
     npcs,
     triggers,
-    spawns: { stair: { tx: 2, ty: 7, dir: "down" } },
+    spawns: { stair: { tx: 2, ty: 7, dir: "down" }, lift: { tx: 3, ty: 14, dir: "down" } },
     labels: [
       { x: 32 * T, y: 9 * T - 92, en: "Gym", zh: "健身房" },
       { x: 16 * T + 32, y: 9 * T - 92, en: "Pool", zh: "台球室" },
       { x: 23 * T, y: 9 * T - 92, en: "Game Hub", zh: "电玩区" },
-      { x: 6 * T + 32, y: 11 * T - 6, en: "Study stair", zh: "阶梯自习区" },
+      { x: 4 * T, y: 11 * T - 6, en: "Lift", zh: "电梯" },
+      { x: 24 * T + 32, y: 11 * T - 6, en: "Auditorium", zh: "小剧场" },
     ],
   };
 }

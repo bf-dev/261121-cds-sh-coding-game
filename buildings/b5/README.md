@@ -38,6 +38,8 @@ The building is unlocked as a reward space, so it should feel calmer and more ge
 Floor model used below (see section 6 for confidence):
 1/F University Galleria and marble lift lobby. 2/F amenity floor (sports, games, study stair, lounge, chill). 4/F co-creation rooms reached at the top of the study stair. 5/F learning commons. 6/F and above unseen.
 
+**Correction (Insung, 2026-11-21):** the tiered study stair starts on 3/F and ends on 4/F, so it is not on 2/F. The sofas and seating sit at its foot on 3/F. There is no cafe in Building 5. The lift serves 1/F to 5/F, and 3/F, 4/F and 5/F are all study and meeting rooms. Read the `2f-study-stair-*` and `2f-cafe-seating-*` frames below with this in mind; the file names are unchanged. The game maps `b5-1` to `b5-5` follow this.
+
 ### 3.1 1/F University Galleria (the vaulted hall)
 
 Files: `1f-galleria-hall-wide-01.jpg`, `1f-galleria-hall-aisle-01.jpg`, `1f-galleria-end-wall-02.jpg`.

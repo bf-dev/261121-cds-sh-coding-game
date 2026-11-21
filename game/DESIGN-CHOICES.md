@@ -29,7 +29,7 @@ Rules that come straight from `docs/decisions.md` are not repeated here.
 | strong operators | a hand holds at most one `×` and one `÷` | without this, `9 × 9 × 9` ends any match in one move |
 | brackets | won on floor 6. One pair, around two neighbours only | open question 2. `(2 + 3) × 5` is the lesson; longer groups made moves of 400+ |
 | player HP | 30, +5 per floor cleared (100 after floor 14, +10 against Leo) | the build prompt says 30 each. Moves grow with the operator slots, so HP grows too, but slowly: the top floors are meant to be hard |
-| professor HP | 14 (tutorial), 18, 24, 34, 40, 46, 58, 64, 70, 82, 88, 94, 102, 110. Leo 130 | a match is 2 to 4 rounds. Floors 1 to 3 can be won by anyone |
+| professor HP | 14 (tutorial), 18, 24, 34, 40, 46, 58, 64, 70, 78, 92, 100, 110, 120. Leo 140 | a match is 2 to 5 rounds. In a simulation a careless player wins floors 1 and 2 almost every time, about 8 in 10 on floors 3 to 6, and about 6 in 10 from floor 10 up, before power-ups |
 | rounding | a move is rounded down, damage is rounded down after the shield, never below 0 | build prompt default |
 | zero divisor | the Run button refuses the move and says why | decision #7 |
 | negative move | counts as 0 | not in the docs |
@@ -60,11 +60,12 @@ Other floor rewards: floor 3 the Building 5 key (build prompt default), floors 5
 
 | power-up | effect | where |
 | --- | --- | --- |
-| Red Bull | an extra turn right after this one | B5 cafe drinks fridge, floors 9 and 13 |
-| Gym session | + one third of max HP, may go above the maximum | B5 gym, floor 12 |
-| Meituan meal | + one quarter of max HP | the Meituan lockers outside, the B5 cafe |
-| Study | not a power-up: gives the next function block | B5 study stair |
+| Red Bull | an extra turn right after this one | the drink fridges on CDS1 1/F, floors 9 and 13 |
+| Gym session | + one third of max HP, may go above the maximum | Building 5 gym on 2/F, floor 12 |
+| Meituan meal | + one quarter of max HP | the Meituan lockers outside, east of CDS1 |
+| Study | not a power-up: first visit gives the `if ≥` block, second visit 2 more shield numbers per battle | Building 5 study stair, 3/F to 4/F |
 
+- Building 5 has no cafe (Insung, 2026-11-21), so the Red Bull moved to the drink fridges that the footage shows on CDS1 1/F.
 - Used at the start of your turn, before the first number is placed (decision #16).
 - You carry at most 2 of each. Each station gives one item per floor cleared, so the player comes back to B5 between floors (open question 8).
 - The Meituan lockers work from the start, before B5 is unlocked.
@@ -98,6 +99,7 @@ Other floor rewards: floor 3 the Building 5 key (build prompt default), floors 5
 | Grand Hall: reached from the CDS1 lift after floor 14, with a short text cutscene | the hall's building and entrance are not on film (open question 11) |
 | Leo's seat on the lawn stays where it is outside; he is met on the hall stage | |
 | The battle is fought where you stand: the top of the battle screen is the live campus view, with the block workspace under it. Against Leo the hall's LED wall shows the running blocks as text | |
+| Building 5 has five floors, joined by a lift that works on every floor: 1/F Galleria, 2/F gym and game hub, 3/F study stair with sofas under it, 4/F co-creation rooms, 5/F learning commons. The study stair joins 3/F and 4/F on foot | Insung, 2026-11-21, `docs/decisions.md` #36 |
 | B6 (Senior Common Room) is not a level | its building is unconfirmed (open question 10) |
 | Campus details: info spots on every map, counted in the Bag ("campus details found") | hackathon brief: hidden details, a reason to explore |
 | Game title "Code Climb · 编程闯关" | the team has not named the game |

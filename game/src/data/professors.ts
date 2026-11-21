@@ -46,7 +46,7 @@ export const PROFESSORS: Professor[] = [
     "算法",
     "algorithms",
     "An algorithm is a recipe: the same steps, in the right order. So remember, times goes before plus.",
-    "Right steps, right order. Block 3, and the key to Building 5. Go and look after yourself there: the gym, the study stair.",
+    "Right steps, right order. Block 3, and the key to Building 5. Take its lift: the gym is on 2/F, the study stair on 3/F.",
   ),
   P(
     4,
