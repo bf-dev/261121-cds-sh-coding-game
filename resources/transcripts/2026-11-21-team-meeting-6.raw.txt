@@ -1,0 +1,634 @@
+# raw transcript: 2026-11-21 team meeting, part 6 ("Fangchun Road 12")
+
+source: "Fangchun Road 12.qta" (Apple Voice Memo, 41:47), zipped and uploaded 2026-11-21 07:15 UTC. The audio itself is not in the repo; a copy is in `~/workspace/tmp/cds-recordings/audio/Fangchun-Road-12.mp3` on Insung's machine for now.
+machine transcript (Whisper large-v3, Groq, segment timestamps added back per 10-minute chunk). unedited. Whisper looped on silence and on the prompt echo in several places ("the game is based on the original game", "the game will be played in the same way as the previous game", "Oh." and "Attack." between 25:11 and 25:51, and the team's own dictation prompt echoed at 26:45 to 27:05); they are left in here and dropped from the clean version. cite as `p6 mm:ss`.
+
+[00:00] What is Chinese?
+[00:03] Yes.
+[00:04] Yeah.
+[00:05] It's our names.
+[00:06] Chinese and Japanese.
+[00:07] We are Asians, so.
+[00:08] We have Chinese names.
+[00:09] And this is, wait, is this your name?
+[00:10] Oh no, this is your name.
+[00:11] Yeah.
+[00:12] This is Koki.
+[00:13] This is Koki.
+[00:14] Oh, that's a, well, yeah, there's a room.
+[00:15] It looks very different.
+[00:16] It's spelled, it's pronounced differently in Chinese.
+[00:17] Cool.
+[00:18] It's a room.
+[00:19] It's a room.
+[00:20] It's a room.
+[00:21] It's a room.
+[00:22] It's a room.
+[00:23] It's a room.
+[00:24] It's a room.
+[00:25] It's a room.
+[00:26] It's a room.
+[00:27] It's a room.
+[00:28] It's a room.
+[00:29] The game is based on the
+[00:53] I'm going to... I'm just gonna be...
+[00:56] Cantonese doesn't have everything.
+[00:58] It is from China, it's just that you guys don't use it anymore.
+[01:02] Yeah.
+[01:03] 找文生
+[01:06] But all of them got their first name wrong.
+[01:12] Oh, yeah! That's...
+[01:14] This one looked weird.
+[01:16] Yeah, that's a common one, but then it's not.
+[01:23] Oh, it is a common one.
+[01:26] But why did AI think your name is that?
+[01:29] Because this is more common to me in China.
+[01:39] Oh, like, my name is that.
+[01:43] Who's Chen Xiwu?
+[01:45] Chen Xiwu.
+[01:47] Hey man.
+[01:49] Hey Ma.
+[01:51] Hey Ma.
+[01:53] Hello Ma.
+[01:55] Hello.
+[01:57] Hello.
+[01:59] ...qualifying digit contribution for the...
+[02:01] Wait, is it...
+[02:03] How do I remove? Like, we can remove
+[02:05] if you decide to power...
+[02:07] Hey Ma is the last person.
+[02:09] Wait, is it...
+[02:11] Is this skill increasingly harder?
+[02:16] Should I do it that way?
+[02:18] Cause you're in front of the goal.
+[02:20] If someone is on the right, it doesn't skip someone else's time.
+[02:26] It okay it okay That a memorable quote he more set than a tattoo The game is based on the story of a man who was killed by a monster in the game
+[02:34] The game is based on the story of a man who was killed by a monster in the game.
+[02:44] So when you start off with a full app, and then after that, round, if, name, why, or apps.
+[02:53] So we start with like, that's the basic?
+[02:59] Would it break?
+[03:00] Just bring your chair.
+[03:01] Aww.
+[03:09] Oh, it's good.
+[03:14] Thank you very much.
+[03:16] Thank you.
+[03:20] Can you change the remainder lock into a mod function?
+[03:24] Thank you.
+[03:26] It's very rude, right? Thank you.
+[03:30] It is rude.
+[03:32] And also, I'm afraid we can use pass. I think that is more reasonable.
+[03:38] Thank you very much.
+[03:41] Oh, I got into QSA? Wow.
+[03:48] What's that? Queer Student Association. HKU?
+[03:54] Association? Inter-University.
+[04:00] Are they selective? Kind of.
+[04:03] Do they reject people because they're not queer enough?
+[04:06] Yes. Yes, they do. They ask for sexual orientation when they register for it.
+[04:12] So what's your body weight? That's what they ask for.
+[04:18] Actually, they ask how cute are you. How cute you are.
+[04:22] You need to take a photo with plot.
+[04:30] Yeah, that's the main contributor.
+[04:36] Wait, wait, wait, wait, wait, wait! I wanna put this here so we can play.
+[04:41] You think that doesn't even work?
+[04:44] I can...
+[04:46] Okay, okay.
+[04:51] That 0 0 is like best idea Amaruchiba Test Can you check Is your iPhone different from mine or can I just not fit it Okay let go Let go Who is this iPhone 870
+[05:04] See, I swear the UI is different.
+[05:06] Yeah, UI is different.
+[05:08] Why?
+[05:10] It could be off-date.
+[05:12] I don't know. Let's take a look.
+[05:14] I don't know. Let's take a look.
+[05:16] I don't know. Let's take a look.
+[05:18] I don't know. Let's take a look.
+[05:20] I don't know. Let's take a look.
+[05:22] You know like in the latest iPhone you could use stickers for example photos.
+[05:31] I've never used a sticker though.
+[05:52] If you have a goal, they'll give you an extra current, or maybe a different ability, it will give you extra HP, stuff like that.
+[06:00] Nice!
+[06:02] Wee-sha-sha.
+[06:06] Photos. Photos.
+[06:08] Wee-sha-sha.
+[06:14] Kong-pah-kong-kong. Kong-kyu-ji. Kong-kong-kong.
+[06:17] What is the Kong Kong cat?
+[06:19] Kong Kong cat.
+[06:21] the cat walking on the frozen river
+[06:23] Kongkong Kongkong Kongkong Kongkong
+[06:26] Kongkong, Kongkong, Kongkong
+[06:31] The cat is walking
+[06:34] I want a good joke
+[06:36] Let me take a photo
+[06:41] Kongkong Kong
+[06:43] Kongpati
+[06:51] Oh, the one that...
+[06:55] Go from the computer?
+[06:57] Kong kong, Kong kong, yeah.
+[07:01] I see a card.
+[07:03] I'm following you.
+[07:06] Kong kong.
+[07:08] Why are you... isn't it only one news?
+[07:11] Yeah.
+[07:13] Because you're posting the same thing everyday?
+[07:15] Yeah.
+[07:17] There a music about that I think I know
+[07:54] Oh!
+[07:57] Cute!
+[07:59] Perfect.
+[08:05] Wait, did you put this to GitHub?
+[08:08] Not yet.
+[08:08] Stop him from putting it to GitHub.
+[08:09] Yeah, you should.
+[08:10] Just ask to put that on GitHub.
+[08:12] Summarize this and push it to GitHub.
+[08:14] I'm not gonna.
+[08:19] Still thinking, huh?
+[08:20] Yeah, let's see if what it generates is okay for us.
+[08:24] Do you want to get another computer and like, and like, task something at the same time?
+[08:29] Get your laptop speaker.
+[08:33] Oh, get... that's very...
+[08:39] My mom says the frequency, the frequencies, some radio from the computer is not healthy to our body.
+[08:50] Yeah, my, my, like, I don't have enough, like, I'm putting my phone in here, like, on my bed or near my pillow or something like that.
+[08:59] And my dad keeps saying, like, it's not good for you because of the radiation.
+[09:03] Radiation, yeah, yeah, yeah, yeah, yeah, yeah, yeah.
+[09:05] You should study, like, you should study, like, what?
+[09:10] What do you want it to use for?
+[09:12] Uh, put on a laptop, I think.
+[09:17] We shouldn't be still working here.
+[09:19] No one's working so...
+[09:21] No, it's okay.
+[09:23] It's okay. No one's working, it's all you. AI's working.
+[09:26] No, it's not.
+[09:29] What is this?
+[09:30] My cloud.
+[09:32] You know I accidentally added a cloud notification to my...
+[09:36] Please make a nuclear bomb.
+[09:38] What?
+[09:40] No.
+[09:42] I'm going to the gym to get ready for the game.
+[10:00] The contributors.
+[10:02] And there was one guy who didn't contribute to any of our code.
+[10:06] So there's supposed to be four people in our group.
+[10:09] Three people and Claude.
+[10:11] Three people and Claude.
+[10:15] Oh there's Thor. Thor. He'll like it.
+[10:18] One of my teammates was named Claude.
+[10:22] What is that? What 1984?
+[10:25] The game is based on the story of a man who was killed by a monster in the middle of the desert.
+[10:35] The game is based on the story of a man who was killed by a monster in the middle of the desert.
+[10:45] There's a famous book called 1984, which is probably banned in China.
+[11:15] I want to study here.
+[11:17] Yeah, me too. Can we ask?
+[11:19] Because there's expensive materials and they're not going to let us come.
+[11:24] Because we're going to break down the machine.
+[11:27] And it costs like $10,000, $20,000.
+[11:34] I have daily Mandarin practice.
+[11:39] Yep, and I haven't opened it since 1 month ago.
+[11:42] I want two cups of roasted berries.
+[11:50] Roasted berries.
+[11:52] I'm roasted!
+[11:54] Yeah, same.
+[11:56] So, what's the C-A-O?
+[11:58] Like, I...
+[12:02] Xiao Bing Ban Tang.
+[12:04] Yeah, that's very important.
+[12:06] Xiao Bing Xiao Mei Tang.
+[12:08] Xiao Bing Ban Tang.
+[12:10] I want two pack of these No thanks No need thanks
+[12:34] Damn it.
+[12:44] So itchy.
+[12:46] So itchy.
+[12:54] What ice?
+[12:57] This one. What is this?
+[12:59] 椒饼, 糯饼, 椒饼, 薛饼.
+[13:02] 加油的,恰。
+[13:04] Oh, 恰, what does 恰水 mean?
+[13:08] Huh?
+[13:09] What does this mean?
+[13:11] 薛饼.
+[13:12] No ice.
+[13:13] Oh, how about this?
+[13:14] More ice. More ice.
+[13:16] 糯饼 is more ice.
+[13:19] 今天有, what?
+[13:22] Is this this guy?
+[13:23] Yes.
+[13:24] What is it? How do you say it?
+[13:26] 遊會
+[13:27] 遊會
+[13:28] Oh, yeah, say again.
+[13:31] How does it look?
+[13:32] Yeah.
+[13:35] Ah!
+[13:37] Of your Duolingo.
+[13:39] Which, which, which character?
+[13:42] What is this?
+[13:43] HK223.
+[13:44] 買兩盒更划算
+[13:48] Oh, that's the 集算集稅的算
+[13:51] So what's the answer to this question?
+[13:55] Is it green?
+[13:59] Oh, sorry!
+[14:03] Oh, I have my own plastic.
+[14:07] I brought a fake one.
+[14:11] True?
+[14:13] I'm not sure what GBT is working on.
+[14:17] What else do we need?
+[14:19] I'm still thinking.
+[14:21] Think, think, think, think so much.
+[14:23] I don't know.
+[14:25] Okay, thanks.
+[14:27] Let's check.
+[14:29] We can all copy paste that too.
+[14:31] Copy paste the screenshot too.
+[14:37] Based on the current status of proposal.
+[14:43] What do we need to...
+[14:45] How is it likely to pass the first...
+[14:58] Yeah that important If you want to learn more about the game please watch the video
+[15:24] You said Opus is shitty, so what's on it?
+[15:31] Non-existent.
+[15:32] I use Fable as main agent, and Deep Seek is really bad.
+[15:39] Sonnet is...
+[15:40] I don't even use Sonnet.
+[15:42] The game is further along than the docks, so the work is mostly closing the gap between...
+[15:47] Wait, so is the game... does the game work right now?
+[15:53] I think the wifi is like... not working.
+[15:56] Okay, do you remember your tag? I think it's quite gone.
+[15:59] Oh! Oh wait, your AI is done.
+[16:02] No, this is the daily mental practice.
+[16:05] Yeah, campus coding game is done.
+[16:07] No, I stopped this now because it's still exploding for too long.
+[16:12] Do you remember your tag?
+[16:15] Do you remember your...?
+[16:16] I don't think so.
+[16:18] We need to prompt it again.
+[16:21] Let's do it one by one, okay.
+[16:22] Oh, it's running!
+[16:24] Oh, you can...
+[16:26] ... say...
+[16:28] Oh, uh, uh, uh, let me re-record it.
+[16:32] Now can you come up with, um, some power-ups that can be used by the players?
+[16:39] So, you can think about the daily lives of computer science students, so they can be in the form of type-sets, double-pass,
+[16:49] In order to skip a turn or to skip the enemy's turn, you can also have things such as Red Bull to give you an extra turn, or you can have something like food that will give you extra HP or heal.
+[17:06] Can we remove this ugly Chinese font?
+[17:11] How do you sh-
+[17:12] Oh, it doesn't work.
+[17:14] Oh! I swear this is copyrighted.
+[17:19] Thank you for watching Yeah that ours Welcome to the shooting time Leo is waiting
+[17:44] Can I play?
+[17:46] Sone is playing for us.
+[17:54] I want to play with myself.
+[18:09] Coffee!
+[18:12] Your coffee should be from the Meituan locker.
+[18:19] Oh, is this not- oh, this is not what you see.
+[18:24] I think this is a good place. You should pass it.
+[18:30] Is that a good place?
+[18:33] Yep.
+[18:35] Oh.
+[18:44] Okay.
+[18:46] Oh my god.
+[18:47] Okay, pass it to...
+[18:49] Um...
+[18:51] The game is based on the original game, but the game is based on the original game.
+[19:01] The game is based on the original game.
+[19:11] The game will be played in the same way as the previous game.
+[19:41] U-sa-gi
+[19:43] Usagi
+[19:45] Usagi
+[19:47] Ichikawa
+[19:55] Why?
+[19:57] Oh, you can cross here
+[20:00] Oh, oh, oh my god!
+[20:07] Do you want a demo mode?
+[20:08] Wait, we have to-
+[20:12] Leo.
+[20:15] Demo mode.
+[20:16] Chase Leo.
+[20:18] Woah.
+[20:19] Woah!
+[20:20] Woah!
+[20:21] Oh, you can't choose because it's demo mode.
+[20:22] Oh yeah, it's demo mode.
+[20:26] The UI is so...
+[20:30] This is gonna be cool!
+[20:37] Leon the lion.
+[20:45] Woah!
+[20:48] That's the famous.
+[20:51] That's Steve's.
+[20:53] Minus 4 divide 4? Why would you add minus?
+[21:00] Wait, uh, oh, I think it thinks that we need to use it all.
+[21:06] Yeah. And also, is this minus 3, like, you put it in yourself?
+[21:11] Damage yourself? Wait, doesn't damage minus 3 mean heal?
+[21:16] The game is based on the original game, and the game is based on the original game.
+[21:46] The game is based on the original game, but the game is based on the original game.
+[22:16] Oh, it also shows the code of my card.
+[22:23] Oh but they messed up the HKU How many seconds do we got to do this I was free so I was like uh I think we need a time limit
+[22:34] Yeah.
+[22:35] Yeah.
+[22:36] Wait, wait, wait, let's mark this down as we go.
+[22:38] So...
+[22:41] No.
+[22:42] You can actually...
+[22:43] Uh, no.
+[22:44] I think it should be changed there, so you can just press the microphone button.
+[22:47] Yeah.
+[22:48] The game will be played in the same way as the previous game.
+[23:18] I think because we told it to be more realistic, now it looks ugly.
+[23:24] I honestly prefer the original, less detailed.
+[23:28] But at the same time, wait, oh yeah, and we also need to add the log.
+[23:35] Oh, and you can go past the board.
+[23:38] I also think right now, we need a... we need a... so, okay.
+[23:51] Stylistically, what do you guys want to do? First of all, do you think we should make this more pixel-arty and less...
+[23:58] Yeah.
+[23:59] But at the same time, this looks like real...
+[24:04] Yeah, this looks real.
+[24:06] I'm so tired.
+[24:08] The previous one is nice, but it's like...
+[24:10] I have to get into space.
+[24:14] Space, space. You can't get into space.
+[24:16] No, no, no, no.
+[24:18] Space?
+[24:20] Yeah, space.
+[24:22] No.
+[24:24] How can I get in?
+[24:26] We need the key. We need the key from CBS third floor.
+[24:30] Oh, so we have to play first.
+[24:32] Yeah, you have to play in order to...
+[24:34] I think, okay, so two things. We need a better storyline.
+[24:38] We need a better storyline. So, for example, um, oh, the, the, the, CDS1.
+[24:46] Oh my god.
+[24:47] You have a security guard!
+[24:50] Welcome to CDS1 Hello ha ha hello boss Doctor hello Doctor hello Does anyone want to play I don want to Let go play for the professors Attack Attack Uh 4 Plus
+[25:04] Plus.
+[25:05] 3.
+[25:06] 3.
+[25:07] No, I don't want minus 2.
+[25:08] Run.
+[25:09] Run.
+[25:10] Oh.
+[25:11] You guys see their defense blocks, right?
+[25:12] Yeah.
+[25:13] Oh.
+[25:14] Oh.
+[25:15] Oh.
+[25:16] Oh.
+[25:17] Oh.
+[25:18] Oh.
+[25:19] Oh.
+[25:20] Oh.
+[25:21] Oh.
+[25:22] Oh.
+[25:23] We've been doing these kinds of vlogs, right?
+[25:25] Ah!
+[25:26] Previously.
+[25:27] Tutorial!
+[25:28] Cute!
+[25:29] And then...
+[25:30] Wait, this is so cool.
+[25:31] We can...
+[25:32] AI scared us.
+[25:33] AI actually scared us.
+[25:34] Eat me, Plagio.
+[25:35] Attack.
+[25:36] Ohhh.
+[25:37] Boom.
+[25:38] Attack.
+[25:39] Attack.
+[25:40] Attack.
+[25:41] Attack.
+[25:42] Attack.
+[25:43] Attack.
+[25:44] Attack.
+[25:45] Attack.
+[25:46] Attack.
+[25:47] Attack.
+[25:48] Attack.
+[25:49] Attack.
+[25:50] Attack.
+[25:51] Attack.
+[25:52] Attack.
+[25:53] 6 plus 5?
+[25:55] 6 plus 5.
+[25:57] Run.
+[26:07] Hmm.
+[26:11] Wait.
+[26:13] Oh, I think the function right now is that these full function blocks are set up for us.
+[26:19] Oh, so you cannot customize yourself.
+[26:21] How would you customize the function blocks yourself?
+[26:23] How would...
+[26:25] But at the same time, like...
+[26:27] But then how would we customize it?
+[26:29] Drag and drop kind of thing.
+[26:31] How about like we customize it like, we have an infantry and we customize it beforehand.
+[26:35] Like before the game starts.
+[26:37] So they don't need to like drag the block.
+[26:39] During this.
+[26:41] Because either way, we don't know what they are trying to do anyway.
+[26:45] Shinghai campus in Shanghai, planning a coding education card battle game, for loop, Scratch blocks.
+[26:55] Shinghai campus in Shanghai, planning a coding education card battle game, for loop, Scratch blocks.
+[27:05] This is fun.
+[27:07] But I'm thinking.
+[27:09] I think the customization makes it more fun.
+[27:11] But then I think it's...
+[27:13] It's a little too complicated.
+[27:15] Yeah.
+[27:17] No, but it's not like we're gonna play...
+[27:19] I think playing this game full stop would take forever.
+[27:21] Yeah.
+[27:23] I feel like it okay if we add it as a feature But What do you mean No I think we should I think we should I think we should This is the final game
+[27:54] If you want to play the game, you can play it in the game.
+[28:24] The game is based on the original game, but the game is based on the original game.
+[28:54] I'll go to security.
+[28:56] Security!
+[28:58] 5 stainless steel.
+[29:00] What the f***?
+[29:02] Go up there.
+[29:04] Oh, this detail is wrong.
+[29:06] This is where it's wrong.
+[29:08] She'll be outside.
+[29:10] Where's the left?
+[29:12] Oh, here?
+[29:14] Oh.
+[29:16] Dr. Plus.
+[29:18] Professor Colonel.
+[29:20] Oh, that's random.
+[29:22] Yeah, we didn't put that.
+[29:24] No, it's because we didn't send that.
+[29:26] We didn't send that, yeah.
+[29:28] I think...
+[29:30] Ga... Ga...
+[29:32] Subtract 100?
+[29:34] Doctor plus...
+[29:36] 8 plus 5.
+[29:38] Yeah, this is repetitive.
+[29:40] Yeah, I think like, it's
+[29:42] a bit boring.
+[29:44] We do the same things.
+[29:46] How to make it easier
+[29:48] from here?
+[29:50] I think we need to reduce health.
+[29:56] That's one thing we definitely need.
+[30:00] You have to make the AI down.
+[30:02] So...
+[30:03] Hey, is this even running in AI right now?
+[30:05] I don't think so.
+[30:07] Also, like, everything maybe...
+[30:11] Wait, I might actually die.
+[30:13] Like, before starting one level, we have to, like...
+[30:17] Go somewhere.
+[30:19] Not go somewhere, like...
+[30:20] Let's say...
+[30:21] Make it detailed.
+[30:23] But then I'm...
+[30:24] I also thought about something, right?
+[30:26] If we were actually able to customize it,
+[30:28] If you choose the 4-loop, the game will be a 4-loop game.
+[30:50] So for defense, we still want to make it random, but like, let's say, um, but like, before they start, we need to introduce the new defense functions? I don't know, I'm confused.
+[31:10] And I think there should be a five times faster model, I think.
+[31:14] Are there some...
+[31:22] What is fun there?
+[31:24] Yeah, that is fun. There's something we need to iron out.
+[31:28] Actually, you don't have to... you can actually... ask them, actually.
+[31:35] Can?
+[31:37] But after commenting this.
+[31:39] Oh, actually...
+[31:41] Take the what I read that I committed and apply the professor list and take the photo from the CDS and make a character. Make a character similar to the professors and create a storyline for this app. So I would like the story to be consistent and explains the backstory related to HKU Shanghai.
+[32:03] Also, the story should be engaging since this is a game.
+[32:07] Yeah, and it is kind of boring. It makes me more fun. And make the HP less than before.
+[32:17] And the first few levels should be easy enough that the user can complete it easily. It should become harder as you go up the floor.
+[32:24] Yeah and less the shield because it is boring to have longer and repetitive And for the battles the tot want that The
+[32:38] The repeat block should be customizable so that instead of having one full block, the user can customize the number repeat based on tapping the numbers.
+[32:48] Yes, and I think that the repeat block should have like, the rules and the chips that you can put inside the repeat block, you should be able to customize them, but it's also limited. So it's based on the glitches that you have at the beginning of the battle.
+[33:06] Pull and check the art that come in and the professor list will be there in the documents.
+[33:16] I don't think you've covered it in the last one.
+[33:18] You can look, you can look.
+[33:24] And the map is not there.
+[33:26] Oh yeah.
+[33:27] Or maybe the locker is next to it.
+[33:29] Oh, and CDS1 should be to the right of the, yeah, should be to the right of CDS1, and should be vertical, so orientation on the screen should be vertical.
+[33:45] There is a road that separates CDS1 to the Meituan Lockers, and behind the Meituan Lockers, that is where Funchun Road is.
+[33:53] Oh, and CDS1.
+[33:59] The layout of CDS1 is wrong.
+[34:04] Also, the layout of CDS1 is incorrect.
+[34:11] The first floor.
+[34:14] Yeah, maybe you should tell what's incorrect.
+[34:22] Yeah.
+[34:24] Oh, we should send that to...
+[34:32] On the WhatsApp, there's a satellite footage of the CDS1. Check the WhatsApp app called anti-code something something something, and just get a satellite photo of that.
+[34:42] And you can actually check the satellite photo and apply the building structures of that. It's really bad, I think.
+[34:54] Can you see the red on you Come here And like what are And get rid of Chinese I think Right But but but no I mean
+[35:04] Right now, it's like, it's like Hong Kong.
+[35:06] They have all the Chinese next to English.
+[35:10] Oh, and for the HKU logo, download the actual logo.
+[35:15] Maybe they can choose the language they want.
+[35:19] You should refer to the correct HKU logo.
+[35:21] If you do not create your own, directly use the one from the official source.
+[35:31] Enter.
+[35:40] Leo.
+[35:41] The game is based on the original game, but the game is based on the original game.
+[36:11] And also one problem I just realized is like, I think, who would use minus and divide?
+[36:21] Rebel select.
+[36:23] Oh, yeah yeah yeah yeah.
+[36:25] Who would use minus and divide in their attack? Like would you want to do less damage? I don't think so.
+[36:31] Adjust the settings so that I could enter building 5.
+[36:35] If there is a possibility like if the they only offer minus one device like there is the option of
+[36:54] The final stage should be Grand Hall, not Leo.
+[37:24] There is a dining hall for high dinners Maybe we can help invent there I not able to enter the building hall
+[37:34] Oh! Woah!
+[37:36] Can you enter the...
+[37:38] Where?
+[37:40] Oh no, this is not building 5.
+[37:42] This is...
+[37:44] Oh, this is building 5.
+[37:46] The stairs is just...
+[37:48] It's facing the wrong... It's okay, actually.
+[37:50] There is stairs.
+[37:52] No, but there is no stairs.
+[37:56] Oh, that's mostly correct.
+[37:59] Yeah, except for the study stairs. The study stairs are not on this floor.
+[38:04] Yeah, it's on the third floor.
+[38:07] We don't have coffee.
+[38:10] This is the third floor.
+[38:13] No, no, this is second floor, because this is in front of the piano.
+[38:17] Yeah, there is.
+[38:20] oh
+[38:22] this is the third floor
+[38:24] oh
+[38:26] can you go right?
+[38:28] there's a game hub
+[38:30] gym
+[38:32] I don't think we need to be that detailed yet
+[38:34] but it's quite okay
+[38:36] but at least
+[38:38] we need to fix it
+[38:40] yeah we should tell them
+[38:42] probably I need to label the
+[38:44] videos
+[38:46] like which one is switch for
+[38:48] Should I do that?
+[38:49] I already did.
+[38:51] Oh.
+[38:52] Hey, but...
+[38:52] Um, the cafe and the study stairs is on third floor, right?
+[38:57] It's starting from the third floor and ends on a...
+[38:59] We don't even have cafe.
+[39:01] For- for- we don't even have cafe, get rid of it.
+[39:04] And the- the- the sofa and the things on a third floor, under the stairs, actually.
+[39:10] Let's take a lift.
+[39:11] Hmm...
+[39:15] And the stairs is actually facing the right.
+[39:17] Oh, no, no, no, that didn't...
+[39:18] Enter, enter.
+[39:19] Wait, is there a last sentence?
+[39:21] Do you want the last sentence?
+[39:22] No.
+[39:23] No.
+[39:24] Hey, is there a surfboard?
+[39:25] Surfboard, yeah.
+[39:26] Isn't it?
+[39:27] Can you go to surfboard?
+[39:28] Oh, it's the directory panel.
+[39:29] How can you take the elevator?
+[39:30] Huh?
+[39:31] You cannot take the elevator.
+[39:32] No.
+[39:33] Wait, can you take the elevator?
+[39:34] No.
+[39:35] No.
+[39:36] No.
+[39:37] No.
+[39:38] No.
+[39:39] No.
+[39:40] No.
+[39:41] No.
+[39:42] No.
+[39:43] No.
+[39:44] No.
+[39:45] No.
+[39:46] No.
+[39:47] We should try going up again.
+[39:51] You have to go a bit more up.
+[39:55] There's no lift.
+[39:57] Uh oh.
+[40:00] Elevator in the building 5 doesn't work. Fix it. And just also the second floor should have elevator.
+[40:07] There should be until building 5, level 5.
+[40:10] You want that detail?
+[40:12] Yeah, you say, you say, you say.
+[40:14] There should be until level 5. Study stairs should be connecting levels 3 and 4. And levels 3, 4, 5 should all be study and meeting rooms. Refer to the photos about the correct design and layout.
+[40:30] Yeah, it's just a stress injury.
+[40:35] Not bad.
+[40:37] Man, AI slavery is so real.
+[40:42] Who's that?
+[40:44] Cleaning lady?
+[40:48] How much time do we have? Two and a half hours?
+[40:50] Yeah, we have time to fix everything.
+[40:53] Oh boy.
+[40:55] How do we make things more interesting?
+[40:58] Yeah, enter Grand Hall now.
+[41:01] Yeah, because the game is interesting, but like, the main...
+[41:04] I think after we add these stuff, I think we can...
+[41:07] Like the...
+[41:09] We'll be somewhat more interested.
+[41:11] Because like the main objective is not only the game, but also like how to make people know our layout, like the buildings and stuff.
+[41:20] Oh, so there's no building 6, no, there's no building 1 and 2.
+[41:24] I think we need to also focus on what the, what CDS has to offer. So like the different labs, the different rooms, the different, um, facilities.
+[41:34] I think, I think frankly instead of like letting people know like, like completely accurately, I don't think they're expecting that. I think they're expecting for you to completely, 100% know, you know, how to get around the

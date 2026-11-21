@@ -1,0 +1,459 @@
+# raw transcript: 2026-11-21 team meeting, part 5 ("Fangchun Road 11")
+
+source: "Fangchun Road 11.qta" (Apple Voice Memo, 33:52), zipped and uploaded 2026-11-21 07:15 UTC. The audio itself is not in the repo; a copy is in `~/workspace/tmp/cds-recordings/audio/Fangchun-Road-11.mp3` on Insung's machine for now.
+machine transcript (Whisper large-v3, Groq, segment timestamps added back per 10-minute chunk). unedited. Whisper looped on silence in a few places (lines repeating "the game is based on the original game" around 26:44 to 31:52); they are left in here and dropped from the clean version. cite as `p5 mm:ss`.
+
+[00:00] Okay, so, um, let's get started with the professors and their kind of like skills, right? So, okay, where do we start from? Basic programming.
+[00:17] Basic programming, yeah.
+[00:18] Let's see.
+[00:19] Yeah, like, are we talking about the defense? Like for loop?
+[00:28] You can actually see it. Bring your chair.
+[00:32] Yeah, I will. I will.
+[00:34] We are making a campus game.
+[00:40] Wait, not campus game.
+[00:42] Do we need to give them the full context from here?
+[00:45] Yeah.
+[00:46] Because we have a prompt in here, right? Somewhere.
+[00:49] Yeah, we have GitHub repos- Give them the GitHub repository.
+[00:54] yeah, give it a full hit after post 3 and then do it.
+[00:56] where do i get the rebel? is it in white?
+[00:59] give me your github id
+[01:03] i think it's arita
+[01:08] madeline, arita mdline
+[01:12] mdline
+[01:14] just just type it here
+[01:15] where?
+[01:16] type it here
+[01:17] If you have any questions, please feel free to ask them in the comments.
+[01:47] Shinghai's
+[02:00] Hello!
+[02:03] Keep the summary of the in-sound.
+[02:09] Notice how he just deleted all the bad things he did.
+[02:22] Jack, your notes, you have notes.
+[02:24] My diary for everything Which is inside AI I amazed genuinely Did you ask your cloud to make this website
+[02:36] Yeah. And my diary is made by AI. I just rec-
+[02:43] No. No. See? That's why Sori you shouldn't show up.
+[02:48] You just got doxxed.
+[02:49] Shinghai campus in Ssanghai, planning a coding education card battle game, for loop, CDS1, Building 5, Grand Hall, professors, postcards, labs, map, pixel art, Scratch blocks.
+[03:19] pack 2, pack 2
+[03:21] yeah, you can invite them and you can actually give them the kit
+[03:26] yeah
+[03:28] yeah, okay, so
+[03:30] we are making this game
+[03:32] get HK, get, give me a list of HKU professors and choose them that looks the most appropriate
+[03:38] no, get a list of HKU CDS professors
+[03:41] HKU CDS Shanghai
+[03:43] it can, it can find it
+[03:45] oh, computer
+[03:47] wow
+[03:47] but he's not in Shanghai
+[03:49] who?
+[03:50] computer
+[03:51] no no it could just be HKU professors
+[03:53] I don't think Shanghai Uten matters
+[03:55] finalists of HKU CDS professors
+[03:59] ok well
+[04:01] everyone can compute
+[04:02] ok then the game idea
+[04:05] ok so I think we need to exercise human creativity to think of 10 potential functions that professors could have
+[04:14] ok let's just
+[04:15] One idea was vibe code.
+[04:17] One idea was a power code called vibe code where it finds the maximum kind of output for you.
+[04:23] So you can send, it's like AI, in the game you can send to AI, find the best option, find the best combination we can make.
+[04:34] Yeah, so stuck, vibe code.
+[04:37] Oh, Ta Kwa Lam, that guy should be sub-bus.
+[04:42] Ooh, Ruibang Luo!
+[04:44] Ruibang Luo should be strong.
+[04:49] How about Dr. Alan?
+[04:51] Yeah, we need him here.
+[04:56] Ema This is scary Can we make Ema the last boss Can we make Ema the last boss IMA
+[05:24] Baskin Robins Law
+[05:34] What?
+[05:35] What were you trying to ask?
+[05:37] Exactly.
+[05:38] Oh, come up with 10 minigames for this- no.
+[05:42] Come up with 10 paragraphs of cards that you can get from-
+[05:45] Okay, okay.
+[05:46] Cards.
+[05:47] Yeah.
+[05:48] Or 10 functions.
+[05:49] Yeah.
+[05:50] So I think you get all the functions and powerups from-
+[05:55] Find- uh, but- no wait.
+[05:58] The best function-
+[05:59] I had an idea of the summation symbol.
+[06:03] What is it in your tenui?
+[06:05] It's like Indonesian.
+[06:07] Indonesian.
+[06:09] And...
+[06:25] Boring.
+[06:29] It tastes like me.
+[06:31] The game is still going on.
+[07:01] I don't think Insom wanted to leave.
+[07:04] No, not Insom. Moscow Panda wanted to leave.
+[07:07] Insom wanted to stay.
+[07:09] Haha, my short? What the fuck?
+[07:14] Pop quiz!
+[07:19] Wait, suddenly presents a coding question.
+[07:22] Suddenly presents a coding question Hello Hello What is up that mean I sad
+[07:34] What the f- I think this is too hard.
+[07:39] How is that non-CS?
+[07:42] Oh, generate-
+[07:45] That's actually- huh? It made a game?
+[07:48] Like a demo.
+[07:51] How is it so that non-CS students can play it? It's for general non-CS students.
+[07:55] Non-CS students, yeah.
+[07:57] And even if you add those kind of... so it has to be like a very explicit kind of...
+[08:02] For example, it has to be called like recurs and there has to be like a description of like what it does.
+[08:08] Can I ask why I have a folder named Harry?
+[08:12] This is Harry, my tutoring student, not Harry.
+[08:15] Harry...
+[08:16] The guy behind us.
+[08:17] Not Huang Ziyang.
+[08:19] Not Huang Ziyang.
+[08:21] No, I'm not keeping like docs. I'm not keeping blackmail.
+[08:28] But Harry might have documents about you.
+[08:33] Yeah.
+[08:35] Why?
+[08:36] Harry!
+[08:37] Huang Ziyang!
+[08:39] Is he here? Is he in this room?
+[08:42] Huang Ziyang!
+[08:43] Huang Ziyang? Hopefully not.
+[08:45] Huang Ziyang!
+[08:46] Huang Ziyang!
+[08:47] I'm not sure if I can read this.
+[08:49] He's not responding, so he might not be here.
+[08:51] I love this place.
+[08:53] I feel like this is a great place to study.
+[08:55] Can we use this?
+[08:57] Fatai?
+[08:59] Fatai?
+[09:01] Why do you have Fatai?
+[09:03] What? What?
+[09:05] Do you have me?
+[09:07] Huh?
+[09:09] Huh?
+[09:11] Do you have me?
+[09:13] This is scary.
+[09:15] Wait, can I see mine?
+[09:17] No.
+[09:19] Why not?
+[09:21] What?
+[09:23] Wait, how are you telling Cloud to read your WeChat messages?
+[09:29] How are you?
+[09:31] I'm scared.
+[09:33] How are you asking Cloud to read your WeChat messages?
+[09:35] Because WhatsApp is not that hard. How do you read your WeChat?
+[09:39] I have the WeChat.
+[09:41] Have you ever tried posting something to Xiao Hongshu using this?
+[09:47] Yes.
+[09:48] Can it?
+[09:49] Really?
+[09:50] Yeah.
+[09:51] If I scan the QR code to Xiao Hongshu app, it has.
+[09:55] And it has in my Instagram.
+[09:56] Instagram, I know you can publish.
+[09:57] I know you can.
+[09:58] I know you can.
+[10:00] But you can also publish things in Sha Hong Shun using AI?
+[10:03] Yeah.
+[10:04] Yeah, okay guys, I'm gonna go live in a farm in Thailand somewhere.
+[10:07] There's no internet access.
+[10:08] And I'm gonna cut off all of my internet access, I'm gonna cut off all my Instagram access, nothing.
+[10:12] You're gonna see me disappear from the world, okay?
+[10:14] Okay?
+[10:15] Okay, I'm scared.
+[10:16] Done!
+[10:17] I'm in fear.
+[10:19] Insan's gonna show up with his new Starlink antenna so that you can connect to the internet.
+[10:26] If you need to scan, you don't need API for that?
+[10:29] So you can't automatically browse iPhone app.
+[10:34] Oh, is it?
+[10:35] You can't have iPhone app.
+[10:36] So you're saying that you have a grudge list for everyone?
+[10:41] No, he loves us. I know he loves us.
+[10:44] Does he?
+[10:47] I love you.
+[10:48] See?
+[10:49] I'm not sure if I can do it.
+[11:19] I'm genuinely slightly concerned.
+[11:24] It's about schedule.
+[11:28] If I say to meet someone, I said to meet Elliot tomorrow.
+[11:34] And it has the Elliot Chi in Shanghai.
+[11:43] Who is Elliot Chi?
+[11:44] I don't think the guitar perco is up to date.
+[11:46] Sry for the long-awaited subbed part.
+[12:16] This is your task if you cannot damage minus 5 but that life it interesting i had it when was HKU J founded oh actually when was J founded
+[12:35] i don't know.
+[12:37] 5 months back?
+[12:39] oh, 5 months back.
+[12:41] deadline.
+[12:42] oh! the time limit should like decrease or something.
+[12:45] like, from 10 seconds to 5 seconds.
+[12:49] using that line.
+[12:51] random grading.
+[12:53] Oh, friendly professors offers a hint or bonus.
+[12:58] No, I think random grading is a good idea, but I think we can make it more complex, so we can make it like a random function.
+[13:03] Oh, block repeated use of bytecode, AI detection.
+[13:08] So random, so the, so the, um, random grading, wait, are you recording?
+[13:13] Wait, is it done? Done? Okay.
+[13:16] So I think for random recording, we can change it to like a random function.
+[13:19] How many cards do you have?
+[13:21] Make the name more CS but the concept is the same so change the so it can be used as a defensive card to do uh to change it into like a random number less than or equal to the actual damage value i think
+[13:43] gray
+[13:45] yeah
+[13:45] Civil defense for street names.
+[13:51] Darling, sorry.
+[13:55] It hasn't read the GitHub, bro.
+[13:59] Maybe it doesn't have access.
+[14:01] No, I gave her access.
+[14:03] Oh, you didn't log in.
+[14:05] You didn't log in.
+[14:07] Eee. Dumb.
+[14:09] So dumb.
+[14:13] That's why I feel-
+[14:14] Not everyone gives Gahub access to the AI.
+[14:17] I do.
+[14:18] You didn't.
+[14:22] I'll ask you to read the label again.
+[14:32] Oh, actually it has updated. Let's see.
+[14:34] Let's see.
+[14:35] 美团外卖柜 Meituan Waimai Gui
+[14:42] What is RNG Shield?
+[14:44] Oh, defensive...
+[14:47] Oh, sorry, done, done.
+[14:49] Almost done.
+[14:54] Are you bad at taking photos No it Me Me Sorry It the video it the video Wait where this one
+[15:04] The CDS2. Oh, I took the lobby too.
+[15:06] I took video of the lobby.
+[15:08] Damn, so did it just take these snapshots from our videos?
+[15:10] Yeah.
+[15:12] That's scary.
+[15:14] Oh my god.
+[15:16] I took video of me...
+[15:18] ...blocking...
+[15:20] Almost done.
+[15:22] I'm not sure if this is the right way to do it, but I'm not sure if it's the right way to do it.
+[15:52] Guys, I want out. I want out. I want to get me out of here.
+[15:57] I'm scared.
+[16:01] Don't be. We will be just fine.
+[16:06] But I think right now, the power-ups that we have, that they provided, those are all just kind of like...
+[16:14] Whatever, you know? Those are all at the same level.
+[16:18] I think we need like different levels of cards that maybe cards are more, some cards are higher risk to use, some cards are more difficult or complicated concepts, right?
+[16:34] Cause I think we need some.
+[16:36] Man shower.
+[16:38] I'll ask to read it again, we can try to make the phone.
+[16:42] For example if we actually wanted to...
+[16:46] Wow.
+[16:48] Turns out I should have used the word mode, not the chat mode.
+[16:51] Teehee, my bad.
+[16:55] Oh, oh, oh!
+[16:57] You can browse through the internet.
+[16:59] Yeah.
+[17:00] It's interesting.
+[17:03] I never used the chat, yeah.
+[17:05] Really?
+[17:06] I'm in fear, I'm in tremendous fear.
+[17:10] Oh, we can actually...
+[17:13] Um, are we done, done?
+[17:14] Actually done?
+[17:18] We can clarify more minutes.
+[17:24] Anyone have a photo of Grand Hall I think so Do you think between every single like kind of um big like professor boss we should have like almost like Pokemon you know
+[17:40] Yeah.
+[17:40] You need to have trainers leading up to the gym leader.
+[17:43] So I think we need like some trainers that you can practice on.
+[17:46] Nearly.
+[17:47] Okay, we can... help me make the flow, no, the game flow.
+[17:52] Wait, what are you trying to get it to?
+[17:56] Like, I already asked it to read the GitHub event.
+[17:59] Yeah, so we need to get the possible combinations and then the levels and then...
+[18:06] So it's basically the game from what?
+[18:09] Yeah, the game.
+[18:10] How should we say it?
+[18:11] How we... let's break it apart.
+[18:13] So we need to first decide like which... which...
+[18:17] Uh... um... how do you say this?
+[18:26] Like what professor is on which floor?
+[18:29] Oh. Which boss.
+[18:31] Wait wait, does it know already that the professors are kind of like the bosses of each level?
+[18:36] Okay, wait. We were thinking to get the prof as like the boss of each level.
+[18:44] There are two grand hall photos, thank you.
+[18:46] Level 1-4 in CDS1.
+[18:52] Okay, 1. Help us decide the prof.
+[18:58] Yeah, the professor.
+[19:00] Prof, don't use real name though, right?
+[19:04] Wait, or like reference, but...
+[19:07] Let's let them use real names for now.
+[19:10] Okay.
+[19:11] Do you want to put something that we really want in?
+[19:13] Yeah.
+[19:14] For each level, must have RB Law, Allen, and Yima, and Brian, he's a professor, I know he's a professor, but it's like PhD.
+[19:36] Design possible functions.
+[20:00] Power-ups and functions that are unique to each professor and that will be awarded to the player once they beat them.
+[20:09] Oh, there are unique...
+[20:17] So they can pop quiz too? We can do pop quiz to the professor?
+[20:22] No, let's not have that.
+[20:23] Maybe not pop quiz. Maybe not pop quiz. I don't think we should have pop quiz.
+[20:25] ...that are unique for each professor.
+[20:29] How about you could ask the professors about CDS at HKU Shanghai?
+[20:34] Oh, I need to research.
+[20:36] You could ask Lam Thakur. You could ask him about the history of Jajang.
+[20:40] Oh yeah, I want the deep-seek agent in charge of the um...
+[20:49] Okay, okay, and then design the basic operations.
+[20:57] You've been with Cloud over a year!
+[21:00] You said for free.
+[21:02] Just now.
+[21:04] Yay.
+[21:06] Lovely.
+[21:08] I've been with Cloud for over a year.
+[21:13] please get started ASAP.
+[21:28] they might get it.
+[21:30] To meet people, please run.
+[21:36] Jermoto, people, 5.2. Let's go.
+[21:41] Press! 3, 2, 1, go!
+[21:45] 10 more trees gone.
+[21:49] The fresh water supply in a small town somewhere in Nebraska, gone.
+[21:59] Remember the objective is to introduce our university and familiarize coding stars to coding trends, visitors, students, or prospective students.
+[22:23] Wow this is Wow Wow Wow
+[22:34] Wait, what do you mean by 2pm?
+[22:36] Does this mean it's gonna finish building by 2pm?
+[22:38] Is it gonna take that long?
+[22:40] I think so.
+[22:42] I'm scared. I'm actually scared.
+[22:46] But it has a deadline, so it will be finished by deadline, I think.
+[22:50] Because it knows the schedule.
+[22:52] We're just gonna stare at the screen for another hour.
+[22:54] But it will take too much, it will take much, because it's a fable.
+[23:01] Oh! It will check the professors' research areas.
+[23:04] Yeah, yeah, yeah, yeah, yeah, yeah.
+[23:11] I wanna be like InSong.
+[23:13] Why?
+[23:14] I wanna have lots of AI with me, and like, work whenever I do, whenever I can.
+[23:19] And you're gonna have mv files of everyone on your social media.
+[23:24] Yeah, I don't wanna be like Insung, I wanna go to a farm in Thailand.
+[23:28] As Fatai's creator.
+[23:30] Unless Insung wants to go to a farm in Thailand. In that case...
+[23:33] I wanna go to an apartment in Thailand, yes.
+[23:36] I will have a villa in Bali.
+[23:38] I will take over Fatai's farm in Thailand.
+[23:43] Fatai has a farm?
+[23:45] I don't know if it's his...
+[23:47] I'm just gonna probably have a farm.
+[23:53] I wanna have a feline body.
+[23:55] With the wife.
+[23:57] No, you know what, I just wanna live out of my car or something.
+[24:01] Or out of my camper van.
+[24:03] I want a camper van! I want a camper van!
+[24:05] I don't wanna drive it around.
+[24:07] Do you wanna have a bathroom inside if you can?
+[24:09] I don't mind, honestly.
+[24:11] I'm not nasty.
+[24:13] I'm learning how to play the game with my computer.
+[24:43] AI will do it. AI is good at it.
+[24:46] Clean English.
+[24:47] Do you guys want to see this?
+[24:49] Wait, how are we...
+[24:51] Oh, oh.
+[24:53] Oh Ema the pastor Oh we going to go But we should get professor photo actually I think so Oh we should have Raymond and the people the CBS people
+[25:05] But they wouldn't know.
+[25:07] Taku Komura.
+[25:09] Taku Komura.
+[25:11] Oh yeah, there's a Japanese guy.
+[25:13] Komura. Komura means...
+[25:15] Oh, for shield.
+[25:17] Komu Komu!
+[25:24] The floor is a creative lab. No, it's not. It's a vibe coding lab.
+[25:30] How does he know it is like, lobby and lecture theater and things?
+[25:34] Wait, yeah.
+[25:35] Scary. SCARY.
+[25:38] What is...
+[25:41] But...
+[25:43] Rebound.
+[25:44] Rebound.
+[25:46] Date of pregnancy.
+[25:47] I want to know what...
+[25:54] I'm happy because of the campaign.
+[25:59] I like these ideas but the issue is like, will the player be confused like, hey why can't I do that?
+[26:09] But the professor's attacks also need to be within the game's mechanism.
+[26:13] Like it has to be, it has to go along with the game's mechanism. They cannot just be like Kamehameha,
+[26:18] super, super ultimate, super attack power-up and then just like just like go and boom and do
+[26:24] I'm going to do something that's outside of the game's logic and core mechanism.
+[26:28] I kind of want to see how it manifests.
+[26:39] Okay, players, the starter pack is attack heal plus minus.
+[26:44] The game is based on the original game, and the game is based on the original game.
+[26:54] The game is based on the original game.
+[27:04] You know, like scratch.
+[27:06] Yeah.
+[27:08] Can you tell me?
+[27:10] Could you just press this in there?
+[27:12] For the design, for the different cards and the attack mechanism, instead of making it actual cards, but like code, make it something like block coding, so like scratch.
+[27:24] That to make it a little bit easier for non students to understand
+[27:44] He's slow though.
+[27:47] Because he's thinking a lot.
+[27:49] Thinkfunk, thinkfunk.
+[27:53] Professors.ts
+[27:59] Wait, is there a way to like...
+[28:03] Wait, do we need to upload what's the capsule part onto the github so that Google Cloud can reference that as well?
+[28:10] Alright, so you want this, the one to the question, or do you want to refine this first?
+[28:15] Let's refine this first.
+[28:16] Okay, let's refine this first.
+[28:17] So what I talked about just now, we need to make sure that the...
+[28:21] Wait, okay, talk. I did talk about the block coding stuff.
+[28:27] Yeah, I also gave the block coding.
+[28:30] Yeah, so I feel like the kind of the special unique functions that each of the professors use,
+[28:43] They are, they need to be also within the basic scope of the game. There could be special effects, but then I think the player needs to also kind of understand how the professor comes up with that kind of, with that kind of function, that kind of special function that they have, right? It has to still align with the core kind of mechanics of the game.
+[29:06] So, uh, can you update the, um, the Github? No. Can you update the draft of the different unique functions each of the professors have now?
+[29:23] The Github doesn't have professor lists.
+[29:28] We'll just make a map first, I think.
+[29:31] I'm not sure if you can read the cooking card.
+[29:37] Attack, A plus 2, damage 3, broken, damage.
+[29:43] Is this your VPN?
+[29:45] Yeah.
+[29:47] How do you make this?
+[29:49] Did you make the VPN?
+[29:51] No, I got it for... I paid for it, yeah.
+[29:55] From Chinese, some seller.
+[30:00] ambiguous chinese vendor
+[30:06] it's really fast
+[30:08] oh i need one
+[30:10] i need a fast one
+[30:12] i'll give you the link
+[30:14] wait mine is running out
+[30:16] i think mine ran out today
+[30:18] we should auto continue
+[30:20] oh shit let me
+[30:22] i don't want it to auto continue
+[30:24] um hey ai
+[30:26] send the boss call about the link
+[30:28] I'm using the sailing VPN or something. You can actually check my MacBook Air and check what the provider is and you can send Buzzkill about the link, how to register it or something, something, something.
+[30:43] You don't need my approval, just send it.
+[30:46] The game is based on the S-A-I code, which is a code that allows you to create a code that is not in the game.
+[30:56] The game is based on the S-A-I code, which is a code that allows you to create a code that is not in the game.
+[31:06] But it's easy.
+[31:08] Cuz you just ask AI?
+[31:10] Yeah. It's just always asking AI.
+[31:12] It's just so quick!
+[31:14] So, you should buy the domain first and then ask the team to make the domain.
+[31:18] You don't even have to make the domain.
+[31:20] Really?
+[31:22] The game is a bit of a challenge, but I hope you enjoy it.
+[31:52] Thank you for watching The game is based on the original game but the game is based on the original game
+[32:00] The game is based on the original game.
+[32:10] What does block 5 mean?
+[32:16] Block 5 damage.
+[32:19] Like, of top 5, you know, minus.
+[32:22] Yup.
+[32:24] Let's see the, their moves.
+[32:30] Like, their classes.
+[32:32] Best way, man.
+[32:39] Thank you.
+[32:41] Thank you.
+[32:43] I think, um, instead of using the same function building blocks, so currently all of these use the for loop, random, etc. right?
+[32:57] I want to introduce a new function. That's what I mean.
+[33:00] I want to introduce a new function that can be used with each of the professors, and then after they beat the professor,
+[33:07] The function can be now acquired by the user.
+[33:11] The function should be more or less related to computing and data science.
+[33:26] So you can take reference from some common functions used in programming languages such as Python and C++.
+[33:34] For example, um, the break keyword in Python, used to skip a turn, for example, or maybe the, um, I don't know, something like that.
+[33:47] Something like that.
