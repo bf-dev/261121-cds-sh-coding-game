@@ -36,7 +36,7 @@ Raw material. Files here are kept as they were captured. Interpretations go in `
 
 | file | what it shows |
 | --- | --- |
-| `videos/2026-11-21-insung/IMG_3756-campus-walkthrough.*` (4:36, shot 11:08) | Plaza, two-tower canyon, footbridge with oval void, sunken oval court, civil-defence board with the four street names, lawn with the lion mascot and HKU letters, CDS1 entrance, lobby, turnstiles, lifts, floor guide, upper lounge. Narrated |
+| `videos/2026-11-21-insung/IMG_3756-campus-walkthrough.mp4` (4:36, shot 11:08, HEVC 1080x1920, re-encoded from the 362 MB original) | Plaza, two-tower canyon, footbridge with oval void, sunken oval court, civil-defence board with the four street names, lawn with the lion mascot and HKU letters, CDS1 entrance, lobby, turnstiles, lifts, floor guide, upper lounge. Narrated |
 
 ## map album (Aretha, iCloud shared album "MAP", 2026-11-21 10:29 to 10:42 CST)
 
