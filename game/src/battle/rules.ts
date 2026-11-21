@@ -388,9 +388,15 @@ export function rollShield(kind: FnKind, r: Rnd, level = 0.5): Shield {
 export interface Hand {
   digits: number[];
   ops: Op[];
+  /** per operator slot: completed moves in a row that left a - or ÷ unused (docs/card-draw-randomness.md) */
+  stale?: number[];
 }
 
-const OP_WEIGHT: Record<Op, number> = { "+": 0.36, "-": 0.22, "×": 0.26, "÷": 0.16 };
+// Draw weights: docs/card-draw-randomness.md (Aretha, 2026-11-21).
+// + : × : - : ÷ = 6 : 4 : 2 : 1 whenever all four are unlocked.
+const OP_WEIGHT: Record<Op, number> = { "+": 6, "×": 4, "-": 2, "÷": 1 };
+/** a - or ÷ left unused for this many completed moves is swapped for a + or × */
+const STALE_TURNS = 2;
 
 export function drawOp(allowed: Op[], r: Rnd): Op {
   const total = allowed.reduce((a, o) => a + OP_WEIGHT[o], 0);
@@ -402,26 +408,75 @@ export function drawOp(allowed: Op[], r: Rnd): Op {
   return allowed[0];
 }
 
-export const drawDigit = (r: Rnd): number => ri(r, 1, 9);
+/**
+ * One digit, 1 to 9. Base weights: 1 for 1-3, 2 for 4-5, 3 for 6-9. The rest of the hand shifts them:
+ * no 6-9 left doubles 6-9; holding ÷ with no 1-3 left doubles 1-3, so a small divisor is more likely.
+ */
+export function drawDigit(r: Rnd, rest: number[] = [], ops: Op[] = []): number {
+  const big = rest.some((d) => d >= 6) ? 1 : 2;
+  const small = ops.includes("÷") && !rest.some((d) => d <= 3) ? 2 : 1;
+  const w: number[] = [];
+  for (let d = 1; d <= 9; d++) w.push(d <= 3 ? small : d <= 5 ? 2 : 3 * big);
+  let x = r() * w.reduce((a, b) => a + b, 0);
+  for (let d = 1; d <= 9; d++) {
+    x -= w[d - 1];
+    if (x <= 0) return d;
+  }
+  return 9;
+}
 
 /** × and ÷ are strong, so a hand holds at most one of each. Returns an operator that keeps that true. */
-function drawOpFor(ops: Op[], skip: number, allowed: Op[], r: Rnd): Op {
-  const held = ops.filter((_, i) => i !== skip);
-  const ok = allowed.filter((o) => (o !== "×" && o !== "÷") || !held.includes(o));
-  return drawOp(ok.length ? ok : allowed, r);
+function drawOpFor(ops: Op[], skip: number[], allowed: Op[], r: Rnd, fallback: Op[] = allowed): Op {
+  const held = ops.filter((_, i) => !skip.includes(i));
+  const fits = (list: Op[]) => list.filter((o) => (o !== "×" && o !== "÷") || !held.includes(o));
+  const ok = fits(allowed);
+  if (ok.length) return drawOp(ok, r);
+  const rest = fits(fallback);
+  return drawOp(rest.length ? rest : fallback, r);
 }
 
 /** slots operators need slots + 1 digits, so the hand is slots + 1 digits and slots operators (5 blocks at 2 slots) */
 export function dealHand(slots: number, allowed: Op[], r: Rnd): Hand {
   const ops: Op[] = [];
-  for (let i = 0; i < slots; i++) ops.push(drawOpFor(ops, -1, allowed, r));
-  return { digits: Array.from({ length: slots + 1 }, () => drawDigit(r)), ops };
+  for (let i = 0; i < slots; i++) ops.push(drawOpFor(ops, [], allowed, r));
+  // digits are dealt one at a time, so each draw sees the ones already dealt
+  const digits: number[] = [];
+  for (let i = 0; i <= slots; i++) digits.push(drawDigit(r, digits, ops));
+  return { digits, ops, stale: ops.map(() => 0) };
 }
 
-/** replace the blocks a move used with new random ones (decision #9) */
+/**
+ * After a completed move: replace the blocks it used with new random ones (decision #9), and swap
+ * a - or ÷ that sat unused for two moves for a + or ×. Not called for a skipped turn.
+ */
 export function refill(hand: Hand, usedDigitIdx: number[], usedOpIdx: number[], allowed: Op[], r: Rnd): void {
-  for (const i of usedDigitIdx) hand.digits[i] = drawDigit(r);
-  for (const i of usedOpIdx) hand.ops[i] = drawOpFor(hand.ops, i, allowed, r);
+  const stale = hand.ops.map((_, i) => hand.stale?.[i] ?? 0);
+  // slots still waiting for a new block do not count as held
+  const open = usedOpIdx.slice();
+  for (let i = 0; i < hand.ops.length; i++) {
+    if (usedOpIdx.includes(i)) {
+      hand.ops[i] = drawOpFor(hand.ops, open, allowed, r);
+      open.splice(open.indexOf(i), 1);
+      stale[i] = 0;
+      continue;
+    }
+    const o = hand.ops[i];
+    if (o !== "-" && o !== "÷") {
+      stale[i] = 0;
+      continue;
+    }
+    if (++stale[i] < STALE_TURNS) continue;
+    // swapped for a + or × that fits the hand; if neither does, any unlocked operator
+    hand.ops[i] = drawOpFor(hand.ops, [i, ...open], allowed.filter((a) => a === "+" || a === "×"), r, allowed);
+    stale[i] = 0;
+  }
+  hand.stale = stale;
+  // digits come after the operators, so they see the hand as it will be played
+  const kept = hand.digits.filter((_, i) => !usedDigitIdx.includes(i));
+  for (const i of usedDigitIdx) {
+    hand.digits[i] = drawDigit(r, kept, hand.ops);
+    kept.push(hand.digits[i]);
+  }
 }
 
 export function slotsForFloor(floor: number): number {

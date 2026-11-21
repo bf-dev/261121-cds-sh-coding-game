@@ -1,0 +1,70 @@
+/* Mini-games (Tower of Hanoi, Hangman): shared look. Prefix m1- so nothing leaks into the game. */
+.m1-veil { z-index: 70; }
+.m1-box { position: relative; width: 1560px; height: 940px; background: var(--cream); border: 5px solid var(--line); border-radius: 34px; box-shadow: 0 10px 0 var(--drop), 0 26px 60px rgba(70, 30, 60, 0.4), inset 0 -9px 0 var(--cream-2); padding: 30px 44px 28px; display: flex; flex-direction: column; color: var(--ink); }
+.m1-kicker { align-self: flex-start; font-size: 18px; font-weight: 700; color: var(--hku); letter-spacing: 0.04em; text-transform: uppercase; background: #dff6ea; border: 3px solid #9fdcc0; border-radius: 999px; padding: 4px 16px; }
+.m1-box h2 { margin: 10px 0 4px; font-size: 42px; line-height: 1.15; }
+.m1-box h2 small { font-size: 26px; margin-left: 14px; color: var(--ink-soft); }
+.m1-guide { font-size: 24px; line-height: 1.4; margin: 4px 0 0; }
+.m1-guide b { color: var(--hku); }
+.m1-stats { position: absolute; right: 44px; top: 34px; display: flex; gap: 12px; }
+.m1-chip { background: var(--butter); border: 3px solid var(--line); border-radius: 999px; padding: 6px 18px; font-size: 22px; font-weight: 700; }
+.m1-chip.soft { background: var(--sky); }
+.m1-body { flex: 1; min-height: 0; display: flex; flex-direction: column; justify-content: center; position: relative; }
+.m1-msg { min-height: 40px; text-align: center; font-size: 24px; font-weight: 700; color: var(--ink-soft); margin: 6px 0 0; }
+.m1-msg.bad { color: #c8442a; }
+.m1-msg.good { color: var(--hku); }
+.m1-foot { display: flex; gap: 16px; align-items: center; margin-top: 12px; }
+.m1-foot .spacer { flex: 1; }
+.m1-shake { animation: shake 0.4s ease; }
+
+/* Tower of Hanoi */
+.m1-pegs { display: flex; justify-content: center; gap: 28px; }
+.m1-peg { position: relative; width: 450px; height: 430px; background: linear-gradient(#fffdf6, var(--cream-2)); border: 4px solid var(--line); border-radius: 26px; box-shadow: 0 6px 0 var(--drop); cursor: pointer; font: inherit; color: inherit; padding: 0; }
+.m1-peg:hover { filter: brightness(1.03); }
+.m1-peg.picked { background: linear-gradient(#fffbe0, var(--butter)); }
+.m1-peg.from { outline: 6px dashed #ff8fab; outline-offset: 4px; }
+.m1-peg.to { outline: 6px dashed var(--hku); outline-offset: 4px; }
+.m1-peg .pole { position: absolute; left: 50%; bottom: 62px; width: 22px; height: 270px; margin-left: -11px; background: linear-gradient(90deg, #c99a5e, #e3bf8b 45%, #b98648); border: 3px solid var(--line); border-radius: 12px 12px 0 0; }
+.m1-peg .base { position: absolute; left: 28px; right: 28px; bottom: 42px; height: 24px; background: linear-gradient(#e3bf8b, #c99a5e); border: 3px solid var(--line); border-radius: 12px; }
+.m1-peg .name { position: absolute; left: 0; right: 0; bottom: 4px; text-align: center; font-size: 26px; font-weight: 700; }
+.m1-peg .name small { font-size: 18px; color: var(--hku); margin-left: 8px; }
+.m1-disk { position: absolute; left: 50%; height: 46px; border: 4px solid var(--line); border-radius: 999px; box-shadow: inset 0 -6px 0 rgba(90, 48, 28, 0.16), inset 0 5px 0 rgba(255, 255, 255, 0.5); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; transition: bottom 0.16s ease; }
+.m1-disk.d1 { background: var(--pink); }
+.m1-disk.d2 { background: var(--butter); }
+.m1-disk.d3 { background: var(--mint); }
+.m1-disk.d4 { background: var(--sky); }
+.m1-disk.up { box-shadow: 0 10px 0 var(--drop), inset 0 -6px 0 rgba(90, 48, 28, 0.16), inset 0 5px 0 rgba(255, 255, 255, 0.5); }
+
+/* result card and the "How was this made?" sheet */
+.m1-result { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 900px; background: #fffdf6; border: 5px solid var(--line); border-radius: 30px; box-shadow: 0 10px 0 var(--drop), 0 20px 40px rgba(70, 30, 60, 0.3); padding: 28px 40px 30px; text-align: center; z-index: 2; }
+.m1-result h3 { margin: 0 0 8px; font-size: 40px; }
+.m1-result h3 small { font-size: 24px; margin-left: 12px; color: var(--ink-soft); }
+.m1-result p { font-size: 25px; line-height: 1.45; margin: 8px 0; }
+.m1-result .row { display: flex; gap: 16px; justify-content: center; margin-top: 22px; flex-wrap: wrap; }
+.m1-how { position: absolute; inset: 0; background: var(--cream); border-radius: 30px; padding: 30px 44px; display: flex; flex-direction: column; z-index: 3; overflow: auto; }
+.m1-how p { font-size: 24px; line-height: 1.45; margin: 8px 0; }
+.m1-how .pybox pre { font-size: 20px; }
+.m1-how .cols { display: flex; gap: 24px; align-items: flex-start; }
+.m1-how .cols > div { flex: 1; min-width: 0; }
+
+/* Hangman */
+.m1-hang { display: flex; gap: 40px; align-items: stretch; }
+.m1-clue { width: 400px; flex: none; background: linear-gradient(#fffdf6, var(--cream-2)); border: 4px solid var(--line); border-radius: 26px; box-shadow: 0 6px 0 var(--drop); padding: 22px; text-align: center; }
+.m1-clue canvas { width: 240px; height: 240px; image-rendering: pixelated; border: 4px solid var(--line); border-radius: 22px; background: #fff; }
+.m1-clue .label { font-size: 18px; font-weight: 700; color: var(--hku); text-transform: uppercase; letter-spacing: 0.04em; margin-top: 14px; }
+.m1-clue p { font-size: 23px; line-height: 1.4; margin: 6px 0 0; }
+.m1-play { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; position: relative; }
+.m1-word { display: flex; gap: 14px; justify-content: center; }
+.m1-slot { width: 96px; height: 112px; border: 4px solid var(--line); border-radius: 20px; background: #fff; box-shadow: inset 0 -8px 0 var(--cream-2); display: flex; align-items: center; justify-content: center; font-size: 62px; font-weight: 700; }
+.m1-slot.open { background: var(--mint); animation: m1pop 0.3s ease; }
+.m1-slot.missed { background: var(--pink); color: #a5403a; }
+.m1-lights { display: flex; gap: 14px; justify-content: center; align-items: center; margin: 22px 0 6px; font-size: 22px; font-weight: 700; }
+.m1-light { width: 44px; height: 44px; border-radius: 50%; border: 4px solid var(--line); background: radial-gradient(circle at 35% 30%, #fff8c9, #ffd54a 60%, #f0b020); box-shadow: 0 0 18px rgba(255, 213, 74, 0.9); }
+.m1-light.off { background: #cfc6c0; box-shadow: none; }
+.m1-keys { display: grid; grid-template-columns: repeat(9, 86px); gap: 10px; justify-content: center; margin-top: 14px; }
+.m1-key { height: 68px; border: 4px solid var(--line); border-radius: 18px; background: linear-gradient(#fffdf6, var(--cream)); box-shadow: 0 5px 0 var(--cream-3); font: inherit; font-size: 30px; font-weight: 700; color: var(--ink); cursor: pointer; }
+.m1-key:active:not(:disabled) { transform: translateY(4px); box-shadow: 0 1px 0 var(--cream-3); }
+.m1-key:disabled { cursor: default; box-shadow: none; }
+.m1-key.hit { background: var(--mint); }
+.m1-key.miss { background: #e3dad3; color: #a89a90; }
+@keyframes m1pop { 0% { transform: scale(0.7); } 70% { transform: scale(1.12); } 100% { transform: scale(1); } }

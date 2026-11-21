@@ -1,7 +1,8 @@
-// Background music: the University Anthem of HKU (source in resources/README.md).
+// Background music: "Brighten Me with Virtues" (明我以德), the HKU song, from the HKU Alumni music video
+// (source in resources/README.md). Insung, 2026-11-21: "this just this music".
 // Browsers only allow sound after a click or a key press, so it starts on the first one.
 
-import url from "../assets/hku-anthem.mp3";
+import url from "../assets/hku-brighten-me-with-virtues.mp3";
 import { isMuted } from "./sfx";
 
 const KEY = "cds-sh-music";

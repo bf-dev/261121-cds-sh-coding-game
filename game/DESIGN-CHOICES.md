@@ -28,9 +28,11 @@ Rules that come straight from `docs/decisions.md` are not repeated here.
 | operator slots | 2 on floors 1 to 3, then +1 every 3 floors, 6 on floors 13, 14 and Leo | build prompt default |
 | operators | `+` and `-` from the start, `×` won on floor 2, `÷` won on floor 4. `^`, `log`, `mod` are not in the game | open question 3. Part 4 only names `+ - × ÷` |
 | strong operators | a hand holds at most one `×` and one `÷` | without this, `9 × 9 × 9` ends any match in one move |
+| operator draws | weighted `+ : × : - : ÷ = 6 : 4 : 2 : 1` over the unlocked operators. A `-` or `÷` left unused for two completed moves is swapped for a `+` or `×`. Both hands; a skipped turn swaps nothing | `docs/card-draw-randomness.md` (Aretha, 2026-11-21) |
+| number draws | 1 to 9, weights 1 for 1 to 3, 2 for 4 and 5, 3 for 6 to 9. No 6 to 9 left in the hand doubles 6 to 9; holding `÷` with no 1 to 3 left doubles 1 to 3. Dealt one at a time. Shield numbers are not affected | `docs/card-draw-randomness.md` (Aretha, 2026-11-21) |
 | brackets | won on floor 6. One pair, around two neighbours only | open question 2. `(2 + 3) × 5` is the lesson; longer groups made moves of 400+ |
 | player HP | 30, +8 per floor cleared (142 after floor 14, +10 against Leo) | the build prompt says 30 each. Moves grow with the operator slots, so HP grows with the floors |
-| professor HP | 14 (tutorial), 18, 24, 44, 50, 56, 80, 86, 92, 100, 106, 112, 122, 130. Leo 140 | lower than the first build (which went up to 180). In a simulation a match is 2 to 3 rounds on floors 1 to 9 and 3 to 5 at the top. A careless player wins floors 1 and 2 almost every time, about 3 in 4 on floor 4, and a bit over half from floor 10 up; a careful one wins about 8 in 10 at the top. Power-ups are not counted |
+| professor HP | 14 (tutorial), 18, 24, 44, 50, 56, 80, 86, 92, 100, 106, 112, 122, 130. Leo 140. These were tuned before the weighted draws (#51). With them moves are bigger: a simulation gives 1.4 to 2.8 rounds per match and a careless player wins 67 to 90% from floor 4 up (81% against Leo). HP was left alone because the team asked for shorter matches (p6 29:50); a fifth more professor HP brings back the numbers in the next sentences | lower than the first build (which went up to 180). In a simulation a match is 2 to 3 rounds on floors 1 to 9 and 3 to 5 at the top. A careless player wins floors 1 and 2 almost every time, about 3 in 4 on floor 4, and a bit over half from floor 10 up; a careful one wins about 8 in 10 at the top. Power-ups are not counted |
 | rounding | a move is rounded down, damage is rounded down after the shield, never below 0 | build prompt default |
 | zero divisor | the Run button refuses the move and says why | decision #7 |
 | negative move | counts as 0 | not in the docs |
@@ -103,11 +105,18 @@ Built:
 - The coached, untimed first lesson is the 1/F challenge with Dr. Dougherty, who stands in the entrance lobby before the gates.
 - Mentor tone: every professor gives a stamp, the floor's block and a postcard. The HUD counts `Stamps n/14`.
 - Postcards: a picture of the floor as drawn in the game, a crest stamp and one fact from `buildings/` (`POSTCARDS` in `src/data/labs.ts`). The Bag keeps them and the ending shows four.
-- Lab doors: an optional question from the guide about the floor's idea (`LABS` in `src/data/labs.ts`), hint after a wrong answer, +1 maximum HP the first time.
-- Leo is the friendly final examiner. The ending gives the CDS Explorer certificate in text.
+- Lab doors, open once the floor's mentor is done: a small game and an optional question from the guide about the floor's idea (`LABS` in `src/data/labs.ts`), hint after a wrong answer, +1 maximum HP the first time. After a win the postcard box offers Visit the lab now / Later.
+- Games (`src/minigames/`, which floor has which is `FLOOR_GAME` in `src/data/labs.ts`, the builder's pick): word game on 1, 2, 5, 6; Tower of Hanoi on 3, 4, 7; Data Snake on 8 to 10; Hanoi with 4 disks on 11 to 13; HKU milestones on 14; the Shanghai board at the east gate. Each explains itself under "How was this made?" and gives a postcard (HKU Stories or Beyond Campus: Shanghai) and +1 maximum HP the first time.
+- The guide (HUD button): Where next, What do my blocks do, Give me a hint, Campus map. The hints are authored, not from the model.
+- Bag: HP bar, blocks with what they do and where they came from, items with count, effect and where to get them, the two keys, the postcard album.
+- Menu: Campus map, Fast travel to places reached on foot, Opening film.
+- HUD: a small live campus map (bottom right) and a Home button that leaves the building.
+- People in Building 5 talk (`src/data/people.ts`). They are made up; the host Mei gives the welcome at the door after the film. Their lines follow the story stage (no stamps, first stamps, key card, all 14, CDS Explorer).
+- The interface is English only (decision #56). Chinese is left on the signs drawn on the buildings and next to the professors' names.
+- Leo is the friendly final examiner. The ending shows a drawn CDS Explorer certificate and the postcard album.
 - Sandbox mode (title screen): every door open, no battles, nothing saved.
 
-Not built from the proposal: the guide as a character you can ask, the mini-games (Hangman, Tower of Hanoi, Snake, history exhibition, Shanghai board), milestone keys with Visit now / Later, portals, the Shanghai postcard set, item explanations in the Bag, a drawn certificate, replay of the opening from the Menu.
+Not built from the proposal: model-written guide answers, the rhythm, AI-painter and sorting games, and a curated narrative demo (Demo mode is still the Leo match).
 
 ## world
 

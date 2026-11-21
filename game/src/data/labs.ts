@@ -177,3 +177,69 @@ export const POSTCARDS: Record<number, Postcard> = {
   13: { title: "Professor offices and lounge", zh: "教授办公室与休息区", fact: "The professors' floor has a lounge of its own. HKU's motto is Sapientia et Virtus: wisdom and virtue." },
   14: { title: "Exhibition lounge", zh: "展览厅", fact: "The top floor holds the director's office and an exhibition lounge, where a timeline wall runs through HKU's milestones from 1912 to 2024." },
 };
+
+// ---------------------------------------------------------------------------------------------
+// Optional games behind the lab doors (docs/visitor-journey-story.md, "Optional spaces and
+// mini-games"). They never hold a block that a later floor needs. Which game sits on which floor
+// is the builder's proposal: it follows what the lift floor guide says the floor is used for.
+
+export type MiniGame = "hangman" | "hanoi" | "hanoi4" | "snake" | "history";
+
+export const FLOOR_GAME: Record<number, MiniGame> = {
+  1: "hangman",
+  2: "hangman",
+  3: "hanoi",
+  4: "hanoi",
+  5: "hangman",
+  6: "hangman",
+  7: "hanoi",
+  8: "snake",
+  9: "snake",
+  10: "snake",
+  11: "hanoi4",
+  12: "hanoi4",
+  13: "hanoi4",
+  14: "history",
+};
+
+export interface ExtraCard {
+  id: string;
+  /** which album it belongs to */
+  album: "stories" | "shanghai";
+  title: string;
+  zh: string;
+  fact: string;
+}
+
+export const GAME_INFO: Record<MiniGame, { name: string; zh: string; learn: string; card: ExtraCard }> = {
+  hangman: {
+    name: "Word game",
+    zh: "猜词游戏",
+    learn: "Guess a campus word letter by letter, and see how a game checks a guess.",
+    card: { id: "story-classroom", album: "stories", title: "The classroom", zh: "教室", fact: "The lecture theatres have raked rows of grey and tan seats with fold-away writing tablets, and a very large screen on the front wall." },
+  },
+  hanoi: {
+    name: "Tower of Hanoi",
+    zh: "汉诺塔",
+    learn: "Move three disks without ever putting a big one on a small one: planning steps in the right order.",
+    card: { id: "story-puzzle", album: "stories", title: "The puzzle table", zh: "益智桌", fact: "Tower of Hanoi with 3 disks takes 7 moves at best. Every extra disk doubles the count and adds one: 15, 31, 63." },
+  },
+  hanoi4: {
+    name: "Tower of Hanoi, 4 disks",
+    zh: "汉诺塔 · 四层",
+    learn: "The bonus round: four disks, fifteen moves at best.",
+    card: { id: "story-puzzle4", album: "stories", title: "The bonus round", zh: "加分关", fact: "A program solves Tower of Hanoi by calling itself: move the small pile away, move the biggest disk, move the small pile back. That is recursion." },
+  },
+  snake: {
+    name: "Data Snake",
+    zh: "数据贪吃蛇",
+    learn: "Collect data dots and see how a game decides that something was hit.",
+    card: { id: "story-research", album: "stories", title: "The research floors", zh: "科研楼层", fact: "The lift floor guide gives floors 9 and 10 to the research labs. The professors' offices are above them." },
+  },
+  history: {
+    name: "HKU milestones",
+    zh: "港大里程碑",
+    learn: "Put the years from the timeline wall of the exhibition in order.",
+    card: { id: "story-history", album: "stories", title: "HKU History: The Milestones", zh: "港大历史 · 里程碑", fact: "The exhibition lounge on 14/F shows HKU's milestones on round drums, with a timeline that starts in 1912." },
+  },
+};

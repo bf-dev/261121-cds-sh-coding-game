@@ -8,7 +8,7 @@ import { buildMap } from "../maps/index";
 export interface Target {
   id: string;
   en: string;
-  zh: string;
+  zh?: string;
   action: Action;
   npc?: NpcDef;
 }
@@ -132,13 +132,12 @@ export class World {
     let best: Target | null = null;
     let bestD = 1e9;
     for (const n of m.npcs) {
-      if (!n.action) continue;
       const nx = n.tx * TILE + TILE / 2;
       const ny = n.ty * TILE + TILE - 10;
       const d = Math.hypot(nx - this.px, ny - this.py);
       if (d < TILE * 1.7 && d < bestD) {
         bestD = d;
-        best = { id: n.id, en: `Talk to ${n.name}`, zh: `和${n.nameZh}对话`, action: n.action, npc: n };
+        best = { id: n.id, en: `Talk to ${n.name}`, action: n.action ?? { type: "talk" }, npc: n };
       }
     }
     if (!best) {
@@ -251,9 +250,9 @@ export class World {
     m.drawOver?.(ctx, timeMs);
 
     for (const l of m.labels ?? []) {
-      const key = `${l.en}|${l.zh}`;
+      const key = l.en;
       let c = this.labelCache.get(key);
-      if (!c) this.labelCache.set(key, (c = labelPanel(l.en, l.zh, 20)));
+      if (!c) this.labelCache.set(key, (c = labelPanel(l.en, "", 20)));
       if (l.x < cx - 200 || l.x > cx + VIEW_W + 200) continue;
       ctx.drawImage(c, Math.round(l.x - c.width / 2), Math.round(l.y - c.height));
     }

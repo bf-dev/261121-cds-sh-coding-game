@@ -71,13 +71,12 @@ export function showDialog<T = true>(o: DialogOpts<T>): Promise<T> {
 }
 
 /** "This is your new block, this is what it does, this is the same as ..." (decision #17) */
-export function cardPopup(id: string, kicker = "New block · 新积木"): Promise<true> {
+export function cardPopup(id: string, kicker = "New block"): Promise<true> {
   const c = CARDS[id];
   if (!c) return Promise.resolve(true);
   return showDialog({
     kicker,
     title: c.name,
-    titleZh: c.nameZh,
     wide: true,
     autoMs: 3200,
     body: [

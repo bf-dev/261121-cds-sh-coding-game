@@ -26,7 +26,7 @@ docs/                     the design, one concept per file
   open-questions.md       everything not settled yet
 buildings/                the campus, distilled from all photos and video: one folder per place
   README.md               index and how to use it
-  outside/                site, roads, plaza, footbridge, lawn + lion, lockers, gate
+  outside/                site, roads, plaza, lawn + lion, lockers, gate
   cds1/                   CDS1 tower: entrance, lobby, floor guide, floors
   b5/                     Building 5: hall, lobby, amenity floor, 5/F, 6/F
   b6/                     dining cluster / senior common room (building unconfirmed)
@@ -42,7 +42,7 @@ resources/                raw material, kept as real files (see resources/README
 
 ## sources of truth
 
-1. Meeting recordings in `resources/recordings/`: part 1 (30 min: whiteboard, hackathon briefing, core design), part 2 (9 min: answers to the open questions), part 3 (10 min: logistics while filming, little design), part 4 (20 min: revised battle rules, **overrides parts 1 and 2 where they differ**). Cleaned transcripts are `resources/transcripts/*.clean.md`, raw ones are `*.raw.txt`.
+1. Meeting recordings in `resources/recordings/`: part 1 (30 min: whiteboard, hackathon briefing, core design), part 2 (9 min: answers to the open questions), part 3 (10 min: logistics while filming, little design), part 4 (20 min: revised battle rules, **overrides parts 1 and 2 where they differ**). Parts 5 (34 min: professors as bosses) and 6 (42 min: afternoon play-test and change list) are transcripts only, cited as `(p5 mm:ss)` and `(p6 mm:ss)`; where they differ from part 4, the later one wins. Cleaned transcripts are `resources/transcripts/*.clean.md`, raw ones are `*.raw.txt`.
 2. `resources/photos/2026-11-21-whiteboard.jpg`, the whiteboard from that meeting. A line-by-line reading is in `resources/README.md`.
 3. Campus photos and video in `resources/photos/` and `resources/videos/`. **Use `buildings/` instead of the raw videos**: every place has its keyframes and a README there. Open a video only if `buildings/` is missing something, and then add what you found to `buildings/`.
 4. Anything a teammate adds later: a new recording, photo or chat export goes into `resources/` first, then into the docs.
@@ -86,6 +86,8 @@ npm run preview      # serve the build
 - Presentation: `Demo mode` on the title screen plays a full match by itself; `Level select` jumps to any floor or the Grand Hall.
 - Story, professors and their lines are in `game/src/data/professors.ts`. The lineup follows `docs/professor-levels.md`.
 - Story (decision #45, `docs/visitor-journey-story.md`): an invited visitor. New game plays a short opening film, starts at the welcome dinner in Building 5 1/F, then 14 mentors in CDS-1 (stamp, block and postcard each) and Leo's final challenge. Postcard facts and the optional lab questions are in `game/src/data/labs.ts`. `Sandbox mode` on the title screen has no battles.
-- Background music is the HKU anthem as a chiptune rendered from the score: `game/src/assets/hku-anthem.mp3` (renderer and sources in `resources/audio/`).
+- Background music is "Brighten Me with Virtues" from the HKU Alumni music video: `game/src/assets/hku-brighten-me-with-virtues.mp3` (source in `resources/README.md`; the earlier chiptune renderer is still in `resources/audio/`).
+- The interface is English only (decision #56). Keep Chinese only where it is written on the real buildings and for the professors' names.
+- Optional games are in `game/src/minigames/`, the campus map and the small live map in `game/src/ui/campusmap.ts`, what people say in `game/src/data/people.ts`.
 - The HKU logo is the official file in `game/src/assets/` (from hku.hk). Never redraw it; use `crest()` / `logoFull()` from `game/src/art/logo.ts`.
 - Online copy: https://insu.ng/cds/ (static build, rule-based opponents), republished with `game/scripts/deploy-insu.sh` on Insung's server.

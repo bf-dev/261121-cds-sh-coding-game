@@ -528,9 +528,11 @@ function buildLobby(): GameMap {
   info("high-table", 11, 4, 2, 1, "University Galleria", "大学长廊", "Three vaulted naves, crystal chandeliers and very long walnut tables. This hall is home to HKU's High Table Dinner tradition.");
 
   const npcs: NpcDef[] = [
-    { id: "b5-visitor-1", char: "visitor1", tx: 24, ty: 16, dir: "left", name: "Visitor", nameZh: "访客" },
-    { id: "b5-visitor-2", char: "visitor2", tx: 16, ty: 6, dir: "left", name: "Visitor", nameZh: "访客" },
+    { id: "b5-visitor-1", char: "visitor1", tx: 24, ty: 16, dir: "left", name: "Sam", nameZh: "" },
+    { id: "b5-visitor-2", char: "visitor2", tx: 16, ty: 6, dir: "left", name: "Jun", nameZh: "" },
     { id: "b5-guard", char: "guard", tx: 27, ty: 17, dir: "down", name: "Receptionist", nameZh: "前台" },
+    { id: "b5-host", char: "visitor3", tx: 19, ty: 18, dir: "left", name: "Mei", nameZh: "" },
+    { id: "b5-diner-1", char: "visitor1", tx: 11, ty: 6, dir: "right", name: "Lin", nameZh: "" },
   ];
 
   return {

@@ -15,3 +15,11 @@ Updated after part 4. When one is answered, move it to [decisions](decisions.md)
 11. **Which building the grand hall is in.** The room is photographed (`buildings/grand-hall/`), but not its building or entrance.
 12. ~~pixel-art reference link~~ answered: https://insu.ng/zhangjiang, see art-style.md.
 13. **Which teachers** agree to appear as avatars.
+14. **Practice trainers between the professors** (p5 17:40: "trainers leading up to the gym leader"). Not built.
+15. **A `vibe code` power-up** that finds the best combination of your blocks for you (p5 04:15). Not built.
+16. **Ask the professors about CDS** in place of a pop quiz (p5 20:23, 20:29). The closest thing built is the optional question in each lab.
+17. **Risk levels for blocks**: some higher risk, some harder ideas (p5 16:18). Not built.
+18. **Remainder block as a `mod` function** (p6 03:20). Goes with question 3.
+19. **Art style**: p6 23:18 to 24:04 prefers the simpler, more pixel-art look over the more realistic one. Decision #26 says "realistic and detailed". Which one stays?
+20. **Language**: p6 35:15 "maybe they can choose the language". The game is English only for now (decision #56).
+21. **Real professor names** "for now" (p5 19:07) against "confirm each person's participation and likeness" in `professor-levels.md`.

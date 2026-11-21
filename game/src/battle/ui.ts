@@ -114,7 +114,7 @@ export async function runBattle(cfg: BattleConfig): Promise<BattleResult> {
   const hpBar = () => h("div", { class: "hp" }, h("div", { class: "fill" }), h("span", { class: "hp-text" }));
   const meBar = hpBar();
   const foeBar = hpBar();
-  const mePanel = h("div", { class: "b-side me" }, portrait(student.portrait), h("div", { class: "who" }, h("div", { class: "name" }, "You", h("small", {}, "学生")), meBar));
+  const mePanel = h("div", { class: "b-side me" }, portrait(student.portrait), h("div", { class: "who" }, h("div", { class: "name" }, "You"), meBar));
   const foePanel = h("div", { class: "b-side foe" }, h("div", { class: "who" }, h("div", { class: "name" }, cfg.enemy.name, h("small", {}, cfg.enemy.nameZh)), foeBar), portrait(enemyChar.portrait));
   const watcher = h("div", { class: "watcher off" }, h("span", { class: "wname" }, "damage"), h("span", { class: "wval" }, "0"));
   const caption = h("div", { class: "caption" });
@@ -125,7 +125,7 @@ export async function runBattle(cfg: BattleConfig): Promise<BattleResult> {
   const shieldCount = () => h("span", { class: "shield-count", title: "shield blocks left in this battle" }, h("span", { class: "ico shield" }), h("b", {}, "0"));
   const myCount = shieldCount();
   const foeCount = shieldCount();
-  const band = h("div", { class: "b-band" }, h("div", { class: "band-title me" }, "Your blocks", h("small", {}, "你的积木"), myCount), mid, h("div", { class: "band-title foe" }, foeCount, `${cfg.enemy.name}'s blocks`, h("small", {}, "对手的积木")));
+  const band = h("div", { class: "b-band" }, h("div", { class: "band-title me" }, "Your blocks", myCount), mid, h("div", { class: "band-title foe" }, foeCount, `${cfg.enemy.name}'s blocks`));
   const refreshCounts = () => {
     myCount.querySelector("b")!.textContent = `× ${myBlocks}`;
     foeCount.querySelector("b")!.textContent = `× ${foeBlocks}`;
@@ -370,11 +370,11 @@ export async function runBattle(cfg: BattleConfig): Promise<BattleResult> {
         if (note) myScript.append(h("div", { class: "note" }, note));
         // palette
         const used = (arr: number[], i: number) => (arr.includes(i) ? "used" : "");
-        const verbs = h("div", { class: "pal-group verbs" }, h("div", { class: "pal-title" }, "1. Action", h("small", {}, "动作")), h("div", { class: "pal-row" }, ...(["ATTACK", "HEAL"] as Verb[]).map((v) => h("button", { class: `blk-btn blk stack ${v === "ATTACK" ? "attack" : "heal"} ${verb === v ? "on" : ""}`, type: "button", "data-act": `verb:${v}`, onclick: () => act(`verb:${v}`) }, h("span", { class: `ico ${v === "ATTACK" ? "sword" : "heart"}` }), v))));
-        const nums = h("div", { class: "pal-group nums" }, h("div", { class: "pal-title" }, "2. Numbers", h("small", {}, "数字")), h("div", { class: "pal-row" }, ...myHand.digits.map((d, i) => h("button", { class: `pill-btn pill ${used(dIdx, i)}`, type: "button", "data-act": `num:${i}`, onclick: () => act(`num:${i}`) }, String(d)))));
-        const ops = h("div", { class: "pal-group ops" }, h("div", { class: "pal-title" }, `3. Operators (up to ${cfg.slots})`, h("small", {}, "运算符")), h("div", { class: "pal-row" }, ...myHand.ops.map((o, i) => h("button", { class: `op-btn ${used(oIdx, i)}`, type: "button", "data-act": `op:${i}`, onclick: () => act(`op:${i}`) }, opBlock(o)))));
+        const verbs = h("div", { class: "pal-group verbs" }, h("div", { class: "pal-title" }, "1. Action"), h("div", { class: "pal-row" }, ...(["ATTACK", "HEAL"] as Verb[]).map((v) => h("button", { class: `blk-btn blk stack ${v === "ATTACK" ? "attack" : "heal"} ${verb === v ? "on" : ""}`, type: "button", "data-act": `verb:${v}`, onclick: () => act(`verb:${v}`) }, h("span", { class: `ico ${v === "ATTACK" ? "sword" : "heart"}` }), v))));
+        const nums = h("div", { class: "pal-group nums" }, h("div", { class: "pal-title" }, "2. Numbers"), h("div", { class: "pal-row" }, ...myHand.digits.map((d, i) => h("button", { class: `pill-btn pill ${used(dIdx, i)}`, type: "button", "data-act": `num:${i}`, onclick: () => act(`num:${i}`) }, String(d)))));
+        const ops = h("div", { class: "pal-group ops" }, h("div", { class: "pal-title" }, `3. Operators (up to ${cfg.slots})`), h("div", { class: "pal-row" }, ...myHand.ops.map((o, i) => h("button", { class: `op-btn ${used(oIdx, i)}`, type: "button", "data-act": `op:${i}`, onclick: () => act(`op:${i}`) }, opBlock(o)))));
         const powers = (Object.keys(cfg.power) as Power[]).filter((p) => cfg.power[p] > 0);
-        const pw = powers.length ? h("div", { class: "pal-group powers" }, h("div", { class: "pal-title" }, "Power-ups (before your move)", h("small", {}, "道具")), h("div", { class: "pal-row" }, ...powers.map((p) => h("button", { class: `power-btn ${dIdx.length ? "used" : ""}`, type: "button", "data-act": `power:${p}`, onclick: () => act(`power:${p}`) }, powerBlock(p, cfg.power[p]))))) : null;
+        const pw = powers.length ? h("div", { class: "pal-group powers" }, h("div", { class: "pal-title" }, "Power-ups (before your move)"), h("div", { class: "pal-row" }, ...powers.map((p) => h("button", { class: `power-btn ${dIdx.length ? "used" : ""}`, type: "button", "data-act": `power:${p}`, onclick: () => act(`power:${p}`) }, powerBlock(p, cfg.power[p]))))) : null;
         const canGroup = cfg.brackets && dIdx.length >= 3;
         const controls = h(
           "div",
@@ -549,13 +549,13 @@ export async function runBattle(cfg: BattleConfig): Promise<BattleResult> {
         const kinds = h(
           "div",
           { class: "pal-group skinds" },
-          h("div", { class: "pal-title" }, `1. Shield block (${myBlocks} left in this battle)`, h("small", {}, "护盾积木")),
+          h("div", { class: "pal-title" }, `1. Shield block (${myBlocks} left in this battle)`),
           h("div", { class: "pal-row" }, ...cfg.fns.map((k) => h("button", { class: `kind-btn ${kind === k ? "on" : ""} ${SHIELD_SLOTS[k].length > freeNums().length ? "used" : ""}`, type: "button", "data-act": `skind:${k}`, onclick: () => act(`skind:${k}`) }, ...kindChip(k)))),
         );
         const nums = h(
           "div",
           { class: "pal-group snums" },
-          h("div", { class: "pal-title" }, "2. Shield numbers (dealt once per battle)", h("small", {}, "护盾数字")),
+          h("div", { class: "pal-title" }, "2. Shield numbers (dealt once per battle)"),
           h("div", { class: "pal-row" }, ...myNums.map((d, i) => h("button", { class: `pill-btn pill ${numUsed[i] ? "spent" : picked.includes(i) ? "used" : ""}`, type: "button", "data-act": `snum:${i}`, disabled: numUsed[i], onclick: () => act(`snum:${i}`) }, String(d)))),
         );
         const controls = h(
@@ -794,7 +794,7 @@ export async function runBattle(cfg: BattleConfig): Promise<BattleResult> {
     await wait(cfg.auto ? 1900 : 1500);
     focus(null);
     root.classList.remove("is-running");
-    if (shield && !cfg.seen.has(shield.kind) && move.verb === "ATTACK") await seeCard(shield.kind, attacker === "me" ? `${cfg.enemy.name} used a new block · 新积木` : "Your shield block · 你的护盾积木");
+    if (shield && !cfg.seen.has(shield.kind) && move.verb === "ATTACK") await seeCard(shield.kind, attacker === "me" ? `${cfg.enemy.name} used a new block` : "Your shield block");
     watch(null);
   }
 

@@ -1,6 +1,6 @@
 # Card draw randomness update
 
-Aretha, 2026-11-21. The changes below were built and tested in the local game copy. The repository code still needs the corresponding `game/src/battle/rules.ts` update.
+Aretha, 2026-11-21. The changes below were built and tested in the local game copy. They are in `game/src/battle/rules.ts` since 2026-11-21 (`drawOp`, `drawDigit`, `dealHand`, `refill`).
 
 ## Problem
 

@@ -28,7 +28,7 @@ All footage is filmed and sorted per place in `buildings/` (see `buildings/READM
 - **B5**: 1/F vaulted galleria (not the grand hall, confirmed by Insung), marble lobby with the "05 / B2" pillar, the amenity floor (most likely 2/F: gym, games, piano, auditorium, study stair), the 4/F co-creation rooms 411 to 420, and the 5/F learning commons with study rooms 501 to 531. The whiteboard's "2/F, stairs, study area" fits this (`buildings/b5/`).
 - **B6**: a Senior Common Room suite, plaque-confirmed, plus a crested dining foyer and an AI LABS reception. The building number is not on film (`buildings/b6/`).
 - **MT**: the yellow Meituan and orange Taobao locker walls on the east service road (`buildings/outside/` §3.13).
-- **Outside**: the four roads, two towers, footbridge, sunken round plaza, lawn with the lion and HKU letters (`buildings/outside/`).
+- **Outside**: the four roads, two towers, sunken round plaza, lawn with the lion and HKU letters (`buildings/outside/`).
 
 - **Grand hall**: two photos of the auditorium, stage and LED wall (`buildings/grand-hall/`). Its building is not known.
 

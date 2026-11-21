@@ -90,8 +90,11 @@ Fonts: SungSans (Latin) and Noto Sans CJK SC (Chinese), subset to the characters
 ## story, postcards, music, modes (2026-11-21, last update)
 
 - New game plays a short opening film by itself (Skip is the only button), then starts at the welcome dinner in the University Galleria, Building 5 1/F. Walk south to CDS-1.
-- Each CDS-1 floor: find the mentor, complete the block challenge, get a stamp, the floor's block and a postcard. The door marked `Lab 实验室` has an optional question from the guide (+1 maximum HP).
+- Each CDS-1 floor: find the mentor, complete the block challenge, get a stamp, the floor's block and a postcard. The door marked `Lab` opens after the challenge: a small game (`src/minigames/`) and an optional question from the guide (+1 maximum HP).
 - Lab questions and postcard facts are data in `src/data/labs.ts`.
-- Background music is the HKU anthem as a chiptune rendered from the written score (`src/assets/hku-anthem.mp3`, renderer and source in `resources/audio/`). Menu > Music turns it on and off.
+- Background music is "Brighten Me with Virtues" (明我以德) from the HKU Alumni music video (`src/assets/hku-brighten-me-with-virtues.mp3`, source in `resources/README.md`). Menu > Music turns it on and off.
+- HUD: `Home` leaves the building, `Guide` gives directions and hints, `Bag` has the HP bar, blocks, items, keys and postcards, and the small map bottom right shows where you are on the campus. Menu has Campus map, Fast travel and Opening film.
+- The people in Building 5 talk (Space next to them). Their lines are in `src/data/people.ts`.
+- The interface is English only. Chinese stays on the signs drawn on the buildings and next to the professors' names.
 - Title screen: `Sandbox mode` walks the whole campus with every door open and no battles. `Level select` has a `Building 5` button.
-- Debug links: `?map=cds1-6&floor=7&postcard=6` shows a postcard, `?battle=1` starts the coached first lesson.
+- Debug links: `?map=cds1-6&floor=7&postcard=6` shows a postcard, `?map=hall&cert=1` the certificate, `?battle=1` starts the coached first lesson.

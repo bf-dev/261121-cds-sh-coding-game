@@ -136,9 +136,9 @@ export class Floor {
     this.block(tx, ty, 1, 1, 0);
   }
 
-  /** the floor's lab: where the new block is collected once the professor is beaten */
+  /** the floor's lab: optional, a small game and a question from the guide */
   lab(tx: number, ty: number, w: number, h: number, labelY = ty + 0.7): void {
-    this.triggers.push({ id: "lab", tx, ty, w, h, en: "Lab: the guide's question", zh: "实验室：向导的小问题", action: { type: "lab" } });
+    this.triggers.push({ id: "lab", tx, ty, w, h, en: "Lab: a game and a question", zh: "实验室：小游戏和小问题", action: { type: "lab" } });
     this.label(tx + w / 2, labelY, "Lab", "实验室");
   }
 

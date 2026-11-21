@@ -24,6 +24,10 @@ export interface Progress {
   seen: string[];
   /** info trigger ids discovered */
   found: string[];
+  /** extra postcards from the optional games: HKU Stories and Beyond Campus: Shanghai */
+  extras: string[];
+  /** places that were reached once: they become fast-travel stops */
+  visited: string[];
   map: string;
   spawn: string;
 }
@@ -45,6 +49,8 @@ export function freshProgress(): Progress {
     studied: 0,
     seen: [],
     found: [],
+    extras: [],
+    visited: [],
     map: "outside",
     spawn: "start",
   };

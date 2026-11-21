@@ -28,7 +28,8 @@ export type Action =
   | { type: "battle"; floor: number } // the professor of CDS-1 floor n (1..14)
   | { type: "boss" } // Leo, grand hall
   | { type: "powerup"; kind: PowerUpKind }
-  | { type: "info"; title: string; titleZh: string; text: string }; // a real campus detail to discover
+  | { type: "info"; title: string; titleZh: string; text: string } // a real campus detail to discover
+  | { type: "talk" }; // a person with something to say (data/people.ts)
 
 export interface Trigger {
   id: string;
