@@ -307,6 +307,23 @@ function seat(g: Ctx, x: number, y: number, dim: number, aisle: -1 | 0 | 1): voi
   }
 }
 
+/** someone watching from a seat: head and shoulders above the backrest, seen from behind */
+function spectator(g: Ctx, x: number, y: number, seed: number): void {
+  const tops = ["#3b5b8c", "#8c3b3b", "#e9e6de", "#2f6b52", "#5a5a66", "#c9a233", "#7a4a8c", "#1f2a44", "#d98a9a"];
+  const hairs = ["#17120f", "#231a14", "#3a2a1c", "#0f0f12", "#5a5a5a", "#6b4a2a"];
+  const top = tops[Math.floor(hash(seed, 1, 7) * tops.length)];
+  const hair = hairs[Math.floor(hash(seed, 2, 7) * hairs.length)];
+  const lean = Math.floor(hash(seed, 3, 7) * 5) - 2;
+  rect(g, x + 11 + lean, y + 9, 42, 13, top);
+  rect(g, x + 11 + lean, y + 9, 42, 2, "rgba(255,255,255,0.25)");
+  rect(g, x + 9 + lean, y + 13, 4, 9, top);
+  rect(g, x + 51 + lean, y + 13, 4, 9, top);
+  rect(g, x + 26 + lean, y + 4, 12, 7, "#d9a886");
+  ellipse(g, x + 32 + lean, y - 3, 12, 11, hair);
+  rect(g, x + 24 + lean, y - 11, 7, 3, "rgba(255,255,255,0.18)");
+  if (hash(seed, 4, 7) < 0.3) rect(g, x + 20 + lean, y + 2, 24, 9, hair); // long hair
+}
+
 function speaker(g: Ctx, x: number, y: number): void {
   // rig lines up to the ceiling
   rect(g, x + 14, 14, 2, y - 14, "#16161a");
@@ -518,6 +535,7 @@ export function buildGrandHall(): GameMap {
       for (let tx = blk.a; tx <= blk.b; tx++) {
         const aisle = blk === leftBlock ? (tx === blk.b ? -1 : 0) : tx === blk.a ? 1 : 0;
         seat(g, tx * TILE, ty * TILE, dim, aisle as -1 | 0 | 1);
+        if (hash(tx, ty, 99) < 0.36) spectator(g, tx * TILE, ty * TILE, tx * 31 + ty * 7);
         solid[ty * COLS + tx] = 1;
       }
     }
