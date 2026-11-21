@@ -1,0 +1,424 @@
+# raw transcript: 2026-11-21 team meeting
+
+source: resources/recordings/2026-11-21-team-meeting.m4a (30:02)
+machine transcript (Whisper large-v3, auto language, 10 min chunks). unedited except one spoken password removed. timestamps are mm:ss from the start of the recording. whisper tagged every chunk as English; short Korean or Mandarin asides may be missing or rendered as English.
+
+[00:00] I intentionally wrote it dirty, you didn't expect that.
+[00:07] We need to go out the facility.
+[00:10] Building 5.
+[00:12] Just one?
+[00:14] Just one. Building 5.
+[00:17] Building 5.
+[00:18] You don't build a thing?
+[00:20] I think these are the main things we need to do.
+[00:23] No, building 5.
+[00:26] This is a grand hall building. This one is small. This one we need a few floors.
+[00:35] This one we just need to focus on things that we find interesting.
+[00:39] Maybe like the second floor building side and also the study area.
+[00:45] Yes, study area and stairs.
+[00:49] Oh, we can make stairs. It will be interesting.
+[00:52] I think we can scan. It means only five floors.
+[00:55] So we do like...
+[00:56] Second, third floor?
+[00:57] Second floor.
+[00:59] There.
+[01:02] And then second floor.
+[01:04] No, stairs actually mean the one stage.
+[01:07] Yeah.
+[01:09] And then third.
+[01:11] You just want to need, I think,
+[01:14] lobby.
+[01:17] Lobby and just one floor.
+[01:19] Or the first floor.
+[01:20] I'll just say.
+[01:21] First floor.
+[01:23] Second floor.
+[01:24] We can copy for other floors.
+[01:27] We can copy for example like this.
+[01:30] And then maybe for the first floor.
+[01:33] Building search for hall.
+[01:37] And the senior common room.
+[01:42] So we need 1, 2, 3, 4, 5, 6, 7, 8, 9, 10.
+[01:47] And we need make one.
+[01:49] Oh yeah.
+[01:50] Okay.
+[01:52] We can actually just take a video of it, that's all we need.
+[01:56] Yeah, it's easy.
+[01:58] And then we'll have like the games.
+[02:09] Is there AI dance down here?
+[02:12] So we can think about, I'm guessing, the other one.
+[02:14] Cool, we can make it taste super fine.
+[02:16] We can just do Dumbledore.
+[02:18] Dumbledore.
+[02:20] Oh okay Let go Let go over there let go this is our lecturer
+[02:40] he's the pic of this bitcoin lab and this is our like another lecturer brian you know
+[02:51] and our another TIA Tristan and our IT Starix.
+[02:56] Okay, so if you have any problems, you can find us.
+[03:00] And I will let Alan to do the opening remarks first.
+[03:05] Okay, very nice to meet you all.
+[03:08] So I guess you haven't met me before, so, you know,
+[03:11] at some point hopefully we can have a conversation, chit-chat,
+[03:14] and get to know each other.
+[03:16] But I just want to thank you for coming to our very humble Vibe Coding Lab.
+[03:20] okay so you know you don't know the purpose of this lab um i don't blame you it's not very
+[03:26] obvious by looking at it what is the purpose but you may have noticed we have this very wonderful
+[03:30] server rack over here okay and this is a very um nice amount of local compute in it that you're
+[03:37] going to be using today now i do believe it's using deep seek right yeah v4 flash yeah v4
+[03:43] V4 or V4.1? V4.1. V4.1, right. But unquantized? Yeah, unquantized.
+[03:51] And it's across four clusters, eight on the four machines, right? Yeah.
+[03:56] So you'll get to know the hardware very well because you'll find that sometimes you get fantastic results,
+[04:02] sometimes you get terrible results, but that's just life. Unfortunately, you don't always get what you want.
+[04:08] So hopefully you'll have a lovely time playing around with this stuff.
+[04:13] I do also believe you're using these very nice pods over here, okay?
+[04:17] So if you've looked inside, you'll see that you have this very nice, very large-scale monitor.
+[04:24] Now, I saw some people using it yesterday, and they were just putting one screen stretched across the whole thing,
+[04:30] and it looked ridiculous. I don't recommend you do that, okay?
+[04:33] What was the concept of this little pod? It actually has a concept, if you can believe it or not.
+[04:37] It's not just like an office cubicle for you to lose your soul into in the future.
+[04:43] We're kind of trying to simulate the very traditional software engineering concept of
+[04:49] mob coding, right?
+[04:50] So in the past we would have a coder we have a rubber ducky human being we have a navigator right So we essentially replacing one of the humans with AI here So now of course in your hackathon you going to be how many people Four
+[05:05] Four people.
+[05:05] Okay.
+[05:06] So at least one of you gets to be a rubber ducky, okay?
+[05:09] So you can choose who gets to be a rubber ducky.
+[05:12] All right.
+[05:13] Okay, anyway, yeah, I think I've spoken too long already.
+[05:15] So thank you very much for coming here, and I hope you have a fantastic time,
+[05:19] and I'm really looking forward to seeing what you make.
+[05:23] And I guarantee you this is not copyright theft, okay?
+[05:27] There's no IP infringement going on here.
+[05:30] This guy is nothing you've ever seen before.
+[05:32] Actually, his name is Pistachio Cat, okay?
+[05:36] Anyway, I'll pass it over to Ling to do the briefing.
+[05:38] Okay, thank you, Alan.
+[05:40] Okay, so let me introduce our lab first and your challenge.
+[05:47] So each group can grab our slide here.
+[05:52] Yes.
+[05:53] You can choose one.
+[05:54] I'm grabbing.
+[05:55] This one here.
+[05:56] You want to?
+[05:57] Do you have locks there?
+[05:58] Yeah, I have.
+[05:59] Okay, so you can also listen to me here, okay?
+[06:02] So, our theme is like your campus, your game here, and basically, we're going to be playing
+[06:13] So you can also listen to me here.
+[06:17] So our theme is your campus, your game here.
+[06:21] And basically, we want you to build a playable campus
+[06:25] exploration game.
+[06:26] You can make a visitor to the first time visitor,
+[06:32] including the O-level students and their families and friends.
+[06:37] And to visit HKU Zhangjiang base here to make it more easier,
+[06:42] make the visit more engaging and fun.
+[06:45] And so we want you to build a kind of game that has a whole experience, that it has some
+[06:55] playable interactions to help the visitors find a way around, discover something about
+[07:01] the campus, or you can hide some details in.
+[07:05] And you can choose your own genre and visual style here.
+[07:10] For example, you can play a role game like pixels art, right?
+[07:15] It's just an example.
+[07:16] You don't have to follow it.
+[07:17] You can choose your own.
+[07:19] And for the other one, you can use, you see those server racks, right?
+[07:23] The immediate spots You can actually deploy some like deep v4 flash that model for you and I calm yes I wanted and to help you to build the game and at last like
+[07:40] at 4 like at 4 p.m. here you have to stop working and then you
+[07:48] and Alan and Brian will come to judge you and you also do peer review.
+[07:55] Okay.
+[07:56] And so do prepare a live demo and you can make some expert explanation on it.
+[08:04] So let your image run wild.
+[08:06] Okay.
+[08:07] So next we will talk, you know, what we will be saying.
+[08:12] Okay.
+[08:13] Like, favorable.
+[08:14] You understand that you can use some like very powerful like Fable 4.2 and whatever models that can produce like various results, right? And you know the AI model is just a very small part of your project, right? You can have some like type of details, like clear interactions and you know some your own design inside it to make the campus feel like recognizable, right?
+[08:41] you can give someone a reason to smile or explore, right?
+[08:46] So mainly we hope today will be a relaxed day of building together, try your ideas,
+[08:52] brainstorm, learn from others, your group mates, your teammates, and have fun building
+[08:58] something together, okay?
+[09:03] So you have checked in and, you know, yeah, and we will provide monitors, keyboards, and
+[09:10] and local LLM key here to access the labs, all those.
+[09:16] And you can, before the demos, make sure you test it, okay?
+[09:21] And then you will have like around 15 minutes
+[09:26] to do your presentation.
+[09:31] So let's talk about the assessment.
+[09:33] So we have 40% of your base peer assessment,
+[09:38] and then 60% by the judges, Alan and Brian here, and we'll focus on your design, your implementation, and the presentation.
+[09:49] And later you will receive two emails from our lab.
+[10:00] To confirm your registration, you can click the accept invitation here, and then to set it like an easy password, don't set it too complicated, okay? One-time password is also okay.
+[10:12] And this invitation is mainly for, you know, you can check the logs, the usage of your
+[10:21] tokens here.
+[10:22] But today we don't have limitation on any token, numbers of tokens, okay?
+[10:28] You have unlimited tokens here.
+[10:30] And the second one is your, like, API key.
+[10:35] So do keep it privately.
+[10:37] Do not share with others, okay?
+[10:41] and after you receive the key, you have your registration, you can do a test here.
+[10:51] So our, make sure you have connected to the campus network, HKU Shanghai,
+[10:56] just input the base UIN here, so the IP will be our like gateway,
+[11:04] and the API key is what you receive, and the model name, only this one, okay?
+[11:10] okay if they be 4.1 flash and you can also use your own model right but as i said ai model is
+[11:18] just a small part okay and then do a test here right okay and you have we just recommend some
+[11:30] agents you can use your own it's okay maybe some like permits and dpc current is an open go to c
+[11:38] line and so for her base just follow the slides I'll just go through it basically
+[11:49] they are nothing different between them
+[11:54] deep-sea carnage
+[11:57] I think that's pretty much for the .
+[12:04] By the way, if you have any questions about your agent, come to our link.
+[12:11] If you have any questions about your network, come to .
+[12:16] Okay. So, I'll send the email to you.
+[12:20] Okay.
+[12:21] So first before we go I think I will show our current here
+[12:49] I'm going to search here.
+[12:51] Japanese. Okay. So here maybe just type my email here.
+[13:01] Use a simple password, right? Yeah, just use a simple password. No need
+[13:12] to be complicated. Actually, you can see there are some keys that we already using right
+[13:18] here. You can see your usage here, right? How many dollars you have cost. But today
+[13:30] is unlimited. You can cost as much as you can. Right? Okay? And see from different,
+[13:37] like, agents here. Okay? Okay, now I will just let you go and I'll send the .
+[13:45] OK.
+[13:47] Before you start, I'll just say one more brief thing.
+[13:51] So actually, this is the first hackathon that we're holding.
+[13:55] And as you know, the number of people in Shanghai is growing
+[13:59] over time.
+[14:00] So this will be not the first time we hold this.
+[14:04] So in future instances, there'll be more people.
+[14:07] So it's kind of like you guys are the pioneers for our
+[14:10] little hackathon that we're doing here.
+[14:12] Now, I'm not sure if anyone's mentioned this, but at least one team will have the opportunity to present their project at a rather large expo in mainland China.
+[14:25] Okay, so I can't give you the name right now because, you know, it's confidential, I guess.
+[14:29] But it's a very prominent technology expo, okay?
+[14:33] So, and there'll be lots of people from industry walking around, okay?
+[14:37] So we'll pick at least one team to present whatever they produce today at that expo.
+[14:43] So just keep that in mind if you want to do a slightly better job.
+[14:49] You'll be able to present what you produce.
+[14:52] Only if you want to. We're not going to force you to do it.
+[14:54] If you don want to do it you don have to do it So that pretty much all I all i wanted to say as well so yeah thank you so much for helping uh kick off our hackerpond series right and uh you know you
+[15:04] go down this history as the first group okay thank you very much maybe let's start yeah yeah let's
+[15:13] Let's begin.
+[15:15] So let's go back to what he said.
+[15:21] Yeah, yeah, I think we should continue what he talked about, the game element.
+[15:34] Stay not, sit.
+[15:36] Oh, you can sit.
+[15:37] Avatars.
+[15:38] Right, so we need, I'm guessing so.
+[15:42] That really just depends on how much we have in YouTube.
+[15:45] But we can AI generate the avatars because we have the teachers list and we can have all teachers to be on a...
+[15:54] All CDS reference.
+[15:56] Yes.
+[15:58] We can like take a picture of the teacher list and you can put everything on it.
+[16:04] Just choose people that wouldn't cause trouble.
+[16:07] But we don't need that many, that's the thing.
+[16:09] So maybe student list? Oh, we can put all the student list, we can have name of the student.
+[16:16] No, no, no student. No student. No student. No, no, no.
+[16:21] Just pick an extenuating student or someone that's not blind.
+[16:25] Yeah, we can also think about it later.
+[16:28] I think, um, yeah, please tell us about the game flow first.
+[16:33] Yeah, game flow.
+[16:35] I think that's the most important thing.
+[16:37] GameFlow, it should be.
+[16:39] So the whole idea is, right, as far as it has it in my head, we have a few kinds of cards, right?
+[16:46] So you have digit.
+[16:49] Digit.
+[16:50] You have math, so arithmetic, this is more like.
+[16:57] Mm-hmm.
+[16:58] and then you have your CS cards. These are more about logic and control.
+[17:10] So digit is very simple. 0 to 9.
+[17:16] I think you probably I don't want it to be like you can like um group the so so so one
+[17:24] and nine will not make 19 you can only use one digit card I think because that would make more sense and it would be easier for us to logic Math there are a few kinds You have
+[17:35] 4 chematics.
+[17:40] S-minus exponential.
+[17:45] And you also have...
+[17:49] Let me think.
+[17:52] If there's an exponential, then there should be a lock.
+[17:56] Because I'm just making sure that all of the inverse operations are here.
+[18:01] So we can cancel out the things.
+[18:05] So basically, we haven't checked.
+[18:12] Oh, we did.
+[18:14] The CS part is the difficult part.
+[18:17] you think about what kind of mechanism this is the power of the most the mechanism will come in right
+[18:22] this stuff is just simple but okay just with this stuff the basic idea is maximizing the number plus
+[18:29] and minus is basically this is heal heal minus right multiply and divide are basically just um
+[18:41] um increasing or decreasing the amount that our heels are damaged so if you multiply your heel
+[18:46] for example let's say originally you have plus one you multiply by two and that means that you have
+[18:51] plus two so these are randomly chosen right because we are like having an equation on the
+[18:59] inventory and yes exactly our goal is maximizing number how about the cs thing what are you gonna
+[19:05] do the cs thing i think it's the same it's the same thing like so there's like probably an agent
+[19:10] running on that side that is also running the same kind of oh so it's almost like a trading card game
+[19:16] trading card game. CS is the enemy. No, CS is another kind of card. Yeah, but how are we gonna...
+[19:24] Actually, we can SA about it. This is the part that makes things interesting.
+[19:28] Because this part... We can have like O.
+[19:37] Like big O.
+[19:38] No.
+[19:41] Actually, yeah.
+[19:44] What are you doing?
+[19:46] For this part, we can really-
+[19:47] No, go away.
+[19:49] Go away.
+[19:51] For this part, this is the part we can really have-
+[19:55] For this part, this is the part we can really have fun
+[19:57] and think about what kind of special present
+[20:00] Or we can ask AI about it.
+[20:02] An example would be something like a for loop.
+[20:05] The one I initially thought of was a for loop.
+[20:07] So for example, for, um, for example, um, this could just be like a repeat card.
+[20:15] So maybe if you have for, and then this is automatically a range.
+[20:20] How about mod? Modular.
+[20:24] We can think about this.
+[20:25] Because mod is more of a math thing, I think.
+[20:27] For example, you can put in a digit here.
+[20:31] And then you can do something.
+[20:37] For example, 4 range 3 do plus 2.
+[20:42] You will heal yourself by 2 three times.
+[20:46] It's the same as multiplication.
+[20:51] We are maximizing number.
+[20:54] But I think the special thing is in here you don't have to put a number in the action.
+[21:01] You can put another CS card.
+[21:03] Oh, you can double for something.
+[21:05] So we're gonna have like if and no, we could just ask AI to come and do this.
+[21:10] Yeah, we can actually ask to fill that out and we can have some complicated algorithm on it actually.
+[21:16] I think it's cool.
+[21:18] I think it's cool.
+[21:19] We're going to like, um, like, A versus B and then they...
+[21:26] Well, like, how does it go, the war? The game?
+[21:32] I guess A versus B.
+[21:35] So it's a multiplayer.
+[21:37] And I guess A and B take turns doing things, right?
+[21:42] If you're having that for the logic, shouldn't we have like...
+[21:46] But I think we should have...
+[21:48] Oh, how about like competing with AI?
+[21:52] Oh yeah.
+[21:54] We have unlimited AI.
+[21:56] We're competing with AI.
+[21:58] So we can have unlimited AI so that we can have AI agent the world and you can generate the idea because we have unlimited to say with that.
+[22:07] I feel like taking turns and attacking each other is a bit...
+[22:12] How about like the timer? You know, like those games, you can press a card and then there is a timer when you can
+[22:20] press it again. Or like, you know, you have certain amounts.
+[22:25] Yeah like time limit Plan versus zombie Yeah yeah yeah Click Oh you cannot click again for like 5 seconds Oh yeah yeah I thought it was supposed to be like you draw one card and you throw that card away
+[22:37] Yeah but they take three.
+[22:38] Oh alright.
+[22:40] So maybe in the beginning you draw like maybe like five of this,
+[22:43] and you put this into this maybe, something like that.
+[22:46] And then you have to, you know, whatever.
+[22:48] And then whatever card you use, you gotta replace the card the same time.
+[22:52] What were you about to say?
+[22:55] I thought it would be interesting if instead of doing turns, we could add like skip their turn and so on.
+[23:01] Oh, yes, yes.
+[23:03] So break or pass.
+[23:05] Pass. Continue.
+[23:07] We can draw the whole idea to AI and what's your opinion?
+[23:14] I think it would be interesting on like how do we explain this to non-coding like the parents
+[23:26] because we need that's the I think that's the most important part
+[23:29] I think this idea is I really like it but like it'll be confusing for like first time visitors
+[23:37] so we need to explain it in the first and like in a really good way you know
+[23:42] Yeah, yeah, yeah. So, like, point that out as coding education game based on a GDS1 building.
+[23:52] So, there should be an explanation about it, and there should be some examples on it, so the people can know what works.
+[24:01] So, our point is coding education game.
+[24:04] And if you're dividing into each building, we should have something special for each place.
+[24:09] Yeah, what is that?
+[24:10] So it's an experience being learning coding in a CDS-1 building.
+[24:15] So it is the same as being a student on CDS.
+[24:19] Yeah, student in a Shanghai CMS.
+[24:20] I think there should be distinctions between each building.
+[24:22] One thing I thought originally when I thought about this is that CDS-1 is the main kind of like fighting ground.
+[24:34] So the main place where you fight is CDS-1.
+[24:38] How about somewhere along the line in CPS1, you get a key that you can use to unlock Building 5.
+[24:46] And Building 5 is where you can get a bunch of power-ups. For example, you go to the gym, you get stronger.
+[24:50] Oh oh You study you gain new cards you know And also the maids won lock her You get food you gain new power Health power Like if you do something here we get more deaths right maybe not just yes but we can have another time that like just like just power
+[25:06] ups for example like red bull how about the red bull you gain two turns that's the last stage
+[25:12] where there's sean sean or the dorm no the grand hall um i don't know grand hall can be like final
+[25:22] final boss or something
+[25:23] oh yeah final boss
+[25:24] final boss jang shan
+[25:26] jang liu
+[25:27] you're going to fight jang shan
+[25:34] we'll have to replace him though when he retires
+[25:36] actually like we can have
+[25:38] we can actually
+[25:39] no no no make the final boss the hpu lion
+[25:42] oh liu
+[25:43] liu the lion
+[25:44] it has a name
+[25:45] it has a name
+[25:46] but
+[25:47] it's on my script
+[25:48] I have an idea like um I feel like it's not so good to have to fight the professors because
+[25:58] they're evil right?
+[25:59] No!
+[26:00] I think we can make it a professor.
+[26:01] No!
+[26:02] No!
+[26:03] He's a pokemon!
+[26:04] You're challenging the professor because they're teaching.
+[26:05] I think the storyline is more like you challenge the professor so they make sure that you're
+[26:10] strong enough to go in and...
+[26:11] Yeah yeah yeah and we fight Changshan.
+[26:13] Oh, so we should divide like Chinese and survival?
+[26:18] Like make a portal and then they fight in the middle of Shanghai.
+[26:22] I can't remember.
+[26:23] What, what, what?
+[26:24] That might be a bit too much.
+[26:25] We don't have...
+[26:27] We cannot scan the Shanghai...
+[26:28] Oh, actually we can actually.
+[26:29] How about we...
+[26:31] How about we do the number stuff?
+[26:33] Can it turn AI and then like make it refineries?
+[26:36] Okay.
+[26:37] Should we get started with this then?
+[26:38] Yes.
+[26:39] Why are you referring to Bosco as Bangchindan Bosco?
+[26:44] Because you guys keep saying the same thing.
+[26:47] Because it's the same tag.
+[26:49] Wait, how do you get started with this?
+[26:51] Take a photo of this and ask AI to find it.
+[26:55] Actually, I have...
+[26:56] And AI will understand my magic and scratch?
+[26:59] Actually, I have recorded everything so I have the thing.
+[27:04] Oh, lovely. Okay.
+[27:06] And actually the opinions about that is like,
+[27:09] how do we make it is,
+[27:10] I think we should have one repository for the prompt.
+[27:13] We can have all the recordings
+[27:15] and we can have all the opinions, all the prompts.
+[27:17] We can combine it and make it at once, one shot.
+[27:21] Like combine in one repository and make it,
+[27:24] we can collaborate Where do we do that GitHub Hm Where do we do that GitHub Yeah So we can actually work together on the prompt and we can wait for the AI after that
+[27:35] When you're having lunch or something.
+[27:38] So now we have to first set up the...
+[27:42] Okay, send that to AI, make it define, and then set up the unlimited AI.
+[27:46] And then I can...
+[27:47] Are we gonna use the unlimited AI?
+[27:49] I will.
+[27:50] I will.
+[27:51] unlimited ai will go into the game so the the ai agents will play the game yeah yeah yeah so
+[27:59] make a capability today photos for the building i can take photos for the room i can really be fast
+[28:05] oh we can actually separate separate and like delegate the building yeah okay yeah okay
+[28:13] i have to go take photos first right um yeah and then after that um what what shall we do
+[28:20] Set up the AI.
+[28:22] Set up the repo, set up the AI.
+[28:24] Yeah, I'll do the initial prompting and I will invite you to the GitHub.
+[28:28] I will send the photos to you.
+[28:30] Yeah, everyone send your emails to the chat.
+[28:34] Yeah, chat.
+[28:36] Email for GitHub?
+[28:38] Not that.
+[28:40] Not that.
+[28:42] Email for GitHub.
+[28:44] It's not fun to play on laptop. The password is [password removed].
+[28:48] Okay.
+[28:49] It's a very secure password.
+[28:51] It's a very strong password.
+[28:53] Okay.
+[28:55] I will take photos and send it to the group.
+[29:01] You can take actually video actually.
+[29:03] Oh, video. Okay. It can read video?
+[29:05] Mm-hmm.
+[29:07] So, what you're going to do is making a one repository for a GitHub.
+[29:13] one repository for GitHub and wait for the groupmates to send the email and make a like
+[29:21] delegate a worker to delegate a worker to make a
+[29:26] um make a repository to like um get everyone invited so we are making a prompt repository and
+[29:40] And we will throw that out to the fable later on.
+[29:43] So let's go ahead.
+[29:46] And how what do you think about ideas like what would be more opinions about the ideas
+[29:51] first, you can actually have to work about it.
+[30:00] Thank you.
