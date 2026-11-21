@@ -1,0 +1,707 @@
+[
+ {
+  "start": 0,
+  "end": 8,
+  "text": "But both says the turn taking a cooldown timer like Plants vs Zombies was flooded."
+ },
+ {
+  "start": 8,
+  "end": 11,
+  "text": "PvP, AI, or Buzz?"
+ },
+ {
+  "start": 11,
+  "end": 17,
+  "text": "I think turn taking, because I think Plants vs Zombies kind of thing is a little bit too..."
+ },
+ {
+  "start": 17,
+  "end": 18,
+  "text": "Too much, right?"
+ },
+ {
+  "start": 18,
+  "end": 22,
+  "text": "Yeah, too much, and it's more difficult for us to code."
+ },
+ {
+  "start": 22,
+  "end": 27,
+  "text": "Yeah, difficult for us to code, and we are not coding though."
+ },
+ {
+  "start": 27,
+  "end": 29,
+  "text": "PvP vs AI should be AI."
+ },
+ {
+  "start": 29,
+  "end": 36.14,
+  "text": "be AI. I think it should be AI. But if AI is not capable, there should be like another"
+ },
+ {
+  "start": 36.14,
+  "end": 44,
+  "text": "thing. But whatever, we will do AI. AI native. Okay, what's the number? HP, score, or damage"
+ },
+ {
+  "start": 44,
+  "end": 54.4,
+  "text": "to the opponent? I think it's score, right? What's HP? HP? Is number HP? Is it just score?"
+ },
+ {
+  "start": 54.4,
+  "end": 61.14,
+  "text": "But yeah, because like if it's like if it's HP, if it's lower than zero, then you will die, right?"
+ },
+ {
+  "start": 61.94,
+  "end": 66.32,
+  "text": "I don't think it is that important. That's just a number score."
+ },
+ {
+  "start": 66.54,
+  "end": 67.44,
+  "text": "I think it should be HP."
+ },
+ {
+  "start": 68.2,
+  "end": 70.64,
+  "text": "But if it goes lower than zero, do we die?"
+ },
+ {
+  "start": 71.04,
+  "end": 71.32,
+  "text": "Yes."
+ },
+ {
+  "start": 71.68,
+  "end": 71.92,
+  "text": "Okay."
+ },
+ {
+  "start": 72.74,
+  "end": 76.48,
+  "text": "Oh, if it gets negative, then we die and respawn, right?"
+ },
+ {
+  "start": 78.18,
+  "end": 79.14,
+  "text": "Or just lose?"
+ },
+ {
+  "start": 80.4,
+  "end": 81.12,
+  "text": "Respawn, respawn."
+ },
+ {
+  "start": 81.2,
+  "end": 83.14,
+  "text": "Respawn without zero, okay."
+ },
+ {
+  "start": 83.14,
+  "end": 85.08,
+  "text": "and"
+ },
+ {
+  "start": 85.08,
+  "end": 86.5,
+  "text": "edge cases"
+ },
+ {
+  "start": 86.5,
+  "end": 89.3,
+  "text": "0 log 0 range 0"
+ },
+ {
+  "start": 89.3,
+  "end": 91.16,
+  "text": "rounding so we need to make sure"
+ },
+ {
+  "start": 91.16,
+  "end": 91.52,
+  "text": "that"
+ },
+ {
+  "start": 91.52,
+  "end": 95.42,
+  "text": "but range 0"
+ },
+ {
+  "start": 95.42,
+  "end": 96.54,
+  "text": "does nothing and"
+ },
+ {
+  "start": 96.54,
+  "end": 99.08,
+  "text": "divided by 0 maybe we should just"
+ },
+ {
+  "start": 99.08,
+  "end": 101.04,
+  "text": "kill yourself"
+ },
+ {
+  "start": 101.04,
+  "end": 102,
+  "text": "yeah"
+ },
+ {
+  "start": 102,
+  "end": 104.94,
+  "text": "yeah yeah kill yourself"
+ },
+ {
+  "start": 104.94,
+  "end": 106,
+  "text": "maybe to teach you that"
+ },
+ {
+  "start": 106,
+  "end": 108.72,
+  "text": "you cannot divide by 0"
+ },
+ {
+  "start": 108.72,
+  "end": 110.82,
+  "text": "you can have log by 0 range 0"
+ },
+ {
+  "start": 110.82,
+  "end": 111.68,
+  "text": "is not correct"
+ },
+ {
+  "start": 111.68,
+  "end": 118.56,
+  "text": "Yeah, you can whenever you put one of those there's something called a glitch that happens and when the glitch happens then then I die"
+ },
+ {
+  "start": 118.56,
+  "end": 120.76,
+  "text": "Yeah, you you you"
+ },
+ {
+  "start": 121.7,
+  "end": 141.24,
+  "text": "You lose health or something like that lose house Okay lose house mod mod on the brackets on a board What does it do it just a mod calculation isn it um i think but it more like cs though but why do you think but why do you think we should add"
+ },
+ {
+  "start": 141.24,
+  "end": 148.38,
+  "text": "mod though um because it's a penalty because it's mod significantly decreases the thing"
+ },
+ {
+  "start": 148.38,
+  "end": 153.84,
+  "text": "mod is a good defensive card defensive card okay wait wait wait i forgot about one thing"
+ },
+ {
+  "start": 153.84,
+  "end": 164.24,
+  "text": "Like how... do we need to think about how we can use our own cards to interact with the opponent's attacks?"
+ },
+ {
+  "start": 164.24,
+  "end": 165.74,
+  "text": "Opponents' attacks?"
+ },
+ {
+  "start": 165.74,
+  "end": 167.24,
+  "text": "So we should have shields."
+ },
+ {
+  "start": 167.24,
+  "end": 168.24,
+  "text": "Shields, um."
+ },
+ {
+  "start": 168.24,
+  "end": 169.24,
+  "text": "Shields."
+ },
+ {
+  "start": 169.24,
+  "end": 173.24,
+  "text": "So before the opponent's turn, you can put something as a shield."
+ },
+ {
+  "start": 173.24,
+  "end": 177.74,
+  "text": "Then should we have HP and shield as another separate thing? As status?"
+ },
+ {
+  "start": 177.74,
+  "end": 181.54,
+  "text": "I don't think it's necessary. I think the shield is just one card that you put up."
+ },
+ {
+  "start": 181.54,
+  "end": 186.9,
+  "text": "or a set of cards that you put up that will mitigate the effect that's done."
+ },
+ {
+  "start": 187.28,
+  "end": 188.6,
+  "text": "So we add it as a power card."
+ },
+ {
+  "start": 189.2,
+  "end": 189.4,
+  "text": "Yeah."
+ },
+ {
+  "start": 189.7,
+  "end": 190.8,
+  "text": "So for example, when you have,"
+ },
+ {
+  "start": 194.72,
+  "end": 198.52,
+  "text": "let's say when you have the opponent is, let's say, dealing 10 damage, right?"
+ },
+ {
+  "start": 198.86,
+  "end": 199.72,
+  "text": "10 damage to you."
+ },
+ {
+  "start": 199.82,
+  "end": 201.44,
+  "text": "You can put up a shield that's like mod 2."
+ },
+ {
+  "start": 202.84,
+  "end": 205.18,
+  "text": "So it will actually do 10 mod 2 damage."
+ },
+ {
+  "start": 205.52,
+  "end": 207.18,
+  "text": "So in terms of like the game's implementation,"
+ },
+ {
+  "start": 207.36,
+  "end": 209.8,
+  "text": "what it will do is it will calculate the damage done by the opponent,"
+ },
+ {
+  "start": 209.8,
+  "end": 213.4,
+  "text": "and then apply the operation of your shield to it."
+ },
+ {
+  "start": 213.84,
+  "end": 217.06,
+  "text": "So, for example, if my shield is like divide 4, right?"
+ },
+ {
+  "start": 217.36,
+  "end": 222.8,
+  "text": "Then that means that it will be 10 divide 4, which is 2.5 damage to me."
+ },
+ {
+  "start": 222.84,
+  "end": 223.76,
+  "text": "Oh, okay."
+ },
+ {
+  "start": 223.94,
+  "end": 224.46,
+  "text": "Something like that."
+ },
+ {
+  "start": 224.46,
+  "end": 229.14,
+  "text": "So, I think the flow of the turn-taking will be it's your turn."
+ },
+ {
+  "start": 230.22,
+  "end": 233.02,
+  "text": "You get to put up some attack, right?"
+ },
+ {
+  "start": 234.46,
+  "end": 239.7,
+  "text": "Or some calculation that will do damage or heal, right?"
+ },
+ {
+  "start": 239.8,
+  "end": 246.4,
+  "text": "And then after that, if it's damaged, it will get sent over to the opponent."
+ },
+ {
+  "start": 246.5,
+  "end": 248.5,
+  "text": "If it's healed, then it will heal you, right?"
+ },
+ {
+  "start": 248.82,
+  "end": 256.3,
+  "text": "If it does damage to the opponent, then apply the shield that the opponent has sent over to it."
+ },
+ {
+  "start": 256.9,
+  "end": 269.16,
+  "text": "And then it will do that amount of damage to them if any And then the same thing goes the other way So the opponent creates an attack you create a shield and the opponent can attack"
+ },
+ {
+  "start": 269.16,
+  "end": 270.98,
+  "text": "and applies a shield"
+ },
+ {
+  "start": 270.98,
+  "end": 272.68,
+  "text": "and then damage you."
+ },
+ {
+  "start": 273.22,
+  "end": 275.02,
+  "text": "Whoever reaches 0 HP first"
+ },
+ {
+  "start": 275.02,
+  "end": 275.58,
+  "text": "loses."
+ },
+ {
+  "start": 275.58,
+  "end": 275.72,
+  "text": "Loses."
+ },
+ {
+  "start": 278.06,
+  "end": 280.32,
+  "text": "And more CS cards."
+ },
+ {
+  "start": 280.44,
+  "end": 281.68,
+  "text": "You can think about it, AI."
+ },
+ {
+  "start": 281.96,
+  "end": 283.28,
+  "text": "You can think about it, AI."
+ },
+ {
+  "start": 283.58,
+  "end": 284.36,
+  "text": "Please do."
+ },
+ {
+  "start": 284.96,
+  "end": 286.14,
+  "text": "And power-up cards."
+ },
+ {
+  "start": 286.14,
+  "end": 288.86,
+  "text": "Maybe there should be a 4th card group or items?"
+ },
+ {
+  "start": 288.86,
+  "end": 292.46,
+  "text": "I think there should be a Power Bow for True Turns."
+ },
+ {
+  "start": 292.46,
+  "end": 294.98,
+  "text": "Oh, not Red Bull."
+ },
+ {
+  "start": 294.98,
+  "end": 296.98,
+  "text": "Yeah, that should be a 4th card group."
+ },
+ {
+  "start": 296.98,
+  "end": 300.58,
+  "text": "Yeah, so that should be a 4th card group called Power Ups."
+ },
+ {
+  "start": 300.58,
+  "end": 301.54,
+  "text": "Power Ups."
+ },
+ {
+  "start": 301.54,
+  "end": 303.02,
+  "text": "MT's Mate 1."
+ },
+ {
+  "start": 303.02,
+  "end": 305.9,
+  "text": "The Foot Locker, maybe Aretha will take it."
+ },
+ {
+  "start": 305.9,
+  "end": 308.62,
+  "text": "She gets Floor 6 and 13."
+ },
+ {
+  "start": 308.62,
+  "end": 311.26,
+  "text": "13 is Professor's Room, right?"
+ },
+ {
+  "start": 311.26,
+  "end": 311.9,
+  "text": "Yeah."
+ },
+ {
+  "start": 311.9,
+  "end": 313.1,
+  "text": "The Professor's Office."
+ },
+ {
+  "start": 313.1,
+  "end": 314.5,
+  "text": "And so, what happens..."
+ },
+ {
+  "start": 314.5,
+  "end": 316.14,
+  "text": "No, no, 13 is the office."
+ },
+ {
+  "start": 316.14,
+  "end": 317.1,
+  "text": "Office, office."
+ },
+ {
+  "start": 317.1,
+  "end": 318.18,
+  "text": "And don't add it."
+ },
+ {
+  "start": 318.18,
+  "end": 319.64,
+  "text": "I don't think it's neat necessarily."
+ },
+ {
+  "start": 319.64,
+  "end": 321.44,
+  "text": "Um, but it's different floor though."
+ },
+ {
+  "start": 321.44,
+  "end": 322.6,
+  "text": "So that's why."
+ },
+ {
+  "start": 322.6,
+  "end": 324.22,
+  "text": "Oh, it's a different layout."
+ },
+ {
+  "start": 324.22,
+  "end": 326.24,
+  "text": "So I think we have to take a photo."
+ },
+ {
+  "start": 326.24,
+  "end": 327.62,
+  "text": "You can go get photo."
+ },
+ {
+  "start": 327.62,
+  "end": 328.18,
+  "text": "I will do."
+ },
+ {
+  "start": 328.18,
+  "end": 330.48,
+  "text": "And what is floor six though?"
+ },
+ {
+  "start": 330.48,
+  "end": 333.48,
+  "text": "It's just a regular, regular thing, right?"
+ },
+ {
+  "start": 333.48,
+  "end": 334.48,
+  "text": "Yeah, normal classroom."
+ },
+ {
+  "start": 334.48,
+  "end": 335.92,
+  "text": "Normal classroom."
+ },
+ {
+  "start": 335.92,
+  "end": 337.46,
+  "text": "And final boss,"
+ },
+ {
+  "start": 337.46,
+  "end": 339.22,
+  "text": "um, Leo the H.K."
+ },
+ {
+  "start": 339.22,
+  "end": 340.36,
+  "text": "Lion, I think, right?"
+ },
+ {
+  "start": 340.36,
+  "end": 341.16,
+  "text": "Yeah."
+ },
+ {
+  "start": 341.16,
+  "end": 343.46,
+  "text": "Tour on a board."
+ },
+ {
+  "start": 343.46,
+  "end": 349.94,
+  "text": "guide tour more separate from battles oh really actually there should be right because it's a"
+ },
+ {
+  "start": 349.94,
+  "end": 353.94,
+  "text": "like in the first in the first battle there should be like a step-by-step guide about yeah yeah step"
+ },
+ {
+  "start": 353.94,
+  "end": 361.38,
+  "text": "by step guide you agree like a tutorial for a game yeah tutorial we need a tutorial um address"
+ },
+ {
+  "start": 361.38,
+  "end": 367.22,
+  "text": "no it doesn't really matter and you can actually check the jangjang base address from internet"
+ },
+ {
+  "start": 367.22,
+  "end": 372.22,
+  "text": "How do we teach the card to the parents under a minute?"
+ },
+ {
+  "start": 372.22,
+  "end": 377.22,
+  "text": "That's exactly the problem. We cannot explain it."
+ },
+ {
+  "start": 377.22,
+  "end": 380.22,
+  "text": "Does it have to be to parents?"
+ },
+ {
+  "start": 380.22,
+  "end": 383.22,
+  "text": "It's general, so it's not even parents."
+ },
+ {
+  "start": 383.22,
+  "end": 385.22,
+  "text": "First time visitors."
+ },
+ {
+  "start": 385.22,
+  "end": 401.68,
+  "text": "It general so we don really have to care about that Who are you but we just have to sure that um the the kind of operations are simple enough so we cannot make a complicated um the game should be intuitive for a"
+ },
+ {
+  "start": 401.68,
+  "end": 406.68,
+  "text": "first-time player regardless of age yeah it should it should um introduce them to some kind of coding"
+ },
+ {
+  "start": 406.68,
+  "end": 414.31,
+  "text": "concepts like for loop maybe while loop if if else if else kind of thing but it should not have"
+ },
+ {
+  "start": 414.31,
+  "end": 420.19,
+  "text": "anything that's too complicated like nothing like uh nothing calculus nothing differentiation"
+ },
+ {
+  "start": 420.19,
+  "end": 428.03,
+  "text": "nothing markov models nothing right um who are you maybe student right yeah student"
+ },
+ {
+  "start": 428.03,
+  "end": 434.0,
+  "text": "yeah they are not opponents teachers are opponents actually teachers are opponents"
+ },
+ {
+  "start": 434.0,
+  "end": 438.94,
+  "text": "but not exactly yeah it's more in the sense that they are kind of like they need to challenge you"
+ },
+ {
+  "start": 438.94,
+  "end": 449.71,
+  "text": "you are good enough to go and um you know be so styled actually ai is capable of 3d though"
+ },
+ {
+  "start": 449.71,
+  "end": 455.71,
+  "text": "no but it's not it'll be too complicated i think pixel art pixel art 2d yeah based on the"
+ },
+ {
+  "start": 455.71,
+  "end": 463.18,
+  "text": "based on the one you said yeah based on um the project i will give you the link um tech stack"
+ },
+ {
+  "start": 463.18,
+  "end": 470.59,
+  "text": "you decide demo plan um demo plan actually yeah it should be under 15 minutes yeah there should"
+ },
+ {
+  "start": 470.59,
+  "end": 477.33,
+  "text": "be a demo video or something or demo mode demo demo mode demo mode yeah there should be a demo"
+ },
+ {
+  "start": 477.33,
+  "end": 484.25,
+  "text": "mode actually yeah yeah and then and then whether or not we want the expo spot expo spot whether we"
+ },
+ {
+  "start": 484.25,
+  "end": 490.74,
+  "text": "want the expo spot that is that is discussed later that is discussed after we we want make it as we"
+ },
+ {
+  "start": 490.74,
+  "end": 498.47,
+  "text": "want it so as make it make it very complete yeah make make as fast as"
+ },
+ {
+  "start": 498.47,
+  "end": 502.41,
+  "text": "possible because we want the Xbox spot okay make the layout realistic as"
+ },
+ {
+  "start": 502.41,
+  "end": 508.07,
+  "text": "possible okay and should be higher dimension dimension to like a little"
+ },
+ {
+  "start": 508.07,
+  "end": 513.29,
+  "text": "detailed as possible because we had all photos of the city of spilling so to be"
+ },
+ {
+  "start": 513.29,
+  "end": 518.05,
+  "text": "very very detailed the ECP very very tell us to be large but it should be"
+ },
+ {
+  "start": 518.05,
+  "end": 524.21,
+  "text": "pixel art. Well, keeping all the details of the building. Think about it!"
+ }
+]

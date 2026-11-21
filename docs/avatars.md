@@ -1,12 +1,10 @@
 # avatars
 
-Whiteboard: "avatars". Transcript 15:37 to 16:25.
+Whiteboard: "avatars". Sources: part 1 15:37 to 16:25 and 25:48 to 26:11, part 2 05:35 and 07:00 to 07:18.
 
-- AI-generate the avatars from the **CDS teacher list**: photograph the list and use it (15:45 to 15:58).
-- **Only use people who won't mind or cause trouble** (16:04).
-- We don't need many (16:07).
-- **No students.** This was clearly rejected (16:16).
-- The professors aren't villains. You challenge them so they can check you're strong enough to go on (25:48 to 26:11). Avatars of real staff should be friendly.
-- The HKU lion mascot ("Leo the Lion", 25:42) is a candidate for the final boss avatar.
-
-Still open: who the player character is, the art style, and whether staff should approve their own avatar. See [open-questions](open-questions.md).
+- **The player is a student** (p2 07:00).
+- **Teachers are the opponents**, but they challenge you to check you're good enough to go on. They aren't villains (p2 07:08 to 07:18; 25:48 to 26:11).
+- Teacher avatars are AI-generated from the **CDS teacher list**, using **only people who won't mind** (15:45 to 16:04). We don't need many (16:07).
+- **No real students** as characters (16:16).
+- **Final boss: Leo the HKU lion** (p2 05:35 to 05:40).
+- Style: **2D pixel art** (p2 07:29). See [art-style](art-style.md).

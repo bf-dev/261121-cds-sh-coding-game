@@ -6,11 +6,11 @@ Built for the CDS-SH "Your campus, your game" hackathon on 2026-11-21 (see [hack
 
 ## the idea in one paragraph
 
-Two sides, A and B, battle by playing cards ([game-flow](game-flow.md)). Digit cards are the numbers 0 to 9 ([cards-digits](cards-digits.md)). Math cards are operators: `+` heals, `-` deals damage, and `x ÷ ^ log` scale those effects up or down ([cards-math](cards-math.md)). CS cards are control flow: `for range <digit> do <action>` repeats an action, the action slot can hold another CS card, and `break` skips the other side's turn ([cards-cs-logic](cards-cs-logic.md)). The aim is to maximise your number (transcript 18:22). The battles happen inside the real campus ([map-and-campus](map-and-campus.md)): CDS1 is the main fighting ground, a key found there unlocks Building 5 and its power-ups, and the grand hall is the final boss stage ([progression-and-story](progression-and-story.md)). Opponents are campus people as AI-generated avatars ([avatars](avatars.md)). The other player can be the lab's local AI.
+You play a student who battles teachers, played by the lab's local AI, in turn-based card fights ([game-flow](game-flow.md)). On your turn you build an attack from cards. Digit cards are 0 to 9 ([cards-digits](cards-digits.md)). Math cards: `+` heals, `-` damages, `x ÷ ^ log` scale the effect, and `mod` / `÷` work as shields against the opponent's attack ([cards-math](cards-math.md)). CS cards are control flow: `for range <digit> do <action>` repeats, loops can nest, and `break` skips the opponent's turn ([cards-cs-logic](cards-cs-logic.md)). Power-ups like Red Bull give you two turns ([cards-power-ups](cards-power-ups.md)). Whoever hits 0 HP first loses. The fights happen in the real campus, drawn as detailed 2D pixel art from our photos ([map-and-campus](map-and-campus.md), [art-style](art-style.md)). CDS1 is the main arena, a key unlocks Building 5's power-ups, and Leo the HKU lion is the final boss in the grand hall ([progression-and-story](progression-and-story.md)). The first battle is a step-by-step tutorial ([education](education.md)).
 
 ## who it's for
 
-First-time campus visitors: offer holders and their families and friends (hackathon brief, 06:15). Most of them don't code, so the game has to explain itself with examples ([education](education.md)).
+First-time campus visitors: offer holders and their families and friends (hackathon brief, 06:15). The game has to be intuitive for a first-time player of any age ([education](education.md)).
 
 ## whiteboard title
 

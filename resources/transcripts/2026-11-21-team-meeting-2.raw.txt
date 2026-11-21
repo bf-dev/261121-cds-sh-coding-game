@@ -1,0 +1,146 @@
+# raw transcript: 2026-11-21 team meeting, part 2
+
+source: resources/recordings/2026-11-21-team-meeting-2.m4a (8:44)
+machine transcript (Whisper large-v3, auto language). unedited. timestamps are mm:ss from the start of this recording. the team walks through docs/open-questions.md and answers it.
+
+[00:00] But both says the turn taking a cooldown timer like Plants vs Zombies was flooded.
+[00:08] PvP, AI, or Buzz?
+[00:11] I think turn taking, because I think Plants vs Zombies kind of thing is a little bit too...
+[00:17] Too much, right?
+[00:18] Yeah, too much, and it's more difficult for us to code.
+[00:22] Yeah, difficult for us to code, and we are not coding though.
+[00:27] PvP vs AI should be AI.
+[00:29] be AI. I think it should be AI. But if AI is not capable, there should be like another
+[00:36] thing. But whatever, we will do AI. AI native. Okay, what's the number? HP, score, or damage
+[00:44] to the opponent? I think it's score, right? What's HP? HP? Is number HP? Is it just score?
+[00:54] But yeah, because like if it's like if it's HP, if it's lower than zero, then you will die, right?
+[01:01] I don't think it is that important. That's just a number score.
+[01:06] I think it should be HP.
+[01:08] But if it goes lower than zero, do we die?
+[01:11] Yes.
+[01:11] Okay.
+[01:12] Oh, if it gets negative, then we die and respawn, right?
+[01:18] Or just lose?
+[01:20] Respawn, respawn.
+[01:21] Respawn without zero, okay.
+[01:23] and
+[01:25] edge cases
+[01:26] 0 log 0 range 0
+[01:29] rounding so we need to make sure
+[01:31] that
+[01:31] but range 0
+[01:35] does nothing and
+[01:36] divided by 0 maybe we should just
+[01:39] kill yourself
+[01:41] yeah
+[01:42] yeah yeah kill yourself
+[01:44] maybe to teach you that
+[01:46] you cannot divide by 0
+[01:48] you can have log by 0 range 0
+[01:50] is not correct
+[01:51] Yeah, you can whenever you put one of those there's something called a glitch that happens and when the glitch happens then then I die
+[01:58] Yeah, you you you
+[02:01] You lose health or something like that lose house Okay lose house mod mod on the brackets on a board What does it do it just a mod calculation isn it um i think but it more like cs though but why do you think but why do you think we should add
+[02:21] mod though um because it's a penalty because it's mod significantly decreases the thing
+[02:28] mod is a good defensive card defensive card okay wait wait wait i forgot about one thing
+[02:33] Like how... do we need to think about how we can use our own cards to interact with the opponent's attacks?
+[02:44] Opponents' attacks?
+[02:45] So we should have shields.
+[02:47] Shields, um.
+[02:48] Shields.
+[02:49] So before the opponent's turn, you can put something as a shield.
+[02:53] Then should we have HP and shield as another separate thing? As status?
+[02:57] I don't think it's necessary. I think the shield is just one card that you put up.
+[03:01] or a set of cards that you put up that will mitigate the effect that's done.
+[03:07] So we add it as a power card.
+[03:09] Yeah.
+[03:09] So for example, when you have,
+[03:14] let's say when you have the opponent is, let's say, dealing 10 damage, right?
+[03:18] 10 damage to you.
+[03:19] You can put up a shield that's like mod 2.
+[03:22] So it will actually do 10 mod 2 damage.
+[03:25] So in terms of like the game's implementation,
+[03:27] what it will do is it will calculate the damage done by the opponent,
+[03:29] and then apply the operation of your shield to it.
+[03:33] So, for example, if my shield is like divide 4, right?
+[03:37] Then that means that it will be 10 divide 4, which is 2.5 damage to me.
+[03:42] Oh, okay.
+[03:43] Something like that.
+[03:44] So, I think the flow of the turn-taking will be it's your turn.
+[03:50] You get to put up some attack, right?
+[03:54] Or some calculation that will do damage or heal, right?
+[03:59] And then after that, if it's damaged, it will get sent over to the opponent.
+[04:06] If it's healed, then it will heal you, right?
+[04:08] If it does damage to the opponent, then apply the shield that the opponent has sent over to it.
+[04:16] And then it will do that amount of damage to them if any And then the same thing goes the other way So the opponent creates an attack you create a shield and the opponent can attack
+[04:29] and applies a shield
+[04:30] and then damage you.
+[04:33] Whoever reaches 0 HP first
+[04:35] loses.
+[04:35] Loses.
+[04:38] And more CS cards.
+[04:40] You can think about it, AI.
+[04:41] You can think about it, AI.
+[04:43] Please do.
+[04:44] And power-up cards.
+[04:46] Maybe there should be a 4th card group or items?
+[04:48] I think there should be a Power Bow for True Turns.
+[04:52] Oh, not Red Bull.
+[04:54] Yeah, that should be a 4th card group.
+[04:56] Yeah, so that should be a 4th card group called Power Ups.
+[05:00] Power Ups.
+[05:01] MT's Mate 1.
+[05:03] The Foot Locker, maybe Aretha will take it.
+[05:05] She gets Floor 6 and 13.
+[05:08] 13 is Professor's Room, right?
+[05:11] Yeah.
+[05:11] The Professor's Office.
+[05:13] And so, what happens...
+[05:14] No, no, 13 is the office.
+[05:16] Office, office.
+[05:17] And don't add it.
+[05:18] I don't think it's neat necessarily.
+[05:19] Um, but it's different floor though.
+[05:21] So that's why.
+[05:22] Oh, it's a different layout.
+[05:24] So I think we have to take a photo.
+[05:26] You can go get photo.
+[05:27] I will do.
+[05:28] And what is floor six though?
+[05:30] It's just a regular, regular thing, right?
+[05:33] Yeah, normal classroom.
+[05:34] Normal classroom.
+[05:35] And final boss,
+[05:37] um, Leo the H.K.
+[05:39] Lion, I think, right?
+[05:40] Yeah.
+[05:41] Tour on a board.
+[05:43] guide tour more separate from battles oh really actually there should be right because it's a
+[05:49] like in the first in the first battle there should be like a step-by-step guide about yeah yeah step
+[05:53] by step guide you agree like a tutorial for a game yeah tutorial we need a tutorial um address
+[06:01] no it doesn't really matter and you can actually check the jangjang base address from internet
+[06:07] How do we teach the card to the parents under a minute?
+[06:12] That's exactly the problem. We cannot explain it.
+[06:17] Does it have to be to parents?
+[06:20] It's general, so it's not even parents.
+[06:23] First time visitors.
+[06:25] It general so we don really have to care about that Who are you but we just have to sure that um the the kind of operations are simple enough so we cannot make a complicated um the game should be intuitive for a
+[06:41] first-time player regardless of age yeah it should it should um introduce them to some kind of coding
+[06:46] concepts like for loop maybe while loop if if else if else kind of thing but it should not have
+[06:54] anything that's too complicated like nothing like uh nothing calculus nothing differentiation
+[07:00] nothing markov models nothing right um who are you maybe student right yeah student
+[07:08] yeah they are not opponents teachers are opponents actually teachers are opponents
+[07:13] but not exactly yeah it's more in the sense that they are kind of like they need to challenge you
+[07:18] you are good enough to go and um you know be so styled actually ai is capable of 3d though
+[07:29] no but it's not it'll be too complicated i think pixel art pixel art 2d yeah based on the
+[07:35] based on the one you said yeah based on um the project i will give you the link um tech stack
+[07:43] you decide demo plan um demo plan actually yeah it should be under 15 minutes yeah there should
+[07:50] be a demo video or something or demo mode demo demo mode demo mode yeah there should be a demo
+[07:57] mode actually yeah yeah and then and then whether or not we want the expo spot expo spot whether we
+[08:04] want the expo spot that is that is discussed later that is discussed after we we want make it as we
+[08:10] want it so as make it make it very complete yeah make make as fast as
+[08:18] possible because we want the Xbox spot okay make the layout realistic as
+[08:22] possible okay and should be higher dimension dimension to like a little
+[08:28] detailed as possible because we had all photos of the city of spilling so to be
+[08:33] very very detailed the ECP very very tell us to be large but it should be
+[08:38] pixel art. Well, keeping all the details of the building. Think about it!
